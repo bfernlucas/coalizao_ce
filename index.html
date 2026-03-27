@@ -262,12 +262,12 @@ button,select,input,textarea{font:inherit}
   border:1px solid var(--line);
   height:14px;
 }
-.legend-scale span:nth-child(1){background:#eef5fb}
-.legend-scale span:nth-child(2){background:#d7e8f6}
-.legend-scale span:nth-child(3){background:#b8d6ee}
-.legend-scale span:nth-child(4){background:#8bbce0}
-.legend-scale span:nth-child(5){background:#5f9fcb}
-.legend-scale span:nth-child(6){background:#0d4f8b}
+.legend-scale span:nth-child(1){background:#f4f7fb}
+.legend-scale span:nth-child(2){background:#dde6ef}
+.legend-scale span:nth-child(3){background:#bdcede}
+.legend-scale span:nth-child(4){background:#90abc5}
+.legend-scale span:nth-child(5){background:#5f7ea0}
+.legend-scale span:nth-child(6){background:#314f73}
 .legend-labels{
   display:flex;
   justify-content:space-between;
@@ -932,7 +932,7 @@ DATA.forEach(d => {
   d.oiShare = d.osc ? d.oi / d.osc : null;
 });
 
-const PALETTE = ['#eef5fb','#d7e8f6','#b8d6ee','#8bbce0','#5f9fcb','#0d4f8b'];
+const PALETTE = ['#f4f7fb','#dde6ef','#bdcede','#90abc5','#5f7ea0','#314f73'];
 const TERRITORIES = ['Todos','Grande Mucuripe','Grande Bom Jardim'];
 const MAPS = {};
 const CHARTS = {};
@@ -989,6 +989,7 @@ function canonical(name){
   if(n === 'praia futuro ii' || n === 'praia do futuro ii') return 'praia futuro ii';
   if(n === 'praia futuro 1' || n === 'praia do futuro 1' || n === 'praia do futuro') return 'praia futuro i';
   if(n === 'praia futuro 2' || n === 'praia do futuro 2') return 'praia futuro ii';
+  if(n === 'vicente pinzon' || n === 'vicente pinzon') return 'vicente pinzon';
   return n;
 }
 const LOOKUP = {};
@@ -1051,32 +1052,45 @@ function createMap(section){
   const metricEl = document.getElementById(`${section}-indicador`);
   metricEl.innerHTML = cfg.metrics.map(m => `<option value="${m}" ${m===cfg.defaults.indicador?'selected':''}>${METRICS[m].label}</option>`).join('');
 
-  const map = L.map(`map-${section}`, {zoomControl:false, attributionControl:true});
+  const map = L.map(`map-${section}`, {
+    zoomControl:false,
+    attributionControl:true,
+    preferCanvas:true
+  });
   map.attributionControl.setPrefix(false);
   map.createPane('basemap');
   map.getPane('basemap').style.zIndex = 200;
-  map.getPane('basemap').style.opacity = 0.95;
-  map.getPane('basemap').style.filter = 'saturate(0.88) contrast(1.02) brightness(1.03)';
+  map.getPane('basemap').style.opacity = 0.84;
+  map.getPane('basemap').style.filter = 'saturate(0.78) contrast(1.02) brightness(1.02)';
+  map.createPane('fills');
+  map.getPane('fills').style.zIndex = 320;
+  map.createPane('outlines');
+  map.getPane('outlines').style.zIndex = 360;
   map.createPane('labels');
   map.getPane('labels').style.zIndex = 450;
   map.getPane('labels').style.pointerEvents = 'none';
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png', {
     subdomains:'abcd',
     maxZoom:20,
     pane:'basemap',
     attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
   }).addTo(map);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_only_labels/{z}/{x}/{y}{r}.png', {
     subdomains:'abcd',
     maxZoom:20,
     pane:'labels',
     attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
   }).addTo(map);
 
-  const geo = L.geoJSON(GEOJSON, {
-    style: () => ({color:'rgba(255,255,255,.72)', weight:1, fillColor:'#f1f5f9', fillOpacity:0.28}),
+  const fillGeo = L.geoJSON(GEOJSON, {
+    pane:'fills',
+    style: () => ({
+      stroke:false,
+      fillColor:'#eef3f8',
+      fillOpacity:0.12
+    }),
     onEachFeature:(feature, layer) => {
       layer.on('click', () => {
         const d = findDataByFeature(feature);
@@ -1085,7 +1099,21 @@ function createMap(section){
       });
     }
   }).addTo(map);
-  MAPS[section] = {map, geo, bounds: geo.getBounds()};
+
+  const outlineGeo = L.geoJSON(GEOJSON, {
+    pane:'outlines',
+    interactive:false,
+    style:() => ({
+      color:'rgba(74,101,128,.24)',
+      weight:0.7,
+      opacity:1,
+      fill:false,
+      lineCap:'round',
+      lineJoin:'round'
+    })
+  }).addTo(map);
+
+  MAPS[section] = {map, fillGeo, outlineGeo, bounds: outlineGeo.getBounds()};
   updateMap(section);
 
   document.getElementById(`${section}-territorio`).addEventListener('change', e => {
@@ -1104,32 +1132,59 @@ function updateMap(section){
   const rows = filteredData(territory, bairro);
   const values = rows.map(d => d[metric]).filter(v => Number.isFinite(v));
   const breaks = calcBreaks(values);
-  let selectedLayers = [];
+  let focusLayers = [];
 
-  state.geo.eachLayer(layer => {
+  state.fillGeo.eachLayer(layer => {
     const d = findDataByFeature(layer.feature);
     const inTerritory = d && (territory === 'Todos' || d.t === territory);
     const isSelected = inTerritory && (bairro === 'Todos' || d.b === bairro);
     const value = d ? d[metric] : null;
-    let fillColor = '#eef2f7';
+    let fillColor = '#f3f6fa';
     let fillOpacity = 0.08;
-    let weight = 0.8;
-    let color = 'rgba(255,255,255,.7)';
 
     if(inTerritory){
       fillColor = getColor(value, breaks);
-      fillOpacity = bairro === 'Todos' ? 0.58 : (isSelected ? 0.74 : 0.16);
-      weight = isSelected ? 2.3 : 1;
-      color = isSelected ? '#17324a' : 'rgba(255,255,255,.85)';
-      if(isSelected) selectedLayers.push(layer);
+      fillOpacity = bairro === 'Todos' ? 0.68 : (isSelected ? 0.82 : 0.18);
+      if(isSelected) focusLayers.push(layer);
     } else if(d) {
-      fillColor = '#edf2f7';
-      fillOpacity = 0.12;
+      fillColor = '#eef3f8';
+      fillOpacity = 0.14;
     }
-    layer.setStyle({fillColor, fillOpacity, weight, color});
+
+    layer.setStyle({fillColor, fillOpacity, stroke:false});
   });
 
-  const title = `${METRICS[metric].label} · ${territory === 'Todos' ? 'Todos os territórios' : territory}`;
+  state.outlineGeo.eachLayer(layer => {
+    const d = findDataByFeature(layer.feature);
+    const inTerritory = d && (territory === 'Todos' || d.t === territory);
+    const isSelected = inTerritory && (bairro === 'Todos' || d.b === bairro);
+    let color = 'rgba(74,101,128,.22)';
+    let weight = 0.7;
+    let opacity = 0.95;
+
+    if(inTerritory){
+      color = bairro === 'Todos' ? 'rgba(49,79,115,.42)' : 'rgba(74,101,128,.22)';
+      weight = bairro === 'Todos' ? 0.9 : 0.7;
+    }
+    if(isSelected && bairro !== 'Todos'){
+      color = '#17324a';
+      weight = 1.8;
+      opacity = 1;
+      focusLayers.push(layer);
+      layer.bringToFront();
+    }
+
+    layer.setStyle({
+      color,
+      weight,
+      opacity,
+      fill:false,
+      lineCap:'round',
+      lineJoin:'round'
+    });
+  });
+
+  const title = `${METRICS[metric].label} · ${territory === 'Todos' ? 'Fortaleza' : territory}`;
   document.getElementById(`legend-title-${section}`).textContent = title;
   document.getElementById(`legend-min-${section}`).textContent = values.length ? fmt(Math.min(...values), METRICS[metric].fmt) : 'Sem dado';
   document.getElementById(`legend-max-${section}`).textContent = values.length ? fmt(Math.max(...values), METRICS[metric].fmt) : 'Sem dado';
@@ -1138,18 +1193,23 @@ function updateMap(section){
     const sorted = [...rows].filter(d => Number.isFinite(d[metric])).sort((a,b) => b[metric]-a[metric]);
     const top = sorted[0];
     const bottom = sorted[sorted.length-1];
-    document.getElementById(`note-${section}`).innerHTML = `<strong>${METRICS[metric].label}.</strong> Maior valor em <strong>${top.b}</strong> (${fmt(top[metric], METRICS[metric].fmt)}) e menor valor em <strong>${bottom.b}</strong> (${fmt(bottom[metric], METRICS[metric].fmt)}).`;
+    const coverage = territory === 'Todos'
+      ? 'A divisão territorial apresenta todos os bairros de Fortaleza; a coloração analítica permanece restrita aos bairros com base consolidada nesta versão.'
+      : 'Os demais bairros permanecem em segundo plano apenas como referência espacial para leitura comparativa.';
+    document.getElementById(`note-${section}`).innerHTML = `<strong>${METRICS[metric].label}.</strong> Maior valor em <strong>${top.b}</strong> (${fmt(top[metric], METRICS[metric].fmt)}) e menor valor em <strong>${bottom.b}</strong> (${fmt(bottom[metric], METRICS[metric].fmt)}). ${coverage}`;
   } else {
     document.getElementById(`note-${section}`).textContent = 'Não há dados disponíveis para a combinação atual de filtros.';
   }
 
   setTimeout(() => {
     state.map.invalidateSize();
-    if(selectedLayers.length){
-      const group = L.featureGroup(selectedLayers);
+    if(territory === 'Todos' && bairro === 'Todos'){
+      state.map.fitBounds(state.bounds, {padding:[20,20]});
+    } else if(focusLayers.length){
+      const group = L.featureGroup(focusLayers);
       state.map.fitBounds(group.getBounds(), {padding:[18,18]});
     } else {
-      state.map.fitBounds(state.bounds, {padding:[18,18]});
+      state.map.fitBounds(state.bounds, {padding:[20,20]});
     }
   }, 60);
 }
