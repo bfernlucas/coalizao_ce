@@ -12,23 +12,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
-  --bg:#f5f7fb;
+  --bg:#f3f6fa;
   --panel:#ffffff;
-  --panel-2:#f8fbff;
-  --text:#17324a;
-  --muted:#5f7286;
-  --line:#d7e2ee;
-  --line-2:#e7eef6;
-  --brand:#0d4f8b;
-  --brand-2:#2e77b5;
-  --brand-3:#5f9fcb;
-  --brand-4:#8bbce0;
-  --brand-5:#d7e8f6;
-  --navy:#16385b;
-  --teal:#2d6f7a;
-  --gold:#c99234;
-  --green:#2f8f73;
-  --danger:#c45c48;
+  --panel-2:#f7fafc;
+  --text:#18344c;
+  --muted:#647789;
+  --line:#d6e0ea;
+  --line-2:#e8eef4;
+  --brand:#215f8f;
+  --brand-2:#3e7ca8;
+  --brand-3:#73a3c4;
+  --brand-4:#aac8dc;
+  --brand-5:#e4eef6;
+  --navy:#153149;
+  --teal:#3d7b72;
+  --gold:#b38c49;
+  --green:#5a8f72;
+  --danger:#b54841;
   --shadow:0 10px 30px rgba(12,46,78,.08);
   --radius:18px;
 }
@@ -36,14 +36,14 @@
 html{scroll-behavior:smooth}
 body{
   margin:0;
-  font-family:Inter, Arial, sans-serif;
-  background:linear-gradient(180deg,#f5f7fb 0%, #eef4fa 100%);
+  font-family:Inter, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  background:linear-gradient(180deg,#f4f7fb 0%, #eef2f7 100%);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
 }
 button,select,input,textarea{font:inherit}
 .topbar{
-  background:linear-gradient(135deg,var(--navy),var(--brand));
+  background:linear-gradient(135deg,#143149 0%, #215f8f 58%, #3e7ca8 100%);
   color:#fff;
   padding:18px 28px;
   position:sticky;
@@ -86,7 +86,7 @@ button,select,input,textarea{font:inherit}
   position:sticky;
   top:78px;
   z-index:999;
-  background:rgba(245,247,251,.96);
+  background:rgba(243,246,250,.96);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);
 }
@@ -129,7 +129,7 @@ button,select,input,textarea{font:inherit}
   align-items:center;
   gap:8px;
   padding:7px 12px;
-  background:#eaf3fb;
+  background:#edf4fa;
   color:var(--brand);
   border-radius:999px;
   font-size:11px;
@@ -150,7 +150,7 @@ button,select,input,textarea{font:inherit}
   line-height:1.7;
 }
 .decision{
-  background:linear-gradient(180deg,#ffffff 0%, #f9fbfe 100%);
+  background:linear-gradient(180deg,#ffffff 0%, #f8fbfd 100%);
   border:1px solid var(--line);
   border-left:5px solid var(--brand);
   border-radius:16px;
@@ -230,8 +230,8 @@ button,select,input,textarea{font:inherit}
   border-radius:18px;
   border:1px solid rgba(207,220,233,.95);
   overflow:hidden;
-  background:linear-gradient(180deg,#edf3f8 0%, #e8eef5 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 14px 34px rgba(16,39,64,.08);
+  background:linear-gradient(180deg,#eef2f5 0%, #e6ebf0 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 14px 34px rgba(16,39,64,.07);
 }
 .map-footer{
   display:grid;
@@ -276,7 +276,7 @@ button,select,input,textarea{font:inherit}
   font-size:11px;
 }
 .note-box{
-  background:#f8fbff;
+  background:#f7fafc;
   border:1px solid var(--line-2);
   border-radius:14px;
   padding:12px 14px;
@@ -294,7 +294,7 @@ button,select,input,textarea{font:inherit}
   padding:16px 16px 14px;
   border:1px solid var(--line-2);
   border-radius:16px;
-  background:linear-gradient(180deg,#ffffff 0%,#f9fbff 100%);
+  background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);
 }
 .kpi .label{
   color:var(--muted);
@@ -318,9 +318,9 @@ button,select,input,textarea{font:inherit}
   border-radius:18px;
   padding:18px 18px 16px;
   color:#fff;
-  background:linear-gradient(135deg,var(--navy),var(--brand));
+  background:linear-gradient(135deg,#143149 0%, #215f8f 58%, #3e7ca8 100%);
 }
-.territory-card.alt{background:linear-gradient(135deg,var(--teal),var(--green))}
+.territory-card.alt{background:linear-gradient(135deg,#456f67 0%, #5a8f72 100%)}
 .territory-card h4{
   margin:0 0 10px;
   font-size:18px;
@@ -380,7 +380,7 @@ tbody tr:hover{background:#f8fbff}
 .tag{
   display:inline-flex;
   padding:5px 9px;
-  background:#edf4fb;
+  background:#eef4f9;
   color:var(--brand);
   border-radius:999px;
   font-size:11px;
@@ -394,7 +394,7 @@ tbody tr:hover{background:#f8fbff}
 }
 .tip{
   border:1px solid var(--line-2);
-  background:#fafcff;
+  background:#f8fbfd;
   border-radius:14px;
   padding:14px 15px;
 }
@@ -412,6 +412,11 @@ tbody tr:hover{background:#f8fbff}
   color:var(--muted);
   font-size:12px;
   line-height:1.7;
+}
+.footer-credit{
+  margin-top:8px;
+  font-size:11px;
+  color:#7b8794;
 }
 
 .title-with-info{
@@ -440,11 +445,11 @@ tbody tr:hover{background:#f8fbff}
   font-weight:800;
   cursor:pointer;
   transition:.2s ease;
-  box-shadow:0 4px 12px rgba(13,79,139,.08);
+  box-shadow:0 4px 12px rgba(21,49,73,.08);
 }
 .info-popover summary:hover,
 .info-popover[open] summary{
-  background:#eaf3fb;
+  background:#edf4fa;
   border-color:#bfd5ea;
 }
 .info-popover summary::-webkit-details-marker{display:none}
@@ -459,7 +464,7 @@ tbody tr:hover{background:#f8fbff}
   border-radius:16px;
   background:#ffffff;
   border:1px solid var(--line);
-  box-shadow:0 18px 36px rgba(15,39,64,.16);
+  box-shadow:0 18px 36px rgba(15,39,64,.14);
   color:var(--text);
   font-size:12px;
   line-height:1.65;
@@ -500,8 +505,8 @@ tbody tr:hover{background:#f8fbff}
   color:var(--muted);
 }
 .leaflet-container{
-  font-family:Inter, Arial, sans-serif;
-  background:linear-gradient(180deg,#edf3f8 0%, #e6edf5 100%);
+  font-family:Inter, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  background:linear-gradient(180deg,#eef2f5 0%, #e5eaef 100%);
 }
 .leaflet-control-attribution{
   background:rgba(255,255,255,.88)!important;
@@ -540,7 +545,7 @@ tbody tr:hover{background:#f8fbff}
   gap:8px;
 }
 .popup-stat{
-  background:#f7fbff;
+  background:#f7fafc;
   border:1px solid var(--line-2);
   border-radius:12px;
   padding:9px 10px;
@@ -916,7 +921,8 @@ tbody tr:hover{background:#f8fbff}
   </section>
 
   <div class="footer">
-    <strong>Fontes principais desta versão:</strong> base territorial e cartográfica dos bairros de Fortaleza, dados demográficos, socioeconômicos, vulnerabilidade, infraestrutura, mercado de trabalho e OSCs já consolidados no arquivo original. <strong>Escopo atual do HTML redesenhado:</strong> esta versão reorganiza a base que já estava no dashboard, cobrindo Grande Mucuripe e Grande Bom Jardim. A estrutura ficou preparada para incorporar Maracanaú em uma próxima rodada, quando a base correspondente for adicionada.
+    <strong>Fontes principais desta versão:</strong> base territorial e cartográfica dos bairros de Fortaleza, dados demográficos, socioeconômicos, vulnerabilidade, infraestrutura, mercado de trabalho e OSCs já consolidados no arquivo original.
+    <div class="footer-credit">Elaborado por Lucas Fernandes</div>
   </div>
 </main>
 
@@ -934,13 +940,30 @@ DATA.forEach(d => {
   d.oiShare = d.osc ? d.oi / d.osc : null;
 });
 
+const UI_COLORS = {
+  navy:'#153149',
+  blue:'#215f8f',
+  blueSoft:'#8fb7d1',
+  teal:'#4f8a72',
+  tealSoft:'#a9cdb7',
+  gold:'#b38c49',
+  red:'#b92f2f',
+  redDark:'#7c1f23',
+  gray:'#d8dee5',
+  graySoft:'#e7ebef',
+  text:'#18344c',
+  muted:'#647789'
+};
+
+const MAP_RED_PALETTE = ['#fdeceb','#f8d3d0','#f0afa6','#e37b6f','#cf4c44','#b92f2f'];
+
 const PALETTES = {
-  visao:['#f3f6fb','#dbe6f0','#b9ccdb','#84a8bf','#4f7b98','#1f4d6b'],
-  demo:['#f4f6fb','#dbe4f4','#bacbe6','#8ea7d0','#5f7db4','#2f4f8f'],
-  vuln:['#fbf4f2','#f2dcd3','#e5bfb0','#d19a84','#b97157','#8c4633'],
-  infra:['#f2f8f7','#d5ebe7','#add8d1','#74bdb4','#3f9a90','#1f6d67'],
-  econ:['#faf7f0','#efe3c9','#e2c89a','#cea56a','#af7f3f','#7d5a1f'],
-  osc:['#f7f4fb','#e4daf3','#ccb7e7','#ab88d4','#8659b8','#5d318d']
+  visao:[...MAP_RED_PALETTE],
+  demo:[...MAP_RED_PALETTE],
+  vuln:[...MAP_RED_PALETTE],
+  infra:[...MAP_RED_PALETTE],
+  econ:[...MAP_RED_PALETTE],
+  osc:[...MAP_RED_PALETTE]
 };
 function getPalette(section){
   return PALETTES[section] || PALETTES.visao;
@@ -1061,32 +1084,36 @@ function buildPopup(d, metric){
   `;
 }
 
-function fillSelect(selectId, options, selected){
+function fillSelect(selectId, options, selected, allLabel='Todos'){
   const el = document.getElementById(selectId);
-  el.innerHTML = options.map(o => `<option value="${o}" ${o===selected?'selected':''}>${o === 'Todos' ? 'Todos os bairros' : o}</option>`).join('');
+  el.innerHTML = options.map(o => `<option value="${o}" ${o===selected?'selected':''}>${o === 'Todos' ? allLabel : o}</option>`).join('');
 }
 
 function createMap(section){
   const cfg = MAP_CONFIG[section];
-  fillSelect(`${section}-territorio`, TERRITORIES, cfg.defaults.territorio);
-  fillSelect(`${section}-bairro`, getBairros(cfg.defaults.territorio), cfg.defaults.bairro);
+  fillSelect(`${section}-territorio`, TERRITORIES, cfg.defaults.territorio, 'Todos os territórios');
+  fillSelect(`${section}-bairro`, getBairros(cfg.defaults.territorio), cfg.defaults.bairro, 'Todos os bairros');
   const metricEl = document.getElementById(`${section}-indicador`);
   metricEl.innerHTML = cfg.metrics.map(m => `<option value="${m}" ${m===cfg.defaults.indicador?'selected':''}>${METRICS[m].label}</option>`).join('');
 
   const map = L.map(`map-${section}`, {
     zoomControl:false,
     attributionControl:true,
-    preferCanvas:true
+    preferCanvas:true,
+    renderer:L.canvas({padding:0.5}),
+    zoomSnap:0.25
   });
   map.attributionControl.setPrefix(false);
   map.createPane('basemap');
   map.getPane('basemap').style.zIndex = 200;
-  map.getPane('basemap').style.opacity = 0.84;
-  map.getPane('basemap').style.filter = 'saturate(0.78) contrast(1.02) brightness(1.02)';
+  map.getPane('basemap').style.opacity = 0.76;
+  map.getPane('basemap').style.filter = 'grayscale(1) contrast(1.02) brightness(1.03)';
   map.createPane('fills');
   map.getPane('fills').style.zIndex = 320;
   map.createPane('outlines');
-  map.getPane('outlines').style.zIndex = 380;
+  map.getPane('outlines').style.zIndex = 360;
+  map.createPane('focus');
+  map.getPane('focus').style.zIndex = 390;
   map.createPane('labels');
   map.getPane('labels').style.zIndex = 450;
   map.getPane('labels').style.pointerEvents = 'none';
@@ -1105,27 +1132,14 @@ function createMap(section){
     attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
   }).addTo(map);
 
-  map.createPane('mask');
-  map.getPane('mask').style.zIndex = 345;
-  map.createPane('focus');
-  map.getPane('focus').style.zIndex = 395;
-
-  const maskGeo = L.geoJSON(CITY_MASK, {
-    pane:'mask',
-    interactive:false,
-    style:() => ({
-      stroke:false,
-      fillColor:'#edf2f6',
-      fillOpacity:0.94
-    })
-  }).addTo(map);
-
   const fillGeo = L.geoJSON(GEOJSON, {
     pane:'fills',
+    renderer:map.options.renderer,
+    smoothFactor:0,
     style: () => ({
       stroke:false,
-      fillColor:'#dfe7ef',
-      fillOpacity:0.18
+      fillColor:UI_COLORS.gray,
+      fillOpacity:0.78
     }),
     onEachFeature:(feature, layer) => {
       layer.on('click', () => {
@@ -1138,10 +1152,12 @@ function createMap(section){
 
   const boundaryGeo = L.geoJSON(UNIQUE_BOUNDARIES, {
     pane:'outlines',
+    renderer:map.options.renderer,
     interactive:false,
+    smoothFactor:0,
     style:() => ({
-      color:'rgba(255,255,255,.72)',
-      weight:1,
+      color:'#c7cfd8',
+      weight:1.05,
       opacity:1,
       fill:false,
       lineCap:'round',
@@ -1151,7 +1167,9 @@ function createMap(section){
 
   const focusGeo = L.geoJSON(GEOJSON, {
     pane:'focus',
+    renderer:map.options.renderer,
     interactive:false,
+    smoothFactor:0,
     style:() => ({
       color:'rgba(0,0,0,0)',
       weight:0,
@@ -1162,12 +1180,12 @@ function createMap(section){
     })
   }).addTo(map);
 
-  MAPS[section] = {map, maskGeo, fillGeo, boundaryGeo, focusGeo, bounds: maskGeo.getBounds()};
+  MAPS[section] = {map, fillGeo, boundaryGeo, focusGeo, bounds: fillGeo.getBounds()};
   applyLegendPalette(section);
   updateMap(section);
 
   document.getElementById(`${section}-territorio`).addEventListener('change', e => {
-    fillSelect(`${section}-bairro`, getBairros(e.target.value), 'Todos');
+    fillSelect(`${section}-bairro`, getBairros(e.target.value), 'Todos', 'Todos os bairros');
     updateMap(section);
   });
   document.getElementById(`${section}-bairro`).addEventListener('change', () => updateMap(section));
@@ -1182,23 +1200,35 @@ function updateMap(section){
   const rows = filteredData(territory, bairro);
   const values = rows.map(d => d[metric]).filter(v => Number.isFinite(v));
   const breaks = calcBreaks(values);
+  const neutralGray = UI_COLORS.gray;
+  const neutralGraySoft = UI_COLORS.graySoft;
   let focusLayers = [];
 
   state.fillGeo.eachLayer(layer => {
     const d = findDataByFeature(layer.feature);
     const inTerritory = d && (territory === 'Todos' || d.t === territory);
     const isSelected = inTerritory && (bairro === 'Todos' || d.b === bairro);
+    const hasMetric = d && Number.isFinite(d[metric]);
     const value = d ? d[metric] : null;
-    let fillColor = '#edf1f5';
-    let fillOpacity = 0.16;
 
-    if(inTerritory){
+    let fillColor = neutralGray;
+    let fillOpacity = 0.76;
+
+    if(territory === 'Todos' && bairro === 'Todos' && hasMetric){
       fillColor = getColor(value, breaks, section);
-      fillOpacity = bairro === 'Todos' ? 0.78 : (isSelected ? 0.90 : 0.26);
-      if(isSelected) focusLayers.push(layer);
-    } else if(d) {
-      fillColor = '#eef2f6';
-      fillOpacity = 0.18;
+      fillOpacity = 0.90;
+      focusLayers.push(layer);
+    } else if(inTerritory && bairro === 'Todos' && hasMetric){
+      fillColor = getColor(value, breaks, section);
+      fillOpacity = 0.90;
+      focusLayers.push(layer);
+    } else if(isSelected && hasMetric){
+      fillColor = getColor(value, breaks, section);
+      fillOpacity = 0.94;
+      focusLayers.push(layer);
+    } else {
+      fillColor = d ? neutralGraySoft : neutralGray;
+      fillOpacity = d ? 0.78 : 0.72;
     }
 
     layer.setStyle({fillColor, fillOpacity, stroke:false});
@@ -1208,15 +1238,15 @@ function updateMap(section){
     const d = findDataByFeature(layer.feature);
     const inTerritory = d && (territory === 'Todos' || d.t === territory);
     const isSelected = inTerritory && (bairro === 'Todos' || d.b === bairro);
+
     let color = 'rgba(0,0,0,0)';
     let weight = 0;
     let opacity = 0;
 
     if(isSelected && bairro !== 'Todos'){
-      color = getPalette(section)[getPalette(section).length - 1];
-      weight = 2;
-      opacity = 0.95;
-      focusLayers.push(layer);
+      color = UI_COLORS.redDark;
+      weight = 2.2;
+      opacity = 0.98;
       layer.bringToFront();
     }
 
@@ -1239,9 +1269,9 @@ function updateMap(section){
     const sorted = [...rows].filter(d => Number.isFinite(d[metric])).sort((a,b) => b[metric]-a[metric]);
     const top = sorted[0];
     const bottom = sorted[sorted.length-1];
-    const coverage = territory === 'Todos'
-      ? 'A divisão territorial apresenta todos os bairros de Fortaleza; a coloração analítica permanece restrita aos bairros com base consolidada nesta versão.'
-      : 'Os demais bairros permanecem em segundo plano apenas como referência espacial para leitura comparativa.';
+    const coverage = bairro !== 'Todos'
+      ? 'Os demais bairros permanecem em cinza para preservar a leitura integral da malha urbana sem sobreposição visual.'
+      : 'Os bairros com base analítica aparecem em gradiente vermelho e o restante da cidade permanece em cinza como referência espacial.';
     document.getElementById(`note-${section}`).innerHTML = `<strong>${METRICS[metric].label}.</strong> Maior valor em <strong>${top.b}</strong> (${fmt(top[metric], METRICS[metric].fmt)}) e menor valor em <strong>${bottom.b}</strong> (${fmt(bottom[metric], METRICS[metric].fmt)}). ${coverage}`;
   } else {
     document.getElementById(`note-${section}`).textContent = 'Não há dados disponíveis para a combinação atual de filtros.';
@@ -1265,9 +1295,9 @@ function baseChartOptions() {
     responsive:true,
     maintainAspectRatio:false,
     plugins:{
-      legend:{labels:{font:{family:'Inter', size:11}, color:'#5f7286'}},
+      legend:{labels:{font:{family:'Inter', size:11}, color:UI_COLORS.muted}},
       tooltip:{
-        backgroundColor:'#17324a',
+        backgroundColor:UI_COLORS.text,
         titleFont:{family:'Inter', size:12, weight:'700'},
         bodyFont:{family:'Inter', size:12},
         padding:10,
@@ -1275,8 +1305,8 @@ function baseChartOptions() {
       }
     },
     scales:{
-      x:{ticks:{color:'#5f7286', font:{family:'Inter', size:10}}, grid:{display:false}},
-      y:{ticks:{color:'#5f7286', font:{family:'Inter', size:10}}, grid:{color:'#e8eef5'}}
+      x:{ticks:{color:UI_COLORS.muted, font:{family:'Inter', size:10}}, grid:{display:false}},
+      y:{ticks:{color:UI_COLORS.muted, font:{family:'Inter', size:10}}, grid:{color:'#e8eef5'}}
     }
   };
 }
@@ -1325,12 +1355,12 @@ function initOverview(){
     </div>`;
 
   const rowsIdhm = sortRows('idhm', true);
-  makeBar('chart-visao-idhm', rowsIdhm.map(d=>d.b), [{data:rowsIdhm.map(d=>d.idhm), backgroundColor:rowsIdhm.map(d=>d.t==='Grande Mucuripe'?'#5f9fcb':'#2f8f73'), borderRadius:6}], {
+  makeBar('chart-visao-idhm', rowsIdhm.map(d=>d.b), [{data:rowsIdhm.map(d=>d.idhm), backgroundColor:rowsIdhm.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
     plugins:{legend:{display:false}},
     scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y, min:0, max:1}}
   });
   const rowsCad = sortRows('cad', true);
-  makeBar('chart-visao-cad', rowsCad.map(d=>d.b), [{data:rowsCad.map(d=>d.cad*100), backgroundColor:rowsCad.map(d=>d.t==='Grande Mucuripe'?'#8bbce0':'#2f8f73'), borderRadius:6}], {
+  makeBar('chart-visao-cad', rowsCad.map(d=>d.b), [{data:rowsCad.map(d=>d.cad*100), backgroundColor:rowsCad.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
     plugins:{legend:{display:false}},
     scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y}}
   });
@@ -1339,17 +1369,17 @@ function initOverview(){
 function initDemo(){
   createMap('demo');
   const popRows = sortRows('pop', true);
-  makeBar('chart-demo-pop', popRows.map(d=>d.b), [{data:popRows.map(d=>d.pop), backgroundColor:'#5f9fcb', borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-demo-pop', popRows.map(d=>d.b), [{data:popRows.map(d=>d.pop), backgroundColor:UI_COLORS.blueSoft, borderRadius:6}], {plugins:{legend:{display:false}}});
   const densRows = sortRows('dens', true);
-  makeBar('chart-demo-dens', densRows.map(d=>d.b), [{data:densRows.map(d=>d.dens), backgroundColor:densRows.map(d=>d.t==='Grande Mucuripe'?'#0d4f8b':'#2f8f73'), borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-demo-dens', densRows.map(d=>d.b), [{data:densRows.map(d=>d.dens), backgroundColor:densRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blue:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
 }
 
 function initVuln(){
   createMap('vuln');
   const epRows = sortRows('epob', true);
-  makeBar('chart-vuln-epob', epRows.map(d=>d.b), [{data:epRows.map(d=>d.epob*100), backgroundColor:'#0d4f8b', borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-vuln-epob', epRows.map(d=>d.b), [{data:epRows.map(d=>d.epob*100), backgroundColor:UI_COLORS.blue, borderRadius:6}], {plugins:{legend:{display:false}}});
   const idRows = sortRows('idhm', false);
-  makeBar('chart-vuln-idhm', idRows.map(d=>d.b), [{data:idRows.map(d=>d.idhm), backgroundColor:idRows.map(d=>d.t==='Grande Mucuripe'?'#8bbce0':'#2f8f73'), borderRadius:6}], {
+  makeBar('chart-vuln-idhm', idRows.map(d=>d.b), [{data:idRows.map(d=>d.idhm), backgroundColor:idRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
     plugins:{legend:{display:false}},
     scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y, min:0, max:1}}
   });
@@ -1364,24 +1394,24 @@ function initInfra(){
     data:{
       labels:rows.map(d=>d.b),
       datasets:[
-        {label:'Esgoto', data:rows.map(d=>d.esg*100), backgroundColor:'#0d4f8b', borderRadius:5},
-        {label:'Água', data:rows.map(d=>d.agua*100), backgroundColor:'#5f9fcb', borderRadius:5},
-        {label:'Coleta de lixo', data:rows.map(d=>d.lixo*100), backgroundColor:'#b8d6ee', borderRadius:5}
+        {label:'Esgoto', data:rows.map(d=>d.esg*100), backgroundColor:UI_COLORS.blue, borderRadius:5},
+        {label:'Água', data:rows.map(d=>d.agua*100), backgroundColor:UI_COLORS.blueSoft, borderRadius:5},
+        {label:'Coleta de lixo', data:rows.map(d=>d.lixo*100), backgroundColor:'#d7e5ef', borderRadius:5}
       ]
     },
     options:baseChartOptions()
   });
 
   const esfRows = [...DATA].filter(d=>Number.isFinite(d.esfc)).sort((a,b)=>b.esfc-a.esfc);
-  makeBar('chart-infra-esf', esfRows.map(d=>d.b), [{data:esfRows.map(d=>d.esfc), backgroundColor:esfRows.map(d=>d.esfc<60?'#c45c48':d.esfc<80?'#c99234':'#2f8f73'), borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-infra-esf', esfRows.map(d=>d.b), [{data:esfRows.map(d=>d.esfc), backgroundColor:esfRows.map(d=>d.esfc<60?UI_COLORS.red:d.esfc<80?UI_COLORS.gold:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
 }
 
 function initEcon(){
   createMap('econ');
   const empRows = sortRows('emp', true);
-  makeBar('chart-econ-emp', empRows.map(d=>d.b), [{data:empRows.map(d=>d.emp), backgroundColor:'#0d4f8b', borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-econ-emp', empRows.map(d=>d.b), [{data:empRows.map(d=>d.emp), backgroundColor:UI_COLORS.blue, borderRadius:6}], {plugins:{legend:{display:false}}});
   const meiRows = sortRows('meiShare', true);
-  makeBar('chart-econ-mei', meiRows.map(d=>d.b), [{data:meiRows.map(d=>d.meiShare*100), backgroundColor:meiRows.map(d=>d.t==='Grande Mucuripe'?'#8bbce0':'#2f8f73'), borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-econ-mei', meiRows.map(d=>d.b), [{data:meiRows.map(d=>d.meiShare*100), backgroundColor:meiRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
   document.getElementById('table-cnae').innerHTML = `
     <thead><tr><th>Bairro</th><th>Território</th><th>1º CNAE</th><th>2º CNAE</th><th>3º CNAE</th></tr></thead>
     <tbody>${DATA.map(d => `
@@ -1397,15 +1427,15 @@ function initEcon(){
 function initOsc(){
   createMap('osc');
   const oscRows = sortRows('osc', true);
-  makeBar('chart-osc-total', oscRows.map(d=>d.b), [{data:oscRows.map(d=>d.osc), backgroundColor:'#0d4f8b', borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-osc-total', oscRows.map(d=>d.b), [{data:oscRows.map(d=>d.osc), backgroundColor:UI_COLORS.blue, borderRadius:6}], {plugins:{legend:{display:false}}});
   destroyChart('chart-osc-setor');
   CHARTS['chart-osc-setor'] = new Chart(document.getElementById('chart-osc-setor'), {
     type:'bar',
     data:{
       labels:['Assist. social','Educação','Saúde','Inclusão produtiva','Seg. alimentar'],
       datasets:[
-        {label:'Grande Mucuripe', data:[93,38,9,80,0], backgroundColor:'#0d4f8b', borderRadius:5},
-        {label:'Grande Bom Jardim', data:[75,54,3,137,1], backgroundColor:'#2f8f73', borderRadius:5}
+        {label:'Grande Mucuripe', data:[93,38,9,80,0], backgroundColor:UI_COLORS.blue, borderRadius:5},
+        {label:'Grande Bom Jardim', data:[75,54,3,137,1], backgroundColor:UI_COLORS.teal, borderRadius:5}
       ]
     },
     options:baseChartOptions()
@@ -1421,17 +1451,17 @@ function initComp(){
       {
         label:'Grande Mucuripe',
         data:[gm.idhm*100, Math.min(100, gm.renda/90), (gm.esg*60)+(gm.esfc*0.4), Math.min(100, gm.osc10k), gm.epob*100, 55],
-        borderColor:'#0d4f8b',
-        backgroundColor:'rgba(13,79,139,.12)',
-        pointBackgroundColor:'#0d4f8b',
+        borderColor:UI_COLORS.blue,
+        backgroundColor:'rgba(33,95,143,.12)',
+        pointBackgroundColor:UI_COLORS.blue,
         borderWidth:2
       },
       {
         label:'Grande Bom Jardim',
         data:[gbj.idhm*100, Math.min(100, gbj.renda/90), (gbj.esg*60)+(gbj.esfc*0.4), Math.min(100, gbj.osc10k*2), gbj.epob*100, 82],
-        borderColor:'#2f8f73',
-        backgroundColor:'rgba(47,143,115,.12)',
-        pointBackgroundColor:'#2f8f73',
+        borderColor:UI_COLORS.teal,
+        backgroundColor:'rgba(79,138,114,.12)',
+        pointBackgroundColor:UI_COLORS.teal,
         borderWidth:2
       }
     ]
@@ -1443,14 +1473,14 @@ function initComp(){
     options:{
       responsive:true,
       maintainAspectRatio:false,
-      plugins:{legend:{labels:{font:{family:'Inter', size:11}, color:'#5f7286'}}},
+      plugins:{legend:{labels:{font:{family:'Inter', size:11}, color:UI_COLORS.muted}}},
       scales:{
         r:{
           min:0,max:100,
           angleLines:{color:'#dfe8f2'},
           grid:{color:'#dfe8f2'},
-          pointLabels:{color:'#17324a', font:{family:'Inter', size:11, weight:'600'}},
-          ticks:{backdropColor:'transparent', color:'#5f7286', font:{family:'Inter', size:10}, stepSize:20}
+          pointLabels:{color:UI_COLORS.text, font:{family:'Inter', size:11, weight:'600'}},
+          ticks:{backdropColor:'transparent', color:UI_COLORS.muted, font:{family:'Inter', size:10}, stepSize:20}
         }
       }
     }
