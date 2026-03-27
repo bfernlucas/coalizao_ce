@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coalizão CE: Diagnóstico Territorial</title>
+<title>Coalizão CE|Diagnóstico Territorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1426,7 +1426,7 @@ tbody tr:hover{background:#f4f8fc}
   </section>
 
   <div class="footer">
-    <strong>Fontes principais desta versão:</strong> base territorial e cartográfica dos bairros de Fortaleza, dados demográficos, socioeconômicos, vulnerabilidade, infraestrutura, mercado de trabalho e OSCs já consolidados no arquivo original.
+    <strong>Fontes:</strong> IBGE — Censo Demográfico 2022 (dados populacionais, domiciliares, renda e analfabetismo) · RAIS/MTE — Relação Anual de Informações Sociais (empresas formais e vínculos empregatícios) · Receita Federal do Brasil — Cadastro Nacional de Pessoas Jurídicas, CNPJ (MEIs e CNAEs) · MDS — Cadastro Único para Programas Sociais, CadÚnico · CNES/DataSUS — Cadastro Nacional de Estabelecimentos de Saúde · SINAN/SSP-CE — Sistema de Informação de Agravos de Notificação (homicídios) · IPECE - Estudos Dirigidos· INEP — IDEB e dados de estabelecimentos de ensino público · Base cartográfica: OpenStreetMap contributors / CARTO
     <div class="footer-credit">Elaborado por Lucas Fernandes</div>
   </div>
 </main>
@@ -1997,17 +1997,17 @@ function initOverview(){
     <h4>Grande Mucuripe</h4>
     <p>Maior heterogeneidade interna, melhor base econômica média e densidade institucional mais alta. Indicado para estratégias focalizadas por bairro e maior articulação entre vulnerabilidade e oportunidade.</p>
     <div class="mini">
-      <div><strong>${fmt(gm.pop,'int')}</strong><span class="small">habitantes</span></div>
-      <div><strong>${fmt(gm.emp,'int')}</strong><span class="small">empresas</span></div>
-      <div><strong>${fmt(gm.osc,'int')}</strong><span class="small">OSCs</span></div>
+     <div class="metric-white"><strong>${fmt(gm.pop,'int')}</strong><span class="small">habitantes</span></div>
+<div class="metric-white"><strong>${fmt(gm.emp,'int')}</strong><span class="small">empresas</span></div>
+<div class="metric-white"><strong>${fmt(gm.osc,'int')}</strong><span class="small">OSCs</span></div>
     </div>`;
   document.getElementById('card-gbj').innerHTML = `
     <h4>Grande Bom Jardim</h4>
     <p>Maior escala populacional, pobreza mais contínua e forte aderência aos eixos de inclusão produtiva e segurança alimentar. Indicado para atuação com foco em escala e adicionalidade social.</p>
     <div class="mini">
-      <div><strong>${fmt(gbj.pop,'int')}</strong><span class="small">habitantes</span></div>
-      <div><strong>${fmt(gbj.emp,'int')}</strong><span class="small">empresas</span></div>
-      <div><strong>${fmt(gbj.osc,'int')}</strong><span class="small">OSCs</span></div>
+ <div class="metric-white"><strong>${fmt(gm.pop,'int')}</strong><span class="small">habitantes</span></div>
+<div class="metric-white"><strong>${fmt(gm.emp,'int')}</strong><span class="small">empresas</span></div>
+<div class="metric-white"><strong>${fmt(gm.osc,'int')}</strong><span class="small">OSCs</span></div>
     </div>`;
 
   const rowsIdhm = sortRows('idhm', true);
