@@ -903,14 +903,18 @@ body{
   border-radius:20px;
   padding:20px 20px 18px;
   box-shadow:var(--shadow-soft);
+  background:#2f6e9f;
 }
+.territory-card.alt{background:#5e8f79}
 .territory-card h4{
   font-size:19px;
   letter-spacing:-.02em;
+  color:#ffffff;
 }
 .territory-card p{
   font-size:13px;
   line-height:1.75;
+  color:rgba(255,255,255,.92);
 }
 .territory-card .mini{
   gap:12px;
@@ -919,6 +923,14 @@ body{
 .territory-card .mini div{
   border-radius:14px;
   padding:12px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.16);
+}
+.territory-card .mini strong,
+.territory-card .mini .small,
+.territory-card .mini span,
+.territory-card .metric-white{
+  color:#ffffff !important;
 }
 .chart-box{
   padding:6px 24px 26px;
@@ -969,8 +981,8 @@ tbody tr:hover{background:#f4f8fc}
 .footer-credit{
   margin-top:10px;
   font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
+  text-transform:none;
+  letter-spacing:0;
   color:#8292a0;
 }
 .title-with-info{gap:12px}
