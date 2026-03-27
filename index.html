@@ -240,6 +240,89 @@ button,select,input,textarea{font:inherit}
   padding:14px 20px 20px;
   align-items:start;
 }
+.map-analytics-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);
+  gap:18px;
+  padding:0 20px;
+  align-items:stretch;
+}
+.map-box.split{
+  margin:0;
+  height:460px;
+}
+.analysis-side{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.analysis-card{
+  background:linear-gradient(180deg,#ffffff 0%, #f7fafc 100%);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px 18px 16px;
+  min-height:220px;
+  box-shadow:0 10px 24px rgba(16,39,64,.06);
+}
+.analysis-kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#eef4fa;
+  color:var(--brand);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.analysis-title{
+  margin:12px 0 8px;
+  font-size:20px;
+  line-height:1.15;
+  letter-spacing:-.02em;
+  color:var(--navy);
+}
+.analysis-text{
+  margin:0;
+  color:var(--text);
+  font-size:13px;
+  line-height:1.75;
+}
+.analysis-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.analysis-stat{
+  border:1px solid var(--line-2);
+  background:#f8fbfd;
+  border-radius:16px;
+  padding:14px 14px 12px;
+}
+.analysis-stat-label{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:8px;
+  line-height:1.4;
+}
+.analysis-stat-value{
+  color:var(--navy);
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:-.03em;
+}
+.analysis-stat-sub{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+}
+@media (max-width:1100px){
+  .map-analytics-layout{grid-template-columns:1fr}
+}
 @media (max-width:900px){
   .map-footer{grid-template-columns:1fr}
 }
@@ -672,7 +755,17 @@ tbody tr:hover{background:#f8fbff}
           <select id="demo-indicador"></select>
         </div>
       </div>
-      <div id="map-demo" class="map-box"></div>
+      <div class="map-analytics-layout">
+        <div id="map-demo" class="map-box split"></div>
+        <div class="analysis-side">
+          <div class="analysis-card">
+            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <h4 class="analysis-title" id="map-summary-title-demo">Contexto demográfico</h4>
+            <p class="analysis-text" id="map-summary-demo"></p>
+          </div>
+          <div class="analysis-stats" id="map-insights-demo"></div>
+        </div>
+      </div>
       <div class="map-footer">
         <div class="legend-wrap">
           <div class="legend-title" id="legend-title-demo"></div>
@@ -714,7 +807,17 @@ tbody tr:hover{background:#f8fbff}
           <select id="vuln-indicador"></select>
         </div>
       </div>
-      <div id="map-vuln" class="map-box"></div>
+      <div class="map-analytics-layout">
+        <div id="map-vuln" class="map-box split"></div>
+        <div class="analysis-side">
+          <div class="analysis-card">
+            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <h4 class="analysis-title" id="map-summary-title-vuln">Vulnerabilidade social</h4>
+            <p class="analysis-text" id="map-summary-vuln"></p>
+          </div>
+          <div class="analysis-stats" id="map-insights-vuln"></div>
+        </div>
+      </div>
       <div class="map-footer">
         <div class="legend-wrap">
           <div class="legend-title" id="legend-title-vuln"></div>
@@ -756,7 +859,17 @@ tbody tr:hover{background:#f8fbff}
           <select id="infra-indicador"></select>
         </div>
       </div>
-      <div id="map-infra" class="map-box"></div>
+      <div class="map-analytics-layout">
+        <div id="map-infra" class="map-box split"></div>
+        <div class="analysis-side">
+          <div class="analysis-card">
+            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <h4 class="analysis-title" id="map-summary-title-infra">Infraestrutura e equipamentos</h4>
+            <p class="analysis-text" id="map-summary-infra"></p>
+          </div>
+          <div class="analysis-stats" id="map-insights-infra"></div>
+        </div>
+      </div>
       <div class="map-footer">
         <div class="legend-wrap">
           <div class="legend-title" id="legend-title-infra"></div>
@@ -797,7 +910,17 @@ tbody tr:hover{background:#f8fbff}
           <select id="econ-indicador"></select>
         </div>
       </div>
-      <div id="map-econ" class="map-box"></div>
+      <div class="map-analytics-layout">
+        <div id="map-econ" class="map-box split"></div>
+        <div class="analysis-side">
+          <div class="analysis-card">
+            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <h4 class="analysis-title" id="map-summary-title-econ">Tecido econômico</h4>
+            <p class="analysis-text" id="map-summary-econ"></p>
+          </div>
+          <div class="analysis-stats" id="map-insights-econ"></div>
+        </div>
+      </div>
       <div class="map-footer">
         <div class="legend-wrap">
           <div class="legend-title" id="legend-title-econ"></div>
@@ -847,7 +970,17 @@ tbody tr:hover{background:#f8fbff}
           <select id="osc-indicador"></select>
         </div>
       </div>
-      <div id="map-osc" class="map-box"></div>
+      <div class="map-analytics-layout">
+        <div id="map-osc" class="map-box split"></div>
+        <div class="analysis-side">
+          <div class="analysis-card">
+            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <h4 class="analysis-title" id="map-summary-title-osc">Ecossistema de impacto social</h4>
+            <p class="analysis-text" id="map-summary-osc"></p>
+          </div>
+          <div class="analysis-stats" id="map-insights-osc"></div>
+        </div>
+      </div>
       <div class="map-footer">
         <div class="legend-wrap">
           <div class="legend-title" id="legend-title-osc"></div>
@@ -1089,6 +1222,134 @@ function fillSelect(selectId, options, selected, allLabel='Todos'){
   el.innerHTML = options.map(o => `<option value="${o}" ${o===selected?'selected':''}>${o === 'Todos' ? allLabel : o}</option>`).join('');
 }
 
+function mean(rows, key){
+  const vals = rows.map(d => d[key]).filter(v => Number.isFinite(v));
+  if(!vals.length) return null;
+  return vals.reduce((acc,v)=>acc+v,0) / vals.length;
+}
+function median(rows, key){
+  const vals = rows.map(d => d[key]).filter(v => Number.isFinite(v)).sort((a,b)=>a-b);
+  if(!vals.length) return null;
+  const mid = Math.floor(vals.length/2);
+  return vals.length % 2 ? vals[mid] : (vals[mid-1] + vals[mid]) / 2;
+}
+function signedDelta(value, reference, kind){
+  if(!Number.isFinite(value) || !Number.isFinite(reference)) return 'Sem comparação';
+  const diff = value - reference;
+  const sign = diff > 0 ? '+' : '';
+  if(kind === 'pct') return `${sign}${(diff*100).toLocaleString('pt-BR',{minimumFractionDigits:1, maximumFractionDigits:1})} p.p.`;
+  if(kind === 'index') return `${sign}${diff.toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2})}`;
+  if(kind === 'money') return `${sign}${diff.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0})}`;
+  if(kind === 'float1') return `${sign}${diff.toLocaleString('pt-BR',{minimumFractionDigits:1, maximumFractionDigits:1})}`;
+  return `${sign}${diff.toLocaleString('pt-BR')}`;
+}
+function scopeLabel(territory, bairro){
+  if(bairro !== 'Todos') return bairro;
+  if(territory !== 'Todos') return territory;
+  return 'Fortaleza nos bairros com base atual';
+}
+function buildStrategyText(section, metric, ctx){
+  const {territory, bairro, top, bottom, averageValue, cityAverage, selected, count} = ctx;
+  const scope = scopeLabel(territory, bairro);
+  if(section === 'demo'){
+    if(metric === 'dens') return bairro !== 'Todos'
+      ? `Isso sugere um padrão local de pressão urbana que precisa ser lido em conjunto com a ocupação do entorno imediato.`
+      : `A distribuição de densidade ajuda a separar áreas de maior pressão urbana de áreas menos adensadas dentro de ${scope}.`;
+    if(metric === 'pop') return `O mapa evidencia onde a escala populacional tende a concentrar maior demanda potencial por serviços e articulação territorial em ${scope}.`;
+    return `A leitura demográfica ajuda a distinguir bairros mais intensivos em composição social e ocupação do espaço dentro de ${scope}.`;
+  }
+  if(section === 'vuln'){
+    if(metric === 'idhm') return `Como o IDHM é um indicador-síntese de desenvolvimento, o contraste espacial ajuda a localizar bolsões de menor bem-estar relativo dentro de ${scope}.`;
+    return `Nesse recorte, o mapa reforça onde a vulnerabilidade social aparece de forma mais concentrada e onde a resposta tende a exigir maior focalização.`;
+  }
+  if(section === 'infra'){
+    if(metric === 'esc') return `A quantidade de escolas funciona como proxy de capilaridade de equipamentos, mas deve ser lida junto com pressão demográfica e cobertura de serviços.`;
+    if(metric === 'esfc') return `A cobertura de eSF ajuda a inferir capacidade de atenção básica e proximidade da rede pública nos bairros selecionados.`;
+    return `A infraestrutura aparece como condicionante de implementação: valores mais baixos tendem a sinalizar maior dependência de coordenação com serviços públicos locais.`;
+  }
+  if(section === 'econ'){
+    if(metric === 'meiShare') return `Uma participação elevada de MEIs sugere base produtiva mais pulverizada e possivelmente mais aderente a estratégias de pequenos negócios.`;
+    if(metric === 'renda') return `A renda ajuda a distinguir bairros com maior tração econômica daqueles em que a inclusão produtiva depende mais de ativação de oportunidades.`;
+    return `O mapa mostra onde a tração econômica já está mais presente e onde a densidade empresarial ainda é mais restrita.`;
+  }
+  if(section === 'osc'){
+    if(metric === 'oi' || metric === 'oiShare') return `Quando o foco é inclusão produtiva, o recorte espacial ajuda a identificar bairros com maior capacidade de parceria e enraizamento comunitário.`;
+    return `A distribuição institucional permite enxergar onde o ecossistema social já é mais denso e onde a presença de organizações ainda é mais limitada.`;
+  }
+  return `O recorte de ${scope} mostra contrastes internos relevantes para a leitura territorial.`;
+}
+function renderMapAnalysis(section, territory, bairro, metric, rows){
+  const titleEl = document.getElementById(`map-summary-title-${section}`);
+  const textEl = document.getElementById(`map-summary-${section}`);
+  const insightsEl = document.getElementById(`map-insights-${section}`);
+  if(!titleEl || !textEl || !insightsEl) return;
+
+  const validRows = rows.filter(d => Number.isFinite(d[metric]));
+  if(!validRows.length){
+    titleEl.textContent = `${METRICS[metric].label} · ${scopeLabel(territory, bairro)}`;
+    textEl.textContent = 'Não há dados suficientes para produzir uma leitura descritiva com a combinação atual de filtros.';
+    insightsEl.innerHTML = '';
+    return;
+  }
+
+  const sorted = [...validRows].sort((a,b)=>b[metric]-a[metric]);
+  const top = sorted[0];
+  const bottom = sorted[sorted.length - 1];
+  const selected = bairro !== 'Todos' ? validRows.find(d => d.b === bairro) || DATA.find(d => d.b === bairro) : null;
+
+  const territoryRows = DATA.filter(d => (territory === 'Todos' ? true : d.t === territory) && Number.isFinite(d[metric]));
+  const cityRows = DATA.filter(d => Number.isFinite(d[metric]));
+  const averageValue = mean(validRows, metric);
+  const territoryAverage = mean(territoryRows, metric);
+  const cityAverage = mean(cityRows, metric);
+  const med = median(validRows, metric);
+  const amplitude = Number.isFinite(top?.[metric]) && Number.isFinite(bottom?.[metric]) ? top[metric] - bottom[metric] : null;
+
+  titleEl.textContent = `${METRICS[metric].label} · ${scopeLabel(territory, bairro)}`;
+
+  let summary = '';
+  if(selected && Number.isFinite(selected[metric])){
+    const refBase = territory !== 'Todos' ? territoryAverage : cityAverage;
+    const refLabel = territory !== 'Todos' ? `a média de ${territory}` : 'a média dos bairros com base atual';
+    summary = `${selected.b} registra <strong>${fmt(selected[metric], METRICS[metric].fmt)}</strong> em ${METRICS[metric].label}. No mesmo recorte comparável, ${refLabel} é <strong>${fmt(refBase, METRICS[metric].fmt)}</strong>, o que representa uma diferença de <strong>${signedDelta(selected[metric], refBase, METRICS[metric].fmt)}</strong>. ${buildStrategyText(section, metric, {territory, bairro, top, bottom, averageValue, cityAverage, selected, count:validRows.length})}`;
+  } else {
+    summary = `No recorte atual, <strong>${top.b}</strong> apresenta o maior valor em ${METRICS[metric].label} (<strong>${fmt(top[metric], METRICS[metric].fmt)}</strong>) e <strong>${bottom.b}</strong> o menor (<strong>${fmt(bottom[metric], METRICS[metric].fmt)}</strong>). A média do conjunto é <strong>${fmt(averageValue, METRICS[metric].fmt)}</strong> e a mediana é <strong>${fmt(med, METRICS[metric].fmt)}</strong>. ${buildStrategyText(section, metric, {territory, bairro, top, bottom, averageValue, cityAverage, selected, count:validRows.length})}`;
+  }
+  textEl.innerHTML = summary;
+
+  const cards = [];
+  cards.push({
+    label:'Maior valor no recorte',
+    value:fmt(top[metric], METRICS[metric].fmt),
+    sub:top.b
+  });
+  cards.push({
+    label:'Menor valor no recorte',
+    value:fmt(bottom[metric], METRICS[metric].fmt),
+    sub:bottom.b
+  });
+  cards.push({
+    label:'Média do recorte',
+    value:fmt(averageValue, METRICS[metric].fmt),
+    sub:`Base comparável: ${validRows.length} bairro(s)`
+  });
+  cards.push({
+    label:selected ? 'Diferença para a referência' : 'Amplitude interna',
+    value:selected && Number.isFinite(selected[metric]) ? signedDelta(selected[metric], territory !== 'Todos' ? territoryAverage : cityAverage, METRICS[metric].fmt) : fmt(amplitude, METRICS[metric].fmt),
+    sub:selected && Number.isFinite(selected[metric])
+      ? (territory !== 'Todos' ? `vs. média de ${territory}` : 'vs. média da base atual')
+      : 'Distância entre o maior e o menor valor'
+  });
+
+  insightsEl.innerHTML = cards.map(card => `
+    <div class="analysis-stat">
+      <div class="analysis-stat-label">${card.label}</div>
+      <div class="analysis-stat-value">${card.value}</div>
+      <div class="analysis-stat-sub">${card.sub}</div>
+    </div>
+  `).join('');
+}
+
 function createMap(section){
   const cfg = MAP_CONFIG[section];
   fillSelect(`${section}-territorio`, TERRITORIES, cfg.defaults.territorio, 'Todos os territórios');
@@ -1270,12 +1531,14 @@ function updateMap(section){
     const top = sorted[0];
     const bottom = sorted[sorted.length-1];
     const coverage = bairro !== 'Todos'
-      ? 'Os demais bairros permanecem em cinza para preservar a leitura integral da malha urbana sem sobreposição visual.'
-      : 'Os bairros com base analítica aparecem em gradiente vermelho e o restante da cidade permanece em cinza como referência espacial.';
+      ? 'Os demais bairros permanecem em cinza para preservar a leitura integral da malha urbana e manter o contraste visual do recorte selecionado.'
+      : 'Os bairros com base analítica aparecem em gradiente vermelho e o restante da cidade permanece em cinza como referência espacial da malha urbana.';
     document.getElementById(`note-${section}`).innerHTML = `<strong>${METRICS[metric].label}.</strong> Maior valor em <strong>${top.b}</strong> (${fmt(top[metric], METRICS[metric].fmt)}) e menor valor em <strong>${bottom.b}</strong> (${fmt(bottom[metric], METRICS[metric].fmt)}). ${coverage}`;
   } else {
     document.getElementById(`note-${section}`).textContent = 'Não há dados disponíveis para a combinação atual de filtros.';
   }
+
+  renderMapAnalysis(section, territory, bairro, metric, rows);
 
   setTimeout(() => {
     state.map.invalidateSize();
