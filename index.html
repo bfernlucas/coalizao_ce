@@ -480,9 +480,6 @@ tbody tr:hover{background:#f8fbff}
       <div class="brand-sub">Redesenho do dashboard com foco em leitura executiva, mapas gradientes e interpretação territorial</div>
     </div>
     <div class="header-badges">
-      <span class="badge">Fortaleza · GM + GBJ</span>
-      <span class="badge">Base atual · 13 bairros</span>
-      <span class="badge">Março 2026</span>
     </div>
   </div>
 </header>
@@ -503,11 +500,10 @@ tbody tr:hover{background:#f8fbff}
   <section id="section-visao" class="section active">
     <div class="section-head">
       <span class="section-kicker">Visão executiva</span>
-      <h1 class="section-title">Leitura territorial integrada para decisão</h1>
-      <div class="section-desc">A proposta do painel foi reorganizada para aproximar o dashboard do plano de trabalho: leitura por dimensão, foco em implicações estratégicas e mapas que evidenciam contrastes espaciais logo na abertura. Nesta versão, os indicadores mais adequados ao uso de mapas gradientes são os que variam continuamente no espaço e ganham clareza visual por contraste: IDHM, extrema pobreza, incidência do CadÚnico, esgotamento sanitário, renda, empresas ativas e OSCs por 10 mil habitantes.</div>
+      <h1 class="section-title">Leitura territorial integrada</h1>
     </div>
     <div class="decision">
-      <h3>Inferência principal</h3>
+      <h3>Comentário</h3>
       <p>O painel sugere dois caminhos distintos de atuação. O Grande Bom Jardim aparece como território de maior urgência social e maior aderência imediata aos eixos de inclusão produtiva e segurança alimentar. O Grande Mucuripe, por sua vez, combina forte heterogeneidade interna, densidade econômica e maior presença institucional, o que favorece estratégias mais focalizadas por bairro e mais orientadas à coordenação entre vulnerabilidade e tração.</p>
     </div>
     <div class="grid hero">
@@ -515,7 +511,6 @@ tbody tr:hover{background:#f8fbff}
         <div class="panel-head">
           <div>
             <h3 class="panel-title">Mapa analítico de abertura</h3>
-            <p class="panel-sub">Filtros por território, bairro e indicador para acesso rápido ao padrão espacial mais relevante. O mapa usa escala sequencial azul, no estilo do exemplo enviado.</p>
           </div>
           <div class="filters">
             <select id="visao-territorio"></select>
@@ -537,7 +532,6 @@ tbody tr:hover{background:#f8fbff}
         <div class="panel-head">
           <div>
             <h3 class="panel-title">Resumo territorial</h3>
-            <p class="panel-sub">Indicadores agregados da base atual e leitura rápida dos dois recortes de Fortaleza.</p>
           </div>
         </div>
         <div class="kpi-grid" id="overview-kpis"></div>
@@ -550,7 +544,6 @@ tbody tr:hover{background:#f8fbff}
         <div class="panel-head">
           <div>
             <h3 class="panel-title">IDHM por bairro</h3>
-            <p class="panel-sub">O desenvolvimento humano é um bom mapa de contraste estrutural entre bairros e sintetiza bem desigualdades de base.</p>
           </div>
         </div>
         <div class="chart-box"><canvas id="chart-visao-idhm" class="chart"></canvas></div>
@@ -559,7 +552,6 @@ tbody tr:hover{background:#f8fbff}
         <div class="panel-head">
           <div>
             <h3 class="panel-title">Incidência do CadÚnico</h3>
-            <p class="panel-sub">Indicador-chave para ler focalização social e intensidade de vulnerabilidade.</p>
           </div>
         </div>
         <div class="chart-box"><canvas id="chart-visao-cad" class="chart"></canvas></div>
