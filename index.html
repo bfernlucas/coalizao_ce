@@ -577,6 +577,63 @@ tbody tr:hover{background:#f8fbff}
 }
 .info-balloon li{margin:4px 0}
 
+.radar-note{
+  margin:0 24px 10px;
+  padding:12px 14px;
+  border:1px solid rgba(138,161,183,.18);
+  border-radius:14px;
+  background:linear-gradient(180deg,#f8fbfe 0%, #f3f8fc 100%);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.65;
+}
+.radar-note strong{
+  color:var(--navy);
+}
+.radar-values{
+  padding:0 24px 24px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.radar-card{
+  border:1px solid var(--line-2);
+  border-radius:16px;
+  background:linear-gradient(180deg,#ffffff 0%, #fbfdff 100%);
+  box-shadow:0 8px 20px rgba(16,42,67,.04);
+  padding:14px 15px;
+}
+.radar-card-title{
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.01em;
+  color:var(--navy);
+  margin-bottom:8px;
+}
+.radar-card-lines{
+  display:grid;
+  gap:6px;
+}
+.radar-line{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font-size:12px;
+}
+.radar-line .name{
+  color:var(--muted);
+  font-weight:600;
+}
+.radar-line .value{
+  color:var(--text);
+  font-weight:800;
+  text-align:right;
+}
+@media (max-width:900px){
+  .radar-values{grid-template-columns:1fr}
+}
+
 .comparison-grid{
   display:grid;
   grid-template-columns:1.05fr .95fr;
@@ -1400,25 +1457,28 @@ tbody tr:hover{background:#f4f8fc}
         <div class="panel-head">
           <div>
             <div class="title-with-info">
-              <h3 class="panel-title">Radar estratégico</h3>
+              <div>
+                <h3 class="panel-title">Radar estratégico</h3>
+                <p class="panel-sub">Leitura comparativa com eixos positivos: quanto maior o valor, mais favorável a posição relativa do território.</p>
+              </div>
               <details class="info-popover">
                 <summary aria-label="Como as dimensões do radar foram mensuradas">i</summary>
                 <div class="info-balloon">
                   <strong>Como este radar foi mensurado</strong>
-                  Cada eixo corresponde diretamente a um indicador real do painel, sem fórmulas compostas. Todos os valores estão em escala de 0 a 100 para facilitar a comparação visual.
+                  O desenho foi ajustado para ficar mais autoexplicativo: todos os eixos foram convertidos para uma leitura positiva, em que valores maiores representam condições relativamente mais favoráveis.
                   <ul>
-                    <li><strong>IDHM:</strong> IDHM médio ponderado × 100.</li>
-                    <li><strong>Saneamento:</strong> cobertura média de rede de esgoto × 100.</li>
-                    <li><strong>Renda per capita:</strong> renda média ponderada ÷ 120, com teto em 100.</li>
-                    <li><strong>OSCs / 10 mil hab.:</strong> número de OSCs por 10 mil habitantes, com teto em 100.</li>
-                    <li><strong>Extrema pobreza:</strong> taxa média de extrema pobreza × 100 (quanto maior, mais urgente).</li>
+                    <li><strong>IDHM, esgoto, renda e OSCs/10 mil:</strong> cada eixo usa como referência o melhor valor entre os dois territórios comparados, que recebe 100.</li>
+                    <li><strong>Baixa pobreza extrema:</strong> o eixo foi invertido para evitar ambiguidade, usando o complemento da taxa de extrema pobreza (100 − taxa).</li>
+                    <li><strong>Valores exatos:</strong> o bloco abaixo do gráfico mostra os dados originais de cada território, e o tooltip do radar exibe valor padronizado e valor bruto.</li>
                   </ul>
                 </div>
               </details>
             </div>
           </div>
         </div>
-        <div class="chart-box"><canvas id="chart-comp-radar" class="chart" style="height:360px"></canvas></div>
+        <div class="radar-note"><strong>Como ler:</strong> o polígono maior indica posição relativa mais favorável no conjunto comparado. O eixo social foi invertido para <em>baixa pobreza extrema</em>, evitando que vulnerabilidade apareça como “vantagem” visual.</div>
+        <div class="chart-box"><canvas id="chart-comp-radar" class="chart" style="height:380px"></canvas></div>
+        <div class="radar-values" id="radar-values"></div>
       </div>
       <div class="panel">
         <div class="panel-head"><div><h3 class="panel-title">Recomendações rápidas</h3><p class="panel-sub">Leitura executiva para priorização e desenho de entrada territorial.</p></div></div>
@@ -2138,24 +2198,95 @@ function initOsc(){
 function initComp(){
   const gm = TERR_STATS.find(d => d.t === 'Grande Mucuripe');
   const gbj = TERR_STATS.find(d => d.t === 'Grande Bom Jardim');
+  const radarAxes = [
+    {
+      key:'idhm',
+      label:'IDHM',
+      rawKind:'index',
+      rawValue:d => d.idhm,
+      normalized:d => {
+        const best = Math.max(gm.idhm, gbj.idhm) || 1;
+        return (d.idhm / best) * 100;
+      }
+    },
+    {
+      key:'esg',
+      label:'Esgoto',
+      rawKind:'pct',
+      rawValue:d => d.esg,
+      normalized:d => {
+        const best = Math.max(gm.esg, gbj.esg) || 1;
+        return (d.esg / best) * 100;
+      }
+    },
+    {
+      key:'renda',
+      label:'Renda',
+      rawKind:'money',
+      rawValue:d => d.renda,
+      normalized:d => {
+        const best = Math.max(gm.renda, gbj.renda) || 1;
+        return (d.renda / best) * 100;
+      }
+    },
+    {
+      key:'osc10k',
+      label:'OSCs/10 mil',
+      rawKind:'float1',
+      rawValue:d => d.osc10k,
+      normalized:d => {
+        const best = Math.max(gm.osc10k, gbj.osc10k) || 1;
+        return (d.osc10k / best) * 100;
+      }
+    },
+    {
+      key:'epob_inv',
+      label:'Baixa pobreza extrema',
+      rawKind:'pct',
+      rawValue:d => 1 - d.epob,
+      rawLabel:d => `${fmt(d.epob,'pct')} de extrema pobreza`,
+      normalized:d => (1 - d.epob) * 100
+    }
+  ];
+
   const radarData = {
-    labels:['IDHM','Saneamento (esgoto)','Renda per capita','OSCs / 10 mil hab.','Extrema pobreza'],
+    labels:radarAxes.map(a => a.label),
     datasets:[
       {
         label:'Grande Mucuripe',
-        data:[gm.idhm*100, gm.esg*100, Math.min(100, gm.renda/120), Math.min(100, gm.osc10k), gm.epob*100],
+        data:radarAxes.map(a => a.normalized(gm)),
+        rawValues:radarAxes.map(a => ({
+          label:a.label,
+          raw:a.rawValue(gm),
+          rawKind:a.rawKind,
+          rawLabel:a.rawLabel ? a.rawLabel(gm) : fmt(a.rawValue(gm), a.rawKind)
+        })),
         borderColor:UI_COLORS.blue,
-        backgroundColor:'rgba(33,95,143,.12)',
+        backgroundColor:'rgba(33,95,143,.20)',
         pointBackgroundColor:UI_COLORS.blue,
-        borderWidth:2
+        pointBorderColor:'#ffffff',
+        pointBorderWidth:2,
+        pointRadius:4,
+        pointHoverRadius:6,
+        borderWidth:3
       },
       {
         label:'Grande Bom Jardim',
-        data:[gbj.idhm*100, gbj.esg*100, Math.min(100, gbj.renda/120), Math.min(100, gbj.osc10k), gbj.epob*100],
+        data:radarAxes.map(a => a.normalized(gbj)),
+        rawValues:radarAxes.map(a => ({
+          label:a.label,
+          raw:a.rawValue(gbj),
+          rawKind:a.rawKind,
+          rawLabel:a.rawLabel ? a.rawLabel(gbj) : fmt(a.rawValue(gbj), a.rawKind)
+        })),
         borderColor:UI_COLORS.teal,
-        backgroundColor:'rgba(79,138,114,.12)',
+        backgroundColor:'rgba(79,138,114,.20)',
         pointBackgroundColor:UI_COLORS.teal,
-        borderWidth:2
+        pointBorderColor:'#ffffff',
+        pointBorderWidth:2,
+        pointRadius:4,
+        pointHoverRadius:6,
+        borderWidth:3
       }
     ]
   };
@@ -2166,18 +2297,54 @@ function initComp(){
     options:{
       responsive:true,
       maintainAspectRatio:false,
-      plugins:{legend:{labels:{font:{family:'Inter', size:11, weight:'600'}, color:UI_COLORS.muted, usePointStyle:true, pointStyle:'circle', boxWidth:8, boxHeight:8, padding:16}}},
+      plugins:{
+        legend:{labels:{font:{family:'Inter', size:11, weight:'600'}, color:UI_COLORS.muted, usePointStyle:true, pointStyle:'circle', boxWidth:8, boxHeight:8, padding:16}},
+        tooltip:{
+          callbacks:{
+            title(items){
+              return items[0]?.label || '';
+            },
+            label(ctx){
+              const v = Number(ctx.parsed.r || 0).toLocaleString('pt-BR',{minimumFractionDigits:1, maximumFractionDigits:1});
+              return `${ctx.dataset.label}: ${v} pontos padronizados`;
+            },
+            afterLabel(ctx){
+              const raw = ctx.dataset.rawValues?.[ctx.dataIndex];
+              return raw ? `Valor original: ${raw.rawLabel}` : '';
+            }
+          }
+        }
+      },
       scales:{
         r:{
           min:0,max:100,
           angleLines:{color:'#e6edf3'},
           grid:{color:'#e6edf3'},
-          pointLabels:{color:UI_COLORS.text, font:{family:'Inter', size:11, weight:'600'}},
-          ticks:{backdropColor:'transparent', color:UI_COLORS.muted, font:{family:'Inter', size:10}, stepSize:20}
+          pointLabels:{color:UI_COLORS.text, font:{family:'Inter', size:11, weight:'700'}},
+          ticks:{backdropColor:'transparent', color:UI_COLORS.muted, font:{family:'Inter', size:10}, stepSize:20, showLabelBackdrop:false}
         }
       }
     }
   });
+
+  const radarValuesEl = document.getElementById('radar-values');
+  if(radarValuesEl){
+    radarValuesEl.innerHTML = radarAxes.map(axis => `
+      <div class="radar-card">
+        <div class="radar-card-title">${axis.label}</div>
+        <div class="radar-card-lines">
+          <div class="radar-line">
+            <span class="name">Grande Mucuripe</span>
+            <span class="value">${axis.rawLabel ? axis.rawLabel(gm) : fmt(axis.rawValue(gm), axis.rawKind)}</span>
+          </div>
+          <div class="radar-line">
+            <span class="name">Grande Bom Jardim</span>
+            <span class="value">${axis.rawLabel ? axis.rawLabel(gbj) : fmt(axis.rawValue(gbj), axis.rawKind)}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
 
   function terrMean(data, territory, key){
     const rows = data.filter(d => d.t === territory && Number.isFinite(d[key]));
