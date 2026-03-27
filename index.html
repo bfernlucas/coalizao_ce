@@ -228,9 +228,10 @@ button,select,input,textarea{font:inherit}
   height:460px;
   margin:10px 20px 0;
   border-radius:18px;
-  border:1px solid var(--line);
+  border:1px solid rgba(207,220,233,.95);
   overflow:hidden;
-  background:#f2f6fb;
+  background:linear-gradient(180deg,#edf3f8 0%, #e8eef5 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 14px 34px rgba(16,39,64,.08);
 }
 .map-footer{
   display:grid;
@@ -412,6 +413,82 @@ tbody tr:hover{background:#f8fbff}
   font-size:12px;
   line-height:1.7;
 }
+
+.title-with-info{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.info-popover{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+}
+.info-popover summary{
+  list-style:none;
+  width:24px;
+  height:24px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#f4f8fc;
+  color:var(--brand);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s ease;
+  box-shadow:0 4px 12px rgba(13,79,139,.08);
+}
+.info-popover summary:hover,
+.info-popover[open] summary{
+  background:#eaf3fb;
+  border-color:#bfd5ea;
+}
+.info-popover summary::-webkit-details-marker{display:none}
+.info-balloon{
+  position:absolute;
+  top:34px;
+  left:0;
+  right:auto;
+  width:min(430px, calc(100vw - 60px));
+  max-width:calc(100vw - 60px);
+  padding:14px 16px;
+  border-radius:16px;
+  background:#ffffff;
+  border:1px solid var(--line);
+  box-shadow:0 18px 36px rgba(15,39,64,.16);
+  color:var(--text);
+  font-size:12px;
+  line-height:1.65;
+  z-index:50;
+}
+.info-balloon::before{
+  content:'';
+  position:absolute;
+  top:-8px;
+  left:10px;
+  width:14px;
+  height:14px;
+  background:#fff;
+  border-left:1px solid var(--line);
+  border-top:1px solid var(--line);
+  transform:rotate(45deg);
+}
+.info-balloon strong{
+  display:block;
+  margin-bottom:6px;
+  color:var(--navy);
+  font-size:12px;
+}
+.info-balloon ul{
+  margin:8px 0 0 16px;
+  padding:0;
+}
+.info-balloon li{margin:4px 0}
+
 .comparison-grid{
   display:grid;
   grid-template-columns:1.05fr .95fr;
@@ -424,8 +501,20 @@ tbody tr:hover{background:#f8fbff}
 }
 .leaflet-container{
   font-family:Inter, Arial, sans-serif;
-  background:#f2f6fb;
+  background:linear-gradient(180deg,#edf3f8 0%, #e6edf5 100%);
 }
+.leaflet-control-attribution{
+  background:rgba(255,255,255,.88)!important;
+  backdrop-filter:blur(8px);
+  border-radius:10px!important;
+  padding:4px 8px!important;
+  color:#5f7286!important;
+  font-size:10px!important;
+  box-shadow:0 6px 18px rgba(16,39,64,.08);
+  margin:0 10px 10px 0!important;
+}
+.leaflet-control-attribution a{color:#3c6f9e!important}
+
 .leaflet-popup-content-wrapper{
   border-radius:16px;
   box-shadow:0 16px 32px rgba(15,39,64,.18);
@@ -786,7 +875,28 @@ tbody tr:hover{background:#f8fbff}
     </div>
     <div class="comparison-grid">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Radar estratégico</h3></div></div>
+        <div class="panel-head">
+          <div>
+            <div class="title-with-info">
+              <h3 class="panel-title">Radar estratégico</h3>
+              <details class="info-popover">
+                <summary aria-label="Como as dimensões do radar foram mensuradas">i</summary>
+                <div class="info-balloon">
+                  <strong>Como este radar foi mensurado</strong>
+                  O radar sintetiza seis dimensões em escala de 0 a 100, a partir das métricas já usadas no painel. As pontuações não representam um índice oficial, mas uma leitura estratégica para comparação rápida entre territórios.
+                  <ul>
+                    <li><strong>Desenvolvimento:</strong> IDHM médio ponderado × 100.</li>
+                    <li><strong>Capacidade econômica:</strong> renda média ponderada dividida por 90, com teto em 100.</li>
+                    <li><strong>Cobertura básica:</strong> combinação entre esgoto médio e cobertura média de eSF, pela fórmula (esgoto × 60) + (eSF × 0,4).</li>
+                    <li><strong>Densidade relacional:</strong> OSCs por 10 mil habitantes, reescaladas para caber na faixa de 0 a 100.</li>
+                    <li><strong>Urgência social:</strong> taxa média de extrema pobreza × 100.</li>
+                    <li><strong>Pressão territorial:</strong> escore sintético fixado para representar a pressão operacional relativa observada na leitura comparativa dos territórios.</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
         <div class="chart-box"><canvas id="chart-comp-radar" class="chart" style="height:360px"></canvas></div>
       </div>
       <div class="panel">
@@ -941,9 +1051,32 @@ function createMap(section){
   const metricEl = document.getElementById(`${section}-indicador`);
   metricEl.innerHTML = cfg.metrics.map(m => `<option value="${m}" ${m===cfg.defaults.indicador?'selected':''}>${METRICS[m].label}</option>`).join('');
 
-  const map = L.map(`map-${section}`, {zoomControl:false, attributionControl:false});
+  const map = L.map(`map-${section}`, {zoomControl:false, attributionControl:true});
+  map.attributionControl.setPrefix(false);
+  map.createPane('basemap');
+  map.getPane('basemap').style.zIndex = 200;
+  map.getPane('basemap').style.opacity = 0.95;
+  map.getPane('basemap').style.filter = 'saturate(0.88) contrast(1.02) brightness(1.03)';
+  map.createPane('labels');
+  map.getPane('labels').style.zIndex = 450;
+  map.getPane('labels').style.pointerEvents = 'none';
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+    subdomains:'abcd',
+    maxZoom:20,
+    pane:'basemap',
+    attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
+  }).addTo(map);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+    subdomains:'abcd',
+    maxZoom:20,
+    pane:'labels',
+    attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
+  }).addTo(map);
+
   const geo = L.geoJSON(GEOJSON, {
-    style: () => ({color:'#d2deea', weight:0.8, fillColor:'#f1f5f9', fillOpacity:0.35}),
+    style: () => ({color:'rgba(255,255,255,.72)', weight:1, fillColor:'#f1f5f9', fillOpacity:0.28}),
     onEachFeature:(feature, layer) => {
       layer.on('click', () => {
         const d = findDataByFeature(feature);
@@ -979,19 +1112,19 @@ function updateMap(section){
     const isSelected = inTerritory && (bairro === 'Todos' || d.b === bairro);
     const value = d ? d[metric] : null;
     let fillColor = '#eef2f7';
-    let fillOpacity = 0.12;
-    let weight = 0.7;
-    let color = '#d1dbe7';
+    let fillOpacity = 0.08;
+    let weight = 0.8;
+    let color = 'rgba(255,255,255,.7)';
 
     if(inTerritory){
       fillColor = getColor(value, breaks);
-      fillOpacity = bairro === 'Todos' ? 0.92 : (isSelected ? 0.95 : 0.18);
-      weight = isSelected ? 2.2 : 0.9;
-      color = isSelected ? '#17324a' : '#c5d6e7';
+      fillOpacity = bairro === 'Todos' ? 0.58 : (isSelected ? 0.74 : 0.16);
+      weight = isSelected ? 2.3 : 1;
+      color = isSelected ? '#17324a' : 'rgba(255,255,255,.85)';
       if(isSelected) selectedLayers.push(layer);
     } else if(d) {
       fillColor = '#edf2f7';
-      fillOpacity = 0.18;
+      fillOpacity = 0.12;
     }
     layer.setStyle({fillColor, fillOpacity, weight, color});
   });
@@ -1059,7 +1192,7 @@ function sortRows(key, descending=true, includeNull=false){
 function initOverview(){
   createMap('visao');
   const kpis = [
-    {label:'População total', value: fmt(TOTALS.pop,'int'), sub:'13 bairros'},
+    {label:'População total', value: fmt(TOTALS.pop,'int'), sub:'Base atual · 13 bairros'},
     {label:'Empresas ativas', value: fmt(TOTALS.emp,'int'), sub:'CNPJ consolidado'},
     {label:'OSCs mapeadas', value: fmt(TOTALS.osc,'int'), sub:'Associações e fundações'},
     {label:'Renda média ponderada', value: fmt(TOTALS.renda,'money'), sub:'Renda domiciliar per capita'}
