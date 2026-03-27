@@ -563,17 +563,15 @@ tbody tr:hover{background:#f8fbff}
     <div class="section-head">
       <span class="section-kicker">Dimensão 1</span>
       <h2 class="section-title">Contexto demográfico</h2>
-      <div class="section-desc">Esta dimensão responde à pergunta sobre escala populacional e perfil social básico do território. Ela ajuda a dimensionar o universo potencial de atuação e a necessidade de segmentação fina por bairro.</div>
     </div>
     <div class="decision">
-      <h3>Inferência principal</h3>
+      <h3>Comentários</h3>
       <p>O Grande Bom Jardim combina maior escala populacional com um perfil de vulnerabilidade mais contínuo entre bairros. O Grande Mucuripe é menor em população agregada, mas apresenta densidades urbanas relevantes e contrastes muito maiores, o que sugere que a gestão territorial no GM depende mais de recortes intraurbanos e menos de uma estratégia única para todo o território.</p>
     </div>
     <div class="panel">
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Mapa demográfico</h3>
-          <p class="panel-sub">Os melhores indicadores para mapa gradiente nesta dimensão são população, densidade e composição social, porque todos se distribuem espacialmente com intensidade clara entre bairros.</p>
         </div>
         <div class="filters">
           <select id="demo-territorio"></select>
@@ -593,11 +591,11 @@ tbody tr:hover{background:#f8fbff}
     </div>
     <div class="grid two">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">População por bairro</h3><p class="panel-sub">Tamanho relativo do universo potencial de beneficiários.</p></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">População por bairro</h3></div></div>
         <div class="chart-box"><canvas id="chart-demo-pop" class="chart"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Densidade demográfica</h3><p class="panel-sub">Onde a ocupação do território é mais intensa.</p></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Densidade demográfica</h3></div></div>
         <div class="chart-box"><canvas id="chart-demo-dens" class="chart"></canvas></div>
       </div>
     </div>
@@ -607,17 +605,15 @@ tbody tr:hover{background:#f8fbff}
     <div class="section-head">
       <span class="section-kicker">Dimensão 2</span>
       <h2 class="section-title">Vulnerabilidade social</h2>
-      <div class="section-desc">Nesta dimensão, o foco é identificar sinais de privação que demandam atenção prioritária. A leitura é especialmente útil para responder onde há maior aderência aos eixos do projeto e onde a adicionalidade da Coalizão tende a ser mais nítida.</div>
     </div>
     <div class="decision">
-      <h3>Inferência principal</h3>
+      <h3>Comentários</h3>
       <p>O Grande Bom Jardim se destaca como frente de urgência social mais clara e mais homogênea, sobretudo em extrema pobreza, baixa renda e dependência do CadÚnico. No Grande Mucuripe, a vulnerabilidade é mais localizada: Vicente Pinzon, Cais do Porto e Praia do Futuro II formam bolsões críticos dentro de um território que também abriga bairros com renda e desenvolvimento elevados. Isso reforça a necessidade de focalização territorial fina no GM e de intervenção de escala no GBJ.</p>
     </div>
     <div class="panel">
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Mapa de vulnerabilidade</h3>
-          <p class="panel-sub">Os indicadores que melhor funcionam em mapa gradiente aqui são extrema pobreza, CadÚnico, IDHM, analfabetismo e homicídios, pois tornam visíveis os hotspots de urgência social.</p>
         </div>
         <div class="filters">
           <select id="vuln-territorio"></select>
@@ -637,11 +633,11 @@ tbody tr:hover{background:#f8fbff}
     </div>
     <div class="grid two">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Extrema pobreza</h3><p class="panel-sub">Ranking de bairros mais críticos.</p></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Extrema pobreza</h3></div></div>
         <div class="chart-box"><canvas id="chart-vuln-epob" class="chart"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">IDHM</h3><p class="panel-sub">O indicador resume desigualdades estruturais e reforça o contraste entre os dois territórios.</p></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">IDHM</h3></div></div>
         <div class="chart-box"><canvas id="chart-vuln-idhm" class="chart"></canvas></div>
       </div>
     </div>
