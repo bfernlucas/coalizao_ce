@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coalizão CE | Diagnóstico Territorial — Maracanaú</title>
+<title>Maracanaú — Diagnóstico Territorial · Coalizão CE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -492,8 +492,8 @@ tbody tr:hover{background:#EEF4FF}
 <header class="topbar">
   <div class="topbar-inner">
     <div>
-      <div class="brand-title">Coalizão CE — Diagnóstico Territorial</div>
-      <div class="brand-sub">Maracanaú · 44 bairros · Censo 2022 + CadÚnico 2025</div>
+      <div class="brand-title">Coalizão CE · Diagnóstico Territorial</div>
+      <div class="brand-sub">Maracanaú · 44 bairros · Diagnóstico 2022–2025</div>
     </div>
     <div style="display:flex;align-items:center;gap:14px">
       <div class="header-badges"><span class="badge">239 mil hab.</span><span class="badge">44 bairros</span></div>
@@ -515,9 +515,9 @@ tbody tr:hover{background:#EEF4FF}
   <!-- VISÃO GERAL -->
   <section id="section-visao" class="section active">
     <div class="section-head">
-      <span class="section-kicker">Visão executiva</span>
-      <h1 class="section-title">Leitura territorial integrada — Maracanaú</h1>
-      <p class="section-desc">Diagnóstico dos 44 bairros de Maracanaú, com foco em vulnerabilidade, infraestrutura, tecido econômico e presença de OSCs.</p>
+      <span class="section-kicker">Panorama</span>
+      <h1 class="section-title">Maracanaú em dados</h1>
+      <p class="section-desc">239 mil habitantes distribuídos em 44 bairros — com fortes contrastes internos de renda, serviços e presença institucional.</p>
     </div>
     <div class="decision">
       <h3>Comentário</h3>
@@ -526,7 +526,7 @@ tbody tr:hover{background:#EEF4FF}
     <div class="kpi-grid four" id="overview-kpis"></div>
     <div class="panel">
       <div class="panel-head">
-        <div><h3 class="panel-title">Mapa analítico</h3></div>
+        <div><h3 class="panel-title">Indicador no território</h3></div>
         <div class="filters"><select id="visao-indicador"></select></div>
       </div>
       <div class="map-analytics-layout">
@@ -551,11 +551,11 @@ tbody tr:hover{background:#EEF4FF}
     </div>
     <div class="grid two" style="margin-top:22px">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Incidência de extrema pobreza</h3><p class="panel-sub">% dos domicílios com famílias em extrema pobreza, por bairro</p></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Extrema pobreza por bairro</h3><p class="panel-sub">% dos domicílios com famílias em extrema pobreza, por bairro</p></div></div>
         <div class="chart-box"><canvas id="chart-visao-epob" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Cobertura de esgoto</h3><p class="panel-sub">% dos domicílios com rede de esgoto, por bairro</p></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Acesso à rede de esgoto</h3><p class="panel-sub">% dos domicílios com rede de esgoto, por bairro</p></div></div>
         <div class="chart-box"><canvas id="chart-visao-esg" class="chart tall"></canvas></div>
       </div>
     </div>
@@ -564,13 +564,13 @@ tbody tr:hover{background:#EEF4FF}
   <!-- CONTEXTO DEMOGRÁFICO -->
   <section id="section-demo" class="section">
     <div class="section-head">
-      <span class="section-kicker">Dimensão 1</span>
-      <h2 class="section-title">Contexto demográfico</h2>
-      <p class="section-desc">População, densidade, composição racial e chefia feminina.</p>
+      <span class="section-kicker">Quem mora aqui</span>
+      <h2 class="section-title">Perfil da população</h2>
+      <p class="section-desc">Distribuição espacial, densidade habitacional e composição da população dos 44 bairros.</p>
     </div>
     <div class="decision"><h3>Comentário</h3><p>A população se distribui de forma desigual: Pajuçara concentra 22 mil habitantes enquanto bairros como Parque Santa Maria e Picada têm menos de 600. As densidades mais altas estão nos conjuntos Jereissati e Conjunto Timbó. A população não-branca é amplamente majoritária, chegando a 96,6% em Olho d'Água do Pitaguari.</p></div>
     <div class="panel">
-      <div class="panel-head"><div><h3 class="panel-title">Mapa demográfico</h3></div>
+      <div class="panel-head"><div><h3 class="panel-title">Distribuição espacial</h3></div>
         <div class="filters"><select id="demo-indicador"></select></div>
       </div>
       <div class="map-analytics-layout">
@@ -578,7 +578,7 @@ tbody tr:hover{background:#EEF4FF}
         <div class="analysis-side">
           <div class="analysis-card">
             <span class="analysis-kicker">Leitura do mapa</span>
-            <h4 class="analysis-title" id="map-summary-title-demo">Contexto demográfico</h4>
+            <h4 class="analysis-title" id="map-summary-title-demo">Perfil da população</h4>
             <p class="analysis-text" id="map-summary-demo">Selecione um indicador para ver a análise contextualizada.</p>
           </div>
           <div class="analysis-stats" id="map-insights-demo"></div>
@@ -601,16 +601,16 @@ tbody tr:hover{background:#EEF4FF}
 
   <!-- VULNERABILIDADE -->
   <section id="section-vuln" class="section">
-    <div class="section-head"><span class="section-kicker">Dimensão 2</span><h2 class="section-title">Vulnerabilidade social</h2><p class="section-desc">CadÚnico, extrema pobreza, analfabetismo e IDEB.</p></div>
+    <div class="section-head"><span class="section-kicker">Vulnerabilidade</span><h2 class="section-title">Pobreza e privação</h2><p class="section-desc">Onde a pobreza se concentra — extrema pobreza, CadÚnico e analfabetismo por bairro.</p></div>
     <div class="decision"><h3>Comentário</h3><p>A incidência de CadÚnico ultrapassa 100% em Acaracuzinho I. A extrema pobreza ultrapassa 50% dos domicílios em Parque Santa Maria, Jari e Parque Tropical. O analfabetismo é mais alto em Olho d'Água do Pitaguari (13,6%) e Mucunã (12,2%).</p></div>
     <div class="panel">
-      <div class="panel-head"><div><h3 class="panel-title">Mapa de vulnerabilidade</h3></div><div class="filters"><select id="vuln-indicador"></select></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Vulnerabilidade por bairro</h3></div><div class="filters"><select id="vuln-indicador"></select></div></div>
       <div class="map-analytics-layout">
         <div id="map-vuln" class="map-box split"></div>
         <div class="analysis-side">
           <div class="analysis-card">
             <span class="analysis-kicker">Leitura orientada pelos filtros</span>
-            <h4 class="analysis-title" id="map-summary-title-vuln">Vulnerabilidade social</h4>
+            <h4 class="analysis-title" id="map-summary-title-vuln">Pobreza e privação</h4>
             <p class="analysis-text" id="map-summary-vuln">Selecione um indicador para ver a análise contextualizada.</p>
           </div>
           <div class="analysis-stats" id="map-insights-vuln"></div>
@@ -633,16 +633,16 @@ tbody tr:hover{background:#EEF4FF}
 
   <!-- INFRAESTRUTURA -->
   <section id="section-infra" class="section">
-    <div class="section-head"><span class="section-kicker">Dimensão 3</span><h2 class="section-title">Infraestrutura urbana</h2><p class="section-desc">Esgoto, água, coleta de lixo, equipamentos de saúde e escolas.</p></div>
+    <div class="section-head"><span class="section-kicker">Infraestrutura</span><h2 class="section-title">O que a cidade oferece</h2><p class="section-desc">Acesso a esgoto, água, coleta de lixo, saúde e educação pública — o que o município entrega a cada bairro.</p></div>
     <div class="decision"><h3>Comentário</h3><p>O esgotamento sanitário é o maior gargalo. Diversos bairros têm menos de 5% de cobertura de esgoto. A água e a coleta de lixo apresentam cobertura próxima da universalidade. Equipamentos concentram-se nos bairros mais populosos.</p></div>
     <div class="panel">
-      <div class="panel-head"><div><h3 class="panel-title">Mapa de infraestrutura</h3></div><div class="filters"><select id="infra-indicador"></select></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Cobertura de serviços</h3></div><div class="filters"><select id="infra-indicador"></select></div></div>
       <div class="map-analytics-layout">
         <div id="map-infra" class="map-box split"></div>
         <div class="analysis-side">
           <div class="analysis-card">
             <span class="analysis-kicker">Leitura orientada pelos filtros</span>
-            <h4 class="analysis-title" id="map-summary-title-infra">Infraestrutura urbana</h4>
+            <h4 class="analysis-title" id="map-summary-title-infra">O que a cidade oferece</h4>
             <p class="analysis-text" id="map-summary-infra">Selecione um indicador para ver a análise contextualizada.</p>
           </div>
           <div class="analysis-stats" id="map-insights-infra"></div>
@@ -658,40 +658,40 @@ tbody tr:hover{background:#EEF4FF}
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Equipamentos de saúde</h3></div></div><div class="chart-box"><canvas id="chart-infra-saude" class="chart"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Escolas públicas</h3></div></div><div class="chart-box"><canvas id="chart-infra-esc" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Saúde pública por bairro</h3></div></div><div class="chart-box"><canvas id="chart-infra-saude" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rede escolar pública</h3></div></div><div class="chart-box"><canvas id="chart-infra-esc" class="chart"></canvas></div></div>
     </div>
   </section>
 
   <!-- TECIDO ECONÔMICO -->
   <section id="section-econ" class="section">
-    <div class="section-head"><span class="section-kicker">Dimensão 4</span><h2 class="section-title">Tecido econômico</h2><p class="section-desc">Empresas formais, MEIs, cooperativas e CNAEs predominantes.</p></div>
+    <div class="section-head"><span class="section-kicker">Economia local</span><h2 class="section-title">Formalidade e renda</h2><p class="section-desc">Formalidade econômica, MEIs, cooperativas e principais ramos de atividade por bairro.</p></div>
     <div class="decision"><h3>Comentário</h3><p>Pajuçara e Jereissati A concentram o maior volume de empresas. O Distrito Industrial se destaca em médias e grandes empresas (774). A participação de MEIs é altíssima, ultrapassando 80% em vários bairros.</p></div>
     <div class="grid two">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Empresas formais</h3></div></div><div class="chart-box"><canvas id="chart-econ-emp" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Volume empresarial por bairro</h3></div></div><div class="chart-box"><canvas id="chart-econ-emp" class="chart tall"></canvas></div></div>
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Participação de MEIs</h3><p class="panel-sub">% das empresas que são MEIs</p></div></div><div class="chart-box"><canvas id="chart-econ-mei" class="chart tall"></canvas></div></div>
     </div>
     <div class="panel" style="margin-top:22px">
-      <div class="panel-head"><div><h3 class="panel-title">Tabela de empresas por bairro</h3></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Atividade empresarial detalhada</h3></div></div>
       <div class="table-wrap"><table id="table-econ"></table></div>
     </div>
   </section>
 
   <!-- IMPACTO SOCIAL -->
   <section id="section-osc" class="section">
-    <div class="section-head"><span class="section-kicker">Dimensão 5</span><h2 class="section-title">Ecossistema de impacto social</h2><p class="section-desc">OSCs ativas e distribuição por área de atuação.</p></div>
+    <div class="section-head"><span class="section-kicker">Sociedade civil</span><h2 class="section-title">Organizações ativas no território</h2><p class="section-desc">Organizações da sociedade civil ativas, distribuição espacial e perfil de atuação.</p></div>
     <div class="decision"><h3>Comentário</h3><p>Pajuçara (68) e Jereissati A (56) concentram a maioria das OSCs. Mais da metade dos bairros não possui nenhuma OSC registrada. Inclusão produtiva e segurança alimentar são quase inexistentes.</p></div>
     <div class="grid two">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">OSCs ativas por bairro</h3></div></div><div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">OSCs por área de atuação</h3></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro</h3></div></div><div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs</h3></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart"></canvas></div></div>
     </div>
   </section>
 
   <!-- SÍNTESE -->
   <section id="section-comp" class="section">
-    <div class="section-head"><span class="section-kicker">Síntese municipal</span><h2 class="section-title">Ranking e tabela completa</h2></div>
+    <div class="section-head"><span class="section-kicker">Comparativo</span><h2 class="section-title">Bairros em perspectiva</h2></div>
     <div class="panel">
-      <div class="panel-head"><div><h3 class="panel-title">Indicadores por bairro</h3><p class="panel-sub">Selecione o indicador para ordenar.</p></div><div class="filters"><select id="comp-sort"></select></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Bairros lado a lado</h3><p class="panel-sub">Selecione o indicador para ordenar.</p></div><div class="filters"><select id="comp-sort"></select></div></div>
       <div class="table-wrap"><table id="table-comp"></table></div>
     </div>
     <div class="note-box" style="margin-top:22px"><strong>Dados indisponíveis nesta versão:</strong> IDHM, taxa de homicídios, gravidez na adolescência, IBEU, vínculos formais, cobertura eSF, negócios de impacto, centros de qualificação/juventude, feiras, praças.</div>
@@ -857,7 +857,7 @@ function initOverview(){
   document.getElementById('overview-kpis').innerHTML=`
     <div class="kpi"><div class="label">População total</div><div class="value">${fmt(totalPop,'int')}</div><div class="sub">${DATA.length} bairros · Censo 2022</div></div>
     <div class="kpi"><div class="label">Domicílios</div><div class="value">${fmt(totalDom,'int')}</div><div class="sub">Total</div></div>
-    <div class="kpi"><div class="label">Empresas formais</div><div class="value">${fmt(totalEmp,'int')}</div><div class="sub">Ativas</div></div>
+    <div class="kpi"><div class="label">Volume empresarial por bairro</div><div class="value">${fmt(totalEmp,'int')}</div><div class="sub">Ativas</div></div>
     <div class="kpi"><div class="label">OSCs ativas</div><div class="value">${fmt(totalOsc,'int')}</div><div class="sub">${DATA.filter(d=>(d.osc||0)===0).length} bairros sem OSC</div></div>`;
   
   const sel=populateSelect('visao-indicador',['epob','esg','cad','pop','renda','osc','emp','anal']);
