@@ -529,8 +529,18 @@ tbody tr:hover{background:#EEF4FF}
         <div><h3 class="panel-title">Mapa analítico</h3></div>
         <div class="filters"><select id="visao-indicador"></select></div>
       </div>
-      <div id="map-visao" class="map-box" style="margin-bottom:0"></div>
-      <div class="map-footer">
+      <div class="map-analytics-layout">
+        <div id="map-visao" class="map-box split"></div>
+        <div class="analysis-side">
+          <div class="analysis-card">
+            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <h4 class="analysis-title" id="map-summary-title-visao">Visão territorial integrada</h4>
+            <p class="analysis-text" id="map-summary-visao">Selecione um indicador para ver a análise contextualizada.</p>
+          </div>
+          <div class="analysis-stats" id="map-insights-visao"></div>
+        </div>
+      </div>
+      <div class="map-footer" style="padding-top:12px">
         <div class="legend-wrap">
           <div class="legend-title" id="legend-title-visao">Escala do indicador</div>
           <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -853,10 +863,12 @@ function initOverview(){
   const sel=populateSelect('visao-indicador',['epob','esg','cad','pop','renda','osc','emp','anal']);
   createMap('map-visao');
   paintMap('map-visao','epob',VULN_COLORS);
+  renderAnalysis('visao','epob');
   sel.addEventListener('change',()=>{
     const k=sel.value;
     const isVuln=['epob','cad','anal'].includes(k);
     paintMap('map-visao',k,isVuln?VULN_COLORS:CHOROPLETH_COLORS);
+    renderAnalysis('visao',k);
   });
 
   const sorted=[...DATA].sort((a,b)=>(b.epob||0)-(a.epob||0));
