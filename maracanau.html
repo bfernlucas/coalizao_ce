@@ -595,9 +595,23 @@ tbody tr:hover{background:#EEF4FF}
     <div class="decision"><h3>Comentário</h3><p>A incidência de CadÚnico ultrapassa 100% em Acaracuzinho I. A extrema pobreza ultrapassa 50% dos domicílios em Parque Santa Maria, Jari e Parque Tropical. O analfabetismo é mais alto em Olho d'Água do Pitaguari (13,6%) e Mucunã (12,2%).</p></div>
     <div class="panel">
       <div class="panel-head"><div><h3 class="panel-title">Mapa de vulnerabilidade</h3></div><div class="filters"><select id="vuln-indicador"></select></div></div>
-      <div id="map-vuln" class="map-box"></div>
-      <div class="map-footer">
-        <div class="legend-wrap"><div class="legend-title" id="legend-title-vuln">Escala</div><div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="legend-labels"><span id="legend-min-vuln">0</span><span id="legend-max-vuln">0</span></div></div>
+      <div class="map-analytics-layout">
+        <div id="map-vuln" class="map-box split"></div>
+        <div class="analysis-side">
+          <div class="analysis-card">
+            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <h4 class="analysis-title" id="map-summary-title-vuln">Vulnerabilidade social</h4>
+            <p class="analysis-text" id="map-summary-vuln">Selecione um indicador para ver a análise contextualizada.</p>
+          </div>
+          <div class="analysis-stats" id="map-insights-vuln"></div>
+        </div>
+      </div>
+      <div class="map-footer" style="padding-top:12px">
+        <div class="legend-wrap">
+          <div class="legend-title" id="legend-title-vuln">Escala</div>
+          <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="legend-labels"><span id="legend-min-vuln">0</span><span id="legend-max-vuln">0</span></div>
+        </div>
         <div class="note-box">Cores mais escuras indicam maior vulnerabilidade.</div>
       </div>
     </div>
@@ -613,10 +627,24 @@ tbody tr:hover{background:#EEF4FF}
     <div class="decision"><h3>Comentário</h3><p>O esgotamento sanitário é o maior gargalo. Diversos bairros têm menos de 5% de cobertura de esgoto. A água e a coleta de lixo apresentam cobertura próxima da universalidade. Equipamentos concentram-se nos bairros mais populosos.</p></div>
     <div class="panel">
       <div class="panel-head"><div><h3 class="panel-title">Mapa de infraestrutura</h3></div><div class="filters"><select id="infra-indicador"></select></div></div>
-      <div id="map-infra" class="map-box"></div>
-      <div class="map-footer">
-        <div class="legend-wrap"><div class="legend-title" id="legend-title-infra">Escala</div><div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="legend-labels"><span id="legend-min-infra">0</span><span id="legend-max-infra">0</span></div></div>
-        <div class="note-box">Para esgoto/água/lixo, cores mais escuras = maior cobertura.</div>
+      <div class="map-analytics-layout">
+        <div id="map-infra" class="map-box split"></div>
+        <div class="analysis-side">
+          <div class="analysis-card">
+            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <h4 class="analysis-title" id="map-summary-title-infra">Infraestrutura urbana</h4>
+            <p class="analysis-text" id="map-summary-infra">Selecione um indicador para ver a análise contextualizada.</p>
+          </div>
+          <div class="analysis-stats" id="map-insights-infra"></div>
+        </div>
+      </div>
+      <div class="map-footer" style="padding-top:12px">
+        <div class="legend-wrap">
+          <div class="legend-title" id="legend-title-infra">Escala</div>
+          <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="legend-labels"><span id="legend-min-infra">0</span><span id="legend-max-infra">0</span></div>
+        </div>
+        <div class="note-box">Cores mais escuras indicam maior cobertura de infraestrutura.</div>
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
@@ -777,6 +805,39 @@ function populateSelect(id,indicators){
   return sel;
 }
 
+
+/* ===== MAP ANALYSIS HELPERS ===== */
+function mean(arr,key){const v=arr.filter(d=>d[key]!=null&&!isNaN(d[key]));return v.length?v.reduce((s,d)=>s+d[key],0)/v.length:null}
+function median(arr,key){const v=arr.map(d=>d[key]).filter(x=>x!=null&&!isNaN(x)).sort((a,b)=>a-b);if(!v.length)return null;const m=Math.floor(v.length/2);return v.length%2?v[m]:(v[m-1]+v[m])/2}
+function renderAnalysis(section,indicatorKey){
+  const ind=INDICATORS[indicatorKey];if(!ind)return;
+  const titleEl=document.getElementById('map-summary-title-'+section);
+  const textEl=document.getElementById('map-summary-'+section);
+  const insightsEl=document.getElementById('map-insights-'+section);
+  if(!titleEl||!textEl||!insightsEl)return;
+  const valid=DATA.filter(d=>d[indicatorKey]!=null&&!isNaN(d[indicatorKey]));
+  if(!valid.length){titleEl.textContent=ind.label;textEl.textContent='Dados insuficientes para este indicador.';insightsEl.innerHTML='';return;}
+  const sorted=[...valid].sort((a,b)=>b[indicatorKey]-a[indicatorKey]);
+  const top=sorted[0];const bottom=sorted[sorted.length-1];
+  const avg=mean(valid,indicatorKey);const med=median(valid,indicatorKey);
+  const amplitude=top[indicatorKey]-bottom[indicatorKey];
+  titleEl.textContent=ind.label+' — Maracanaú';
+  const highBad=['cad','epob','anal'].includes(indicatorKey);
+  const lowBad=['esg','agua','lixo'].includes(indicatorKey);
+  const contextNote=highBad
+    ?'Os bairros com maior índice concentram situações de vulnerabilidade que demandam atenção prioritária.'
+    :lowBad
+    ?'Bairros com menor cobertura indicam déficits de infraestrutura que afetam a qualidade de vida.'
+    :'O mapa revela contrastes internos relevantes para o planejamento territorial de Maracanaú.';
+  textEl.innerHTML='<strong>'+top.b+'</strong> registra o maior valor em '+ind.label.toLowerCase()+' (<strong>'+fmt(top[indicatorKey],ind.fmt)+'</strong>), enquanto <strong>'+bottom.b+'</strong> apresenta o menor (<strong>'+fmt(bottom[indicatorKey],ind.fmt)+'</strong>). A amplitude interna é <strong>'+fmt(amplitude,ind.fmt)+'</strong> e a média municipal é <strong>'+fmt(avg,ind.fmt)+'</strong>. '+contextNote;
+  insightsEl.innerHTML=[
+    {label:'Maior valor',value:fmt(top[indicatorKey],ind.fmt),sub:top.b},
+    {label:'Menor valor',value:fmt(bottom[indicatorKey],ind.fmt),sub:bottom.b},
+    {label:'Média municipal',value:fmt(avg,ind.fmt),sub:'Base: '+valid.length+' bairros'},
+    {label:'Mediana',value:fmt(med,ind.fmt),sub:'Valor central da distribuição'}
+  ].map(c=>'<div class="analysis-stat"><div class="analysis-stat-label">'+c.label+'</div><div class="analysis-stat-value">'+c.value+'</div><div class="analysis-stat-sub">'+c.sub+'</div></div>').join('');
+}
+
 /* ===== INIT FUNCTIONS ===== */
 function initOverview(){
   const totalPop=DATA.reduce((s,d)=>s+(d.pop||0),0);
@@ -808,23 +869,8 @@ function initDemo(){
   const sel=populateSelect('demo-indicador',['pop','dens','raca','mulh']);
   createMap('map-demo');
   paintMap('map-demo','pop');
-  
-  function updateSummary(k){
-    const ind=INDICATORS[k];
-    const sorted=[...DATA].sort((a,b)=>(b[k]||0)-(a[k]||0));
-    const top3=sorted.filter(d=>d[k]!=null).slice(0,3);
-    const bot3=sorted.filter(d=>d[k]!=null).slice(-3).reverse();
-    document.getElementById('map-summary-title-demo').textContent=ind.label;
-    document.getElementById('map-summary-demo').textContent=`Os bairros com maior ${ind.label.toLowerCase()} são ${top3.map(d=>d.b).join(', ')}. Os menores valores estão em ${bot3.map(d=>d.b).join(', ')}.`;
-    const avg=DATA.reduce((s,d)=>s+(d[k]||0),0)/DATA.filter(d=>d[k]!=null).length;
-    document.getElementById('map-insights-demo').innerHTML=`
-      <div class="analysis-stat"><div class="analysis-stat-label">Maior valor</div><div class="analysis-stat-value">${fmt(top3[0]?.[k],ind.fmt)}</div><div class="analysis-stat-sub">${top3[0]?.b}</div></div>
-      <div class="analysis-stat"><div class="analysis-stat-label">Menor valor</div><div class="analysis-stat-value">${fmt(bot3[0]?.[k],ind.fmt)}</div><div class="analysis-stat-sub">${bot3[0]?.b}</div></div>
-      <div class="analysis-stat"><div class="analysis-stat-label">Média municipal</div><div class="analysis-stat-value">${fmt(avg,ind.fmt)}</div></div>
-      <div class="analysis-stat"><div class="analysis-stat-label">Total bairros</div><div class="analysis-stat-value">${DATA.length}</div></div>`;
-  }
-  updateSummary('pop');
-  sel.addEventListener('change',()=>{paintMap('map-demo',sel.value);updateSummary(sel.value)});
+  renderAnalysis('demo','pop');
+  sel.addEventListener('change',()=>{paintMap('map-demo',sel.value);renderAnalysis('demo',sel.value)});
   
   const byPop=[...DATA].sort((a,b)=>(b.pop||0)-(a.pop||0));
   makeBar('chart-demo-pop',byPop.map(d=>d.b),[{data:byPop.map(d=>d.pop||0),backgroundColor:UI.blue,borderRadius:5}]);
@@ -836,7 +882,8 @@ function initVuln(){
   const sel=populateSelect('vuln-indicador',['epob','cad','anal']);
   createMap('map-vuln');
   paintMap('map-vuln','epob',VULN_COLORS);
-  sel.addEventListener('change',()=>paintMap('map-vuln',sel.value,VULN_COLORS));
+  renderAnalysis('vuln','epob');
+  sel.addEventListener('change',()=>{paintMap('map-vuln',sel.value,VULN_COLORS);renderAnalysis('vuln',sel.value)});
   
   const byEpob=[...DATA].sort((a,b)=>(b.epob||0)-(a.epob||0));
   makeBar('chart-vuln-epob',byEpob.map(d=>d.b),[{data:byEpob.map(d=>((d.epob||0)*100).toFixed(1)),backgroundColor:byEpob.map(d=>(d.epob||0)>.4?UI.danger:(d.epob||0)>.25?UI.gold:UI.blue),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>ctx.parsed.x+'%'}}}});
@@ -848,7 +895,8 @@ function initInfra(){
   const sel=populateSelect('infra-indicador',['esg','agua','lixo']);
   createMap('map-infra');
   paintMap('map-infra','esg');
-  sel.addEventListener('change',()=>paintMap('map-infra',sel.value));
+  renderAnalysis('infra','esg');
+  sel.addEventListener('change',()=>{paintMap('map-infra',sel.value);renderAnalysis('infra',sel.value)});
   
   const withSaude=DATA.filter(d=>d.esaude>0).sort((a,b)=>b.esaude-a.esaude);
   makeBar('chart-infra-saude',withSaude.map(d=>d.b),[{data:withSaude.map(d=>d.esaude),backgroundColor:UI.blue,borderRadius:5}]);
