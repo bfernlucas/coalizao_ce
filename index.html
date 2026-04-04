@@ -1380,19 +1380,269 @@ tbody tr:hover{background:#f4f8fc}
 #map-osc .leaflet-popup-content-wrapper,
 #map-osc .leaflet-popup-tip{position:relative; z-index:5002 !important;}
 
+/* ===== SELETOR DE MUNICÍPIO ===== */
+#city-selector{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:linear-gradient(160deg,#0b3759 0%, #0f5f92 55%, #1878b8 100%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  transition:opacity .3s, visibility .3s;
+}
+#city-selector.hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+.cs-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:32px;
+}
+.cs-logo-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#ffc83c;
+}
+.cs-logo-text{
+  color:rgba(255,255,255,.65);
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.cs-title{
+  color:#fff;
+  font-size:clamp(24px,4vw,38px);
+  font-weight:800;
+  letter-spacing:-.03em;
+  text-align:center;
+  margin:0 0 10px;
+  line-height:1.1;
+}
+.cs-sub{
+  color:rgba(255,255,255,.62);
+  font-size:15px;
+  text-align:center;
+  margin:0 0 48px;
+}
+.cs-cards{
+  display:flex;
+  gap:22px;
+  flex-wrap:wrap;
+  justify-content:center;
+  max-width:740px;
+  width:100%;
+}
+.cs-card{
+  flex:1 1 290px;
+  max-width:330px;
+  background:rgba(255,255,255,.10);
+  border:1.5px solid rgba(255,255,255,.2);
+  border-radius:24px;
+  padding:32px 28px;
+  cursor:pointer;
+  transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.cs-card:hover{
+  background:rgba(255,255,255,.17);
+  transform:translateY(-5px);
+  box-shadow:0 28px 54px rgba(0,0,0,.24);
+}
+.cs-card-icon{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.22);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  margin-bottom:16px;
+}
+.cs-card-name{
+  color:#fff;
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:-.02em;
+  margin:0 0 8px;
+}
+.cs-card-tag{
+  display:inline-block;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.7);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  border-radius:999px;
+  padding:3px 10px;
+  margin-bottom:12px;
+}
+.cs-card-desc{
+  color:rgba(255,255,255,.62);
+  font-size:13px;
+  line-height:1.65;
+  margin:0 0 20px;
+}
+.cs-card-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.26);
+  border-radius:999px;
+  padding:8px 18px;
+  transition:background .15s;
+}
+.cs-card:hover .cs-card-cta{
+  background:rgba(255,255,255,.26);
+}
+@media(max-width:640px){
+  .cs-cards{flex-direction:column; align-items:center}
+  .cs-card{max-width:100%}
+}
+
+/* Topbar: indicador de cidade ativa */
+.topbar-city{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.topbar-city-name{
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;
+  padding:5px 14px;
+  font-size:13px;
+  font-weight:700;
+  color:#fff;
+}
+.topbar-city-change{
+  background:none;
+  border:1px solid rgba(255,255,255,.28);
+  color:rgba(255,255,255,.72);
+  border-radius:999px;
+  padding:5px 13px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.15s;
+}
+.topbar-city-change:hover{
+  background:rgba(255,255,255,.12);
+  color:#fff;
+}
+
+/* Dashboard wrappers */
+#dashboard-fortaleza,
+#dashboard-maracanau{display:none}
+#dashboard-fortaleza.active,
+#dashboard-maracanau.active{display:block}
+
+/* Maracanau placeholder */
+.soon-wrapper{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:60vh;
+  padding:40px 24px;
+}
+.soon-box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:56px 44px;
+  text-align:center;
+  max-width:560px;
+  width:100%;
+}
+.soon-icon{
+  font-size:52px;
+  margin-bottom:20px;
+}
+.soon-label{
+  display:inline-block;
+  background:#edf5fb;
+  color:var(--brand);
+  border:1px solid #c8dff0;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:4px 12px;
+  margin-bottom:16px;
+}
+.soon-title{
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:-.02em;
+  margin:0 0 10px;
+  color:var(--text);
+}
+.soon-desc{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.75;
+  margin:0;
+}
+
 </style>
 </head>
 <body>
+
+<!-- ===== TELA INICIAL: SELETOR DE MUNICÍPIO ===== -->
+<div id="city-selector">
+  <div class="cs-logo">
+    <div class="cs-logo-dot"></div>
+    <span class="cs-logo-text">Coalizão CE</span>
+  </div>
+  <h1 class="cs-title">Diagnóstico Territorial</h1>
+  <p class="cs-sub">Selecione o município para visualizar o painel</p>
+  <div class="cs-cards">
+    <div class="cs-card" onclick="selectCity('fortaleza')">
+      <div class="cs-card-icon">🏙️</div>
+      <div class="cs-card-name">Fortaleza</div>
+      <span class="cs-card-tag">6 dimensões de análise</span>
+      <p class="cs-card-desc">Territórios Grande Mucuripe e Grande Bom Jardim — dados demográficos, vulnerabilidade social, infraestrutura, economia e ecossistema de impacto.</p>
+      <span class="cs-card-cta">Ver painel →</span>
+    </div>
+    <div class="cs-card" onclick="selectCity('maracanau')">
+      <div class="cs-card-icon">🏘️</div>
+      <div class="cs-card-name">Maracanau</div>
+      <span class="cs-card-tag">Diagnóstico territorial</span>
+      <p class="cs-card-desc">Análise dos indicadores sociais, econômicos e de vulnerabilidade do município de Maracanau, região metropolitana de Fortaleza.</p>
+      <span class="cs-card-cta">Ver painel →</span>
+    </div>
+  </div>
+</div>
+
 <header class="topbar">
   <div class="topbar-inner">
     <div>
-      <div class="brand-title">Coalizão CE - Diagnóstico Territorial</div>
+      <div class="brand-title">Coalizão CE — Diagnóstico Territorial</div>
     </div>
-    <div class="header-badges">
+    <div class="topbar-city" id="topbar-city" style="display:none">
+      <span class="topbar-city-name" id="topbar-city-name"></span>
+      <button class="topbar-city-change" onclick="backToCitySelector()">Trocar município</button>
     </div>
   </div>
 </header>
 
+<div id="dashboard-fortaleza">
 <nav class="tabs">
   <div class="tabs-inner">
     <button class="tab-btn active" data-tab="visao">Visão Geral</button>
@@ -1807,6 +2057,31 @@ tbody tr:hover{background:#f4f8fc}
     <div class="footer-credit">Elaborado por Lucas Fernandes</div>
   </div>
 </main>
+</div><!-- /dashboard-fortaleza -->
+
+<!-- ===== DASHBOARD MARACANAU ===== -->
+<div id="dashboard-maracanau">
+  <nav class="tabs">
+    <div class="tabs-inner">
+      <button class="tab-btn active" data-tab-mrc="visao-mrc">Visão Geral</button>
+      <button class="tab-btn" data-tab-mrc="demo-mrc">1. Contexto Demográfico</button>
+      <button class="tab-btn" data-tab-mrc="vuln-mrc">2. Vulnerabilidade</button>
+      <button class="tab-btn" data-tab-mrc="infra-mrc">3. Infraestrutura</button>
+      <button class="tab-btn" data-tab-mrc="econ-mrc">4. Tecido Econômico</button>
+      <button class="tab-btn" data-tab-mrc="osc-mrc">5. Impacto Social</button>
+    </div>
+  </nav>
+  <main class="container">
+    <div class="soon-wrapper">
+      <div class="soon-box">
+        <div class="soon-icon">🏗️</div>
+        <span class="soon-label">Em construção</span>
+        <h2 class="soon-title">Painel de Maracanau</h2>
+        <p class="soon-desc">Os dados territoriais de Maracanau estão sendo estruturados e em breve estarão disponíveis neste painel. As dimensões de análise seguirão o mesmo modelo de Fortaleza: contexto demográfico, vulnerabilidade social, infraestrutura, tecido econômico e ecossistema de impacto social.</p>
+      </div>
+    </div>
+  </main>
+</div><!-- /dashboard-maracanau -->
 
 <script>
 const DATA = [{"t": "Grande Mucuripe", "b": "Mucuripe", "pop": 13775, "raca": 0.54, "mulh": 0.403, "dens": 15815, "cad": 0.188, "epob": 0.163, "anal": 0.019, "idhm": 0.7931, "renda": 8100, "esg": 0.871, "agua": 0.887, "lixo": 0.962, "esaude": 1, "caps": 0, "esf": 4, "esfc": 100, "esc": 4, "ies": 0, "cras": 1, "emp": 1871, "mei": 938, "cn1": "Promoção de vendas (5%)", "cn2": "Cabeleireiros (5%)", "cn3": "Vestuário e acessórios (4%)", "osc": 102, "oa": 15, "oe": 8, "os": 1, "oi": 18, "ideb_i": 5.8, "ideb_f": 5.0, "hom": 0.0, "pop15": 697, "pop20": 771, "pop25": 913, "popFem": 0.547078, "pop09": 1336, "dom": 6640, "mulhAbs": 2675, "cadFam": 1256, "cadPessoas": 2583, "cadEpobFam": 1079, "gravAdol": 8.0092, "idhEduc": 0.9828, "idhLong": 0.6936, "idhRenda": 0.7318, "idhClass": "Alto", "vinculos": 2321, "setEmp1": "Ensino Fundamental", "setEmp2": "Moagem de Trigo", "setEmp3": "Construção", "epob2010": 0.091114, "favelas": 0, "ibeu": 0.94, "cvli": 7.166667, "mariaPenha": 104.166667, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 1, "pracas": 3, "consTutelar": 1, "coops": 0, "negImpacto": 34, "mpe": 1635, "mge": 236, "osa": 0}, {"t": "Grande Mucuripe", "b": "Cais do Porto", "pop": 22749, "raca": 0.75, "mulh": 0.412, "dens": 8321, "cad": 0.393, "epob": 0.244, "anal": 0.072, "idhm": 0.2236, "renda": 1440, "esg": 0.853, "agua": 0.961, "lixo": 0.946, "esaude": 2, "caps": 0, "esf": 7, "esfc": 106, "esc": 11, "ies": 0, "cras": 1, "emp": 1271, "mei": 844, "cn1": "Cabeleireiros (7%)", "cn2": "Vestuário (6%)", "cn3": "Minimercados (5%)", "osc": 35, "oa": 15, "oe": 7, "os": 0, "oi": 10, "ideb_i": 6.3, "ideb_f": 5.2, "hom": 86.6, "pop15": 1703, "pop20": 1796, "pop25": 2013, "popFem": 0.515759, "pop09": 3249, "dom": 9254, "mulhAbs": 3810, "cadFam": 4291, "cadPessoas": 8947, "cadEpobFam": 2257, "gravAdol": 13.9021, "idhEduc": 0.8927, "idhLong": 0.2784, "idhRenda": 0.045, "idhClass": "Muito Baixo", "vinculos": null, "setEmp1": null, "setEmp2": null, "setEmp3": null, "epob2010": 0.429544, "favelas": 1, "ibeu": 0.8913, "cvli": 7.166667, "mariaPenha": 104.166667, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 1, "pracas": 3, "consTutelar": 0, "coops": 0, "negImpacto": 26, "mpe": 1183, "mge": 88, "osa": 0}, {"t": "Grande Mucuripe", "b": "Vicente Pinzon", "pop": 46151, "raca": 0.72, "mulh": 0.443, "dens": 14726, "cad": 0.503, "epob": 0.309, "anal": 0.054, "idhm": 0.3315, "renda": 2242, "esg": 0.794, "agua": 0.898, "lixo": 0.928, "esaude": 2, "caps": 0, "esf": 4, "esfc": 30, "esc": 13, "ies": 0, "cras": 1, "emp": 3363, "mei": 2037, "cn1": "Cabeleireiros (7%)", "cn2": "Entrega rápida (5%)", "cn3": "Vestuário (5%)", "osc": 67, "oa": 10, "oe": 7, "os": 0, "oi": 22, "ideb_i": 5.8, "ideb_f": 4.9, "hom": 44.7, "pop15": 3295, "pop20": 3785, "pop25": 3671, "popFem": 0.507768, "pop09": 5993, "dom": 18599, "mulhAbs": 8238, "cadFam": 10529, "cadPessoas": 23227, "cadEpobFam": 5740, "gravAdol": 15.2859, "idhEduc": 0.9261, "idhLong": 0.3023, "idhRenda": 0.1301, "idhClass": "Muito Baixo", "vinculos": 3112, "setEmp1": "Moagem de Trigo", "setEmp2": "Fabricação de Margarina", "setEmp3": "Comércio Atacadista", "epob2010": 0.248831, "favelas": 0, "ibeu": 0.8913, "cvli": 7.166667, "mariaPenha": 104.166667, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 3, "pracas": 14, "consTutelar": 0, "coops": 0, "negImpacto": 28, "mpe": 3213, "mge": 150, "osa": 0}, {"t": "Grande Mucuripe", "b": "Papicu", "pop": 20728, "raca": 0.54, "mulh": 0.382, "dens": 9847, "cad": 0.311, "epob": 0.179, "anal": 0.03, "idhm": 0.5296, "renda": 6387, "esg": 0.914, "agua": 0.941, "lixo": 0.86, "esaude": 1, "caps": 0, "esf": 4, "esfc": null, "esc": 4, "ies": 0, "cras": 1, "emp": 5551, "mei": 1278, "cn1": "Condomínios (6%)", "cn2": "Vestuário (4%)", "cn3": "Promoção de vendas (3%)", "osc": 386, "oa": 28, "oe": 10, "os": 6, "oi": 17, "ideb_i": 6.5, "ideb_f": 3.8, "hom": 96.4, "pop15": 1233, "pop20": 1445, "pop25": 1831, "popFem": 0.534784, "pop09": 2350, "dom": 9188, "mulhAbs": 3508, "cadFam": 3083, "cadPessoas": 6443, "cadEpobFam": 1645, "gravAdol": 9.4318, "idhEduc": 0.9514, "idhLong": 0.4316, "idhRenda": 0.3618, "idhClass": "Baixo", "vinculos": 9916, "setEmp1": "Condominios Prediais", "setEmp2": "Restaurantes", "setEmp3": "Comércio Varejista", "epob2010": 0.147366, "favelas": 0, "ibeu": 0.94, "cvli": 92.875, "mariaPenha": 621.125, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 1, "pracas": 2, "consTutelar": 0, "coops": 0, "negImpacto": 81, "mpe": 4151, "mge": 1400, "osa": 0}, {"t": "Grande Mucuripe", "b": "Varjota", "pop": 6703, "raca": 0.43, "mulh": 0.45, "dens": 12600, "cad": 0.154, "epob": 0.075, "anal": 0.009, "idhm": 0.7176, "renda": 8045, "esg": 0.985, "agua": 0.957, "lixo": 0.997, "esaude": 0, "caps": 0, "esf": null, "esfc": null, "esc": 1, "ies": 1, "cras": 0, "emp": 1357, "mei": 452, "cn1": "Condomínios (6%)", "cn2": "Restaurantes (5%)", "cn3": "Cabeleireiros (5%)", "osc": 107, "oa": 13, "oe": 5, "os": 0, "oi": 4, "ideb_i": null, "ideb_f": null, "hom": 0.0, "pop15": 402, "pop20": 521, "pop25": 520, "popFem": 0.554826, "pop09": 559, "dom": 3002, "mulhAbs": 1350, "cadFam": 525, "cadPessoas": 1035, "cadEpobFam": 225, "gravAdol": 7.3171, "idhEduc": 0.9919, "idhLong": 0.6656, "idhRenda": 0.5598, "idhClass": "Alto", "vinculos": 1344, "setEmp1": "Ensino Fundamental", "setEmp2": "Condominios Prediais", "setEmp3": "Comércio Varejista", "epob2010": 0.071952, "favelas": 0, "ibeu": 0.94, "cvli": 7.166667, "mariaPenha": 104.166667, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 0, "pracas": 0, "consTutelar": 0, "coops": 0, "negImpacto": 35, "mpe": 1145, "mge": 212, "osa": 0}, {"t": "Grande Mucuripe", "b": "De Lourdes", "pop": 2310, "raca": 0.39, "mulh": 0.252, "dens": 1691, "cad": 0.045, "epob": 0.027, "anal": 0.01, "idhm": 0.6418, "renda": 12383, "esg": 0.959, "agua": 0.811, "lixo": 0.996, "esaude": 0, "caps": 0, "esf": null, "esfc": null, "esc": 0, "ies": 0, "cras": 0, "emp": 251, "mei": 92, "cn1": "Vestuário (4%)", "cn2": "Promoção de vendas (4%)", "cn3": "Treinamento (4%)", "osc": 17, "oa": 2, "oe": 0, "os": 0, "oi": 4, "ideb_i": null, "ideb_f": null, "hom": 0.0, "pop15": 151, "pop20": 144, "pop25": 143, "popFem": 0.52381, "pop09": 245, "dom": 912, "mulhAbs": 230, "cadFam": 47, "cadPessoas": 103, "cadEpobFam": 25, "gravAdol": 0, "idhEduc": 0.9747, "idhLong": 0.3122, "idhRenda": 0.8689, "idhClass": "Médio", "vinculos": null, "setEmp1": null, "setEmp2": null, "setEmp3": null, "epob2010": 0.208333, "favelas": 0, "ibeu": 0.94, "cvli": 92.875, "mariaPenha": 621.125, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 0, "pracas": 0, "consTutelar": 0, "coops": 0, "negImpacto": 4, "mpe": 212, "mge": 39, "osa": 0}, {"t": "Grande Mucuripe", "b": "Praia Futuro I", "pop": 4329, "raca": 0.68, "mulh": 0.314, "dens": 2498, "cad": 0.45, "epob": 0.237, "anal": 0.052, "idhm": 0.2914, "renda": 3489, "esg": 0.436, "agua": 0.822, "lixo": 0.857, "esaude": 1, "caps": 0, "esf": null, "esfc": null, "esc": 4, "ies": 0, "cras": 0, "emp": 652, "mei": 232, "cn1": "Condomínios (13%)", "cn2": "Restaurantes (8%)", "cn3": "Promoção de vendas (4%)", "osc": 105, "oa": 8, "oe": 1, "os": 2, "oi": 3, "ideb_i": 6.2, "ideb_f": 5.2, "hom": 136.2, "pop15": 295, "pop20": 298, "pop25": 345, "popFem": 0.435897, "pop09": 548, "dom": 2221, "mulhAbs": 698, "cadFam": 904, "cadPessoas": 1946, "cadEpobFam": 526, "gravAdol": 13.8632, "idhEduc": 0.8856, "idhLong": 0.1631, "idhRenda": 0.1712, "idhClass": "Muito Baixo", "vinculos": 412, "setEmp1": "Hotéis", "setEmp2": "Condominios Prediais", "setEmp3": "Construção", "epob2010": 0.41738, "favelas": 0, "ibeu": 0.91, "cvli": 92.875, "mariaPenha": 621.125, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 1, "pracas": 1, "consTutelar": 0, "coops": 0, "negImpacto": 15, "mpe": 488, "mge": 164, "osa": 0}, {"t": "Grande Mucuripe", "b": "Praia Futuro II", "pop": 12389, "raca": 0.75, "mulh": 0.324, "dens": 3913, "cad": 0.512, "epob": 0.261, "anal": 0.058, "idhm": 0.1679, "renda": 1946, "esg": 0.221, "agua": 0.865, "lixo": 0.687, "esaude": 1, "caps": 0, "esf": null, "esfc": 111, "esc": 2, "ies": 0, "cras": 1, "emp": 758, "mei": 487, "cn1": "Promoção de vendas (6%)", "cn2": "Cabeleireiros (5%)", "cn3": "Vestuário (5%)", "osc": 8, "oa": 2, "oe": 0, "os": 0, "oi": 2, "ideb_i": 5.6, "ideb_f": 5.3, "hom": 0.0, "pop15": 957, "pop20": 1053, "pop25": 1132, "popFem": 0.506256, "pop09": 1852, "dom": 6225, "mulhAbs": 2014, "cadFam": 2889, "cadPessoas": 6338, "cadEpobFam": 1624, "gravAdol": 12.2449, "idhEduc": 0.8978, "idhLong": 0.075, "idhRenda": 0.0703, "idhClass": "Muito Baixo", "vinculos": null, "setEmp1": null, "setEmp2": null, "setEmp3": null, "epob2010": 0.321606, "favelas": 1, "ibeu": 0.91, "cvli": 92.875, "mariaPenha": 621.125, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 1, "pracas": 1, "consTutelar": 0, "coops": 0, "negImpacto": 5, "mpe": 739, "mge": 19, "osa": 0}, {"t": "Grande Bom Jardim", "b": "Bom Jardim", "pop": 33720, "raca": 0.78, "mulh": 0.446, "dens": 13808, "cad": 0.703, "epob": 0.475, "anal": 0.063, "idhm": 0.1949, "renda": 1342, "esg": 0.596, "agua": 0.976, "lixo": 0.993, "esaude": 2, "caps": 1, "esf": 5, "esfc": 51, "esc": 14, "ies": 0, "cras": 0, "emp": 3454, "mei": 2163, "cn1": "Vestuário (6%)", "cn2": "Cabeleireiros (6%)", "cn3": "Minimercados (3%)", "osc": 86, "oa": 23, "oe": 16, "os": 0, "oi": 39, "ideb_i": 5.9, "ideb_f": 4.9, "hom": 165.3, "pop15": 2683, "pop20": 2661, "pop25": 2836, "popFem": 0.523814, "pop09": 4383, "dom": 13557, "mulhAbs": 6052, "cadFam": 11203, "cadPessoas": 23691, "cadEpobFam": 6440, "gravAdol": 16.7662, "idhEduc": 0.9119, "idhLong": 0.2512, "idhRenda": 0.0323, "idhClass": "Muito Baixo", "vinculos": 1135, "setEmp1": "Comércio Varejista", "setEmp2": "Ensino Fundamental", "setEmp3": "Atendimento ao cliente", "epob2010": 0.410637, "favelas": 1, "ibeu": 0.7157, "cvli": 8.571429, "mariaPenha": 1423.285714, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 3, "pracas": 3, "consTutelar": 0, "coops": 2, "negImpacto": 45, "mpe": 3318, "mge": 136, "osa": 1}, {"t": "Grande Bom Jardim", "b": "Siqueira", "pop": 45494, "raca": 0.78, "mulh": 0.432, "dens": 7157, "cad": 0.598, "epob": 0.36, "anal": 0.062, "idhm": 0.1487, "renda": 1460, "esg": 0.361, "agua": 0.967, "lixo": 0.89, "esaude": 4, "caps": 0, "esf": 3, "esfc": 76, "esc": 17, "ies": 0, "cras": 1, "emp": 3879, "mei": 2622, "cn1": "Vestuário (5%)", "cn2": "Cabeleireiros (5%)", "cn3": "Minimercados (4%)", "osc": 53, "oa": 8, "oe": 11, "os": 0, "oi": 20, "ideb_i": 5.8, "ideb_f": 5.0, "hom": 50.2, "pop15": 3818, "pop20": 3755, "pop25": 4017, "popFem": 0.518552, "pop09": 6923, "dom": 19649, "mulhAbs": 8489, "cadFam": 12209, "cadPessoas": 27204, "cadEpobFam": 7079, "gravAdol": 14.0663, "idhEduc": 0.8957, "idhLong": 0.1433, "idhRenda": 0.0256, "idhClass": "Muito Baixo", "vinculos": null, "setEmp1": null, "setEmp2": null, "setEmp3": null, "epob2010": 0.273907, "favelas": 1, "ibeu": 0.4571, "cvli": 8.571429, "mariaPenha": 1423.285714, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 1, "pracas": 0, "consTutelar": 0, "coops": 0, "negImpacto": 15, "mpe": 3794, "mge": 85, "osa": 0}, {"t": "Grande Bom Jardim", "b": "Canindezinho", "pop": 37113, "raca": 0.74, "mulh": 0.439, "dens": 9993, "cad": 0.622, "epob": 0.397, "anal": 0.07, "idhm": 0.1363, "renda": 1343, "esg": 0.355, "agua": 0.981, "lixo": 0.963, "esaude": 2, "caps": 0, "esf": 11, "esfc": 60, "esc": 10, "ies": 0, "cras": 0, "emp": 2320, "mei": 1436, "cn1": "Cabeleireiros (6%)", "cn2": "Vestuário (6%)", "cn3": "Minimercados (4%)", "osc": 26, "oa": 6, "oe": 6, "os": 0, "oi": 13, "ideb_i": null, "ideb_f": null, "hom": 51.7, "pop15": 3014, "pop20": 3370, "pop25": 3310, "popFem": 0.523455, "pop09": 5451, "dom": 15374, "mulhAbs": 6748, "cadFam": 10436, "cadPessoas": 23068, "cadEpobFam": 6107, "gravAdol": 12.7138, "idhEduc": 0.9028, "idhLong": 0.1112, "idhRenda": 0.0252, "idhClass": "Muito Baixo", "vinculos": null, "setEmp1": null, "setEmp2": null, "setEmp3": null, "epob2010": 0.421426, "favelas": 1, "ibeu": 0.666, "cvli": 8.571429, "mariaPenha": 1423.285714, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 1, "pracas": 1, "consTutelar": 0, "coops": 0, "negImpacto": 11, "mpe": 2279, "mge": 41, "osa": 0}, {"t": "Grande Bom Jardim", "b": "Granja Portugal", "pop": 36619, "raca": 0.76, "mulh": 0.462, "dens": 14508, "cad": 0.696, "epob": 0.492, "anal": 0.072, "idhm": 0.1902, "renda": 1476, "esg": 0.664, "agua": 0.971, "lixo": 0.998, "esaude": 2, "caps": 1, "esf": 10, "esfc": 94, "esc": 19, "ies": 0, "cras": 1, "emp": 2878, "mei": 1791, "cn1": "Cabeleireiros (5%)", "cn2": "Vestuário (5%)", "cn3": "Minimercados (4%)", "osc": 78, "oa": 21, "oe": 7, "os": 0, "oi": 41, "ideb_i": 6.0, "ideb_f": 5.2, "hom": 44.1, "pop15": 2865, "pop20": 3270, "pop25": 3073, "popFem": 0.520085, "pop09": 5110, "dom": 14366, "mulhAbs": 6640, "cadFam": 12179, "cadPessoas": 25504, "cadEpobFam": 7062, "gravAdol": 14.6438, "idhEduc": 0.8947, "idhLong": 0.2751, "idhRenda": 0.0279, "idhClass": "Muito Baixo", "vinculos": 718, "setEmp1": "Comércio Varejista", "setEmp2": "Comércio Atacadista", "setEmp3": "Confecção", "epob2010": 0.431644, "favelas": 1, "ibeu": 0.6582, "cvli": 8.571429, "mariaPenha": 1423.285714, "cinturacao": "Alta", "centroQual": 1, "centroJuv": 1, "feiras": 1, "pracas": 1, "consTutelar": 0, "coops": 0, "negImpacto": 30, "mpe": 2774, "mge": 104, "osa": 0}, {"t": "Grande Bom Jardim", "b": "Granja Lisboa", "pop": 63420, "raca": 0.78, "mulh": 0.458, "dens": 12177, "cad": 0.251, "epob": 0.42, "anal": 0.063, "idhm": 0.17, "renda": 1476, "esg": 0.314, "agua": 0.974, "lixo": 0.97, "esaude": 4, "caps": 0, "esf": 10, "esfc": 60, "esc": 29, "ies": 0, "cras": 1, "emp": 3724, "mei": 2275, "cn1": "Vestuário (6%)", "cn2": "Cabeleireiros (5%)", "cn3": "Promoção de vendas (4%)", "osc": 72, "oa": 17, "oe": 14, "os": 3, "oi": 24, "ideb_i": null, "ideb_f": null, "hom": 58.3, "pop15": 4975, "pop20": 5410, "pop25": 5463, "popFem": 0.512945, "pop09": 9217, "dom": 24935, "mulhAbs": 11430, "cadFam": 1913, "cadPessoas": 15938, "cadEpobFam": 10464, "gravAdol": 13.9178, "idhEduc": 0.9079, "idhLong": 0.1812, "idhRenda": 0.0299, "idhClass": "Muito Baixo", "vinculos": null, "setEmp1": null, "setEmp2": null, "setEmp3": null, "epob2010": 0.309044, "favelas": 1, "ibeu": 0.5737, "cvli": 8.571429, "mariaPenha": 1423.285714, "cinturacao": "Média", "centroQual": 0, "centroJuv": 0, "feiras": 2, "pracas": 2, "consTutelar": 0, "coops": 0, "negImpacto": 36, "mpe": 3612, "mge": 112, "osa": 0}];
@@ -3149,7 +3424,43 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => activateTab(btn.dataset.tab));
 });
 
-activateTab('visao');
+// ===== SELETOR DE MUNICÍPIO =====
+function selectCity(city){
+  // Esconde a tela de seleção
+  document.getElementById('city-selector').classList.add('hidden');
+
+  // Atualiza o topbar
+  const cityNames = {fortaleza: 'Fortaleza', maracanau: 'Maracanau'};
+  document.getElementById('topbar-city-name').textContent = cityNames[city] || city;
+  document.getElementById('topbar-city').style.display = 'flex';
+
+  // Exibe o dashboard correto
+  document.getElementById('dashboard-fortaleza').classList.toggle('active', city === 'fortaleza');
+  document.getElementById('dashboard-maracanau').classList.toggle('active', city === 'maracanau');
+
+  // Se for Fortaleza, inicializa a aba padrão
+  if(city === 'fortaleza'){
+    activateTab('visao');
+  }
+}
+
+function backToCitySelector(){
+  // Volta para a tela de seleção
+  document.getElementById('city-selector').classList.remove('hidden');
+  document.getElementById('topbar-city').style.display = 'none';
+  document.getElementById('dashboard-fortaleza').classList.remove('active');
+  document.getElementById('dashboard-maracanau').classList.remove('active');
+}
+
+// Tabs do painel Maracanau
+document.querySelectorAll('[data-tab-mrc]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-tab-mrc]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// Não inicializa nenhum tab automaticamente — aguarda seleção de cidade
 </script>
 </body>
 </html>
