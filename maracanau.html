@@ -6,7 +6,7 @@
 <title>Coalizão CE | Diagnóstico Territorial — Maracanaú</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -102,6 +102,390 @@ tbody tr{background:#fff}tbody tr:nth-child(even){background:#fbfdff}tbody tr:ho
 .popup-card .popup-stat{background:#f7fafc;border:1px solid var(--line-2);border-radius:14px;padding:10px}
 .popup-card .popup-stat strong{display:block;font-size:14px;color:var(--navy);margin-bottom:4px}
 .popup-card .popup-stat span{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+
+/* ======================================================
+   World Bank–inspired design system override
+   Clean, structured, professional data presentation
+   ====================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+:root{
+  --bg:#F4F6F9;
+  --panel:#FFFFFF;
+  --panel-2:#F8FAFB;
+  --text:#1B2D3E;
+  --muted:#5C6E7E;
+  --line:#D8E0E8;
+  --line-2:#E8EDF2;
+  --brand:#0B4FA8;
+  --brand-2:#1A6EC2;
+  --brand-3:#5B96D4;
+  --brand-4:#C8D9F5;
+  --brand-5:#EEF4FF;
+  --navy:#062040;
+  --teal:#2D7A5E;
+  --gold:#B07C20;
+  --green:#2D7A5E;
+  --danger:#C0392B;
+  --shadow:0 1px 3px rgba(0,0,0,.07),0 3px 10px rgba(11,79,168,.05);
+  --shadow-soft:0 1px 2px rgba(0,0,0,.05),0 2px 6px rgba(11,79,168,.04);
+  --radius:6px;
+}
+
+body{
+  font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  background:#F4F6F9;
+  color:var(--text);
+}
+
+/* Header */
+.topbar{
+  background:#0B4FA8;
+  padding:0 28px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.18);
+}
+.topbar-inner{
+  max-width:1400px;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand-title{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.brand-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:0;line-height:1.4}
+.badge{
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:4px;
+  padding:4px 10px;
+  font-size:11px;
+  font-weight:600;
+}
+.header-badges{gap:7px}
+
+/* Tab navigation */
+.tabs{
+  top:56px;
+  background:#FFFFFF;
+  border-bottom:2px solid var(--line);
+  box-shadow:none;
+  backdrop-filter:none;
+}
+.tabs-inner{padding:0 24px;gap:0}
+.tab-btn{
+  padding:13px 18px 11px;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:0;
+  border-bottom:3px solid transparent;
+  color:var(--muted);
+}
+.tab-btn:hover{color:var(--brand);background:transparent}
+.tab-btn.active{color:var(--brand);border-bottom-color:var(--brand);background:transparent}
+
+/* Main container */
+.container{padding:28px 24px 48px}
+
+/* Section header */
+.section-head{margin-bottom:22px}
+.section-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:4px 10px;
+  background:#EEF4FF;
+  border:1px solid #C8D9F5;
+  color:var(--brand);
+  border-radius:4px;
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+}
+.section-title{
+  margin:10px 0 8px;
+  font-size:28px;line-height:1.18;letter-spacing:-.02em;
+  font-weight:700;color:var(--navy);
+}
+.section-desc{
+  max-width:900px;font-size:14px;color:var(--muted);line-height:1.65
+}
+
+/* Commentary / Decision box */
+.decision{
+  position:relative;
+  background:#EEF4FF;
+  border:1px solid #C8D9F5;
+  border-left:4px solid var(--brand);
+  border-radius:var(--radius);
+  padding:14px 18px;
+  margin:16px 0 20px;
+  box-shadow:none;
+}
+.decision::before{display:none}
+.decision h3{
+  margin:0 0 6px;font-size:11px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:var(--brand);
+}
+.decision p{font-size:13px;line-height:1.7;color:var(--text);margin:0}
+
+/* Grid */
+.grid{gap:16px}
+
+/* Panel cards */
+.panel{
+  background:#FFFFFF;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.panel-head{
+  padding:14px 20px 12px;
+  border-bottom:1px solid var(--line);
+  align-items:center;
+  background:transparent;
+}
+.panel-title{font-size:14px;font-weight:700;color:var(--navy);margin:0}
+.panel-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.panel-body{padding:0 20px 20px}
+
+/* Selects */
+.filters{gap:10px}
+.filters select{
+  appearance:none;
+  min-width:160px;
+  font-size:13px;font-weight:600;
+  border:1px solid var(--line);
+  color:var(--text);
+  border-radius:4px;
+  padding:8px 34px 8px 11px;
+  background-color:#fff;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%235C6E7E' d='M5 7L0.67 2h8.66z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:calc(100% - 10px) 50%;
+  box-shadow:none;
+}
+.filters select:focus{
+  outline:none;border-color:var(--brand);
+  box-shadow:0 0 0 3px rgba(11,79,168,.12)
+}
+.map-overlay-controls select{
+  border-radius:4px;padding:7px 28px 7px 10px;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%235C6E7E' d='M5 7L0.67 2h8.66z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:calc(100% - 10px) 50%;
+}
+
+/* Map boxes */
+.map-box{
+  margin:0 20px;
+  height:440px;
+  border-radius:4px;
+  border:1px solid var(--line);
+  background:#EBF0F5;
+  box-shadow:none;
+}
+.map-box.split{height:440px;margin:0}
+.map-analytics-layout{gap:16px;padding:12px 20px 4px}
+.map-footer{padding:12px 20px 20px;gap:16px}
+.map-overlay-controls{
+  border-radius:6px;
+  background:rgba(255,255,255,.97);
+  border:1px solid rgba(200,217,245,.9);
+  box-shadow:0 4px 16px rgba(0,0,0,.1);
+  padding:10px;backdrop-filter:none;
+}
+.map-overlay-badge{
+  border-radius:4px;background:#EEF4FF;color:var(--brand);
+  padding:5px 8px;font-size:10px;font-weight:700;letter-spacing:.07em;border:none;
+}
+
+/* Analysis cards (right of map) */
+.analysis-card{
+  background:#FFFFFF;border:1px solid var(--line);
+  border-radius:var(--radius);padding:16px 18px;
+  box-shadow:none;min-height:auto;
+}
+.analysis-kicker{
+  padding:4px 8px;font-size:10px;font-weight:700;
+  background:#EEF4FF;border-radius:3px;color:var(--brand);
+  border:none;letter-spacing:.07em;
+}
+.analysis-title{
+  font-size:18px;font-weight:700;color:var(--navy);
+  margin:10px 0 8px;letter-spacing:-.01em;
+}
+.analysis-text{font-size:13px;line-height:1.7;color:var(--text)}
+.analysis-stat{
+  background:#F4F6F9;border:1px solid var(--line);
+  border-radius:var(--radius);padding:12px 14px;box-shadow:none;
+}
+.analysis-stat-label{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;line-height:1.4}
+.analysis-stat-value{font-size:20px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+.analysis-stat-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+
+/* Legend */
+.legend-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0}
+.legend-scale{
+  border-radius:3px;height:12px;border:1px solid var(--line);
+}
+.legend-scale span:nth-child(1){background:#dbeafe}
+.legend-scale span:nth-child(2){background:#bfdbfe}
+.legend-scale span:nth-child(3){background:#93c5fd}
+.legend-scale span:nth-child(4){background:#3b82f6}
+.legend-scale span:nth-child(5){background:#1d4ed8}
+.legend-scale span:nth-child(6){background:#1e3a8a}
+.legend-labels{font-size:10px;color:var(--muted)}
+
+/* Note box */
+.note-box{
+  background:#F8FAFB;border:1px solid var(--line-2);
+  border-radius:var(--radius);padding:10px 14px;
+  font-size:12px;color:var(--muted);line-height:1.6;
+}
+
+/* KPI grid */
+.kpi-grid{padding:12px 20px 20px;gap:12px}
+.kpi{
+  background:#FFFFFF;border:1px solid var(--line);
+  border-top:3px solid var(--brand);border-radius:var(--radius);
+  padding:14px 16px;box-shadow:none;
+}
+.kpi .label{
+  font-size:10px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;
+}
+.kpi .value{font-size:24px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+.kpi .sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+
+/* Charts */
+.chart-box{padding:12px 20px 20px}
+.chart{height:260px}
+
+/* Tables */
+.table-wrap{padding:0;overflow:auto}
+table{border-collapse:collapse;width:100%}
+th,td{padding:10px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--line)}
+th{
+  background:#F4F6F9;color:var(--muted);
+  font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;border-bottom:2px solid var(--line);
+  white-space:nowrap;
+}
+thead th:first-child{border-top-left-radius:0}
+thead th:last-child{border-top-right-radius:0}
+tbody tr{background:#fff}
+tbody tr:nth-child(even){background:#F9FAFB}
+tbody tr:hover{background:#EEF4FF}
+.rank{font-weight:700;color:var(--brand)}
+
+/* Tags & chips */
+.tag{
+  border-radius:3px;padding:3px 8px;
+  background:#EEF4FF;border:none;
+  color:var(--brand);font-size:11px;font-weight:600;
+}
+.tag.gbj{background:#E8F5F1;color:var(--green)}
+.chip{
+  border-radius:4px;padding:5px 10px;
+  background:#EEF4FF;border:1px solid #C8D9F5;
+  color:var(--navy);font-size:11px;font-weight:600;
+}
+.chip-muted{background:#F4F6F9;border-color:#D8E0E8;color:var(--muted)}
+
+/* Territory cards (Fortaleza) */
+.territory-card{
+  margin:0 20px 14px;border-radius:var(--radius);padding:18px;
+  background:var(--brand);color:#fff;
+}
+.territory-card.alt{background:var(--teal)}
+.territory-card h4{margin:0 0 8px;font-size:16px;font-weight:700}
+.territory-card p{margin:0;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85)}
+.territory-card .mini{
+  grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;
+}
+.territory-card .mini div{
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+  border-radius:4px;padding:10px;
+}
+.territory-card .mini strong{display:block;font-size:17px}
+
+/* Tip boxes */
+.tip{background:#F4F6F9;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px}
+.tip strong{display:block;margin-bottom:4px;font-size:13px;font-weight:700}
+
+/* Footer */
+.footer{
+  background:#F4F6F9;border:1px solid var(--line);
+  border-radius:var(--radius);padding:14px 18px;
+  font-size:12px;color:var(--muted);line-height:1.65;margin-top:24px;
+}
+.footer-credit{margin-top:6px;font-size:11px;color:#8292A0}
+
+/* Leaflet popup */
+.leaflet-popup-content-wrapper{
+  border-radius:6px;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  border:1px solid var(--line);overflow:hidden;
+}
+.leaflet-popup-tip{background:#fff}
+.leaflet-container{background:#EBF0F5}
+.leaflet-control-attribution{
+  background:rgba(255,255,255,.92)!important;
+  border-radius:3px!important;padding:3px 7px!important;
+  font-size:10px!important;color:var(--muted)!important;
+  box-shadow:none;backdrop-filter:none;
+}
+
+/* OSC popup (Fortaleza) */
+.osc-popup-head{
+  padding:14px 16px 12px;
+  background:var(--navy);color:#fff;
+}
+.popup-kicker{
+  border-radius:3px;background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.2);
+  font-size:10px;font-weight:700;letter-spacing:.07em;
+  padding:4px 8px;margin-bottom:8px;
+}
+.popup-stat{
+  background:#F8FAFB;border:1px solid var(--line-2);
+  border-radius:4px;padding:10px 11px;
+}
+
+/* Radar values */
+.radar-card{
+  border:1px solid var(--line-2);background:#FAFBFC;
+  border-radius:var(--radius);padding:12px 14px;box-shadow:none;
+}
+.radar-note{
+  margin:0 20px 10px;padding:10px 14px;
+  border:1px solid var(--line-2);border-radius:var(--radius);
+  background:#F8FAFB;font-size:12px;color:var(--muted);line-height:1.6;
+}
+
+/* Info popover */
+.info-popover summary{
+  background:#F4F6F9;border:1px solid var(--line);
+  border-radius:4px;box-shadow:none;color:var(--brand);
+}
+.info-balloon{
+  border-radius:6px;border:1px solid var(--line);
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+  font-size:12px;line-height:1.65;
+}
+
+/* Responsive tweaks */
+@media(max-width:1100px){
+  .tabs{top:56px}
+  .grid.hero,.grid.two,.grid.three,.grid.four{grid-template-columns:1fr}
+  .map-analytics-layout{grid-template-columns:1fr}
+  .comparison-grid{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .kpi-grid.four{grid-template-columns:repeat(2,1fr)}
+  .map-footer{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -113,7 +497,7 @@ tbody tr{background:#fff}tbody tr:nth-child(even){background:#fbfdff}tbody tr:ho
     </div>
     <div style="display:flex;align-items:center;gap:14px">
       <div class="header-badges"><span class="badge">239 mil hab.</span><span class="badge">44 bairros</span></div>
-      <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);border-radius:999px;color:#fff;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;transition:.15s" onmouseover="this.style.background='rgba(255,255,255,.22)'" onmouseout="this.style.background='rgba(255,255,255,.13)'">&#8592; Municípios</a>
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.26);border-radius:4px;color:#fff;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;transition:.15s" onmouseover="this.style.background='rgba(255,255,255,.26)'" onmouseout="this.style.background='rgba(255,255,255,.16)'">&#8592; Municípios</a>
     </div>
   </div>
 </header>
