@@ -646,7 +646,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div id="map-visao" class="map-box split"></div>
         <div class="analysis-side">
           <div class="analysis-card">
-            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <span class="analysis-kicker">Análise do indicador selecionado</span>
             <h4 class="analysis-title" id="map-summary-title-visao">Visão territorial integrada</h4>
             <p class="analysis-text" id="map-summary-visao">Selecione um indicador para ver a análise contextualizada.</p>
           </div>
@@ -722,7 +722,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div id="map-vuln" class="map-box split"></div>
         <div class="analysis-side">
           <div class="analysis-card">
-            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <span class="analysis-kicker">Análise do indicador selecionado</span>
             <h4 class="analysis-title" id="map-summary-title-vuln">Pobreza e privação</h4>
             <p class="analysis-text" id="map-summary-vuln">Selecione um indicador para ver a análise contextualizada.</p>
           </div>
@@ -754,7 +754,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div id="map-infra" class="map-box split"></div>
         <div class="analysis-side">
           <div class="analysis-card">
-            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <span class="analysis-kicker">Análise do indicador selecionado</span>
             <h4 class="analysis-title" id="map-summary-title-infra">O que a cidade oferece</h4>
             <p class="analysis-text" id="map-summary-infra">Selecione um indicador para ver a análise contextualizada.</p>
           </div>
@@ -1037,19 +1037,19 @@ function getColor(v,breaks,colors){
 }
 
 const INDICATORS={
-  pop:{label:'População total',fmt:'int',higher:'alto'},
-  dens:{label:'Densidade demográfica',fmt:'float1',higher:'alto'},
-  raca:{label:'Pop. não-branca (%)',fmt:'pct',higher:'alto'},
-  mulh:{label:'Chefia feminina (%)',fmt:'pct',higher:'alto'},
-  cad:{label:'Incidência CadÚnico',fmt:'pct',higher:'alto'},
-  epob:{label:'Extrema pobreza (%)',fmt:'pct',higher:'alto'},
-  anal:{label:'Analfabetismo (%)',fmt:'pct',higher:'alto'},
-  esg:{label:'Rede de esgoto (%)',fmt:'pct',higher:'bom'},
-  agua:{label:'Rede de água (%)',fmt:'pct',higher:'bom'},
-  lixo:{label:'Coleta de lixo (%)',fmt:'pct',higher:'bom'},
-  emp:{label:'Empresas formais',fmt:'int',higher:'alto'},
-  osc:{label:'OSCs ativas',fmt:'int',higher:'alto'},
-  renda:{label:'Renda média 2010',fmt:'money',higher:'bom'},
+  pop:{label:'População total (Censo 2022)',fmt:'int',higher:'alto'},
+  dens:{label:'Densidade demográfica (Censo 2022)',fmt:'float1',higher:'alto'},
+  raca:{label:'Pop. não-branca (Censo 2022)',fmt:'pct',higher:'alto'},
+  mulh:{label:'Chefia feminina (Censo 2022)',fmt:'pct',higher:'alto'},
+  cad:{label:'Incidência CadÚnico (2025)',fmt:'pct',higher:'alto'},
+  epob:{label:'Extrema pobreza (CadÚnico 2025)',fmt:'pct',higher:'alto'},
+  anal:{label:'Analfabetismo 15+ (Censo 2022)',fmt:'pct',higher:'alto'},
+  esg:{label:'Rede de esgoto (Censo 2022)',fmt:'pct',higher:'bom'},
+  agua:{label:'Rede de água (Censo 2022)',fmt:'pct',higher:'bom'},
+  lixo:{label:'Coleta de lixo (Censo 2022)',fmt:'pct',higher:'bom'},
+  emp:{label:'Empresas formais (dez/2024)',fmt:'int',higher:'alto'},
+  osc:{label:'OSCs ativas (IPEA 2024)',fmt:'int',higher:'alto'},
+  renda:{label:'Renda domiciliar per capita (2010)',fmt:'money',higher:'bom'},
 };
 
 function createMap(containerId){
@@ -1245,7 +1245,7 @@ function initEcon(){
   const avgMeiPct=DATA.filter(d=>d.meiShare!=null).reduce((s,d,_,a)=>s+d.meiShare/a.length,0);
   const matrizes=MGE_BUBBLES.filter(r=>r[6]==='M').length;
   document.getElementById('kpi-mge').innerHTML=`
-    <div class="kpi"><div class="label">Empresas M/G</div><div class="value">${totalMGE.toLocaleString('pt-BR')}</div><div class="sub">Porte "Demais" cadastradas</div></div>
+    <div class="kpi"><div class="label">Empresas M/G</div><div class="value">${totalMGE.toLocaleString('pt-BR')}</div><div class="sub">Receita Federal · dez/2024</div></div>
     <div class="kpi"><div class="label">Capital total</div><div class="value">${fmtCap(totalCap)}</div><div class="sub">Capital social acumulado</div></div>
     <div class="kpi"><div class="label">Maior concentração</div><div class="value">${topBairro.b}</div><div class="sub">${topBairro.n} empresas · ${fmtCap(topBairro.cap)}</div></div>
     <div class="kpi"><div class="label">Principal setor</div><div class="value">${topSetor.s}</div><div class="sub">${fmtCap(topSetor.cap)} em capital</div></div>
@@ -1462,9 +1462,9 @@ function initEcon(){
     const countEl=document.getElementById('econ-table-count');
     if(countEl) countEl.textContent=`${rows.length} bairro${rows.length!==1?'s':''}`;
     const colHeaders=[
-      {k:'b',label:'Bairro'},{k:'emp',label:'Empresas'},{k:'mei',label:'MEIs'},
-      {k:'meiShare',label:'% MEI'},{k:'mpe',label:'Micro/Peq.'},{k:'mge',label:'Méd./Grd.'},
-      {k:'coops',label:'Coops.'}
+      {k:'b',label:'Bairro'},{k:'emp',label:'Empresas (2024)'},{k:'mei',label:'MEIs (2024)'},
+      {k:'meiShare',label:'% MEI (2024)'},{k:'mpe',label:'Micro/Peq. (2024)'},{k:'mge',label:'Méd./Grd. (2024)'},
+      {k:'coops',label:'Coops. (2024)'}
     ];
     document.getElementById('table-econ').innerHTML=`<thead><tr>
       ${colHeaders.map(h=>`<th class="sortable${econSortKey===h.k?' sort-'+(econSortDir===1?'asc':'desc'):''}" data-econ-col="${h.k}">${h.label}<span class="sort-icon">${econSortKey===h.k?(econSortDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}
@@ -1784,12 +1784,12 @@ const REGION_DESC = {
 function initComp(){
   // ── Bairro comparison table ──────────────────────────────────────────────
   const sel=document.getElementById('comp-sort');
-  const cols=[{key:'pop',label:'População',fmt:'int'},{key:'epob',label:'Extrema pobreza',fmt:'pct'},{key:'cad',label:'CadÚnico',fmt:'pct'},{key:'anal',label:'Analfabetismo',fmt:'pct'},{key:'esg',label:'Esgoto',fmt:'pct'},{key:'agua',label:'Água',fmt:'pct'},{key:'emp',label:'Empresas',fmt:'int'},{key:'osc',label:'OSCs',fmt:'int'},{key:'renda',label:'Renda 2010',fmt:'money'},{key:'dens',label:'Densidade',fmt:'float1'}];
+  const cols=[{key:'pop',label:'Pop. (2022)',fmt:'int'},{key:'epob',label:'Ext. pobreza (2025)',fmt:'pct'},{key:'cad',label:'CadÚnico (2025)',fmt:'pct'},{key:'anal',label:'Analfab. (2022)',fmt:'pct'},{key:'esg',label:'Esgoto (2022)',fmt:'pct'},{key:'agua',label:'Água (2022)',fmt:'pct'},{key:'emp',label:'Empresas (2024)',fmt:'int'},{key:'osc',label:'OSCs (2024)',fmt:'int'},{key:'renda',label:'Renda (2010)',fmt:'money'},{key:'dens',label:'Dens. (2022)',fmt:'float1'}];
   sel.innerHTML=cols.map((c,i)=>`<option value="${c.key}"${i===0?' selected':''}>${c.label}</option>`).join('');
   function renderBairroTable(sortKey){
     const desc=['pop','emp','osc','renda','agua','esg','dens'].includes(sortKey);
     const rows=[...DATA].sort((a,b)=>{const va=a[sortKey],vb=b[sortKey];if(va==null)return 1;if(vb==null)return-1;return desc?vb-va:va-vb});
-    document.getElementById('table-comp').innerHTML=`<thead><tr><th>#</th><th>Bairro</th><th>Região</th><th>Pop.</th><th>Ext. Pobreza</th><th>CadÚnico</th><th>Analfab.</th><th>Esgoto</th><th>Água</th><th>Empresas</th><th>OSCs</th><th>Renda 2010</th></tr></thead><tbody>${rows.map((d,i)=>{const reg=REGION_MAP[d.b]||'—';const col=REGION_COLORS[reg]||'#888';return`<tr><td style="font-weight:800;color:var(--brand)">${i+1}</td><td><strong>${d.b}</strong></td><td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#1B2D3E"><span style="width:8px;height:8px;border-radius:50%;background:${col};display:inline-block;flex-shrink:0"></span>${reg}</span></td><td>${fmt(d.pop,'int')}</td><td>${fmt(d.epob,'pct')}</td><td>${fmt(d.cad,'pct')}</td><td>${fmt(d.anal,'pct')}</td><td>${fmt(d.esg,'pct')}</td><td>${fmt(d.agua,'pct')}</td><td>${fmt(d.emp,'int')}</td><td>${fmt(d.osc,'int')}</td><td>${fmt(d.renda,'money')}</td></tr>`}).join('')}</tbody>`;
+    document.getElementById('table-comp').innerHTML=`<thead><tr><th>#</th><th>Bairro</th><th>Região</th><th>Pop.</th><th>Ext. Pobreza (2025)</th><th>CadÚnico (2025)</th><th>Analfab. (2022)</th><th>Esgoto (2022)</th><th>Água (2022)</th><th>Empresas (2024)</th><th>OSCs (2024)</th><th>Renda (2010)</th></tr></thead><tbody>${rows.map((d,i)=>{const reg=REGION_MAP[d.b]||'—';const col=REGION_COLORS[reg]||'#888';return`<tr><td style="font-weight:800;color:var(--brand)">${i+1}</td><td><strong>${d.b}</strong></td><td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#1B2D3E"><span style="width:8px;height:8px;border-radius:50%;background:${col};display:inline-block;flex-shrink:0"></span>${reg}</span></td><td>${fmt(d.pop,'int')}</td><td>${fmt(d.epob,'pct')}</td><td>${fmt(d.cad,'pct')}</td><td>${fmt(d.anal,'pct')}</td><td>${fmt(d.esg,'pct')}</td><td>${fmt(d.agua,'pct')}</td><td>${fmt(d.emp,'int')}</td><td>${fmt(d.osc,'int')}</td><td>${fmt(d.renda,'money')}</td></tr>`}).join('')}</tbody>`;
   }
   renderBairroTable('pop');
   sel.addEventListener('change',()=>renderBairroTable(sel.value));
@@ -1875,9 +1875,9 @@ function initComp(){
   // ── Regional comparison table ────────────────────────────────────────────
   const thead=`<thead><tr>
     <th>Região</th><th>Bairros</th><th>Pop.</th>
-    <th>Ext. Pobreza</th><th>CadÚnico</th><th>Analfab.</th>
-    <th>Esgoto</th><th>Água</th><th>Renda 2010</th>
-    <th>Empresas/1k</th><th>OSCs/10k</th>
+    <th>Ext. Pobreza (2025)</th><th>CadÚnico (2025)</th><th>Analfab. (2022)</th>
+    <th>Esgoto (2022)</th><th>Água (2022)</th><th>Renda (2010)</th>
+    <th>Empr./1k (2024)</th><th>OSCs/10k (2024)</th>
   </tr></thead>`;
   const tbody=`<tbody>${REGION_ORDER.map(r=>{
     const s=RS[r];
@@ -1900,12 +1900,12 @@ function initComp(){
   // ── Dimensions & normalization ──────────────────────────────────────────
   const dimAxes=[
     // absoluteMin=0 for % axes so the chart shows real absolute position (anchored at 0)
-    {key:'educ',  label:'Literacia',             short:'Literacia',   absoluteMin:0,    getValue:s=>s.anal!=null?(1-s.anal)*100:null,  note:'% adultos alfabetizados (1 − analfabetismo). IBGE Censo 2022.'},
-    {key:'prot',  label:'Baixa pobreza',         short:'B. Pobreza',  absoluteMin:0,    getValue:s=>s.epob!=null?(1-s.epob)*100:null,  note:'1 − extrema pobreza (CadÚnico 2025). Eixo positivo.'},
-    {key:'san',   label:'Saneamento',             short:'Saneamento',  absoluteMin:0,    getValue:s=>{const v=[s.esg,s.agua,s.lixo].filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length*100:null}, note:'Média esgoto + água + coleta (% domicílios). IBGE Censo 2022.'},
-    {key:'renda', label:'Renda',                  short:'Renda',       absoluteMin:null, getValue:s=>s.renda,  note:'Renda média domiciliar per capita R$ (2010). IBGE Censo 2010.'},
-    {key:'econ',  label:'Densidade empresarial', short:'Empresas',    absoluteMin:null, getValue:s=>s.emp1k,  note:'CNPJs ativos / 1.000 hab. Receita Federal.'},
-    {key:'soc',   label:'Tecido civil',           short:'Civil',       absoluteMin:null, getValue:s=>s.osc10k, note:'OSCs ativas / 10.000 hab. IPEA Mapa das OSCs 2024.'},
+    {key:'educ',  label:'Literacia (Censo 2022)',             short:'Literacia',   absoluteMin:0,    getValue:s=>s.anal!=null?(1-s.anal)*100:null,  note:'% adultos alfabetizados (1 − analfabetismo). IBGE Censo 2022.'},
+    {key:'prot',  label:'Baixa pobreza (CadÚnico 2025)',         short:'B. Pobreza',  absoluteMin:0,    getValue:s=>s.epob!=null?(1-s.epob)*100:null,  note:'1 − extrema pobreza (CadÚnico 2025). Eixo positivo.'},
+    {key:'san',   label:'Saneamento (Censo 2022)',             short:'Saneamento',  absoluteMin:0,    getValue:s=>{const v=[s.esg,s.agua,s.lixo].filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length*100:null}, note:'Média esgoto + água + coleta (% domicílios). IBGE Censo 2022.'},
+    {key:'renda', label:'Renda (2010)',                  short:'Renda',       absoluteMin:null, getValue:s=>s.renda,  note:'Renda média domiciliar per capita R$ (2010). IBGE Censo 2010.'},
+    {key:'econ',  label:'Densidade empresarial (dez/2024)', short:'Empresas',    absoluteMin:null, getValue:s=>s.emp1k,  note:'CNPJs ativos / 1.000 hab. Receita Federal.'},
+    {key:'soc',   label:'OSCs ativas (IPEA 2024)',           short:'Civil',       absoluteMin:null, getValue:s=>s.osc10k, note:'OSCs ativas / 10.000 hab. IPEA Mapa das OSCs 2024.'},
   ];
   // % axes anchored at absoluteMin=0; others min-max among regions
   const normScores={};

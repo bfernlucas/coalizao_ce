@@ -1878,7 +1878,7 @@ tbody tr:hover{background:#EEF4FF}
         <div id="map-demo" class="map-box split"></div>
         <div class="analysis-side">
           <div class="analysis-card">
-            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <span class="analysis-kicker">Análise do indicador selecionado</span>
             <h4 class="analysis-title" id="map-summary-title-demo">Perfil da população</h4>
             <p class="analysis-text" id="map-summary-demo"></p>
           </div>
@@ -1931,7 +1931,7 @@ tbody tr:hover{background:#EEF4FF}
         <div id="map-vuln" class="map-box split"></div>
         <div class="analysis-side">
           <div class="analysis-card">
-            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <span class="analysis-kicker">Análise do indicador selecionado</span>
             <h4 class="analysis-title" id="map-summary-title-vuln">Pobreza e privação</h4>
             <p class="analysis-text" id="map-summary-vuln"></p>
           </div>
@@ -1984,7 +1984,7 @@ tbody tr:hover{background:#EEF4FF}
         <div id="map-infra" class="map-box split"></div>
         <div class="analysis-side">
           <div class="analysis-card">
-            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <span class="analysis-kicker">Análise do indicador selecionado</span>
             <h4 class="analysis-title" id="map-summary-title-infra">O que a cidade oferece</h4>
             <p class="analysis-text" id="map-summary-infra"></p>
           </div>
@@ -2036,7 +2036,7 @@ tbody tr:hover{background:#EEF4FF}
         <div id="map-econ" class="map-box split"></div>
         <div class="analysis-side">
           <div class="analysis-card">
-            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <span class="analysis-kicker">Análise do indicador selecionado</span>
             <h4 class="analysis-title" id="map-summary-title-econ">Formalidade e renda</h4>
             <p class="analysis-text" id="map-summary-econ"></p>
           </div>
@@ -2111,7 +2111,7 @@ tbody tr:hover{background:#EEF4FF}
         </div>
         <div class="analysis-side">
           <div class="analysis-card">
-            <span class="analysis-kicker">Leitura orientada pelos filtros</span>
+            <span class="analysis-kicker">Análise do indicador selecionado</span>
             <h4 class="analysis-title" id="map-summary-title-osc">Organizações ativas no território</h4>
             <p class="analysis-text" id="map-summary-osc"></p>
           </div>
@@ -2257,36 +2257,36 @@ const CHARTS = {};
 const INITED = new Set();
 
 const METRICS = {
-  idhm:{label:'IDHM',fmt:'index',higher:'bom'},
-  cad:{label:'Incidência CadÚnico',fmt:'pct',higher:'alto'},
-  epob:{label:'Extrema pobreza',fmt:'pct',higher:'alto'},
-  esg:{label:'Rede de esgoto',fmt:'pct',higher:'bom'},
-  emp:{label:'Empresas formais ativas',fmt:'int',higher:'alto'},
-  osc10k:{label:'OSCs por 10 mil habitantes',fmt:'float1',higher:'alto'},
-  pop:{label:'População total',fmt:'int',higher:'alto'},
-  dens:{label:'Densidade demográfica',fmt:'int',higher:'alto'},
-  raca:{label:'População não-branca 15+',fmt:'pct',higher:'alto'},
-  mulh:{label:'Mulheres chefes de domicílio',fmt:'pct',higher:'alto'},
-  anal:{label:'Analfabetismo 15+',fmt:'pct',higher:'alto'},
+  idhm:{label:'IDHM (2010)',fmt:'index',higher:'bom'},
+  cad:{label:'Incidência CadÚnico (2025)',fmt:'pct',higher:'alto'},
+  epob:{label:'Extrema pobreza (CadÚnico 2025)',fmt:'pct',higher:'alto'},
+  esg:{label:'Rede de esgoto (Censo 2022)',fmt:'pct',higher:'bom'},
+  emp:{label:'Empresas formais ativas (dez/2024)',fmt:'int',higher:'alto'},
+  osc10k:{label:'OSCs por 10 mil hab. (IPEA 2024)',fmt:'float1',higher:'alto'},
+  pop:{label:'População total (Censo 2022)',fmt:'int',higher:'alto'},
+  dens:{label:'Densidade demográfica (Censo 2022)',fmt:'int',higher:'alto'},
+  raca:{label:'Pop. não-branca 15+ (Censo 2022)',fmt:'pct',higher:'alto'},
+  mulh:{label:'Mulheres chefes de dom. (Censo 2022)',fmt:'pct',higher:'alto'},
+  anal:{label:'Analfabetismo 15+ (Censo 2022)',fmt:'pct',higher:'alto'},
   hom:{label:'Homicídios por 100 mil',fmt:'float1',higher:'alto'},
-  agua:{label:'Abastecimento de água',fmt:'pct',higher:'bom'},
-  lixo:{label:'Coleta de lixo',fmt:'pct',higher:'bom'},
-  esfc:{label:'Cobertura eSF',fmt:'float1',higher:'bom'},
-  esc:{label:'Escolas públicas',fmt:'int',higher:'alto'},
-  renda:{label:'Renda domiciliar per capita',fmt:'money',higher:'bom'},
-  meiShare:{label:'Participação de MEIs',fmt:'pct',higher:'alto'},
-  osc:{label:'OSCs totais',fmt:'int',higher:'alto'},
-  oi:{label:'OSCs de inclusão produtiva',fmt:'int',higher:'alto'},
-  oiShare:{label:'Peso das OSCs de inclusão produtiva',fmt:'pct',higher:'alto'},
-  oscGeoCount:{label:'OSCs ativas geolocalizadas',fmt:'int',higher:'alto'},
-  oscGeo10k:{label:'OSCs ativas geolocalizadas por 10 mil hab.',fmt:'float1',higher:'alto'},
-  oscGeoShare:{label:'Participação das OSCs filtradas no total ativo do bairro',fmt:'pct',higher:'alto'},
-  popFem:{label:'População feminina',fmt:'pct',higher:'alto'},
-  dom:{label:'Total de domicílios',fmt:'int',higher:'alto'},
+  agua:{label:'Abastecimento de água (Censo 2022)',fmt:'pct',higher:'bom'},
+  lixo:{label:'Coleta de lixo (Censo 2022)',fmt:'pct',higher:'bom'},
+  esfc:{label:'Cobertura eSF (CNES 2024)',fmt:'float1',higher:'bom'},
+  esc:{label:'Escolas públicas (CNES 2024)',fmt:'int',higher:'alto'},
+  renda:{label:'Renda domiciliar per capita (2010)',fmt:'money',higher:'bom'},
+  meiShare:{label:'Participação de MEIs (dez/2024)',fmt:'pct',higher:'alto'},
+  osc:{label:'OSCs totais (IPEA 2024)',fmt:'int',higher:'alto'},
+  oi:{label:'OSCs de inclusão produtiva (IPEA 2024)',fmt:'int',higher:'alto'},
+  oiShare:{label:'Peso das OSCs de inclusão produtiva (IPEA 2024)',fmt:'pct',higher:'alto'},
+  oscGeoCount:{label:'OSCs ativas geolocalizadas (IPEA 2024)',fmt:'int',higher:'alto'},
+  oscGeo10k:{label:'OSCs/10k hab. (IPEA 2024)',fmt:'float1',higher:'alto'},
+  oscGeoShare:{label:'% OSCs filtradas no bairro (IPEA 2024)',fmt:'pct',higher:'alto'},
+  popFem:{label:'Pop. feminina (Censo 2022)',fmt:'pct',higher:'alto'},
+  dom:{label:'Total de domicílios (Censo 2022)',fmt:'int',higher:'alto'},
   gravAdol:{label:'Gravidez na adolescência',fmt:'float1',higher:'alto'},
-  idhEduc:{label:'IDH – Educação',fmt:'index',higher:'bom'},
-  idhLong:{label:'IDH – Longevidade',fmt:'index',higher:'bom'},
-  idhRenda:{label:'IDH – Renda',fmt:'index',higher:'bom'},
+  idhEduc:{label:'IDH – Educação (2010)',fmt:'index',higher:'bom'},
+  idhLong:{label:'IDH – Longevidade (2010)',fmt:'index',higher:'bom'},
+  idhRenda:{label:'IDH – Renda (2010)',fmt:'index',higher:'bom'},
   epob2010:{label:'Extrema pobreza (2010)',fmt:'pct',higher:'alto'},
   ibeu:{label:'Índice de Bem-Estar Urbano',fmt:'index',higher:'bom'},
   cvli:{label:'Crimes violentos letais (média anual)',fmt:'float1',higher:'alto'},
@@ -2294,12 +2294,12 @@ const METRICS = {
   feiras:{label:'Feiras livres',fmt:'int',higher:'alto'},
   pracas:{label:'Praças',fmt:'int',higher:'alto'},
   negImpacto:{label:'Negócios de impacto social',fmt:'int',higher:'alto'},
-  mpe:{label:'Micro e pequenas empresas',fmt:'int',higher:'alto'},
-  mge:{label:'Médias e grandes empresas',fmt:'int',higher:'alto'},
-  coops:{label:'Cooperativas ativas',fmt:'int',higher:'alto'},
-  pop09:{label:'População 0–9 anos',fmt:'int',higher:'alto'},
-  cadFam:{label:'Famílias no CadÚnico',fmt:'int',higher:'alto'},
-  cadEpobFam:{label:'Famílias em extrema pobreza',fmt:'int',higher:'alto'},
+  mpe:{label:'Micro e pequenas empresas (dez/2024)',fmt:'int',higher:'alto'},
+  mge:{label:'Médias e grandes empresas (dez/2024)',fmt:'int',higher:'alto'},
+  coops:{label:'Cooperativas ativas (dez/2024)',fmt:'int',higher:'alto'},
+  pop09:{label:'Pop. 0–9 anos (Censo 2022)',fmt:'int',higher:'alto'},
+  cadFam:{label:'Famílias no CadÚnico (2025)',fmt:'int',higher:'alto'},
+  cadEpobFam:{label:'Famílias em ext. pobreza (2025)',fmt:'int',higher:'alto'},
   favelas:{label:'Presença de favelas/comunidades',fmt:'int',higher:'alto'},
   vinculos:{label:'Vínculos formais (2017)',fmt:'int',higher:'alto'},
   esaude:{label:'Equipamentos de saúde',fmt:'int',higher:'alto'},
@@ -3188,10 +3188,10 @@ function sortRows(key, descending=true, includeNull=false){
 function initOverview(){
   createMap('visao');
   const kpis = [
-    {label:'População total', value: fmt(TOTALS.pop,'int'), sub:'Base atual · 13 bairros'},
-    {label:'Empresas ativas', value: fmt(TOTALS.emp,'int'), sub:'CNPJ consolidado'},
-    {label:'OSCs mapeadas', value: fmt(TOTALS.osc,'int'), sub:'Associações e fundações'},
-    {label:'Renda média ponderada', value: fmt(TOTALS.renda,'money'), sub:'Renda domiciliar per capita'}
+    {label:'População total', value: fmt(TOTALS.pop,'int'), sub:'Censo 2022 · 13 bairros'},
+    {label:'Empresas ativas', value: fmt(TOTALS.emp,'int'), sub:'Receita Federal · dez/2024'},
+    {label:'OSCs mapeadas', value: fmt(TOTALS.osc,'int'), sub:'Mapa das OSCs · IPEA 2024'},
+    {label:'Renda média ponderada', value: fmt(TOTALS.renda,'money'), sub:'Renda domiciliar per capita (2010)'}
   ];
   document.getElementById('overview-kpis').innerHTML = kpis.map(k => `<div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>`).join('');
 
@@ -3331,7 +3331,7 @@ function initComp(){
   const radarAxes = [
     {
       key:'idhm',
-      label:'IDHM',
+      label:'IDHM (2010)',
       rawKind:'index',
       rawValue:d => d.idhm,
       normalized:d => {
@@ -3341,7 +3341,7 @@ function initComp(){
     },
     {
       key:'esg',
-      label:'Esgoto',
+      label:'Esgoto (Censo 2022)',
       rawKind:'pct',
       rawValue:d => d.esg,
       normalized:d => {
@@ -3351,7 +3351,7 @@ function initComp(){
     },
     {
       key:'renda',
-      label:'Renda',
+      label:'Renda (2010)',
       rawKind:'money',
       rawValue:d => d.renda,
       normalized:d => {
@@ -3361,7 +3361,7 @@ function initComp(){
     },
     {
       key:'osc10k',
-      label:'OSCs/10 mil',
+      label:'OSCs/10k (IPEA 2024)',
       rawKind:'float1',
       rawValue:d => d.osc10k,
       normalized:d => {
@@ -3371,7 +3371,7 @@ function initComp(){
     },
     {
       key:'epob_inv',
-      label:'Baixa pobreza extrema',
+      label:'Baixa pobreza extrema (2025)',
       rawKind:'pct',
       rawValue:d => 1 - d.epob,
       rawLabel:d => `${fmt(d.epob,'pct')} de extrema pobreza`,
