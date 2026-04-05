@@ -1668,23 +1668,22 @@ tbody tr:hover{background:#EEF4FF}
 .territory-card{
   margin:0 20px 12px;
   padding:16px;
-  background:#fff;
+  background:#fff!important;
   border:1px solid #E8EDF2;
   border-left:3px solid #0B4FA8;
+  border-radius:0!important;
+  box-shadow:none!important;
   color:#062040;
 }
-.territory-card.alt{border-left-color:#2D7A5E}
-.territory-card h4{margin:0 0 5px;font-size:13px;font-weight:700;color:#062040;text-transform:uppercase;letter-spacing:.04em}
-.territory-card p{margin:0 0 12px;font-size:12px;line-height:1.55;color:#5C6E7E}
-.territory-card .mini{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
-}
-.territory-card .mini div{
-  background:#F8FAFB;border:1px solid #E8EDF2;
-  padding:10px 8px;
-}
-.territory-card .mini strong{display:block;font-size:18px;font-weight:800;color:#062040;letter-spacing:-.02em}
-.territory-card .mini .small{font-size:10px;color:#5C6E7E;font-weight:500;margin-top:2px;display:block}
+.territory-card.alt{background:#fff!important;border-left-color:#2D7A5E}
+.territory-card h4{margin:0 0 8px;font-size:12px;font-weight:700;color:#0B4FA8!important;text-transform:uppercase;letter-spacing:.06em}
+.territory-card.alt h4{color:#2D7A5E!important}
+.territory-card p{margin:0 0 12px;font-size:12px;line-height:1.55;color:#5C6E7E!important}
+.territory-card .mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:0!important}
+.territory-card .mini div{background:#F8FAFB!important;border:1px solid #E8EDF2!important;border-radius:3px!important;padding:10px 8px}
+.territory-card .mini strong{display:block;font-size:18px;font-weight:800;color:#062040!important;letter-spacing:-.02em}
+.territory-card .mini .small{font-size:10px;color:#5C6E7E!important;font-weight:500;margin-top:2px;display:block}
+.territory-card .mini span{color:#5C6E7E!important}
 
 /* Tip boxes */
 .tip{background:#F4F6F9;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px}
