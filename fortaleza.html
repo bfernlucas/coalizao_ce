@@ -3326,7 +3326,7 @@ function initOverview(){
 function initDemo(){
   createMap('demo');
   const popRows = sortRows('pop', true);
-  makeBar('chart-demo-pop', popRows.map(d=>d.b), [{data:popRows.map(d=>d.pop), backgroundColor:UI_COLORS.blueSoft, borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-demo-pop', popRows.map(d=>d.b), [{data:popRows.map(d=>d.pop), backgroundColor:popRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
   const densRows = sortRows('dens', true);
   makeBar('chart-demo-dens', densRows.map(d=>d.b), [{data:densRows.map(d=>d.dens), backgroundColor:densRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blue:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
 }
@@ -3334,7 +3334,7 @@ function initDemo(){
 function initVuln(){
   createMap('vuln');
   const epRows = sortRows('epob', true);
-  makeBar('chart-vuln-epob', epRows.map(d=>d.b), [{data:epRows.map(d=>d.epob*100), backgroundColor:UI_COLORS.blue, borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-vuln-epob', epRows.map(d=>d.b), [{data:epRows.map(d=>d.epob*100), backgroundColor:epRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
   const idRows = sortRows('idhm', false);
   makeBar('chart-vuln-idhm', idRows.map(d=>d.b), [{data:idRows.map(d=>d.idhm), backgroundColor:idRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
     plugins:{legend:{display:false}},
@@ -3366,7 +3366,7 @@ function initInfra(){
 function initEcon(){
   createMap('econ');
   const empRows = sortRows('emp', true);
-  makeBar('chart-econ-emp', empRows.map(d=>d.b), [{data:empRows.map(d=>d.emp), backgroundColor:UI_COLORS.blue, borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-econ-emp', empRows.map(d=>d.b), [{data:empRows.map(d=>d.emp), backgroundColor:empRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
   const meiRows = sortRows('meiShare', true);
   makeBar('chart-econ-mei', meiRows.map(d=>d.b), [{data:meiRows.map(d=>d.meiShare*100), backgroundColor:meiRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
   document.getElementById('table-cnae').innerHTML = `
@@ -3388,7 +3388,7 @@ function initOsc(){
   makeBar(
     'chart-osc-total',
     oscRows.map(d=>d.b),
-    [{data:oscRows.map(d=>d.oscGeoCount), backgroundColor:UI_COLORS.blue, borderRadius:6}],
+    [{data:oscRows.map(d=>d.oscGeoCount), backgroundColor:oscRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}],
     {plugins:{legend:{display:false}}}
   );
 
