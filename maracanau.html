@@ -633,7 +633,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <h1 class="section-title">Resumo</h1>
     </div>
     <div class="decision">
-      <h3>Comentário</h3>
+      <h3>Análise</h3>
       <p>Maracanaú apresenta forte heterogeneidade interna. Enquanto bairros como Jereissati A/B e Distrito Industrial concentram a atividade econômica formal e melhor cobertura de infraestrutura, bairros periféricos como Parque Santa Maria, Alto Alegre e Parque Tropical combinam altíssima extrema pobreza com déficits de esgotamento sanitário e quase nenhuma presença de OSCs ou empresas formais. A cobertura de esgoto é o principal gargalo de infraestrutura do município.</p>
     </div>
     <div class="kpi-grid four" id="overview-kpis"></div>
@@ -679,9 +679,9 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <div class="section-head">
       <span class="section-kicker">Quem mora aqui</span>
       <h2 class="section-title">Perfil da população</h2>
-      <p class="section-desc">Distribuição espacial, densidade habitacional e composição da população dos 44 bairros.</p>
+      <p class="section-desc">Distribuição espacial, densidade e composição demográfica dos 44 bairros (Censo 2022).</p>
     </div>
-    <div class="decision"><h3>Comentário</h3><p>A população se distribui de forma desigual: Pajuçara concentra 22 mil habitantes enquanto bairros como Parque Santa Maria e Picada têm menos de 600. As densidades mais altas estão nos conjuntos Jereissati e Conjunto Timbó. A população não-branca é amplamente majoritária, chegando a 96,6% em Olho d'Água do Pitaguari.</p></div>
+    <div class="decision"><h3>Análise</h3><p>A população se distribui de forma desigual: Pajuçara concentra 22 mil habitantes enquanto bairros como Parque Santa Maria e Picada têm menos de 600. As densidades mais altas estão nos conjuntos Jereissati e Conjunto Timbó. A população não-branca é amplamente majoritária, chegando a 96,6% em Olho d'Água do Pitaguari.</p></div>
     <div class="panel">
       <div class="panel-head"><div><h3 class="panel-title">Distribuição espacial</h3></div>
         <div class="filters"><select id="demo-indicador"></select></div>
@@ -714,8 +714,8 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 
   <!-- VULNERABILIDADE -->
   <section id="section-vuln" class="section">
-    <div class="section-head"><span class="section-kicker">Vulnerabilidade</span><h2 class="section-title">Pobreza e privação</h2><p class="section-desc">Onde a pobreza se concentra — extrema pobreza, CadÚnico e analfabetismo por bairro.</p></div>
-    <div class="decision"><h3>Comentário</h3><p>A incidência de CadÚnico ultrapassa 100% em Acaracuzinho I. A extrema pobreza ultrapassa 50% dos domicílios em Parque Santa Maria, Jari e Parque Tropical. O analfabetismo é mais alto em Olho d'Água do Pitaguari (13,6%) e Mucunã (12,2%).</p></div>
+    <div class="section-head"><span class="section-kicker">Vulnerabilidade</span><h2 class="section-title">Pobreza e privação</h2><p class="section-desc">Extrema pobreza, CadÚnico (2025) e analfabetismo por bairro — onde a vulnerabilidade se concentra.</p></div>
+    <div class="decision"><h3>Análise</h3><p>A incidência de CadÚnico ultrapassa 100% em Acaracuzinho I. A extrema pobreza ultrapassa 50% dos domicílios em Parque Santa Maria, Jari e Parque Tropical. O analfabetismo é mais alto em Olho d'Água do Pitaguari (13,6%) e Mucunã (12,2%).</p></div>
     <div class="panel">
       <div class="panel-head"><div><h3 class="panel-title">Vulnerabilidade por bairro</h3></div><div class="filters"><select id="vuln-indicador"></select></div></div>
       <div class="map-analytics-layout">
@@ -739,15 +739,15 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Extrema pobreza nos domicílios</h3></div></div><div class="chart-box"><canvas id="chart-vuln-epob" class="chart tall"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Taxa de analfabetismo (15+)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-anal" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Extrema pobreza nos domicílios (CadÚnico 2025)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-epob" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Analfabetismo, 15+ anos (Censo 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-anal" class="chart tall"></canvas></div></div>
     </div>
   </section>
 
   <!-- INFRAESTRUTURA -->
   <section id="section-infra" class="section">
-    <div class="section-head"><span class="section-kicker">Infraestrutura</span><h2 class="section-title">O que a cidade oferece</h2><p class="section-desc">Acesso a esgoto, água, coleta de lixo, saúde e educação pública — o que o município entrega a cada bairro.</p></div>
-    <div class="decision"><h3>Comentário</h3><p>O esgotamento sanitário é o maior gargalo. Diversos bairros têm menos de 5% de cobertura de esgoto. A água e a coleta de lixo apresentam cobertura próxima da universalidade. Equipamentos concentram-se nos bairros mais populosos.</p></div>
+    <div class="section-head"><span class="section-kicker">Infraestrutura</span><h2 class="section-title">O que a cidade oferece</h2><p class="section-desc">Cobertura de saneamento, saúde e equipamentos públicos por bairro (Censo 2022 · CNES 2024).</p></div>
+    <div class="decision"><h3>Análise</h3><p>O esgotamento sanitário é o maior gargalo. Diversos bairros têm menos de 5% de cobertura de esgoto. A água e a coleta de lixo apresentam cobertura próxima da universalidade. Equipamentos concentram-se nos bairros mais populosos.</p></div>
     <div class="panel">
       <div class="panel-head"><div><h3 class="panel-title">Cobertura de serviços</h3></div><div class="filters"><select id="infra-indicador"></select></div></div>
       <div class="map-analytics-layout">
@@ -771,15 +771,15 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Saúde pública por bairro</h3></div></div><div class="chart-box"><canvas id="chart-infra-saude" class="chart"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rede escolar pública</h3></div></div><div class="chart-box"><canvas id="chart-infra-esc" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Saúde pública por bairro (CNES 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-saude" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rede escolar pública (CNES 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-esc" class="chart"></canvas></div></div>
     </div>
   </section>
 
   <!-- TECIDO ECONÔMICO -->
   <section id="section-econ" class="section">
-    <div class="section-head"><span class="section-kicker">Economia local</span><h2 class="section-title">Tecido econômico e capital empresarial</h2><p class="section-desc">Formalidade econômica, distribuição de médias e grandes empresas e concentração de capital social no território.</p></div>
-    <div class="decision"><h3>Comentário</h3><p>Pajuçara e Jereissati A concentram o maior volume de empresas. O Distrito Industrial se destaca em médias e grandes empresas e em capital social acumulado. A participação de MEIs é altíssima, ultrapassando 80% em vários bairros. Entre as 2.250 empresas de porte "Demais", o capital social total ultrapassa R$ 1,3 trilhão (inflado por filiais de grandes bancos e redes nacionais).</p></div>
+    <div class="section-head"><span class="section-kicker">Economia local</span><h2 class="section-title">Tecido econômico</h2><p class="section-desc">Atividade empresarial, MEIs e capital social acumulado por bairro (Receita Federal dez/2024).</p></div>
+    <div class="decision"><h3>Análise</h3><p>Pajuçara e Jereissati A concentram o maior volume de empresas. O Distrito Industrial se destaca em médias e grandes empresas e em capital social acumulado. A participação de MEIs é altíssima, ultrapassando 80% em vários bairros. Entre as 2.250 empresas de porte "Demais", o capital social total ultrapassa R$ 1,3 trilhão (inflado por filiais de grandes bancos e redes nacionais).</p></div>
 
     <!-- KPIs MGE -->
     <div class="kpi-grid six" id="kpi-mge"></div>
@@ -836,20 +836,20 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 
     <!-- CAPITAL POR SETOR -->
     <div class="grid two" style="margin-top:18px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Capital social por setor</h3><p class="panel-sub">Top 15 setores · médias e grandes empresas</p></div></div><div class="chart-box"><canvas id="chart-mge-setor" class="chart tall"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Nº de empresas M/G por bairro</h3><p class="panel-sub">Quantidade de estabelecimentos porte "Demais"</p></div></div><div class="chart-box"><canvas id="chart-mge-bairro" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Capital social por setor (dez/2024)</h3><p class="panel-sub">Top 15 setores · médias e grandes empresas</p></div></div><div class="chart-box"><canvas id="chart-mge-setor" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Empresas médias e grandes por bairro (dez/2024)</h3><p class="panel-sub">Quantidade de estabelecimentos porte "Demais"</p></div></div><div class="chart-box"><canvas id="chart-mge-bairro" class="chart tall"></canvas></div></div>
     </div>
 
     <!-- CHARTS ORIGINAIS -->
     <div class="grid two" style="margin-top:18px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Volume empresarial total por bairro</h3><p class="panel-sub">Todos os portes</p></div></div><div class="chart-box"><canvas id="chart-econ-emp" class="chart tall"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Participação de MEIs</h3><p class="panel-sub">% das empresas que são MEIs</p></div></div><div class="chart-box"><canvas id="chart-econ-mei" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Volume empresarial por bairro (dez/2024)</h3><p class="panel-sub">Todos os portes</p></div></div><div class="chart-box"><canvas id="chart-econ-emp" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Participação de MEIs (dez/2024)</h3><p class="panel-sub">% das empresas que são MEIs</p></div></div><div class="chart-box"><canvas id="chart-econ-mei" class="chart tall"></canvas></div></div>
     </div>
 
     <!-- TOP 50 TABLE -->
     <div class="panel" style="margin-top:18px">
       <div class="panel-head">
-        <div><h3 class="panel-title">Top 50 empresas por capital social</h3><p class="panel-sub">Porte "Demais" · Receita Federal dez/2024</p></div>
+        <div><h3 class="panel-title">Top 50 empresas por capital social</h3><p class="panel-sub">Receita Federal · CNPJ dez/2024</p></div>
         <span class="table-count" id="mge-top-count"></span>
       </div>
       <div class="table-filter-bar">
@@ -892,7 +892,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <!-- Map + sidebar -->
     <div class="panel" style="margin-bottom:20px">
       <div class="panel-head">
-        <div><h3 class="panel-title">Mapa de OSCs</h3><p class="panel-sub">Clique nas áreas da legenda para filtrar. Use a busca ou filtre por bairro.</p></div>
+        <div><h3 class="panel-title">Mapa de OSCs</h3><p class="panel-sub">Filtre por área de atuação, nome ou bairro. Fonte: Mapa das OSCs — IPEA 2024.</p></div>
         <span class="table-count" id="osc-map-count"></span>
       </div>
       <div class="map-analytics-layout" style="padding:0 24px 4px">
@@ -921,8 +921,8 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 
     <!-- Charts row -->
     <div class="grid two" style="margin-bottom:0">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro</h3></div></div><div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs</h3></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro (IPEA 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs (IPEA 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart"></canvas></div></div>
     </div>
   </section>
 
