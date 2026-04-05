@@ -2324,7 +2324,6 @@ const METRICS = {
   idhRenda:{label:'IDH – Renda (2010)',fmt:'index',higher:'bom'},
   epob2010:{label:'Extrema pobreza (2010)',fmt:'pct',higher:'alto'},
   ibeu:{label:'Índice de Bem-Estar Urbano',fmt:'index',higher:'bom'},
-  cvli:{label:'Crimes violentos letais (média anual)',fmt:'float1',higher:'alto'},
   mariaPenha:{label:'Ocorrências Maria da Penha (média anual)',fmt:'float1',higher:'alto'},
   feiras:{label:'Feiras livres',fmt:'int',higher:'alto'},
   pracas:{label:'Praças',fmt:'int',higher:'alto'},
@@ -2346,7 +2345,7 @@ const METRICS = {
 const MAP_CONFIG = {
   visao:{metrics:['idhm','cad','epob','esg','emp','osc10k','ibeu','renda'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'idhm'}},
   demo:{metrics:['pop','dens','raca','mulh','popFem','dom','pop09','gravAdol'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'dens'}},
-  vuln:{metrics:['epob','cad','idhm','anal','hom','idhEduc','idhLong','idhRenda','epob2010','cvli','mariaPenha','cadFam','cadEpobFam','favelas'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'epob'}},
+  vuln:{metrics:['epob','cad','idhm','anal','hom','idhEduc','idhLong','idhRenda','epob2010','mariaPenha','cadFam','cadEpobFam','favelas'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'epob'}},
   infra:{metrics:['esg','agua','lixo','esfc','esc','esaude','caps','cras','feiras','pracas','ibeu'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'esg'}},
   econ:{metrics:['emp','renda','meiShare','mpe','mge','negImpacto','coops','vinculos'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'emp'}},
   osc:{metrics:['oscGeoCount','oscGeo10k','oscGeoShare'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'oscGeo10k'}}
