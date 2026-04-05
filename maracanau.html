@@ -499,6 +499,35 @@ tbody tr:hover{background:#EEF4FF}
 .region-stat{font-size:11px;color:#1B2D3E;font-weight:600}
 .region-stat span{color:#5C6E7E;font-weight:400}
 .radar-note{font-size:12px;color:#5C6E7E;background:#F4F6F9;border:1px solid #D8E0E8;border-radius:4px;padding:8px 12px;margin-bottom:14px;line-height:1.5}
+
+/* ── Dimension score matrix & reading panel ── */
+.dim-outer{display:flex;flex-direction:column;gap:20px}
+.dim-matrix-wrap{overflow-x:auto}
+.dim-matrix{width:100%;border-collapse:collapse;font-size:12px;min-width:560px}
+.dim-matrix thead th{font-size:10px;font-weight:700;color:#5C6E7E;text-transform:uppercase;letter-spacing:.05em;padding:7px 10px;text-align:center;border-bottom:2px solid #D8E0E8;white-space:nowrap;background:#fff}
+.dim-matrix thead th:first-child{text-align:left;min-width:160px}
+.dim-matrix tbody td{padding:6px 8px;border-bottom:1px solid #F0F2F5;text-align:center;vertical-align:middle}
+.dim-matrix tbody td:first-child{text-align:left;font-size:11px;font-weight:700;color:#062040;white-space:nowrap;padding-left:4px}
+.dim-matrix tbody tr:hover{background:#f7f9fc}
+.dim-cell{display:inline-flex;align-items:center;justify-content:center;width:54px;height:26px;border-radius:4px;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.2)}
+.dim-total-cell{display:inline-flex;align-items:center;justify-content:center;width:44px;height:26px;border-radius:4px;font-size:12px;font-weight:800;background:#1B2D3E;color:#fff}
+.dim-rank-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:800;flex-shrink:0}
+
+.dim-bottom{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.dim-reading{background:#F4F6F9;border:1px solid #D8E0E8;border-radius:6px;padding:16px 18px;position:sticky;top:120px}
+.dim-reading-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5C6E7E;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #D8E0E8}
+.dim-rank-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #EEF1F4}
+.dim-rank-row:last-child{border-bottom:none}
+.dim-rank-pos{font-size:14px;font-weight:900;width:20px;text-align:center;flex-shrink:0}
+.dim-rank-label{font-size:11px;font-weight:700;color:#062040;flex:1;line-height:1.3}
+.dim-rank-score-val{font-size:12px;font-weight:800;flex-shrink:0}
+.dim-score-bar{height:4px;border-radius:2px;margin-top:3px;background:#0B4FA8;opacity:.7}
+.dim-insights{margin-top:14px;padding-top:14px;border-top:1px solid #D8E0E8}
+.dim-insight-head{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5C6E7E;margin-bottom:10px}
+.dim-insight-row{margin-bottom:9px}
+.dim-insight-key{font-size:11px;font-weight:700;color:#0B4FA8;margin-bottom:2px}
+.dim-insight-val{font-size:11px;color:#5C6E7E;line-height:1.5}
+@media(max-width:860px){.dim-bottom{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -718,9 +747,18 @@ tbody tr:hover{background:#EEF4FF}
     </div>
 
     <div class="panel" style="margin-bottom:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Dimensões por região</h3><p class="panel-sub">Eixos positivos: valores maiores indicam condição relativa mais favorável.</p></div></div>
-      <div class="radar-note"><strong>Como ler:</strong> o polígono maior indica melhor posicionamento relativo. O eixo social foi invertido para <em>baixa pobreza extrema</em>.</div>
-      <div class="chart-box"><canvas id="chart-region-radar" class="chart" style="height:440px"></canvas></div>
+      <div class="panel-head"><div><h3 class="panel-title">Dimensões por região</h3><p class="panel-sub">Score relativo 0–100 por dimensão — células verdes indicam melhor posição relativa, vermelhas maior vulnerabilidade.</p></div></div>
+      <div class="dim-outer">
+        <div class="dim-matrix-wrap"><table class="dim-matrix" id="dim-matrix"></table></div>
+        <div class="dim-bottom">
+          <div>
+            <p style="font-size:10px;font-weight:700;color:#5C6E7E;letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px">Comparativo visual por região</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px" id="radar-toggles"></div>
+            <div class="chart-box"><canvas id="chart-region-radar" class="chart" style="height:360px"></canvas></div>
+          </div>
+          <div class="dim-reading" id="dim-reading"></div>
+        </div>
+      </div>
     </div>
 
     <div class="panel">
@@ -974,42 +1012,50 @@ function initOsc(){
 
 
 const REGION_MAP = {
-  "Jatobá":"Norte Rural","Siqueira":"Norte Rural","Jari":"Norte Rural",
-  "Parque Santa Maria":"Norte Rural","Alto Alegre":"Norte Rural","Jaçanaú":"Norte Rural",
-  "Alto Alegre I":"Noroeste — Expansão","Alto Alegre II":"Noroeste — Expansão",
-  "Novo Oriente":"Noroeste — Expansão","Acaracuzinho I":"Noroeste — Expansão",
-  "Acaracuzinho II":"Noroeste — Expansão","Tijuca":"Noroeste — Expansão",
-  "Centro":"Centro Urbano","Jereissati Setor A":"Centro Urbano",
-  "Jereissati Setor B":"Centro Urbano","Jereissati Setor C":"Centro Urbano",
-  "Jereissati Setor D":"Centro Urbano","Jereissati Setor E":"Centro Urbano",
-  "Novo Maracanaú":"Centro Urbano","Carneiro de Mendonça":"Centro Urbano",
-  "Pajuçara":"Leste — Eixo Pajuçara","Parque Piratininga":"Leste — Eixo Pajuçara",
-  "Arronches":"Leste — Eixo Pajuçara","Conjunto Timbó":"Leste — Eixo Pajuçara",
-  "Boa Vista":"Leste — Eixo Pajuçara","Parque Luzardo Viana":"Leste — Eixo Pajuçara",
-  "Independência":"Sudeste Habitacional","Jardim Bandeirante":"Sudeste Habitacional",
-  "Jardim Paraíso":"Sudeste Habitacional","Boa Esperança":"Sudeste Habitacional",
-  "Parque Progresso":"Sudeste Habitacional","Parque Tropical":"Sudeste Habitacional",
-  "Esplanada do Mondubim":"Sudeste Habitacional",
-  "Distrito Industrial do Ceará":"Oeste Industrial","Mucunã":"Oeste Industrial",
-  "Cágado":"Oeste Industrial","Alto da Mangueira":"Oeste Industrial",
-  "Furna da Onça":"Oeste Industrial","Picada":"Oeste Industrial",
-  "Alto da Bonança":"Sul Rural","Antônio Justa":"Sul Rural",
-  "Coqueiral":"Sul Rural","Olho D'Água do Pitaguari":"Sul Rural","Pau Serrado":"Sul Rural"
+  /* Extremo Norte — bairros mais setentrionais, caráter rural/periurbano */
+  "Jatobá":"Extremo Norte","Siqueira":"Extremo Norte","Jari":"Extremo Norte",
+  "Jaçanaú":"Extremo Norte","Parque Santa Maria":"Extremo Norte","Alto Alegre":"Extremo Norte",
+  /* Zona Norte — franja de expansão urbana norte */
+  "Alto Alegre I":"Zona Norte","Alto Alegre II":"Zona Norte",
+  "Novo Oriente":"Zona Norte","Acaracuzinho I":"Zona Norte",
+  "Acaracuzinho II":"Zona Norte","Tijuca":"Zona Norte",
+  "Novo Maracanaú":"Zona Norte","Esplanada do Mondubim":"Zona Norte",
+  /* Centro e Jereissati — núcleo urbano consolidado */
+  "Centro":"Centro e Jereissati","Jereissati Setor A":"Centro e Jereissati",
+  "Jereissati Setor B":"Centro e Jereissati","Jereissati Setor C":"Centro e Jereissati",
+  "Jereissati Setor D":"Centro e Jereissati","Jereissati Setor E":"Centro e Jereissati",
+  "Independência":"Centro e Jereissati","Boa Vista":"Centro e Jereissati",
+  "Conjunto Timbó":"Centro e Jereissati","Coqueiral":"Centro e Jereissati",
+  "Parque Piratininga":"Centro e Jereissati",
+  /* Zona Leste — borda com Fortaleza, eixo leste */
+  "Pajuçara":"Zona Leste","Arronches":"Zona Leste","Boa Esperança":"Zona Leste",
+  "Jardim Bandeirante":"Zona Leste","Jardim Paraíso":"Zona Leste",
+  "Parque Progresso":"Zona Leste","Parque Tropical":"Zona Leste",
+  "Alto da Bonança":"Zona Leste","Distrito Industrial do Ceará":"Zona Leste",
+  /* Zona Oeste — periferia oeste, menor densidade */
+  "Mucunã":"Zona Oeste","Cágado":"Zona Oeste",
+  "Pau Serrado":"Zona Oeste","Parque Luzardo Viana":"Zona Oeste",
+  /* Zona Sul — periferia sul */
+  "Olho D'Água do Pitaguari":"Zona Sul","Carneiro de Mendonça":"Zona Sul",
+  "Furna da Onça":"Zona Sul","Picada":"Zona Sul",
+  "Antônio Justa":"Zona Sul","Alto da Mangueira":"Zona Sul"
 };
 const REGION_COLORS = {
-  "Norte Rural":"#c0392b","Noroeste — Expansão":"#d35400",
-  "Centro Urbano":"#27ae60","Leste — Eixo Pajuçara":"#2980b9",
-  "Sudeste Habitacional":"#8e44ad","Oeste Industrial":"#b7860b","Sul Rural":"#16a085"
+  "Extremo Norte":      "#c0392b",
+  "Zona Norte":         "#e67e22",
+  "Centro e Jereissati":"#27ae60",
+  "Zona Leste":         "#2980b9",
+  "Zona Oeste":         "#8e44ad",
+  "Zona Sul":           "#16a085"
 };
-const REGION_ORDER = ["Norte Rural","Noroeste — Expansão","Centro Urbano","Leste — Eixo Pajuçara","Sudeste Habitacional","Oeste Industrial","Sul Rural"];
+const REGION_ORDER = ["Extremo Norte","Zona Norte","Centro e Jereissati","Zona Leste","Zona Oeste","Zona Sul"];
 const REGION_DESC = {
-  "Norte Rural":"Bairros de baixa densidade com características rurais e alta vulnerabilidade social.",
-  "Noroeste — Expansão":"Área de expansão urbana recente com crescimento habitacional acelerado.",
-  "Centro Urbano":"Núcleo central com maior concentração de serviços, equipamentos e atividade econômica formal.",
-  "Leste — Eixo Pajuçara":"Corredor leste com mix residencial e comercial ao longo do eixo Pajuçara.",
-  "Sudeste Habitacional":"Predominância de conjuntos habitacionais com alta densidade e vulnerabilidade intermediária.",
-  "Oeste Industrial":"Área do Distrito Industrial com perfil misto entre indústria e habitação.",
-  "Sul Rural":"Bairros periféricos ao sul com baixa densidade e caráter predominantemente rural."
+  "Extremo Norte":"Seis bairros no limite norte do município, de caráter predominantemente rural e baixa cobertura de serviços.",
+  "Zona Norte":"Faixa de expansão urbana recente com forte crescimento habitacional, predominando bairros de baixa renda.",
+  "Centro e Jereissati":"Núcleo urbano consolidado — concentra serviços, equipamentos públicos, o complexo Jereissati e maior densidade econômica.",
+  "Zona Leste":"Borda com Fortaleza (Mondubim/Messejana); área heterogênea que reúne conjuntos habitacionais, o Distrito Industrial e bairros populares.",
+  "Zona Oeste":"Periferia oeste de baixa densidade; quatro bairros com menor cobertura de infraestrutura e isolamento em relação ao núcleo urbano.",
+  "Zona Sul":"Bairros da fronteira sul com perfil periurbano, alta vulnerabilidade social e menor dinâmica econômica."
 };
 
 function initComp(){
@@ -1128,71 +1174,219 @@ function initComp(){
   }).join('')}</tbody>`;
   document.getElementById('table-region').innerHTML=thead+tbody;
 
-  // ── Radar chart ──────────────────────────────────────────────────────────
-  const radarAxes=[
-    {label:'Baixa pobreza extrema',getValue:s=>s.epob!=null?(1-s.epob)*100:null},
-    {label:'Esgoto',getValue:s=>s.esg!=null?s.esg*100:null},
-    {label:'Água',getValue:s=>s.agua!=null?s.agua*100:null},
-    {label:'Renda relativa',getValue:s=>s.renda},
-    {label:'Atividade formal',getValue:s=>s.emp1k},
-    {label:'Presença OSC',getValue:s=>s.osc10k},
+  // ── Dimensions & normalization ──────────────────────────────────────────
+  const dimAxes=[
+    {key:'educ',  label:'Capital humano',      short:'Educação',    getValue:s=>s.anal!=null?(1-s.anal)*100:null, note:'Inverso do analfabetismo'},
+    {key:'prot',  label:'Proteção social',     short:'Proteção',    getValue:s=>s.epob!=null?(1-s.epob)*100:null, note:'Inverso da extrema pobreza'},
+    {key:'san',   label:'Saneamento',           short:'Saneamento',  getValue:s=>{const v=[s.esg,s.agua,s.lixo].filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length*100:null}, note:'Média de esgoto, água e coleta'},
+    {key:'renda', label:'Renda',                short:'Renda',       getValue:s=>s.renda, note:'Renda média domiciliar 2010'},
+    {key:'econ',  label:'Dinamismo econômico', short:'Economia',    getValue:s=>s.emp1k, note:'Empresas formais / 1.000 hab.'},
+    {key:'soc',   label:'Tecido social',        short:'Civil',       getValue:s=>s.osc10k, note:'OSCs ativas / 10.000 hab.'},
   ];
-  // Normalize each axis: best region = 100
-  const normalized={};
-  REGION_ORDER.forEach(r=>{ normalized[r]=[]; });
-  radarAxes.forEach(ax=>{
+  // Min-max normalization (0–100, spreads scores across full range)
+  const normScores={};
+  REGION_ORDER.forEach(r=>{normScores[r]=[]});
+  dimAxes.forEach(ax=>{
     const vals=REGION_ORDER.map(r=>ax.getValue(RS[r])).filter(v=>v!=null&&!isNaN(v));
     const maxV=Math.max(...vals)||1;
+    const minV=Math.min(...vals);
+    const range=maxV-minV||1;
     REGION_ORDER.forEach(r=>{
       const v=ax.getValue(RS[r]);
-      normalized[r].push(v!=null&&!isNaN(v)?Math.round(v/maxV*100):0);
+      normScores[r].push(v!=null&&!isNaN(v)?Math.round((v-minV)/range*100):0);
     });
   });
+  // Overall score = mean of all dimensions
+  const totalScore={};
+  REGION_ORDER.forEach(r=>{totalScore[r]=Math.round(normScores[r].reduce((a,b)=>a+b,0)/normScores[r].length)});
+  const rankedRegions=[...REGION_ORDER].sort((a,b)=>totalScore[b]-totalScore[a]);
+
+  // Score → color (red=0, amber=50, green=100)
+  function scoreColor(v){
+    if(v>=80) return{bg:'#1a7a4a',text:'#fff'};
+    if(v>=60) return{bg:'#27ae60',text:'#fff'};
+    if(v>=40) return{bg:'#e9a030',text:'#fff'};
+    if(v>=20) return{bg:'#c85000',text:'#fff'};
+    return{bg:'#b52b27',text:'#fff'};
+  }
+  function rankColor(i){
+    const c=['#0B4FA8','#2472c8','#3b86d4','#8292A0','#9aabb8','#b0c0cc','#c8d4dc'];
+    return c[i]||'#ccc';
+  }
+
+  // ── Score matrix table ───────────────────────────────────────────────────
+  const matrixHead=`<thead><tr>
+    <th style="text-align:left">Região</th>
+    ${dimAxes.map(a=>`<th title="${a.note}">${a.short}</th>`).join('')}
+    <th>Score</th>
+  </tr></thead>`;
+  const matrixBody=`<tbody>${rankedRegions.map((r,i)=>{
+    const rank=i+1;
+    const col=REGION_COLORS[r];
+    return`<tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:7px">
+          <span class="dim-rank-badge" style="background:${rankColor(i)};color:#fff">${rank}</span>
+          <span class="region-dot" style="background:${col}"></span>
+          <span>${r}</span>
+        </div>
+      </td>
+      ${normScores[r].map(v=>{const c=scoreColor(v);return`<td><span class="dim-cell" style="background:${c.bg};color:${c.text}">${v}</span></td>`}).join('')}
+      <td><span class="dim-total-cell">${totalScore[r]}</span></td>
+    </tr>`;
+  }).join('')}</tbody>`;
+  document.getElementById('dim-matrix').innerHTML=matrixHead+matrixBody;
+
+  // ── Radar with toggle buttons ────────────────────────────────────────────
   const radarPalette={
-    "Norte Rural":     {border:'#c0392b',bg:'rgba(192,57,43,.12)'},
-    "Noroeste — Expansão":{border:'#d35400',bg:'rgba(211,84,0,.12)'},
-    "Centro Urbano":   {border:'#27ae60',bg:'rgba(39,174,96,.12)'},
-    "Leste — Eixo Pajuçara":{border:'#2980b9',bg:'rgba(41,128,185,.12)'},
-    "Sudeste Habitacional":{border:'#8e44ad',bg:'rgba(142,68,173,.12)'},
-    "Oeste Industrial":{border:'#b7860b',bg:'rgba(183,134,11,.12)'},
-    "Sul Rural":       {border:'#16a085',bg:'rgba(22,160,133,.12)'},
+    "Extremo Norte":       {border:'#c0392b',bg:'rgba(192,57,43,.15)'},
+    "Zona Norte":          {border:'#e67e22',bg:'rgba(230,126,34,.15)'},
+    "Centro e Jereissati": {border:'#1a7a4a',bg:'rgba(26,122,74,.15)'},
+    "Zona Leste":          {border:'#2980b9',bg:'rgba(41,128,185,.15)'},
+    "Zona Oeste":          {border:'#8e44ad',bg:'rgba(142,68,173,.15)'},
+    "Zona Sul":            {border:'#16a085',bg:'rgba(22,160,133,.15)'},
   };
-  destroyChart('chart-region-radar');
-  CHARTS['chart-region-radar']=new Chart(document.getElementById('chart-region-radar'),{
-    type:'radar',
-    data:{
-      labels:radarAxes.map(a=>a.label),
-      datasets:REGION_ORDER.map(r=>({
-        label:r,
-        data:normalized[r],
-        borderColor:radarPalette[r].border,
-        backgroundColor:radarPalette[r].bg,
-        pointBackgroundColor:radarPalette[r].border,
-        pointBorderColor:'#fff',
-        pointBorderWidth:2,
-        pointRadius:3,
-        pointHoverRadius:5,
-        borderWidth:2,
-      }))
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{labels:{font:{size:11,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:8,boxHeight:8,padding:12}},
-        tooltip:{callbacks:{
-          title(i){return i[0]?.label||''},
-          label(ctx){return `${ctx.dataset.label}: ${ctx.parsed.r.toFixed(0)} pontos`}
+  // Default: top-2 + bottom-1 regions visible
+  const defaultVisible=new Set([rankedRegions[0],rankedRegions[1],rankedRegions[rankedRegions.length-1]]);
+  const visibleRegions=new Set(defaultVisible);
+
+  function buildRadar(){
+    destroyChart('chart-region-radar');
+    const datasets=REGION_ORDER.filter(r=>visibleRegions.has(r)).map(r=>({
+      label:r,
+      data:normScores[r],
+      borderColor:radarPalette[r].border,
+      backgroundColor:radarPalette[r].bg,
+      pointBackgroundColor:radarPalette[r].border,
+      pointBorderColor:'#fff',
+      pointBorderWidth:2,
+      pointRadius:4,
+      pointHoverRadius:6,
+      borderWidth:2.5,
+    }));
+    CHARTS['chart-region-radar']=new Chart(document.getElementById('chart-region-radar'),{
+      type:'radar',
+      data:{labels:dimAxes.map(a=>a.label),datasets},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{
+          legend:{labels:{font:{size:11,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:8,boxHeight:8,padding:14}},
+          tooltip:{callbacks:{
+            title(i){return i[0]?.label||''},
+            label(ctx){
+              const r=ctx.dataset.label;
+              const ax=dimAxes[ctx.dataIndex];
+              const raw=ax.getValue(RS[r]);
+              const rawStr=ax.key==='renda'?fmt(raw,'money'):ax.key==='econ'?raw!=null?raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}):'—':raw!=null?(raw).toFixed(1)+'%':'—';
+              return [`${r}: ${ctx.parsed.r} pts`,`Valor: ${rawStr}`];
+            }
+          }}
+        },
+        scales:{r:{
+          min:0,max:100,
+          angleLines:{color:'#D8E0E8'},
+          grid:{color:'#D8E0E8'},
+          pointLabels:{color:'#1B2D3E',font:{size:11,weight:'700'}},
+          ticks:{backdropColor:'transparent',color:'#8292A0',font:{size:10},stepSize:25,showLabelBackdrop:false}
         }}
-      },
-      scales:{r:{
-        min:0,max:100,
-        angleLines:{color:'#D8E0E8'},
-        grid:{color:'#D8E0E8'},
-        pointLabels:{color:'#1B2D3E',font:{size:11,weight:'700'}},
-        ticks:{backdropColor:'transparent',color:'#8292A0',font:{size:10},stepSize:20,showLabelBackdrop:false}
-      }}
-    }
-  });
+      }
+    });
+  }
+
+  // Toggle buttons
+  const togglesEl=document.getElementById('radar-toggles');
+  togglesEl.innerHTML=REGION_ORDER.map(r=>{
+    const active=visibleRegions.has(r);
+    const col=radarPalette[r].border;
+    return`<button data-region="${r}" onclick="(function(btn,r){
+      const vis=window._radarVis||(window._radarVis=new Set(${JSON.stringify([...defaultVisible])}));
+      if(vis.has(r)){if(vis.size>1)vis.delete(r)}else vis.add(r);
+      document.querySelectorAll('#radar-toggles button').forEach(b=>{
+        const active=vis.has(b.dataset.region);
+        b.style.opacity=active?'1':'.4';
+        b.style.fontWeight=active?'700':'400';
+      });
+      window._radarVis=vis;
+      // rebuild radar
+      const RS2=window._RS_CACHE;
+      const normS2=window._NORM_CACHE;
+      if(!RS2||!normS2) return;
+      if(window.CHARTS&&window.CHARTS['chart-region-radar'])window.CHARTS['chart-region-radar'].destroy();
+      const datasets=[...vis].map(reg=>({
+        label:reg,
+        data:normS2[reg],
+        borderColor:window._RADAR_PAL[reg].border,
+        backgroundColor:window._RADAR_PAL[reg].bg,
+        pointBackgroundColor:window._RADAR_PAL[reg].border,
+        pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:4,pointHoverRadius:6,borderWidth:2.5
+      }));
+      window.CHARTS['chart-region-radar']=new Chart(document.getElementById('chart-region-radar'),{
+        type:'radar',
+        data:{labels:window._DIM_LABELS,datasets},
+        options:{responsive:true,maintainAspectRatio:false,
+          plugins:{legend:{labels:{font:{size:11,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:8,boxHeight:8,padding:14}},
+          tooltip:{callbacks:{label(ctx){return \`\${ctx.dataset.label}: \${ctx.parsed.r} pts\`}}}},
+          scales:{r:{min:0,max:100,angleLines:{color:'#D8E0E8'},grid:{color:'#D8E0E8'},pointLabels:{color:'#1B2D3E',font:{size:11,weight:'700'}},ticks:{backdropColor:'transparent',color:'#8292A0',font:{size:10},stepSize:25,showLabelBackdrop:false}}}}
+      });
+    })(this,'${r}')" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;border:1px solid ${col};background:#fff;cursor:pointer;font-size:11px;font-weight:${active?'700':'400'};color:#062040;opacity:${active?'1':'.4'};transition:opacity .15s">
+      <span style="width:8px;height:8px;border-radius:50%;background:${col};display:inline-block"></span>${r}
+    </button>`;
+  }).join('');
+  // Cache for toggle callbacks
+  window._RS_CACHE=RS;
+  window._NORM_CACHE=normScores;
+  window._RADAR_PAL=radarPalette;
+  window._DIM_LABELS=dimAxes.map(a=>a.label);
+  window._radarVis=new Set(defaultVisible);
+  buildRadar();
+
+  // ── Reading panel ────────────────────────────────────────────────────────
+  const readingEl=document.getElementById('dim-reading');
+  const rankingHTML=`<div class="dim-reading-title">Ranking geral</div>
+  ${rankedRegions.map((r,i)=>{
+    const s=totalScore[r];
+    const barW=Math.round(s);
+    const col=rankColor(i);
+    return`<div class="dim-rank-row">
+      <span class="dim-rank-pos" style="color:${col}">${i+1}</span>
+      <div style="flex:1;min-width:0">
+        <div class="dim-rank-label">
+          <span class="region-dot" style="background:${REGION_COLORS[r]};display:inline-block;vertical-align:middle;margin-right:4px"></span>${r}
+        </div>
+        <div class="dim-score-bar" style="width:${barW}%;background:${REGION_COLORS[r]};opacity:.6"></div>
+      </div>
+      <span class="dim-rank-score-val" style="color:${col}">${s}</span>
+    </div>`;
+  }).join('')}`;
+
+  // Per-dimension insight: who leads, who lags, gap
+  const insightsHTML=`<div class="dim-insights">
+    <div class="dim-insight-head">Destaques por dimensão</div>
+    ${dimAxes.map((ax,i)=>{
+      const scores=REGION_ORDER.map(r=>({r,v:normScores[r][i],raw:ax.getValue(RS[r])}));
+      const sorted=[...scores].sort((a,b)=>b.v-a.v);
+      const leader=sorted[0];
+      const laggard=sorted[sorted.length-1];
+      const gap=leader.v-laggard.v;
+      // Format raw value
+      const fmtRaw=(s)=>{
+        if(s.raw==null) return '—';
+        if(ax.key==='renda') return fmt(s.raw,'money');
+        if(ax.key==='econ') return s.raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'/1k';
+        if(ax.key==='soc') return s.raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'/10k';
+        return (s.raw).toFixed(1)+'%';
+      };
+      return`<div class="dim-insight-row">
+        <div class="dim-insight-key">${ax.label}</div>
+        <div class="dim-insight-val">
+          <span style="color:#1a7a4a;font-weight:700">↑ ${leader.r}</span> — ${fmtRaw(leader)}<br>
+          <span style="color:#b52b27;font-weight:700">↓ ${laggard.r}</span> — ${fmtRaw(laggard)}<br>
+          <span style="color:#8292A0">Gap: ${gap} pts</span>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+  readingEl.innerHTML=rankingHTML+insightsHTML;
 }
 
 function initTab(tab){
