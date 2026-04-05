@@ -3007,12 +3007,18 @@ function createMap(section){
       syncOscFilterControls(e.target.value, 'Todos');
     }
     updateMap(section);
+    if(section === 'visao') refreshOverviewCharts(e.target.value, 'Todos');
   });
   document.getElementById(`${section}-bairro`).addEventListener('change', () => {
     if(section === 'osc'){
       syncOscFilterControls(document.getElementById('osc-territorio').value, document.getElementById('osc-bairro').value);
     }
     updateMap(section);
+    if(section === 'visao'){
+      const t = document.getElementById('visao-territorio').value;
+      const b = document.getElementById('visao-bairro').value;
+      refreshOverviewCharts(t, b);
+    }
   });
   document.getElementById(`${section}-indicador`).addEventListener('change', () => updateMap(section));
 
@@ -3217,15 +3223,52 @@ function sortRows(key, descending=true, includeNull=false){
   return [...DATA].filter(d => includeNull ? true : Number.isFinite(d[key])).sort((a,b)=>descending?(b[key]-a[key]):(a[key]-b[key]));
 }
 
+function refreshOverviewCharts(territory, bairro){
+  const rows = filteredData(territory, bairro);
+  if(!rows.length) return;
+
+  // KPIs
+  const pop = rows.reduce((s,d)=>s+(d.pop||0),0);
+  const emp = rows.reduce((s,d)=>s+(d.emp||0),0);
+  const osc = rows.reduce((s,d)=>s+(d.osc||0),0);
+  const totalPop = rows.reduce((s,d)=>s+(d.pop||0),0);
+  const renda = totalPop ? rows.reduce((s,d)=>s+(d.renda||0)*(d.pop||0),0)/totalPop : 0;
+  const suffix = bairro !== 'Todos' ? bairro : territory !== 'Todos' ? territory : `${rows.length} bairros`;
+  document.getElementById('overview-kpis').innerHTML = [
+    {label:'População total', value:fmt(pop,'int'), sub:`Censo 2022 · ${suffix}`},
+    {label:'Empresas ativas', value:fmt(emp,'int'), sub:'Receita Federal · dez/2024'},
+    {label:'OSCs mapeadas', value:fmt(osc,'int'), sub:'Mapa das OSCs · IPEA 2024'},
+    {label:'Renda média ponderada', value:fmt(renda,'money'), sub:'Renda domiciliar per capita (2010)'}
+  ].map(k=>`<div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>`).join('');
+
+  // Territory cards: show only the relevant ones
+  const showGm = territory === 'Todos' || territory === 'Grande Mucuripe';
+  const showGbj = territory === 'Todos' || territory === 'Grande Bom Jardim';
+  document.getElementById('card-gm').style.display = showGm ? '' : 'none';
+  document.getElementById('card-gbj').style.display = showGbj ? '' : 'none';
+
+  // Charts
+  const rowsIdhm = [...rows].sort((a,b)=>(b.idhm||0)-(a.idhm||0));
+  const chartIdhm = Chart.getChart('chart-visao-idhm');
+  if(chartIdhm){
+    chartIdhm.data.labels = rowsIdhm.map(d=>d.b);
+    chartIdhm.data.datasets[0].data = rowsIdhm.map(d=>d.idhm);
+    chartIdhm.data.datasets[0].backgroundColor = rowsIdhm.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal);
+    chartIdhm.update('none');
+  }
+  const rowsCad = [...rows].sort((a,b)=>(b.cad||0)-(a.cad||0));
+  const chartCad = Chart.getChart('chart-visao-cad');
+  if(chartCad){
+    chartCad.data.labels = rowsCad.map(d=>d.b);
+    chartCad.data.datasets[0].data = rowsCad.map(d=>d.cad*100);
+    chartCad.data.datasets[0].backgroundColor = rowsCad.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal);
+    chartCad.update('none');
+  }
+}
+
 function initOverview(){
   createMap('visao');
-  const kpis = [
-    {label:'População total', value: fmt(TOTALS.pop,'int'), sub:'Censo 2022 · 13 bairros'},
-    {label:'Empresas ativas', value: fmt(TOTALS.emp,'int'), sub:'Receita Federal · dez/2024'},
-    {label:'OSCs mapeadas', value: fmt(TOTALS.osc,'int'), sub:'Mapa das OSCs · IPEA 2024'},
-    {label:'Renda média ponderada', value: fmt(TOTALS.renda,'money'), sub:'Renda domiciliar per capita (2010)'}
-  ];
-  document.getElementById('overview-kpis').innerHTML = kpis.map(k => `<div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>`).join('');
+  refreshOverviewCharts('Todos', 'Todos');
 
   const gm = TERR_STATS.find(d => d.t === 'Grande Mucuripe');
   const gbj = TERR_STATS.find(d => d.t === 'Grande Bom Jardim');
