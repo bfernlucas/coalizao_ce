@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coalizão CE - Diagnóstico Territorial</title>
+<title>Coalizão CE · Diagnóstico Territorial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -144,6 +144,7 @@ body{background:#F3F4EF;color:#1A2B1C;display:flex;flex-direction:column;min-hei
   .content{padding:28px 20px 48px}
   .cards{grid-template-columns:1fr}
   .footer{flex-direction:column;text-align:center}
+  .topbar-badges{display:none}
 }
 </style>
 </head>
@@ -161,13 +162,27 @@ body{background:#F3F4EF;color:#1A2B1C;display:flex;flex-direction:column;min-hei
     <div>
       <div class="topbar-brand">Coalizão CE</div>
       <div class="topbar-tagline">Diagnóstico Territorial</div>
-   </div>
+    </div>
+  </div>
+  <div class="topbar-badges">
+    <span class="topbar-badge">Combate à Fome</span>
+    <span class="topbar-badge">Inclusão Produtiva</span>
+  </div>
 </header>
 
 <!-- Hero -->
 <div class="hero">
   <div class="hero-inner">
-    <p class="hero-eyebrow">Painel de Indicadores Territoriais</p>
+    <p class="hero-eyebrow">Painel de Indicadores Territoriais · Ceará</p>
+    <h1 class="hero-title">Território como<br>estratégia de <em>oportunidade</em></h1>
+    <p class="hero-desc">Dados territoriais de vulnerabilidade, infraestrutura, atividade econômica e sociedade civil para orientar intervenções de combate à fome e inclusão produtiva no Ceará.</p>
+    <div class="hero-pills">
+      <span class="hero-pill"><span class="hero-pill-dot"></span>Vulnerabilidade social</span>
+      <span class="hero-pill"><span class="hero-pill-dot"></span>Tecido econômico</span>
+      <span class="hero-pill"><span class="hero-pill-dot"></span>Impacto da sociedade civil</span>
+      <span class="hero-pill"><span class="hero-pill-dot"></span>Infraestrutura pública</span>
+    </div>
+  </div>
 </div>
 
 <!-- Content -->
@@ -185,12 +200,14 @@ body{background:#F3F4EF;color:#1A2B1C;display:flex;flex-direction:column;min-hei
           <div class="card-name">Fortaleza</div>
         </div>
         <div class="card-stats">
+          <span class="card-stat">6 dimensões</span>
           <span class="card-stat">2 territórios</span>
           <span class="card-stat">13 bairros</span>
         </div>
-        <p class="card-desc">Grande Mucuripe e Grande Bom Jardim</p>
+        <p class="card-desc">Grande Mucuripe e Grande Bom Jardim em perspectiva comparada: vulnerabilidade, infraestrutura, tecido econômico e impacto social.</p>
       </div>
       <div class="card-footer">
+        <span class="card-sources">Censo 2022 · CadÚnico · CNPJ · IPEA</span>
         <span class="card-cta">Ver painel <span class="card-arrow">→</span></span>
       </div>
     </a>
@@ -203,11 +220,14 @@ body{background:#F3F4EF;color:#1A2B1C;display:flex;flex-direction:column;min-hei
           <div class="card-name">Maracanaú</div>
         </div>
         <div class="card-stats">
-          <span class="card-stat">6 regiões</span>
+          <span class="card-stat">7 dimensões</span>
           <span class="card-stat">44 bairros</span>
+          <span class="card-stat">239 mil hab.</span>
         </div>
+        <p class="card-desc">Diagnóstico territorial completo com indicadores de vulnerabilidade, infraestrutura, empresas formais, MEIs e 413 OSCs mapeadas.</p>
       </div>
       <div class="card-footer">
+        <span class="card-sources">Censo 2022 · CadÚnico 2025 · CNPJ · IPEA</span>
         <span class="card-cta">Ver painel <span class="card-arrow">→</span></span>
       </div>
     </a>
@@ -223,6 +243,19 @@ body{background:#F3F4EF;color:#1A2B1C;display:flex;flex-direction:column;min-hei
       <span class="partner-chip">Astor Capital</span>
       <span class="partner-chip">Instituto Localiza</span>
       <span class="partner-chip">Somos Um</span>
+    </div>
+  </div>
+
+  <div class="sources">
+    <div class="sources-label">Fontes de dados</div>
+    <div class="sources-list">
+      <span class="source-chip">IBGE · Censo 2022</span>
+      <span class="source-chip">MDS · CadÚnico 2025</span>
+      <span class="source-chip">INEP · IDEB 2023</span>
+      <span class="source-chip">CNES / DataSUS 2024</span>
+      <span class="source-chip">Receita Federal · CNPJ dez/2024</span>
+      <span class="source-chip">Mapa das OSCs · IPEA 2024</span>
+      <span class="source-chip">Cartografia: IBGE 2022</span>
     </div>
   </div>
 
