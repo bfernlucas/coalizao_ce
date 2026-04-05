@@ -794,10 +794,6 @@ body{background:#fff}
         <div class="note-box" id="note-infra">Cores mais escuras indicam maior cobertura de infraestrutura.</div>
       </div>
     </div>
-    <div class="grid two" style="margin-top:22px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Saúde pública por bairro (CNES 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-saude" class="chart"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rede escolar pública (CNES 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-esc" class="chart"></canvas></div></div>
-    </div>
     <div class="panel" style="margin-top:22px">
       <div class="panel-head">
         <div>
@@ -821,6 +817,10 @@ body{background:#fff}
         </div>
         <div id="map-favelas-maracanau" style="height:460px;border:1px solid #E8EDF2"></div>
       </div>
+    </div>
+    <div class="grid two" style="margin-top:22px">
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Saúde pública por bairro (CNES 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-saude" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rede escolar pública (CNES 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-esc" class="chart"></canvas></div></div>
     </div>
   </section>
 
@@ -1323,7 +1323,7 @@ function initInfra(){
   makeBar('chart-infra-saude',withSaude.map(d=>d.b),[{data:withSaude.map(d=>d.esaude),backgroundColor:UI.blue,borderRadius:5}]);
   const withEsc=DATA.filter(d=>d.esc>0).sort((a,b)=>b.esc-a.esc);
   makeBar('chart-infra-esc',withEsc.map(d=>d.b),[{data:withEsc.map(d=>d.esc),backgroundColor:UI.teal,borderRadius:5}]);
-  initFavelasMap('maracanau');
+  initFavelasMap('maracanau', GEO);
 }
 
 function fmtCap(v){
@@ -2165,7 +2165,7 @@ function activateTab(tab){
 document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>activateTab(b.dataset.tab)));
 activateTab('visao');
 
-function initFavelasMap(mun){
+function initFavelasMap(mun, bairrosGeo){
   const mapId='map-favelas-'+mun;
   const listId='favelas-list-'+mun;
   const munName=mun==='fortaleza'?'Fortaleza':'Maracanaú';
@@ -2175,12 +2175,18 @@ function initFavelasMap(mun){
   if(!el||el._leaflet_id) return;
   const m=L.map(mapId,{scrollWheelZoom:false,zoomControl:true});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© CartoDB',maxZoom:19}).addTo(m);
+  if(bairrosGeo){
+    L.geoJSON(bairrosGeo,{
+      style:{fillColor:'transparent',fillOpacity:0,color:'#999',weight:1,opacity:0.5},
+      onEachFeature:(feat,layer)=>{layer.bindTooltip(feat.properties.nome,{sticky:true,direction:'top',opacity:.8});}
+    }).addTo(m);
+  }
   const gj=L.geoJSON({type:'FeatureCollection',features},{
-    style:()=>({color,weight:1.5,fillColor:color,fillOpacity:0.3,opacity:0.9}),
+    style:()=>({color,weight:1.5,fillColor:color,fillOpacity:0.35,opacity:0.9}),
     onEachFeature:(feat,layer)=>{
-      layer.bindTooltip(feat.properties.nm_fcu,{sticky:true,direction:'top'});
-      layer.on('mouseover',function(){this.setStyle({fillOpacity:0.6})});
-      layer.on('mouseout',function(){this.setStyle({fillOpacity:0.3})});
+      layer.bindTooltip('<strong>'+feat.properties.nm_fcu+'</strong>',{sticky:true,direction:'top'});
+      layer.on('mouseover',function(){this.setStyle({fillOpacity:0.65})});
+      layer.on('mouseout',function(){this.setStyle({fillOpacity:0.35})});
     }
   }).addTo(m);
   try{m.fitBounds(gj.getBounds(),{padding:[24,24]});}catch(e){}
