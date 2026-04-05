@@ -154,22 +154,23 @@ body{
 /* Header */
 .topbar{
   background:#1A2B1C;
-  border-bottom:none;
+  border-bottom:3px solid #3D6741;
   padding:0 28px;
-  height:52px;
+  height:54px;
   display:flex;
   align-items:center;
   box-shadow:none;
 }
 .topbar-inner{
   max-width:1400px;
+  width:100%;
   height:100%;
   display:flex;
   align-items:center;
   justify-content:space-between;
 }
-.brand-title{font-size:16px;font-weight:700;letter-spacing:-.01em;color:#fff}
-.brand-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:0;line-height:1.4}
+.brand-title{font-size:14px;font-weight:700;letter-spacing:-.01em;color:#fff!important}
+.brand-sub{font-size:11px;color:rgba(255,255,255,.65)!important;margin-top:1px;line-height:1.4}
 .badge{
   background:rgba(255,255,255,.14);
   border:1px solid rgba(255,255,255,.22);
@@ -726,7 +727,7 @@ body{background:#fff}
           <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
           <div class="legend-labels"><span id="legend-min-demo">0</span><span id="legend-max-demo">0</span></div>
         </div>
-        <div></div>
+        <div class="note-box" id="note-demo"></div>
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
@@ -758,7 +759,7 @@ body{background:#fff}
           <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
           <div class="legend-labels"><span id="legend-min-vuln">0</span><span id="legend-max-vuln">0</span></div>
         </div>
-        <div class="note-box">Cores mais escuras indicam maior vulnerabilidade.</div>
+        <div class="note-box" id="note-vuln">Cores mais escuras indicam maior vulnerabilidade.</div>
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
@@ -790,7 +791,7 @@ body{background:#fff}
           <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
           <div class="legend-labels"><span id="legend-min-infra">0</span><span id="legend-max-infra">0</span></div>
         </div>
-        <div class="note-box">Cores mais escuras indicam maior cobertura de infraestrutura.</div>
+        <div class="note-box" id="note-infra">Cores mais escuras indicam maior cobertura de infraestrutura.</div>
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
@@ -1192,6 +1193,8 @@ function renderAnalysis(section,indicatorKey){
     ?'Bairros com menor cobertura indicam déficits de infraestrutura que afetam a qualidade de vida.'
     :'O mapa revela contrastes internos relevantes para o planejamento territorial de Maracanaú.';
   textEl.innerHTML='<strong>'+top.b+'</strong> registra o maior valor em '+ind.label.toLowerCase()+' (<strong>'+fmt(top[indicatorKey],ind.fmt)+'</strong>), enquanto <strong>'+bottom.b+'</strong> apresenta o menor (<strong>'+fmt(bottom[indicatorKey],ind.fmt)+'</strong>). A amplitude interna é <strong>'+fmt(amplitude,ind.fmt)+'</strong> e a média municipal é <strong>'+fmt(avg,ind.fmt)+'</strong>. '+contextNote;
+  const noteEl=document.getElementById('note-'+section);
+  if(noteEl) noteEl.innerHTML='<strong>'+ind.label+'.</strong> Maior valor: <strong>'+top.b+'</strong> ('+fmt(top[indicatorKey],ind.fmt)+') · Menor valor: <strong>'+bottom.b+'</strong> ('+fmt(bottom[indicatorKey],ind.fmt)+') · Média: <strong>'+fmt(avg,ind.fmt)+'</strong>.';
   insightsEl.innerHTML=[
     {label:'Maior valor',value:fmt(top[indicatorKey],ind.fmt),sub:top.b},
     {label:'Menor valor',value:fmt(bottom[indicatorKey],ind.fmt),sub:bottom.b},
