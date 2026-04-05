@@ -744,7 +744,7 @@ body{background:var(--bg)}
 
   <!-- VULNERABILIDADE -->
   <section id="section-vuln" class="section">
-    <div class="section-head"><span class="section-kicker">Vulnerabilidade</span><h2 class="section-title">Pobreza e privação</h2><p class="section-desc">Extrema pobreza, CadÚnico (2025) e analfabetismo por bairro — onde a vulnerabilidade se concentra.</p></div>
+    <div class="section-head"><span class="section-kicker">Vulnerabilidade</span><h2 class="section-title">Pobreza e privação</h2><p class="section-desc">Extrema pobreza, CadÚnico (2025) e analfabetismo por bairro.</p></div>
     <div class="decision"><h3>Análise</h3><p>A incidência de CadÚnico ultrapassa 100% em Acaracuzinho I. A extrema pobreza ultrapassa 50% dos domicílios em Parque Santa Maria, Jari e Parque Tropical. O analfabetismo é mais alto em Olho d'Água do Pitaguari (13,6%) e Mucunã (12,2%).</p></div>
     <div class="panel">
       <div class="panel-head"><div><h3 class="panel-title">Vulnerabilidade por bairro (CadÚnico 2025)</h3></div><div class="filters"><select id="vuln-indicador"></select></div></div>
@@ -913,7 +913,7 @@ body{background:var(--bg)}
     <div class="section-head">
       <span class="section-kicker">Sociedade civil</span>
       <h2 class="section-title">Organizações da Sociedade Civil</h2>
-      <p class="section-desc">413 OSCs ativas no território — distribuição espacial, áreas de atuação e presença por bairro.</p>
+      <p class="section-desc">413 OSCs ativas: distribuição espacial, áreas de atuação e presença por bairro.</p>
     </div>
 
     <!-- KPI row -->
@@ -978,7 +978,7 @@ body{background:var(--bg)}
         <div class="title-with-info">
           <div>
             <h3 class="panel-title">Dimensões por região</h3>
-            <p class="panel-sub">Comparativo visual das 6 regiões em 6 eixos — clique nos botões para mostrar ou ocultar regiões.</p>
+            <p class="panel-sub">Comparativo das 6 regiões em 6 eixos. Clique nos botões para mostrar ou ocultar.</p>
           </div>
           <details class="info-popover">
             <summary aria-label="Como as variáveis foram construídas">i</summary>
@@ -1001,7 +1001,7 @@ body{background:var(--bg)}
         <div class="dim-bottom">
           <div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px" id="radar-toggles"></div>
-            <div class="radar-note" style="margin:0 0 14px"><strong>Como ler:</strong> os eixos são padronizados para tornar visualmente comparáveis indicadores de unidades distintas — cada eixo escala do menor ao maior valor entre as regiões. Os valores reais estão no painel ao lado.</div>
+            <div class="radar-note" style="margin:0 0 14px"><strong>Como ler:</strong> eixos normalizados min-max entre as regiões. Valores reais no painel ao lado.</div>
             <div class="chart-box"><canvas id="chart-region-radar" class="chart" style="height:420px"></canvas></div>
           </div>
           <div class="dim-reading" id="dim-reading"></div>
@@ -1017,7 +1017,7 @@ body{background:var(--bg)}
   </section>
 
   <div class="footer">
-    <strong>Fontes:</strong> IBGE — Censo 2022 · MDS — CadÚnico 2025 · INEP — IDEB 2023 · CNES/DataSUS · Receita Federal — CNPJ · Mapa das OSCs · Cartografia: IBGE setores censitários 2022
+    <strong>Fontes:</strong> IBGE Censo 2022 · MDS CadÚnico 2025 · INEP IDEB 2023 · CNES/DataSUS 2024 · Receita Federal CNPJ dez/2024 · Mapa das OSCs IPEA 2024 · Cartografia: IBGE 2022
     <div class="footer-credit">Elaborado por Lucas Fernandes</div>
   </div>
 </main>
@@ -1084,9 +1084,32 @@ const INDICATORS={
 
 function createMap(containerId){
   if(MAPS[containerId]){MAPS[containerId].map.remove();delete MAPS[containerId]}
-  const map=L.map(containerId,{zoomControl:true,scrollWheelZoom:true});
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',{
-    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',maxZoom:18
+  const map=L.map(containerId,{
+    zoomControl:false,
+    attributionControl:true,
+    preferCanvas:true,
+    renderer:L.canvas({padding:0.5}),
+    zoomSnap:0.25
+  });
+  map.attributionControl.setPrefix(false);
+  map.createPane('basemap');
+  map.getPane('basemap').style.zIndex='200';
+  map.getPane('basemap').style.opacity='0.76';
+  map.getPane('basemap').style.filter='grayscale(1) contrast(1.02) brightness(1.03)';
+  map.createPane('fills');
+  map.getPane('fills').style.zIndex='320';
+  map.createPane('outlines');
+  map.getPane('outlines').style.zIndex='360';
+  map.createPane('labels');
+  map.getPane('labels').style.zIndex='450';
+  map.getPane('labels').style.pointerEvents='none';
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{
+    subdomains:'abcd',maxZoom:20,pane:'basemap',
+    attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
+  }).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',{
+    subdomains:'abcd',maxZoom:20,pane:'labels',
+    attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
   }).addTo(map);
   MAPS[containerId]={map,layer:null};
   return map;
@@ -1101,10 +1124,13 @@ function paintMap(containerId,indicatorKey,colorSet){
   
   if(m.layer) m.map.removeLayer(m.layer);
   m.layer=L.geoJSON(GEO,{
+    pane:'fills',
+    renderer:m.map.options.renderer,
+    smoothFactor:0,
     style:feature=>{
       const d=findData(feature.properties.nome);
       const v=d?d[indicatorKey]:null;
-      return{fillColor:getColor(v,breaks,colors),weight:1.5,color:'#fff',fillOpacity:.78};
+      return{fillColor:getColor(v,breaks,colors),weight:0,stroke:false,fillOpacity:.78};
     },
     onEachFeature:(feature,layer)=>{
       const d=findData(feature.properties.nome);
@@ -1118,9 +1144,18 @@ function paintMap(containerId,indicatorKey,colorSet){
         <div class="popup-stat"><strong>${fmt(d.cad,'pct')}</strong><span>CadÚnico</span></div>
       </div></div>`;
       layer.bindPopup(popupHTML,{maxWidth:340});
-      layer.on('mouseover',function(){this.setStyle({weight:3,color:'#0f5f92',fillOpacity:.9})});
+      layer.on('mouseover',function(){this.setStyle({fillOpacity:.95})});
       layer.on('mouseout',function(){m.layer.resetStyle(this)});
     }
+  }).addTo(m.map);
+  // boundary outlines layer
+  if(m.outlines) m.map.removeLayer(m.outlines);
+  m.outlines=L.geoJSON(GEO,{
+    pane:'outlines',
+    renderer:m.map.options.renderer,
+    interactive:false,
+    smoothFactor:0,
+    style:()=>({color:'#c7cfd8',weight:1.05,opacity:1,fill:false,lineCap:'round',lineJoin:'round'})
   }).addTo(m.map);
   m.map.fitBounds(m.layer.getBounds(),{padding:[20,20]});
 
