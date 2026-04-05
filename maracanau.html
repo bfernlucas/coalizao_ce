@@ -389,6 +389,42 @@ tbody tr:hover{background:#EEF4FF}
 .rank{font-weight:700;color:var(--brand)}
 
 /* Economic tab enhancements */
+.mge-map-wrap{position:relative}
+.map-filter-overlay{
+  position:absolute;top:10px;left:10px;right:10px;z-index:900;
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:8px 12px;
+  box-shadow:0 2px 16px rgba(0,0,0,.14);
+  pointer-events:all;
+}
+.map-filter-overlay select{
+  appearance:none;
+  padding:6px 26px 6px 10px;
+  border:1px solid var(--line);border-radius:4px;
+  font:inherit;font-size:12px;font-weight:600;
+  color:var(--text);background-color:#fff;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%235C6E7E' d='M5 7L0.67 2h8.66z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:calc(100% - 8px) 50%;
+  cursor:pointer;flex:1;min-width:130px;max-width:200px;
+}
+.map-filter-overlay select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
+.map-filter-overlay select.active-filter{border-color:var(--brand);background-color:#EEF4FF;color:var(--brand)}
+.mge-clear-btn{
+  padding:6px 12px;border:1px solid #C8D9F5;border-radius:4px;
+  background:#EEF4FF;color:var(--brand);font:inherit;font-size:12px;font-weight:700;
+  cursor:pointer;white-space:nowrap;
+}
+.mge-clear-btn:hover{background:#dbe8f5}
+.mge-filter-badge{
+  padding:4px 10px;border-radius:4px;
+  background:var(--brand);color:#fff;font-size:11px;font-weight:700;
+  white-space:nowrap;
+}
 .cap-legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:10px 20px 14px;border-top:1px solid var(--line);align-items:center}
 .cap-legend-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-right:4px}
 .cap-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
@@ -732,23 +768,27 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <!-- MAPA CAPITAL SOCIAL POR BAIRRO -->
     <div class="panel" style="margin-top:18px">
       <div class="panel-head">
-        <div><h3 class="panel-title">Concentração de capital social por bairro</h3><p class="panel-sub">Médias e grandes empresas (porte "Demais") · Tamanho do círculo proporcional ao capital social</p></div>
-        <div class="filters">
-          <select id="mge-setor-filter">
-            <option value="">Todos os setores</option>
-          </select>
-          <select id="mge-regiao-filter">
-            <option value="">Todas as regiões</option>
-          </select>
-          <select id="mge-tipo-filter">
-            <option value="">Matriz e Filial</option>
-            <option value="M">Somente Matrizes</option>
-            <option value="F">Somente Filiais</option>
-          </select>
-        </div>
+        <div><h3 class="panel-title">Concentração de capital social por bairro</h3><p class="panel-sub">Médias e grandes empresas (porte "Demais") · Use os filtros sobrepostos para explorar por setor, região ou tipo</p></div>
       </div>
       <div class="map-analytics-layout">
-        <div class="map-box split" id="map-mge" style="min-height:470px"></div>
+        <div class="mge-map-wrap">
+          <div class="map-box split" id="map-mge" style="min-height:470px"></div>
+          <div class="map-filter-overlay" id="mge-filter-overlay">
+            <select id="mge-setor-filter" title="Filtrar por setor">
+              <option value="">Todos os setores</option>
+            </select>
+            <select id="mge-regiao-filter" title="Filtrar por região">
+              <option value="">Todas as regiões</option>
+            </select>
+            <select id="mge-tipo-filter" title="Filtrar por tipo">
+              <option value="">Matriz e Filial</option>
+              <option value="M">Somente Matrizes</option>
+              <option value="F">Somente Filiais</option>
+            </select>
+            <button class="mge-clear-btn" id="mge-clear-filters" title="Limpar filtros" style="display:none">✕ Limpar</button>
+            <span class="mge-filter-badge" id="mge-filter-count" style="display:none"></span>
+          </div>
+        </div>
         <div class="analysis-side">
           <div class="analysis-card">
             <div class="analysis-kicker">Capital por bairro</div>
@@ -1264,10 +1304,27 @@ function initEcon(){
       </div>`).join('');
   }
 
+  function updateFilterUI(){
+    const sf=selSetor.value,rf=selRegiao.value,tf=selTipo.value;
+    const active=[sf,rf,tf].filter(Boolean).length;
+    const clearBtn=document.getElementById('mge-clear-filters');
+    const badge=document.getElementById('mge-filter-count');
+    clearBtn.style.display=active?'':'none';
+    badge.style.display=active?'':'none';
+    if(active) badge.textContent=`${active} filtro${active>1?'s':''}`;
+    selSetor.classList.toggle('active-filter',!!sf);
+    selRegiao.classList.toggle('active-filter',!!rf);
+    selTipo.classList.toggle('active-filter',!!tf);
+    renderMGEMap();
+  }
   renderMGEMap();
-  selSetor.addEventListener('change',renderMGEMap);
-  selRegiao.addEventListener('change',renderMGEMap);
-  selTipo.addEventListener('change',renderMGEMap);
+  selSetor.addEventListener('change',updateFilterUI);
+  selRegiao.addEventListener('change',updateFilterUI);
+  selTipo.addEventListener('change',updateFilterUI);
+  document.getElementById('mge-clear-filters').addEventListener('click',()=>{
+    selSetor.value='';selRegiao.value='';selTipo.value='';
+    updateFilterUI();
+  });
 
   // --- Top 50 Table (sortable + searchable) ---
   let top50SortKey=-1; // -1 = default (capital desc)
@@ -1310,12 +1367,12 @@ function initEcon(){
         <td style="text-align:right;font-weight:700;color:#1a6040">${fmtCap(d.cap)}</td>
       </tr>`;
     }).join('')}</tbody>`;
-    // Bind sort clicks
+    // Bind sort clicks — primeira vez sempre desc (maior→menor)
     document.querySelectorAll('#table-mge-top th.sortable').forEach(th=>{
       th.addEventListener('click',()=>{
         const col=parseInt(th.dataset.col);
         if(top50SortKey===col) top50SortDir*=-1;
-        else{top50SortKey=col;top50SortDir=col===4?-1:1;}
+        else{top50SortKey=col;top50SortDir=-1;}
         renderTop50Table();
       });
     });
@@ -1376,7 +1433,7 @@ function initEcon(){
       th.addEventListener('click',()=>{
         const col=th.dataset.econCol;
         if(econSortKey===col) econSortDir*=-1;
-        else{econSortKey=col;econSortDir=col==='b'?1:-1;}
+        else{econSortKey=col;econSortDir=-1;}
         renderEconTable();
       });
     });
