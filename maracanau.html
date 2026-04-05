@@ -63,7 +63,7 @@ button,select,input,textarea{font:inherit}
 .legend-wrap{display:flex;flex-direction:column;gap:10px}
 .legend-title{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
 .legend-scale{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-radius:999px;overflow:hidden;border:1px solid #dbe4ec;height:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
-.legend-scale span:nth-child(1){background:#f3f6fb}.legend-scale span:nth-child(2){background:#dbe6f0}.legend-scale span:nth-child(3){background:#b9ccdb}.legend-scale span:nth-child(4){background:#84a8bf}.legend-scale span:nth-child(5){background:#4f7b98}.legend-scale span:nth-child(6){background:#1f4d6b}
+.legend-scale span:nth-child(1){background:#edf7ee}.legend-scale span:nth-child(2){background:#c6e9c8}.legend-scale span:nth-child(3){background:#8fd694}.legend-scale span:nth-child(4){background:#5cba65}.legend-scale span:nth-child(5){background:#2e8f39}.legend-scale span:nth-child(6){background:#1a5c2e}
 .legend-labels{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px}
 .note-box{background:linear-gradient(180deg,#fbfdff 0%,#f7fafc 100%);border:1px solid var(--line-2);border-radius:16px;padding:14px 16px;color:var(--muted);font-size:12px;line-height:1.6}
 .kpi-grid{display:grid;gap:16px;padding:0 24px 24px}
@@ -102,7 +102,7 @@ tbody tr{background:#fff}tbody tr:nth-child(even){background:#fbfdff}tbody tr:ho
 .mge-popup{padding:14px 16px}
 .mge-popup h4{margin:0 0 4px;font-size:14px;font-weight:700;color:#062040}
 .mge-popup .mge-cap{font-size:18px;font-weight:700;color:#27763c;margin:6px 0}
-.mge-popup .mge-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;margin-right:3px;background:#eef4ff;color:#0B4FA8}
+.mge-popup .mge-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;margin-right:3px;background:#eef4ff;color:#3D6741}
 .mge-popup .mge-meta{font-size:11px;color:#5C6E7E;margin-top:6px}
 .leaflet-container{font-family:Inter,"Segoe UI",system-ui;background:linear-gradient(180deg,#eef2f5 0%,#e7edf2 100%)}
 .leaflet-control-attribution{background:rgba(255,255,255,.88)!important;backdrop-filter:blur(8px);border-radius:10px!important;padding:4px 8px!important;color:#5f7286!important;font-size:10px!important;box-shadow:0 6px 18px rgba(16,39,64,.08);margin:0 10px 10px 0!important}
@@ -153,8 +153,8 @@ body{
 
 /* Header */
 .topbar{
-  background:#fff;
-  border-bottom:1px solid #E2E6E3;
+  background:#1A2B1C;
+  border-bottom:none;
   padding:0 28px;
   height:52px;
   display:flex;
@@ -168,8 +168,8 @@ body{
   align-items:center;
   justify-content:space-between;
 }
-.brand-title{font-size:16px;font-weight:700;letter-spacing:-.01em}
-.brand-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:0;line-height:1.4}
+.brand-title{font-size:16px;font-weight:700;letter-spacing:-.01em;color:#fff}
+.brand-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:0;line-height:1.4}
 .badge{
   background:rgba(255,255,255,.14);
   border:1px solid rgba(255,255,255,.22);
@@ -342,12 +342,12 @@ body{
 .legend-scale{
   border-radius:3px;height:12px;border:1px solid var(--line);
 }
-.legend-scale span:nth-child(1){background:#dbeafe}
-.legend-scale span:nth-child(2){background:#bfdbfe}
-.legend-scale span:nth-child(3){background:#93c5fd}
-.legend-scale span:nth-child(4){background:#3b82f6}
-.legend-scale span:nth-child(5){background:#1d4ed8}
-.legend-scale span:nth-child(6){background:#1e3a8a}
+.legend-scale span:nth-child(1){background:#edf7ee}
+.legend-scale span:nth-child(2){background:#c6e9c8}
+.legend-scale span:nth-child(3){background:#8fd694}
+.legend-scale span:nth-child(4){background:#5cba65}
+.legend-scale span:nth-child(5){background:#2e8f39}
+.legend-scale span:nth-child(6){background:#1a5c2e}
 .legend-labels{font-size:10px;color:var(--muted)}
 
 /* Note box */
@@ -445,7 +445,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .tipo-badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.04em}
 .tipo-m{background:#e0f2e9;color:#1a6040}
 .tipo-f{background:#fef3cd;color:#7c5c00}
-.sector-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:600;background:#EEF4FF;color:#0B4FA8;white-space:nowrap}
+.sector-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:600;background:#EEF4FF;color:#3D6741;white-space:nowrap}
 .mei-high td:nth-child(4){color:#B07C20;font-weight:700}
 .table-filter-bar{padding:8px 20px;border-bottom:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:#f8fafb}
 .table-filter-bar input,.table-filter-bar select{padding:7px 11px;border:1px solid var(--line);border-radius:4px;font:inherit;font-size:12px;background:#fff;color:var(--text);flex:1;min-width:140px}
@@ -599,7 +599,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .dim-insights{margin-top:0}
 .dim-insight-row{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #EEF1F4}
 .dim-insight-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.dim-insight-key{font-size:11px;font-weight:700;color:#0B4FA8;margin-bottom:2px}
+.dim-insight-key{font-size:11px;font-weight:700;color:#3D6741;margin-bottom:2px}
 .dim-insight-val{font-size:11px;color:#5C6E7E;line-height:1.6}
 @media(max-width:860px){.dim-bottom{grid-template-columns:1fr}}
 
@@ -642,9 +642,9 @@ body{background:#fff}
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:8px">
-      <span class="badge" style="background:#EAF1EB;border-color:#C6D9C8;color:#3D6741">Combate à Fome</span>
-      <span class="badge" style="background:#EAF1EB;border-color:#C6D9C8;color:#3D6741">Inclusão Produtiva</span>
-      <a href="index.html" style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:#F3F4EF;border:1px solid #CDD8CE;border-radius:3px;color:#3D6741;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;transition:.15s" onmouseover="this.style.background='#EAF1EB'" onmouseout="this.style.background='#F3F4EF'">&#8592; Municípios</a>
+      <span class="badge" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff">Combate à Fome</span>
+      <span class="badge" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff">Inclusão Produtiva</span>
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:3px;color:#fff;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;transition:.15s" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">&#8592; Municípios</a>
     </div>
   </div>
 </header>
@@ -1053,7 +1053,7 @@ function destroyChart(id){if(CHARTS[id]){CHARTS[id].destroy();delete CHARTS[id]}
 function baseOpts(h){return{indexAxis:h?'y':'x',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#14324a',titleFont:{family:'Inter',size:12,weight:'700'},bodyFont:{family:'Inter',size:12},cornerRadius:10,padding:10}},scales:{x:{grid:{color:'#edf2f6'},ticks:{font:{family:'Inter',size:10},color:'#7a8d9f'}},y:{grid:{color:'#edf2f6'},ticks:{font:{family:'Inter',size:10},color:'#7a8d9f'}}}}}
 function makeBar(id,labels,datasets,extra){destroyChart(id);const o=baseOpts(true);if(extra?.plugins)o.plugins={...o.plugins,...extra.plugins};CHARTS[id]=new Chart(document.getElementById(id),{type:'bar',data:{labels,datasets},options:o})}
 
-const CHOROPLETH_COLORS=['#f3f6fb','#dbe6f0','#b9ccdb','#84a8bf','#4f7b98','#1f4d6b'];
+const CHOROPLETH_COLORS=['#edf7ee','#c6e9c8','#8fd694','#5cba65','#2e8f39','#1a5c2e'];
 const VULN_COLORS=['#edf7ee','#c6e9c8','#8fd694','#5cba65','#2e8f39','#1a6425'];
 function calcBreaks(values,steps){
   const sorted=[...values].filter(v=>v!=null&&!isNaN(v)).sort((a,b)=>a-b);
@@ -1063,7 +1063,7 @@ function calcBreaks(values,steps){
   return breaks;
 }
 function getColor(v,breaks,colors){
-  if(v==null||isNaN(v)) return '#e8eef4';
+  if(v==null||isNaN(v)) return '#e8f0e9';
   for(let i=colors.length-1;i>=0;i--)if(v>=breaks[i]) return colors[i];
   return colors[0];
 }
@@ -1370,7 +1370,7 @@ function initEcon(){
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM · CARTO',maxZoom:18}).addTo(m);
     MAPS['map-mge'].map=m;
     MAPS['map-mge'].geo=L.geoJSON(GEO,{
-      style:{fillColor:'#0B4FA8',fillOpacity:0.04,color:'#0B4FA8',weight:1,opacity:0.3},
+      style:{fillColor:'#3D6741',fillOpacity:0.04,color:'#3D6741',weight:1,opacity:0.3},
       onEachFeature:function(f,layer){
         const d=findData(f.properties.nome);
         const mge=MGE_BAIRRO.find(b=>b.b===f.properties.nome);
@@ -1574,7 +1574,7 @@ function initEcon(){
         <td><strong>${d.b}</strong></td>
         <td>${fmt(d.emp,'int')}</td>
         <td>${fmt(d.mei,'int')}</td>
-        <td style="font-weight:700;color:${meiHigh?'#B07C20':meiMed?'#0B4FA8':'var(--text)'}">${d.meiShare!=null?fmt(d.meiShare,'pct'):'—'}</td>
+        <td style="font-weight:700;color:${meiHigh?'#B07C20':meiMed?'#3D6741':'var(--text)'}">${d.meiShare!=null?fmt(d.meiShare,'pct'):'—'}</td>
         <td>${fmt(d.mpe,'int')}</td>
         <td>${fmt(d.mge,'int')}</td>
         <td>${fmt(d.coops,'int')}</td>
@@ -1640,7 +1640,7 @@ function initOsc(){
 
     // GeoJSON bairro boundaries
     let oscGeoLayer=L.geoJSON(GEO,{
-      style:{fillColor:'#0B4FA8',fillOpacity:0.03,color:'#0B4FA8',weight:1,opacity:0.25},
+      style:{fillColor:'#3D6741',fillOpacity:0.03,color:'#3D6741',weight:1,opacity:0.25},
       onEachFeature:function(f,layer){layer.bindTooltip(f.properties.nome,{sticky:true,direction:'center',opacity:.85});}
     }).addTo(m);
     MAPS['map-osc']._geoLayer=oscGeoLayer;
@@ -1768,11 +1768,11 @@ function initOsc(){
     geoLayer.eachLayer(layer=>{
       const nome=layer.feature.properties.nome;
       if(bairroFilter&&nome===bairroFilter){
-        layer.setStyle({fillColor:'#0B4FA8',fillOpacity:0.18,color:'#0B4FA8',weight:2.5,opacity:0.7});
+        layer.setStyle({fillColor:'#3D6741',fillOpacity:0.18,color:'#3D6741',weight:2.5,opacity:0.7});
       } else if(bairroFilter){
-        layer.setStyle({fillColor:'#0B4FA8',fillOpacity:0.01,color:'#0B4FA8',weight:0.5,opacity:0.12});
+        layer.setStyle({fillColor:'#3D6741',fillOpacity:0.01,color:'#3D6741',weight:0.5,opacity:0.12});
       } else {
-        layer.setStyle({fillColor:'#0B4FA8',fillOpacity:0.03,color:'#0B4FA8',weight:1,opacity:0.25});
+        layer.setStyle({fillColor:'#3D6741',fillOpacity:0.03,color:'#3D6741',weight:1,opacity:0.25});
       }
     });
 
