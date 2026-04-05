@@ -46,7 +46,7 @@ body{
 }
 button,select,input,textarea{font:inherit}
 .topbar{
-  background:#0C2442;
+  background:#1A2B1C;
   color:#fff;
   padding:0 28px;
   position:sticky;
@@ -56,7 +56,7 @@ button,select,input,textarea{font:inherit}
   display:flex;
   align-items:center;
   box-shadow:none;
-  border-bottom:3px solid #1A4E8C;
+  border-bottom:3px solid #3D6741;
 }
 .topbar-inner{
   width:100%;
@@ -453,7 +453,7 @@ button,select,input,textarea{font:inherit}
   border-radius:18px;
   padding:18px 18px 16px;
   color:#fff;
-  background:#0B4FA8;
+  background:#3D6741;
 }
 .territory-card.alt{background:linear-gradient(135deg,#456f67 0%, #5a8f72 100%)}
 .territory-card h4{
@@ -731,7 +731,7 @@ tbody tr:hover{background:#f8fbff}
 }
 .osc-popup-head{
   padding:14px 16px 12px;
-  background:linear-gradient(135deg,#153149 0%, #215f8f 100%);
+  background:linear-gradient(135deg,#1A2B1C 0%, #3D6741 100%);
   color:#fff;
 }
 .popup-kicker{
@@ -1399,12 +1399,12 @@ tbody tr:hover{background:#f4f8fc}
   --muted:#5C6E7E;
   --line:#D8E0E8;
   --line-2:#E8EDF2;
-  --brand:#0B4FA8;
+  --brand:#3D6741;
   --brand-2:#1A6EC2;
   --brand-3:#5B96D4;
   --brand-4:#C8D9F5;
   --brand-5:#EEF4FF;
-  --navy:#062040;
+  --navy:#1A2B1C;
   --teal:#2D7A5E;
   --gold:#B07C20;
   --green:#2D7A5E;
@@ -1673,18 +1673,18 @@ tbody tr:hover{background:#EEF4FF}
   padding:16px;
   background:#fff!important;
   border:1px solid #E8EDF2;
-  border-left:3px solid #0B4FA8;
+  border-left:3px solid #3D6741;
   border-radius:0!important;
   box-shadow:none!important;
-  color:#062040;
+  color:#1A2B1C;
 }
 .territory-card.alt{background:#fff!important;border-left-color:#2D7A5E}
-.territory-card h4{margin:0 0 8px;font-size:12px;font-weight:700;color:#0B4FA8!important;text-transform:uppercase;letter-spacing:.06em}
+.territory-card h4{margin:0 0 8px;font-size:12px;font-weight:700;color:#3D6741!important;text-transform:uppercase;letter-spacing:.06em}
 .territory-card.alt h4{color:#2D7A5E!important}
 .territory-card p{margin:0 0 12px;font-size:12px;line-height:1.55;color:#5C6E7E!important}
 .territory-card .mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:0!important}
 .territory-card .mini div{background:#F8FAFB!important;border:1px solid #E8EDF2!important;border-radius:3px!important;padding:10px 8px}
-.territory-card .mini strong{display:block;font-size:18px;font-weight:800;color:#062040!important;letter-spacing:-.02em}
+.territory-card .mini strong{display:block;font-size:18px;font-weight:800;color:#1A2B1C!important;letter-spacing:-.02em}
 .territory-card .mini .small{font-size:10px;color:#5C6E7E!important;font-weight:500;margin-top:2px;display:block}
 .territory-card .mini span{color:#5C6E7E!important}
 
@@ -1776,21 +1776,21 @@ body{background:#fff}
 .decision{
   background:#F4F6F9;
   border:1px solid #E8EDF2;
-  border-left:3px solid #0B4FA8;
+  border-left:3px solid #3D6741;
   border-radius:4px;
   box-shadow:none;
   padding:16px 18px;
   margin:0 0 20px;
 }
 .decision::before{display:none}
-.decision h3{color:#0B4FA8;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.decision h3{color:#3D6741;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .decision p{font-size:13px;line-height:1.65;color:#4A5A4B}
 .kpi{border-top:none;border-color:#E8EDF2;box-shadow:none;background:#fff}
 .kpi .label{color:#5C6E7E;text-transform:uppercase;letter-spacing:.06em;font-size:10px;font-weight:700}
-.kpi .value{color:#062040;font-size:22px;font-weight:800;letter-spacing:-.02em}
+.kpi .value{color:#1A2B1C;font-size:22px;font-weight:800;letter-spacing:-.02em}
 .kpi .sub{font-size:11px;color:#9AA89B;margin-top:3px}
 .panel{border-color:#E8EDF2;box-shadow:none;border-radius:4px}
-.panel-title{color:#062040;font-size:13px;font-weight:700}
+.panel-title{color:#1A2B1C;font-size:13px;font-weight:700}
 .panel-sub{font-size:11px;color:#5C6E7E}
 .analysis-kicker{background:var(--brand-5);color:var(--brand);font-size:10px;border-radius:3px}
 .tab-btn.active{background:transparent}
@@ -2234,6 +2234,10 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
             <p class="analysis-text" id="map-summary-osc"></p>
           </div>
           <div class="analysis-stats" id="map-insights-osc"></div>
+          <div class="analysis-card">
+            <span class="analysis-kicker">Top bairros · OSCs ativas</span>
+            <div id="osc-top-bairros" style="margin-top:10px"></div>
+          </div>
         </div>
       </div>
       <div class="map-footer">
@@ -2247,11 +2251,11 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     </div>
     <div class="grid two">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro (IPEA 2024)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro (IPEA 2024)</h3><p class="panel-sub">OSCs ativas geolocalizadas por bairro · ordenado pelo volume</p></div></div>
         <div class="chart-box"><canvas id="chart-osc-total" class="chart"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs (IPEA 2024)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs (IPEA 2024)</h3><p class="panel-sub">8 principais áreas · empilhado por território</p></div></div>
         <div class="chart-box"><canvas id="chart-osc-setor" class="chart"></canvas></div>
       </div>
     </div>
@@ -2280,12 +2284,16 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
                 <summary aria-label="Como as dimensões do radar foram mensuradas">i</summary>
                 <div class="info-balloon">
                   <strong>Como este radar foi mensurado</strong>
-                  O desenho foi ajustado para ficar mais autoexplicativo: todos os eixos foram convertidos para uma leitura positiva, em que valores maiores representam condições relativamente mais favoráveis.
+                  Seis dimensões padronizadas, todas em leitura positiva (maior = condição relativa mais favorável). Mesmo conjunto usado no painel de Maracanaú, permitindo comparação entre municípios.
                   <ul>
-                    <li><strong>IDHM, esgoto, renda e OSCs/10 mil:</strong> cada eixo usa como referência o melhor valor entre os dois territórios comparados, que recebe 100.</li>
-                    <li><strong>Baixa pobreza extrema:</strong> o eixo foi invertido para evitar ambiguidade, usando o complemento da taxa de extrema pobreza (100 − taxa).</li>
-                    <li><strong>Valores exatos:</strong> o bloco abaixo do gráfico mostra os dados originais de cada território, e o tooltip do radar exibe valor padronizado e valor bruto.</li>
+                    <li><strong>Baixa pobreza (CadÚnico 2025):</strong> 100 − % em extrema pobreza. Eixo invertido para evitar leitura ambígua.</li>
+                    <li><strong>Saneamento (Censo 2022):</strong> % de domicílios com esgotamento sanitário adequado (IBGE).</li>
+                    <li><strong>Renda (2010):</strong> renda domiciliar per capita. Normalizada 0–100 pelo melhor valor do conjunto comparado.</li>
+                    <li><strong>Densidade empresarial (dez/2024):</strong> CNPJs ativos por 1.000 hab. (Receita Federal).</li>
+                    <li><strong>Sociedade civil (IPEA 2024):</strong> OSCs ativas por 10.000 hab. (Mapa das OSCs / IPEA).</li>
+                    <li><strong>Desenvolvimento humano (IDHM 2010):</strong> proxy de capacidade humana; em Maracanaú usa-se Literacia como proxy equivalente.</li>
                   </ul>
+                  <strong>Leitura:</strong> o bloco abaixo do radar mostra os valores brutos. O tooltip exibe o valor padronizado (0–100) e o valor original. Observar que eixos %/renda são normalizados pelo melhor valor do conjunto comparado.
                 </div>
               </details>
             </div>
@@ -2335,11 +2343,11 @@ DATA.forEach(d => {
 });
 
 const UI_COLORS = {
-  navy:'#062040',
-  blue:'#0B4FA8',
-  blueSoft:'#5B96D4',
+  navy:'#1A2B1C',
+  blue:'#3D6741',
+  blueSoft:'#7EA887',
   teal:'#2D7A5E',
-  tealSoft:'#93C5FD',
+  tealSoft:'#C6D9C8',
   gold:'#B07C20',
   red:'#C0392B',
   redDark:'#7B1D1A',
@@ -3506,6 +3514,30 @@ function initEcon(){
 function initOsc(){
   createMap('osc');
 
+  // Top bairros sidebar (ranking de OSCs ativas geolocalizadas)
+  try{
+    const topEl = document.getElementById('osc-top-bairros');
+    if(topEl){
+      const top = [...getOscAggregateRows('Todos','Todos','Todos','Todos')]
+        .filter(d => d.oscGeoCount > 0)
+        .sort((a,b) => b.oscGeoCount - a.oscGeoCount)
+        .slice(0,10);
+      const maxVal = top[0]?.oscGeoCount || 1;
+      topEl.innerHTML = top.map((d,i) => {
+        const pct = Math.round((d.oscGeoCount/maxVal)*100);
+        const terrColor = d.t === 'Grande Mucuripe' ? '#7EA887' : '#2D7A5E';
+        return `<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #F0F3F0">
+          <span style="font-size:11px;font-weight:700;color:#9AA89B;width:18px;flex-shrink:0">${i+1}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12px;font-weight:600;color:#1A2B1C;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.b}</div>
+            <div style="height:3px;background:#EEF1EB;border-radius:2px;margin-top:3px;overflow:hidden"><div style="height:3px;width:${pct}%;background:${terrColor}"></div></div>
+          </div>
+          <span style="font-size:12px;font-weight:700;color:#1A2B1C;flex-shrink:0">${d.oscGeoCount}</span>
+        </div>`;
+      }).join('');
+    }
+  }catch(e){}
+
   const oscRows = [...getOscAggregateRows('Todos', 'Todos', 'Todos', 'Todos')].sort((a,b)=>b.oscGeoCount-a.oscGeoCount);
   makeBar(
     'chart-osc-total',
@@ -3547,26 +3579,25 @@ function initOsc(){
 function initComp(){
   const gm = TERR_STATS.find(d => d.t === 'Grande Mucuripe');
   const gbj = TERR_STATS.find(d => d.t === 'Grande Bom Jardim');
+  // Empresas por 1.000 hab (derivado)
+  [gm,gbj].forEach(d => { d.emp1k = (d.emp!=null && d.pop) ? (d.emp/d.pop*1000) : null; });
+  // 6 dimensões padronizadas — mesmo conjunto usado em Maracanaú (com proxies onde necessário)
   const radarAxes = [
     {
-      key:'idhm',
-      label:'IDHM (2010)',
-      rawKind:'index',
-      rawValue:d => d.idhm,
-      normalized:d => {
-        const best = Math.max(gm.idhm, gbj.idhm) || 1;
-        return (d.idhm / best) * 100;
-      }
+      key:'prot',
+      label:'Baixa pobreza (CadÚnico 2025)',
+      rawKind:'pct',
+      rawValue:d => 1 - d.epob,
+      rawLabel:d => `${fmt(d.epob,'pct')} em extrema pobreza`,
+      normalized:d => (1 - d.epob) * 100
     },
     {
-      key:'esg',
-      label:'Esgoto (Censo 2022)',
+      key:'san',
+      label:'Saneamento (Censo 2022)',
       rawKind:'pct',
       rawValue:d => d.esg,
-      normalized:d => {
-        const best = Math.max(gm.esg, gbj.esg) || 1;
-        return (d.esg / best) * 100;
-      }
+      rawLabel:d => `${fmt(d.esg,'pct')} com esgotamento`,
+      normalized:d => d.esg * 100
     },
     {
       key:'renda',
@@ -3579,22 +3610,36 @@ function initComp(){
       }
     },
     {
-      key:'osc10k',
-      label:'OSCs/10k (IPEA 2024)',
+      key:'econ',
+      label:'Densidade empresarial (dez/2024)',
+      rawKind:'float1',
+      rawValue:d => d.emp1k,
+      rawLabel:d => d.emp1k!=null?`${d.emp1k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})} CNPJs / 1.000 hab`:'—',
+      normalized:d => {
+        const best = Math.max(gm.emp1k||0, gbj.emp1k||0) || 1;
+        return ((d.emp1k||0) / best) * 100;
+      }
+    },
+    {
+      key:'soc',
+      label:'Sociedade civil (IPEA 2024)',
       rawKind:'float1',
       rawValue:d => d.osc10k,
+      rawLabel:d => `${(d.osc10k||0).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})} OSCs / 10.000 hab`,
       normalized:d => {
         const best = Math.max(gm.osc10k, gbj.osc10k) || 1;
         return (d.osc10k / best) * 100;
       }
     },
     {
-      key:'epob_inv',
-      label:'Baixa pobreza extrema (2025)',
-      rawKind:'pct',
-      rawValue:d => 1 - d.epob,
-      rawLabel:d => `${fmt(d.epob,'pct')} de extrema pobreza`,
-      normalized:d => (1 - d.epob) * 100
+      key:'dhum',
+      label:'Desenvolvimento humano (IDHM 2010)',
+      rawKind:'index',
+      rawValue:d => d.idhm,
+      normalized:d => {
+        const best = Math.max(gm.idhm, gbj.idhm) || 1;
+        return (d.idhm / best) * 100;
+      }
     }
   ];
 
@@ -3611,7 +3656,7 @@ function initComp(){
           rawLabel:a.rawLabel ? a.rawLabel(gm) : fmt(a.rawValue(gm), a.rawKind)
         })),
         borderColor:UI_COLORS.blue,
-        backgroundColor:'rgba(33,95,143,.20)',
+        backgroundColor:'rgba(126,168,135,.25)',
         pointBackgroundColor:UI_COLORS.blue,
         pointBorderColor:'#ffffff',
         pointBorderWidth:2,
@@ -3629,7 +3674,7 @@ function initComp(){
           rawLabel:a.rawLabel ? a.rawLabel(gbj) : fmt(a.rawValue(gbj), a.rawKind)
         })),
         borderColor:UI_COLORS.teal,
-        backgroundColor:'rgba(79,138,114,.20)',
+        backgroundColor:'rgba(45,122,94,.22)',
         pointBackgroundColor:UI_COLORS.teal,
         pointBorderColor:'#ffffff',
         pointBorderWidth:2,
@@ -3765,7 +3810,7 @@ function initFavelasMap(mun, bairrosGeo){
   const mapId='map-favelas-'+mun;
   const listId='favelas-list-'+mun;
   const munName=mun==='fortaleza'?'Fortaleza':'Maracanaú';
-  const color=mun==='fortaleza'?'#0B4FA8':'#3D6741';
+  const color=mun==='fortaleza'?'#3D6741':'#3D6741';
   const features=FAVELAS_DATA.features.filter(f=>f.properties.nm_mun===munName);
   const el=document.getElementById(mapId);
   if(!el||el._leaflet_id) return;
