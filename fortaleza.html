@@ -1857,7 +1857,7 @@ body{background:var(--bg)}
       <div class="panel">
         <div class="panel-head">
           <div>
-            <h3 class="panel-title">Perfil do território</h3>
+            <h3 class="panel-title" id="perfil-titulo">Perfil do território</h3>
           </div>
         </div>
         <div class="kpi-grid" id="overview-kpis"></div>
@@ -3223,9 +3223,33 @@ function sortRows(key, descending=true, includeNull=false){
   return [...DATA].filter(d => includeNull ? true : Number.isFinite(d[key])).sort((a,b)=>descending?(b[key]-a[key]):(a[key]-b[key]));
 }
 
+const TERR_DESC = {
+  'Grande Mucuripe': 'Maior heterogeneidade interna, melhor base econômica média e densidade institucional mais alta. Indicado para estratégias focalizadas por bairro e maior articulação entre vulnerabilidade e oportunidade.',
+  'Grande Bom Jardim': 'Maior escala populacional, pobreza mais contínua e forte aderência aos eixos de inclusão produtiva e segurança alimentar. Indicado para atuação com foco em escala e adicionalidade social.'
+};
+
+function buildTerrCard(name, rows){
+  const pop = rows.reduce((s,d)=>s+(d.pop||0),0);
+  const emp = rows.reduce((s,d)=>s+(d.emp||0),0);
+  const osc = rows.reduce((s,d)=>s+(d.osc||0),0);
+  return `<h4>${name}</h4>
+    <p>${TERR_DESC[name]||''}</p>
+    <div class="mini">
+      <div class="metric-white"><strong>${fmt(pop,'int')}</strong><span class="small">habitantes</span></div>
+      <div class="metric-white"><strong>${fmt(emp,'int')}</strong><span class="small">empresas</span></div>
+      <div class="metric-white"><strong>${fmt(osc,'int')}</strong><span class="small">OSCs</span></div>
+    </div>`;
+}
+
 function refreshOverviewCharts(territory, bairro){
   const rows = filteredData(territory, bairro);
   if(!rows.length) return;
+
+  // Panel title
+  const titulo = document.getElementById('perfil-titulo');
+  if(titulo){
+    titulo.textContent = bairro !== 'Todos' ? bairro : territory !== 'Todos' ? territory : 'Perfil do território';
+  }
 
   // KPIs
   const pop = rows.reduce((s,d)=>s+(d.pop||0),0);
@@ -3241,15 +3265,31 @@ function refreshOverviewCharts(territory, bairro){
     {label:'Renda média ponderada', value:fmt(renda,'money'), sub:'Renda domiciliar per capita (2010)'}
   ].map(k=>`<div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>`).join('');
 
-  // Territory cards: show only the relevant ones
-  const showGm = territory === 'Todos' || territory === 'Grande Mucuripe';
-  const showGbj = territory === 'Todos' || territory === 'Grande Bom Jardim';
-  document.getElementById('card-gm').style.display = showGm ? '' : 'none';
-  document.getElementById('card-gbj').style.display = showGbj ? '' : 'none';
+  // Territory cards — update content and visibility
+  const showBoth = territory === 'Todos' && bairro === 'Todos';
+  const showGm = showBoth || territory === 'Grande Mucuripe';
+  const showGbj = showBoth || territory === 'Grande Bom Jardim';
+
+  const cardGm = document.getElementById('card-gm');
+  const cardGbj = document.getElementById('card-gbj');
+  if(showGm){
+    const gmRows = rows.filter(d=>d.t==='Grande Mucuripe');
+    if(gmRows.length) cardGm.innerHTML = buildTerrCard('Grande Mucuripe', gmRows);
+    cardGm.style.display = '';
+  } else {
+    cardGm.style.display = 'none';
+  }
+  if(showGbj){
+    const gbjRows = rows.filter(d=>d.t==='Grande Bom Jardim');
+    if(gbjRows.length) cardGbj.innerHTML = buildTerrCard('Grande Bom Jardim', gbjRows);
+    cardGbj.style.display = '';
+  } else {
+    cardGbj.style.display = 'none';
+  }
 
   // Charts
   const rowsIdhm = [...rows].sort((a,b)=>(b.idhm||0)-(a.idhm||0));
-  const chartIdhm = Chart.getChart('chart-visao-idhm');
+  const chartIdhm = CHARTS['chart-visao-idhm'];
   if(chartIdhm){
     chartIdhm.data.labels = rowsIdhm.map(d=>d.b);
     chartIdhm.data.datasets[0].data = rowsIdhm.map(d=>d.idhm);
@@ -3257,7 +3297,7 @@ function refreshOverviewCharts(territory, bairro){
     chartIdhm.update('none');
   }
   const rowsCad = [...rows].sort((a,b)=>(b.cad||0)-(a.cad||0));
-  const chartCad = Chart.getChart('chart-visao-cad');
+  const chartCad = CHARTS['chart-visao-cad'];
   if(chartCad){
     chartCad.data.labels = rowsCad.map(d=>d.b);
     chartCad.data.datasets[0].data = rowsCad.map(d=>d.cad*100);
@@ -3268,26 +3308,6 @@ function refreshOverviewCharts(territory, bairro){
 
 function initOverview(){
   createMap('visao');
-  refreshOverviewCharts('Todos', 'Todos');
-
-  const gm = TERR_STATS.find(d => d.t === 'Grande Mucuripe');
-  const gbj = TERR_STATS.find(d => d.t === 'Grande Bom Jardim');
-  document.getElementById('card-gm').innerHTML = `
-    <h4>Grande Mucuripe</h4>
-    <p>Maior heterogeneidade interna, melhor base econômica média e densidade institucional mais alta. Indicado para estratégias focalizadas por bairro e maior articulação entre vulnerabilidade e oportunidade.</p>
-    <div class="mini">
-     <div class="metric-white"><strong>${fmt(gm.pop,'int')}</strong><span class="small">habitantes</span></div>
-<div class="metric-white"><strong>${fmt(gm.emp,'int')}</strong><span class="small">empresas</span></div>
-<div class="metric-white"><strong>${fmt(gm.osc,'int')}</strong><span class="small">OSCs</span></div>
-    </div>`;
-  document.getElementById('card-gbj').innerHTML = `
-    <h4>Grande Bom Jardim</h4>
-    <p>Maior escala populacional, pobreza mais contínua e forte aderência aos eixos de inclusão produtiva e segurança alimentar. Indicado para atuação com foco em escala e adicionalidade social.</p>
-    <div class="mini">
- <div class="metric-white"><strong>${fmt(gbj.pop,'int')}</strong><span class="small">habitantes</span></div>
-<div class="metric-white"><strong>${fmt(gbj.emp,'int')}</strong><span class="small">empresas</span></div>
-<div class="metric-white"><strong>${fmt(gbj.osc,'int')}</strong><span class="small">OSCs</span></div>
-    </div>`;
 
   const rowsIdhm = sortRows('idhm', true);
   makeBar('chart-visao-idhm', rowsIdhm.map(d=>d.b), [{data:rowsIdhm.map(d=>d.idhm), backgroundColor:rowsIdhm.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
@@ -3299,6 +3319,8 @@ function initOverview(){
     plugins:{legend:{display:false}},
     scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y}}
   });
+
+  refreshOverviewCharts('Todos', 'Todos');
 }
 
 function initDemo(){
