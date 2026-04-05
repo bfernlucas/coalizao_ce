@@ -2195,4 +2195,66 @@ function initFavelasMap(mun, bairrosGeo){
     list.innerHTML=features.map(f=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #F4F7F4"><span style="width:8px;height:8px;border-radius:1px;background:${color};flex-shrink:0;opacity:.7;display:inline-block"></span><span style="font-size:11px;color:#2A3B4C;line-height:1.3">${f.properties.nm_fcu}</span></div>`).join('');
   }
 }
+
+/* ── Ordenação global de tabelas (1º clique = maior para menor) ─── */
+function enableTableSorting(root){
+  (root||document).querySelectorAll('table').forEach(tbl => {
+    // Tabelas que já possuem lógica própria de ordenação (re-render completo)
+    if(tbl.id === 'table-mge-top' || tbl.id === 'table-econ') return;
+    const ths = tbl.querySelectorAll('thead th');
+    ths.forEach(th => {
+      if(th.classList.contains('no-sort')) return;
+      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
+      if(!th.classList.contains('sortable')) th.classList.add('sortable');
+      if(!th.querySelector('.sort-icon')){
+        const ic = document.createElement('span');
+        ic.className = 'sort-icon';
+        ic.textContent = ' ↕';
+        th.appendChild(ic);
+      }
+    });
+  });
+}
+function sortTableByColumn(tbl, idx, th){
+  const tbody = tbl.tBodies[0]; if(!tbody) return;
+  const rows = Array.from(tbody.rows).filter(r => !r.classList.contains('no-sort'));
+  const curr = th.classList.contains('sort-desc') ? 'desc' : (th.classList.contains('sort-asc') ? 'asc' : null);
+  const next = curr === 'desc' ? 'asc' : 'desc';
+  tbl.querySelectorAll('thead th').forEach(h => {
+    h.classList.remove('sort-asc','sort-desc');
+    const ic = h.querySelector('.sort-icon'); if(ic && !h.dataset.col && !h.dataset.econCol) ic.textContent = ' ↕';
+  });
+  th.classList.add(next === 'desc' ? 'sort-desc' : 'sort-asc');
+  const icon = th.querySelector('.sort-icon'); if(icon) icon.textContent = next === 'desc' ? ' ↓' : ' ↑';
+  const parseCell = tr => {
+    const c = tr.cells[idx]; if(!c) return '';
+    const raw = (c.dataset && c.dataset.sortValue !== undefined) ? c.dataset.sortValue : c.textContent.trim();
+    if(raw === '' || raw === '—' || raw === '-') return next === 'desc' ? -Infinity : Infinity;
+    const cleaned = raw.replace(/\s/g,'').replace(/\./g,'').replace(',','.').replace(/[^\d.\-]/g,'');
+    const num = parseFloat(cleaned);
+    return (!isNaN(num) && cleaned !== '' && cleaned !== '-') ? num : raw.toLowerCase();
+  };
+  rows.sort((a,b) => {
+    const av = parseCell(a), bv = parseCell(b);
+    if(typeof av === 'number' && typeof bv === 'number') return next === 'desc' ? bv - av : av - bv;
+    return next === 'desc' ? String(bv).localeCompare(String(av),'pt') : String(av).localeCompare(String(bv),'pt');
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+document.addEventListener('click', e => {
+  const th = e.target.closest('thead th');
+  if(!th) return;
+  if(th.classList.contains('no-sort')) return;
+  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return; // handled by custom logic
+  const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
+  if(tbl.id === 'table-mge-top' || tbl.id === 'table-econ') return;
+  const ths = Array.from(th.parentElement.cells);
+  const idx = ths.indexOf(th);
+  if(idx < 0) return;
+  sortTableByColumn(tbl, idx, th);
+});
+document.addEventListener('DOMContentLoaded', () => enableTableSorting());
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => setTimeout(enableTableSorting, 80)));
+setTimeout(enableTableSorting, 600);
+setTimeout(enableTableSorting, 1800);
 </script>
