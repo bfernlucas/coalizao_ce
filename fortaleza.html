@@ -2344,60 +2344,80 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 
   <section id="section-comp" class="section">
     <div class="section-head">
-      <span class="section-kicker">Comparativo</span>
-      <h2 class="section-title">Bairros em perspectiva</h2>
+      <span class="section-kicker">Síntese Territorial</span>
+      <h2 class="section-title">Território em perspectiva</h2>
       <p class="section-desc">Comparativo direto entre os dois territórios em dimensões sociais, econômicas e de infraestrutura.</p>
     </div>
+
     <div class="decision">
       <h3>Análise</h3>
-      <p>Se a prioridade for impacto social em escala e maior adicionalidade, o Grande Bom Jardim tende a oferecer o caso mais claro. Se a prioridade for ativar redes, capacidade econômica e pilotos com maior chance de rápida articulação, o Grande Mucuripe oferece melhor ponto de entrada. A melhor leitura estratégica não é escolher um único território “vencedor”, mas reconhecer que os dois territórios respondem a lógicas distintas de intervenção.</p>
+      <p>Se a prioridade for impacto social em escala e maior adicionalidade, o Grande Bom Jardim tende a oferecer o caso mais claro. Se a prioridade for ativar redes, capacidade econômica e pilotos com maior chance de rápida articulação, o Grande Mucuripe oferece melhor ponto de entrada. A melhor leitura estratégica não é escolher um único território "vencedor", mas reconhecer que os dois territórios respondem a lógicas distintas de intervenção.</p>
     </div>
-    <div class="comparison-grid">
-      <div class="panel">
-        <div class="panel-head">
+
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Divisão em 2 territórios</h3><p class="panel-sub">22 bairros organizados em dois territórios prioritários. Clique em um território para destacar no mapa.</p></div></div>
+      <div class="map-analytics-layout">
+        <div class="map-col"><div id="map-territory" style="height:380px;border-radius:6px;overflow:hidden;border:1px solid #D8E0E8"></div></div>
+        <div class="analysis-col" id="terr-cards-sidebar" style="overflow-y:auto;max-height:380px;padding-right:4px"></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Indicadores por território</h3><p class="panel-sub">Valores agregados dos principais indicadores por território.</p></div></div>
+      <div class="table-wrap"><table id="table-territory"></table></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head">
+        <div class="title-with-info">
           <div>
-            <div class="title-with-info">
-              <div>
-                <h3 class="panel-title">Dimensões por território</h3>
-                <p class="panel-sub">Valores maiores indicam posição relativa mais favorável em cada eixo.</p>
-              </div>
-              <details class="info-popover">
-                <summary aria-label="Como as dimensões do radar foram mensuradas">i</summary>
-                <div class="info-balloon">
-                  <strong>Como este radar foi mensurado</strong>
-                  Seis dimensões padronizadas, todas em leitura positiva (maior = condição relativa mais favorável). Mesmo conjunto usado no painel de Maracanaú, permitindo comparação entre municípios.
-                  <ul>
-                    <li><strong>Baixa pobreza (CadÚnico 2025):</strong> 100 − % em extrema pobreza. Eixo invertido para evitar leitura ambígua.</li>
-                    <li><strong>Saneamento (Censo 2022):</strong> % de domicílios com esgotamento sanitário adequado (IBGE).</li>
-                    <li><strong>Renda (2010):</strong> renda domiciliar per capita. Normalizada 0–100 pelo melhor valor do conjunto comparado.</li>
-                    <li><strong>Densidade empresarial (dez/2024):</strong> CNPJs ativos por 1.000 hab. (Receita Federal).</li>
-                    <li><strong>Sociedade civil (IPEA 2024):</strong> OSCs ativas por 10.000 hab. (Mapa das OSCs / IPEA).</li>
-                    <li><strong>Desenvolvimento humano (IDHM 2010):</strong> proxy de capacidade humana; em Maracanaú usa-se Literacia como proxy equivalente.</li>
-                  </ul>
-                  <strong>Leitura:</strong> o bloco abaixo do radar mostra os valores brutos. O tooltip exibe o valor padronizado (0–100) e o valor original. Observar que eixos %/renda são normalizados pelo melhor valor do conjunto comparado.
-                </div>
-              </details>
-            </div>
+            <h3 class="panel-title">Dimensões por território</h3>
+            <p class="panel-sub">Comparativo dos 2 territórios em 6 eixos. Clique nos botões para mostrar ou ocultar.</p>
           </div>
+          <details class="info-popover">
+            <summary aria-label="Como as variáveis foram construídas">i</summary>
+            <div class="info-balloon">
+              <strong>Como cada variável foi construída</strong>
+              Os eixos são padronizados internamente (min–max entre os 2 territórios) para tornar visualmente comparáveis indicadores de unidades distintas. Valores reais estão no painel lateral.
+              <ul>
+                <li><strong>Literacia:</strong> % adultos (≥15 anos) alfabetizados — calculado como 1 − taxa de analfabetismo, ponderado pela população de cada bairro. Fonte: IBGE Censo 2022.</li>
+                <li><strong>Baixa pobreza:</strong> inverso da taxa de extrema pobreza (1 − proporção de famílias CadÚnico com renda ≤ R$218/mês). Eixo positivo: maior valor = menor pobreza. Fonte: MDS CadÚnico 2025.</li>
+                <li><strong>Saneamento:</strong> média aritmética das coberturas de esgotamento sanitário, abastecimento de água e coleta de lixo (% de domicílios atendidos). Fonte: IBGE Censo 2022.</li>
+                <li><strong>Renda:</strong> renda média domiciliar per capita em R$, ponderada pela população dos bairros. Dado de 2010 — reflete estrutura relativa de renda entre territórios. Fonte: IBGE Censo 2010.</li>
+                <li><strong>Empresas:</strong> número de CNPJs ativos com sede no território por 1.000 habitantes (inclui MEI, MPE e médias/grandes empresas). Fonte: Receita Federal — Cadastro CNPJ.</li>
+                <li><strong>Civil:</strong> organizações da sociedade civil ativas por 10.000 habitantes (associações, fundações e demais OSCs registradas). Fonte: IPEA — Mapa das OSCs 2024.</li>
+              </ul>
+            </div>
+          </details>
         </div>
-        <div class="radar-note"><strong>Como ler:</strong> o polígono maior indica posição relativa mais favorável no conjunto comparado. O eixo social foi invertido para <em>baixa pobreza extrema</em>, evitando que vulnerabilidade apareça como “vantagem” visual.</div>
-        <div class="chart-box"><canvas id="chart-comp-radar" class="chart" style="height:380px"></canvas></div>
-        <div class="radar-values" id="radar-values"></div>
       </div>
-      <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Pontos de atenção</h3><p class="panel-sub">Destaques para priorização estratégica por território.</p></div></div>
-        <div class="tip-list">
-          <div class="tip"><strong>1. Prioridade social imediata</strong>Grande Bom Jardim, por combinar maior população, maior incidência do CadÚnico e pobreza mais contínua entre bairros.</div>
-          <div class="tip"><strong>2. Prioridade para articulação econômica</strong>Grande Mucuripe, sobretudo via Papicu e seu entorno, onde a base empresarial e a renda ampliam possibilidades de tração e parceria.</div>
-          <div class="tip"><strong>3. Prioridade para redes locais de inclusão produtiva</strong>Grande Bom Jardim, pelo peso relativo das OSCs desse campo e pela aderência maior aos eixos centrais do plano.</div>
-          <div class="tip"><strong>4. Ponto de atenção operacional</strong>No Grande Mucuripe, a heterogeneidade intraurbana exige recorte fino para não misturar bairros muito distintos; no Grande Bom Jardim, o desafio é a capacidade pública insuficiente diante da escala da demanda.</div>
+      <div class="dim-outer">
+        <div class="dim-bottom">
+          <div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px" id="radar-toggles"></div>
+            <div class="radar-note" style="margin:0 0 14px"><strong>Como ler:</strong> eixos normalizados min–max entre os territórios. Valores reais no painel ao lado.</div>
+            <div class="chart-box"><canvas id="chart-comp-radar" class="chart" style="height:420px"></canvas></div>
+          </div>
+          <div class="dim-reading" id="dim-reading"></div>
         </div>
       </div>
     </div>
-    <div class="panel" style="margin-top:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Bairros lado a lado</h3><p class="panel-sub">Principais métricas para sustentar a comparação entre os dois territórios.</p></div></div>
+
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Pontos de atenção</h3><p class="panel-sub">Destaques para priorização estratégica por território.</p></div></div>
+      <div class="tip-list">
+        <div class="tip"><strong>1. Prioridade social imediata</strong> Grande Bom Jardim, por combinar maior população, maior incidência do CadÚnico e pobreza mais contínua entre bairros.</div>
+        <div class="tip"><strong>2. Prioridade para articulação econômica</strong> Grande Mucuripe, sobretudo via Papicu e seu entorno, onde a base empresarial e a renda ampliam possibilidades de tração e parceria.</div>
+        <div class="tip"><strong>3. Prioridade para redes locais de inclusão produtiva</strong> Grande Bom Jardim, pelo peso relativo das OSCs desse campo e pela aderência maior aos eixos centrais do plano.</div>
+        <div class="tip"><strong>4. Ponto de atenção operacional</strong> No Grande Mucuripe, a heterogeneidade intraurbana exige recorte fino para não misturar bairros muito distintos; no Grande Bom Jardim, o desafio é a capacidade pública insuficiente diante da escala da demanda.</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><div><h3 class="panel-title">Bairros lado a lado</h3><p class="panel-sub">Selecione o indicador para ordenar.</p></div><div class="filters"><select id="comp-sort"></select></div></div>
       <div class="table-wrap"><table id="table-comp"></table></div>
     </div>
+    <div class="note-box" style="margin-top:22px"><strong>Dados indisponíveis nesta versão:</strong> taxa de homicídios por bairro (série histórica), gravidez na adolescência (série atualizada), IBEU atualizado, vínculos formais por bairro, cobertura eSF por UBS, negócios de impacto georreferenciados, centros de qualificação/juventude, feiras, praças.</div>
   </section>
 
   <div class="footer">
@@ -2791,6 +2811,10 @@ function renderOscPointLayer(state, territory, bairro, areas=['Todos'], subareas
 
 function findDataByFeature(feature){
   const key = canonical(feature.properties.nome);
+  return LOOKUP[key] || null;
+}
+function findData(bairroName){
+  const key = canonical(bairroName || '');
   return LOOKUP[key] || null;
 }
 function getBairros(territory){
@@ -3713,275 +3737,564 @@ function initEcon(){
 }
 
 function initOsc(){
-  createMap('osc');
+  // --- Compute aggregates from OSC_POINTS ---
+  const totalOsc = OSC_POINTS.length;
+  const primaryCounts = {};
+  const bairroCounts = {};
+  OSC_POINTS.forEach(o => {
+    const area = o.primary || 'Sem classificação';
+    primaryCounts[area] = (primaryCounts[area] || 0) + 1;
+    bairroCounts[o.b] = (bairroCounts[o.b] || 0) + 1;
+  });
+  const totalBairros = Object.keys(bairroCounts).length;
+  const topArea = Object.entries(primaryCounts).sort((a,b) => b[1] - a[1])[0];
+  const topBairro = Object.entries(bairroCounts).sort((a,b) => b[1] - a[1])[0];
+  const religiosas = OSC_POINTS.filter(o => (o.primary || '').toLowerCase().includes('religi') || (o.areas && o.areas.some(a => a.toLowerCase().includes('religi')))).length;
+  const distinctAreas = Object.keys(primaryCounts).length;
 
-  // Top bairros sidebar (ranking de OSCs ativas geolocalizadas)
-  try{
-    const topEl = document.getElementById('osc-top-bairros');
-    if(topEl){
-      const top = [...getOscAggregateRows('Todos','Todos','Todos','Todos')]
-        .filter(d => d.oscGeoCount > 0)
-        .sort((a,b) => b.oscGeoCount - a.oscGeoCount)
-        .slice(0,10);
-      const maxVal = top[0]?.oscGeoCount || 1;
-      topEl.innerHTML = top.map((d,i) => {
-        const pct = Math.round((d.oscGeoCount/maxVal)*100);
-        const terrColor = d.t === 'Grande Mucuripe' ? '#7AA8C8' : '#1A6EC2';
-        return `<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #F0F3F0">
-          <span style="font-size:11px;font-weight:700;color:#7F91A3;width:18px;flex-shrink:0">${i+1}</span>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:12px;font-weight:600;color:#0B2B44;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.b}</div>
-            <div style="height:3px;background:#EEF1EB;border-radius:2px;margin-top:3px;overflow:hidden"><div style="height:3px;width:${pct}%;background:${terrColor}"></div></div>
-          </div>
-          <span style="font-size:12px;font-weight:700;color:#0B2B44;flex-shrink:0">${d.oscGeoCount}</span>
-        </div>`;
-      }).join('');
-    }
-  }catch(e){}
+  // KPIs
+  document.getElementById('kpi-osc').innerHTML = `
+    <div class="kpi"><div class="label">Total OSCs</div><div class="value">${totalOsc}</div><div class="sub">organizações ativas</div></div>
+    <div class="kpi"><div class="label">Bairros cobertos</div><div class="value">${totalBairros}</div><div class="sub">bairros com OSC</div></div>
+    <div class="kpi"><div class="label">Área predominante</div><div class="value" style="font-size:16px;line-height:1.3">${OSC_AREA_SHORT_LABELS[topArea[0]] || topArea[0]}</div><div class="sub">${topArea[1]} entidades (${Math.round(topArea[1]/totalOsc*100)}%)</div></div>
+    <div class="kpi"><div class="label">Bairro com mais OSCs</div><div class="value" style="font-size:16px;line-height:1.3">${topBairro[0]}</div><div class="sub">${topBairro[1]} organizações</div></div>
+    <div class="kpi"><div class="label">Entidades religiosas</div><div class="value">${religiosas}</div><div class="sub">${Math.round(religiosas/totalOsc*100)}% do total</div></div>
+    <div class="kpi"><div class="label">Áreas de atuação</div><div class="value">${distinctAreas}</div><div class="sub">categorias distintas</div></div>
+  `;
 
-  const oscRows = [...getOscAggregateRows('Todos', 'Todos', 'Todos', 'Todos')].sort((a,b)=>b.oscGeoCount-a.oscGeoCount);
+  // Update section description with total count
+  const descEl = document.getElementById('osc-section-desc');
+  if(descEl) descEl.textContent = totalOsc + ' OSCs ativas: distribuição espacial, áreas de atuação e presença por bairro.';
+
+  // --- Charts ---
+  // Presença institucional por bairro (bar sorted by count)
+  const bairroSorted = Object.entries(bairroCounts).filter(([,v]) => v > 0).sort((a,b) => b[1] - a[1]);
+  const bairroTerrLookup = {};
+  OSC_POINTS.forEach(o => { if(!bairroTerrLookup[o.b]) bairroTerrLookup[o.b] = o.t; });
   makeBar(
     'chart-osc-total',
-    oscRows.map(d=>d.b),
-    [{data:oscRows.map(d=>d.oscGeoCount), backgroundColor:oscRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}],
+    bairroSorted.map(([b]) => b),
+    [{data:bairroSorted.map(([,v]) => v), backgroundColor:bairroSorted.map(([b]) => bairroTerrLookup[b] === 'Grande Mucuripe' ? UI_COLORS.blueSoft : UI_COLORS.teal), borderRadius:5}],
     {plugins:{legend:{display:false}}}
   );
 
-  const territoryNames = ['Grande Mucuripe', 'Grande Bom Jardim'];
-  const areaCounts = {};
-  OSC_POINTS.forEach(point => {
-    const areas = point.areas?.length ? point.areas : ['Sem classificação'];
-    [...new Set(areas)].forEach(area => {
-      areaCounts[area] = areaCounts[area] || {'Grande Mucuripe':0,'Grande Bom Jardim':0,total:0};
-      areaCounts[area][point.t] += 1;
-      areaCounts[area].total += 1;
-    });
-  });
-  const areaLabels = Object.entries(areaCounts)
-    .filter(([area]) => area !== 'Sem classificação')
-    .sort((a,b) => b[1].total - a[1].total)
-    .map(([area]) => area)
-    .slice(0,8);
-
-  destroyChart('chart-osc-setor');
-  CHARTS['chart-osc-setor'] = new Chart(document.getElementById('chart-osc-setor'), {
+  // Áreas de atuação (single dataset, colored by area)
+  const areaEntries = Object.entries(primaryCounts).sort((a,b) => b[1] - a[1]);
+  destroyChart('chart-osc-area');
+  CHARTS['chart-osc-area'] = new Chart(document.getElementById('chart-osc-area'), {
     type:'bar',
     data:{
-      labels:areaLabels.map(area => OSC_AREA_SHORT_LABELS[area] || area),
-      datasets:[
-        {label:'Grande Mucuripe', data:areaLabels.map(area => areaCounts[area]['Grande Mucuripe'] || 0), backgroundColor:UI_COLORS.blue, borderRadius:5},
-        {label:'Grande Bom Jardim', data:areaLabels.map(area => areaCounts[area]['Grande Bom Jardim'] || 0), backgroundColor:UI_COLORS.teal, borderRadius:5}
-      ]
+      labels:areaEntries.map(([k]) => OSC_AREA_SHORT_LABELS[k] || k),
+      datasets:[{data:areaEntries.map(([,v]) => v), backgroundColor:areaEntries.map(([k]) => OSC_CATEGORY_COLORS[k] || '#999'), borderRadius:6}]
     },
     options:baseChartOptions()
   });
-}
 
-function initComp(){
-  const gm = TERR_STATS.find(d => d.t === 'Grande Mucuripe');
-  const gbj = TERR_STATS.find(d => d.t === 'Grande Bom Jardim');
-  // Empresas por 1.000 hab (derivado)
-  [gm,gbj].forEach(d => { d.emp1k = (d.emp!=null && d.pop) ? (d.emp/d.pop*1000) : null; });
-  // 6 dimensões padronizadas — mesmo conjunto usado em Maracanaú (com proxies onde necessário)
-  const radarAxes = [
-    {
-      key:'prot',
-      label:'Baixa pobreza (CadÚnico 2025)',
-      rawKind:'pct',
-      rawValue:d => 1 - d.epob,
-      rawLabel:d => `${fmt(d.epob,'pct')} em extrema pobreza`,
-      normalized:d => (1 - d.epob) * 100
-    },
-    {
-      key:'san',
-      label:'Saneamento (Censo 2022)',
-      rawKind:'pct',
-      rawValue:d => d.esg,
-      rawLabel:d => `${fmt(d.esg,'pct')} com esgotamento`,
-      normalized:d => d.esg * 100
-    },
-    {
-      key:'renda',
-      label:'Renda (2010)',
-      rawKind:'money',
-      rawValue:d => d.renda,
-      normalized:d => {
-        const best = Math.max(gm.renda, gbj.renda) || 1;
-        return (d.renda / best) * 100;
-      }
-    },
-    {
-      key:'econ',
-      label:'Densidade empresarial (dez/2024)',
-      rawKind:'float1',
-      rawValue:d => d.emp1k,
-      rawLabel:d => d.emp1k!=null?`${d.emp1k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})} CNPJs / 1.000 hab`:'—',
-      normalized:d => {
-        const best = Math.max(gm.emp1k||0, gbj.emp1k||0) || 1;
-        return ((d.emp1k||0) / best) * 100;
-      }
-    },
-    {
-      key:'soc',
-      label:'Sociedade civil (IPEA 2024)',
-      rawKind:'float1',
-      rawValue:d => d.osc10k,
-      rawLabel:d => `${(d.osc10k||0).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})} OSCs / 10.000 hab`,
-      normalized:d => {
-        const best = Math.max(gm.osc10k, gbj.osc10k) || 1;
-        return (d.osc10k / best) * 100;
-      }
-    },
-    {
-      key:'dhum',
-      label:'Desenvolvimento humano (IDHM 2010)',
-      rawKind:'index',
-      rawValue:d => d.idhm,
-      normalized:d => {
-        const best = Math.max(gm.idhm, gbj.idhm) || 1;
-        return (d.idhm / best) * 100;
-      }
+  // --- Map with MarkerCluster ---
+  if(!MAPS['map-osc']){
+    const m = L.map('map-osc', {zoomControl:true});
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; OpenStreetMap &middot; &copy; CARTO', maxZoom:18}).addTo(m);
+    MAPS['map-osc'] = m;
+
+    // GeoJSON bairro boundaries
+    let oscGeoLayer = L.geoJSON(GEOJSON, {
+      style:{fillColor:'#0B4FA8', fillOpacity:0.03, color:'#0B4FA8', weight:1, opacity:0.25},
+      onEachFeature:function(f, layer){ layer.bindTooltip(f.properties.nome, {sticky:true, direction:'center', opacity:.85}); }
+    }).addTo(m);
+    MAPS['map-osc']._geoLayer = oscGeoLayer;
+
+    // MarkerCluster
+    const cluster = L.markerClusterGroup({maxClusterRadius:40, spiderfyOnMaxZoom:true, showCoverageOnHover:false});
+    const allOscMarkers = [];
+
+    function createOscIcon(color){
+      return L.divIcon({
+        className:'',
+        html:'<div style="width:13px;height:13px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)"></div>',
+        iconSize:[13,13], iconAnchor:[6,6]
+      });
     }
-  ];
 
-  const radarData = {
-    labels:radarAxes.map(a => a.label),
-    datasets:[
-      {
-        label:'Grande Mucuripe',
-        data:radarAxes.map(a => a.normalized(gm)),
-        rawValues:radarAxes.map(a => ({
-          label:a.label,
-          raw:a.rawValue(gm),
-          rawKind:a.rawKind,
-          rawLabel:a.rawLabel ? a.rawLabel(gm) : fmt(a.rawValue(gm), a.rawKind)
-        })),
-        borderColor:UI_COLORS.blue,
-        backgroundColor:'rgba(126,168,135,.25)',
-        pointBackgroundColor:UI_COLORS.blue,
-        pointBorderColor:'#ffffff',
-        pointBorderWidth:2,
-        pointRadius:4,
-        pointHoverRadius:6,
-        borderWidth:3
-      },
-      {
-        label:'Grande Bom Jardim',
-        data:radarAxes.map(a => a.normalized(gbj)),
-        rawValues:radarAxes.map(a => ({
-          label:a.label,
-          raw:a.rawValue(gbj),
-          rawKind:a.rawKind,
-          rawLabel:a.rawLabel ? a.rawLabel(gbj) : fmt(a.rawValue(gbj), a.rawKind)
-        })),
-        borderColor:UI_COLORS.teal,
-        backgroundColor:'rgba(45,122,94,.22)',
-        pointBackgroundColor:UI_COLORS.teal,
-        pointBorderColor:'#ffffff',
-        pointBorderWidth:2,
-        pointRadius:4,
-        pointHoverRadius:6,
-        borderWidth:3
-      }
-    ]
+    OSC_POINTS.forEach(o => {
+      const area = o.primary || 'Sem classificação';
+      const color = OSC_CATEGORY_COLORS[area] || OSC_CATEGORY_COLORS['Sem classificação'] || '#999';
+      const mk = L.marker([o.plat || o.lat, o.plon || o.lon], {icon:createOscIcon(color)});
+      mk._oscData = o;
+      const areasLabel = (o.areas && o.areas.length) ? o.areas.join(', ') : area;
+      const terrColor = o.t === 'Grande Mucuripe' ? UI_COLORS.blueSoft : UI_COLORS.teal;
+      const popup = '<div class="osc-popup-head">' +
+        '<h4 style="margin:0 0 4px;font-size:13px;font-weight:700">' + escHtml(o.n) + '</h4>' +
+        (o.rf ? '<div style="font-size:11px;color:var(--muted);margin-bottom:4px">' + escHtml(o.rf) + '</div>' : '') +
+        '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">' +
+          '<span class="popup-kicker" style="background:' + color + ';color:#fff;padding:2px 8px;border-radius:3px;font-size:10px">' + escHtml(area) + '</span>' +
+          (o.b ? '<span class="popup-kicker bairro" style="background:#f0f4f8;color:var(--text);padding:2px 8px;border-radius:3px;font-size:10px">' + escHtml(o.b) + '</span>' : '') +
+          '<span style="background:' + terrColor + ';color:#fff;padding:2px 8px;border-radius:3px;font-size:10px">' + escHtml(o.t) + '</span>' +
+        '</div></div>' +
+        '<div class="osc-popup-body">' +
+          (o.addr ? '<div class="popup-end" style="font-size:11px;color:var(--muted);margin-top:6px">' + escHtml(o.addr) + '</div>' : '') +
+          (areasLabel !== area ? '<div style="font-size:11px;color:var(--muted);margin-top:4px">Áreas: ' + escHtml(areasLabel) + '</div>' : '') +
+        '</div>';
+      mk.bindPopup(popup, {maxWidth:340, minWidth:260});
+      allOscMarkers.push(mk);
+      cluster.addLayer(mk);
+    });
+
+    m.addLayer(cluster);
+    try{ m.fitBounds(cluster.getBounds(), {padding:[30,30]}); } catch(e){ m.setView([-3.75, -38.55], 13); }
+
+    MAPS['map-osc']._cluster = cluster;
+    MAPS['map-osc']._allMarkers = allOscMarkers;
+  }
+
+  // Active areas set for filter
+  const activeAreas = new Set(Object.keys(primaryCounts));
+  MAPS['map-osc']._activeAreas = activeAreas;
+
+  // Build interactive legend
+  const legendEl = document.getElementById('osc-legend');
+  legendEl.innerHTML = '';
+  Object.entries(primaryCounts).sort((a,b) => b[1] - a[1]).forEach(([area, count]) => {
+    const item = document.createElement('div');
+    item.className = 'osc-legend-item';
+    item.dataset.area = area;
+    item.innerHTML = '<span class="osc-dot" style="background:' + (OSC_CATEGORY_COLORS[area] || '#999') + '"></span>' +
+      '<span class="osc-label">' + (OSC_AREA_SHORT_LABELS[area] || area) + '</span>' +
+      '<span class="osc-count">' + count + '</span>';
+    item.addEventListener('click', function(){
+      if(activeAreas.has(area)){ activeAreas.delete(area); item.style.opacity = '.35'; }
+      else { activeAreas.add(area); item.style.opacity = '1'; }
+      renderOSCMap();
+    });
+    legendEl.appendChild(item);
+  });
+
+  // Populate bairro filter
+  const bairroSel = document.getElementById('osc-bairro-filter');
+  bairroSel.innerHTML = '<option value="">Todos os bairros</option>';
+  Object.keys(bairroCounts).sort().forEach(function(b){
+    const opt = document.createElement('option');
+    opt.value = b; opt.textContent = b + ' (' + bairroCounts[b] + ')';
+    bairroSel.appendChild(opt);
+  });
+
+  // Top bairros sidebar
+  function renderTopBairros(){
+    const topEl = document.getElementById('osc-top-bairros');
+    const top8 = Object.entries(bairroCounts).sort((a,b) => b[1] - a[1]).slice(0, 8);
+    const maxVal = top8[0][1];
+    topEl.innerHTML = top8.map(function(entry){
+      const b = entry[0], n = entry[1];
+      const terrColor = bairroTerrLookup[b] === 'Grande Mucuripe' ? UI_COLORS.blueSoft : UI_COLORS.teal;
+      return '<div class="osc-bairro-row"><div style="flex:1">' +
+        '<div style="display:flex;justify-content:space-between;margin-bottom:3px">' +
+          '<span style="font-size:11px">' + b + '</span>' +
+          '<span style="font-size:11px;font-weight:700;color:var(--navy)">' + n + '</span>' +
+        '</div>' +
+        '<div style="height:3px;background:#e8edf2;border-radius:2px">' +
+          '<div style="height:3px;border-radius:2px;background:' + terrColor + ';width:' + Math.round(n/maxVal*100) + '%"></div>' +
+        '</div></div></div>';
+    }).join('');
+  }
+  renderTopBairros();
+
+  function renderOSCMap(){
+    const searchTerm = (document.getElementById('osc-search').value || '').toLowerCase();
+    const bairroFilter = document.getElementById('osc-bairro-filter').value;
+    const cluster = MAPS['map-osc']._cluster;
+    const activeAreas = MAPS['map-osc']._activeAreas;
+    const geoLayer = MAPS['map-osc']._geoLayer;
+
+    cluster.clearLayers();
+    var count = 0;
+    MAPS['map-osc']._allMarkers.forEach(function(mk){
+      const o = mk._oscData;
+      const area = o.primary || 'Sem classificação';
+      const areaOk = activeAreas.has(area);
+      const searchOk = !searchTerm || o.n.toLowerCase().includes(searchTerm) || (o.rf && o.rf.toLowerCase().includes(searchTerm));
+      const bairroOk = !bairroFilter || o.b === bairroFilter;
+      if(areaOk && searchOk && bairroOk){ cluster.addLayer(mk); count++; }
+    });
+
+    document.getElementById('osc-map-count').textContent = count + ' OSCs';
+
+    // Active filter UI
+    const hasSrch = !!searchTerm, hasBairro = !!bairroFilter;
+    const activeCount = (hasSrch ? 1 : 0) + (hasBairro ? 1 : 0) + (activeAreas.size < Object.keys(primaryCounts).length ? 1 : 0);
+    document.getElementById('osc-clear-filters').style.display = activeCount > 0 ? '' : 'none';
+    const badge = document.getElementById('osc-filter-count');
+    if(activeCount > 0){ badge.style.display = ''; badge.textContent = activeCount + ' filtro' + (activeCount > 1 ? 's' : ''); }
+    else { badge.style.display = 'none'; }
+
+    // Highlight bairro on GeoJSON
+    if(geoLayer){
+      geoLayer.eachLayer(function(layer){
+        const nome = layer.feature.properties.nome;
+        if(bairroFilter && nome === bairroFilter){
+          layer.setStyle({fillColor:'#0B4FA8', fillOpacity:0.18, color:'#0B4FA8', weight:2.5, opacity:0.7});
+        } else if(bairroFilter){
+          layer.setStyle({fillColor:'#0B4FA8', fillOpacity:0.01, color:'#0B4FA8', weight:0.5, opacity:0.12});
+        } else {
+          layer.setStyle({fillColor:'#0B4FA8', fillOpacity:0.03, color:'#0B4FA8', weight:1, opacity:0.25});
+        }
+      });
+    }
+
+    // Zoom to bairro or fit markers
+    if(bairroFilter && geoLayer){
+      geoLayer.eachLayer(function(layer){
+        if(layer.feature.properties.nome === bairroFilter){
+          MAPS['map-osc'].fitBounds(layer.getBounds(), {padding:[60,60], maxZoom:15});
+        }
+      });
+    } else if(count > 0){
+      try{ MAPS['map-osc'].fitBounds(cluster.getBounds(), {padding:[30,30]}); } catch(e){}
+    }
+  }
+
+  renderOSCMap();
+
+  document.getElementById('osc-search').addEventListener('input', renderOSCMap);
+  document.getElementById('osc-bairro-filter').addEventListener('change', renderOSCMap);
+  document.getElementById('osc-clear-filters').addEventListener('click', function(){
+    document.getElementById('osc-search').value = '';
+    document.getElementById('osc-bairro-filter').value = '';
+    MAPS['map-osc']._activeAreas = new Set(Object.keys(primaryCounts));
+    document.getElementById('osc-legend').querySelectorAll('.osc-legend-item').forEach(function(el){ el.style.opacity = '1'; });
+    renderOSCMap();
+  });
+}
+function initComp(){
+  const TERR_ORDER = ['Grande Mucuripe','Grande Bom Jardim'];
+  const TERR_COLORS = {
+    'Grande Mucuripe': UI_COLORS.blue,
+    'Grande Bom Jardim': UI_COLORS.teal
   };
-  destroyChart('chart-comp-radar');
-  CHARTS['chart-comp-radar'] = new Chart(document.getElementById('chart-comp-radar'), {
-    type:'radar',
-    data:radarData,
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{labels:{font:{family:'Inter', size:11, weight:'600'}, color:UI_COLORS.muted, usePointStyle:true, pointStyle:'circle', boxWidth:8, boxHeight:8, padding:16}},
-        tooltip:{
-          callbacks:{
-            title(items){
-              return items[0]?.label || '';
-            },
+  const TERR_COLORS_SOFT = {
+    'Grande Mucuripe': 'rgba(11,79,168,.15)',
+    'Grande Bom Jardim': 'rgba(26,110,194,.15)'
+  };
+
+  // ── Compute territory stats (weighted means) ───────────────────────────
+  function terrAgg(){
+    const stats = {};
+    TERR_ORDER.forEach(t => {
+      const bairros = DATA.filter(d => d.t === t);
+      const totalPop = bairros.reduce((s,d) => s + (d.pop||0), 0);
+      const wmean = (key) => {
+        const valid = bairros.filter(d => d[key] != null && !isNaN(d[key]) && d.pop != null);
+        if(!valid.length) return null;
+        const wp = valid.reduce((s,d) => s + (d.pop||0), 0);
+        return valid.reduce((s,d) => s + d[key] * (d.pop||0), 0) / (wp||1);
+      };
+      const sum = (key) => bairros.reduce((s,d) => s + (d[key]||0), 0);
+      stats[t] = {
+        name: t,
+        n: bairros.length,
+        pop: totalPop,
+        epob: wmean('epob'),
+        cad: wmean('cad'),
+        anal: wmean('anal'),
+        idhm: wmean('idhm'),
+        esg: wmean('esg'),
+        agua: wmean('agua'),
+        lixo: wmean('lixo'),
+        renda: wmean('renda'),
+        esfc: wmean('esfc'),
+        hom: wmean('hom'),
+        emp: sum('emp'),
+        osc: sum('osc'),
+        mei: sum('mei'),
+        emp1k: totalPop > 0 ? sum('emp') / totalPop * 1000 : null,
+        osc10k: totalPop > 0 ? sum('osc') / totalPop * 10000 : null,
+        meiShare: sum('emp') > 0 ? sum('mei') / sum('emp') : null
+      };
+    });
+    return stats;
+  }
+  const TS = terrAgg();
+
+  // ── Territory map ──────────────────────────────────────────────────────
+  let activeTerritory = null;
+  const mapEl = document.getElementById('map-territory');
+  const mapTerr = L.map(mapEl, {
+    zoomControl: false,
+    attributionControl: true,
+    preferCanvas: true,
+    renderer: L.canvas({padding:0.5}),
+    zoomSnap: 0.25
+  });
+  mapTerr.attributionControl.setPrefix(false);
+  mapTerr.createPane('basemap');
+  mapTerr.getPane('basemap').style.zIndex = '200';
+  mapTerr.getPane('basemap').style.opacity = '0.76';
+  mapTerr.getPane('basemap').style.filter = 'grayscale(1) contrast(1.02) brightness(1.03)';
+  mapTerr.createPane('fills');
+  mapTerr.getPane('fills').style.zIndex = '320';
+  mapTerr.createPane('outlines');
+  mapTerr.getPane('outlines').style.zIndex = '360';
+  mapTerr.createPane('labels');
+  mapTerr.getPane('labels').style.zIndex = '450';
+  mapTerr.getPane('labels').style.pointerEvents = 'none';
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{
+    subdomains:'abcd', maxZoom:20, pane:'basemap',
+    attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
+  }).addTo(mapTerr);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',{
+    subdomains:'abcd', maxZoom:20, pane:'labels',
+    attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
+  }).addTo(mapTerr);
+
+  const terrLayer = L.geoJSON(GEOJSON, {
+    style: feature => {
+      const d = findData(feature.properties.nome || feature.properties.NM_BAIRRO);
+      const t = d ? d.t : null;
+      const col = TERR_COLORS[t] || '#ccc';
+      return { fillColor: col, weight: 1.5, color: '#fff', fillOpacity: 0.72, pane: 'fills' };
+    },
+    onEachFeature: (feature, layer) => {
+      const bName = feature.properties.nome || feature.properties.NM_BAIRRO;
+      const d = findData(bName);
+      const t = d ? d.t : '—';
+      layer.bindTooltip(
+        '<strong>' + bName + '</strong><br><span style="color:' + (TERR_COLORS[t]||'#888') + '">' + t + '</span>' +
+        (d ? '<br>Pop: ' + fmt(d.pop,'int') + ' · Ext.pob: ' + fmt(d.epob,'pct') : ''),
+        {sticky: true}
+      );
+      layer.on('click', () => {
+        highlightTerritory(t);
+        document.querySelectorAll('.terr-card').forEach(c => c.classList.toggle('active', c.dataset.territory === t));
+      });
+    }
+  }).addTo(mapTerr);
+  mapTerr.fitBounds(terrLayer.getBounds(), {padding:[10,10]});
+  MAPS['comp'] = {map: mapTerr, layer: terrLayer};
+
+  function highlightTerritory(t){
+    activeTerritory = t;
+    terrLayer.eachLayer(l => {
+      const d = findData(l.feature.properties.nome || l.feature.properties.NM_BAIRRO);
+      const lt = d ? d.t : null;
+      l.setStyle({ fillOpacity: t === null || lt === t ? 0.82 : 0.2, weight: lt === t ? 2.5 : 1.5 });
+    });
+  }
+
+  // ── Territory cards sidebar ────────────────────────────────────────────
+  const sidebar = document.getElementById('terr-cards-sidebar');
+  sidebar.innerHTML = TERR_ORDER.map(t => {
+    const s = TS[t];
+    return '<div class="terr-card" data-territory="' + t + '" onclick="(function(el,t){document.querySelectorAll(\'.terr-card\').forEach(function(c){c.classList.toggle(\'active\',c===el)});var layers=document.getElementById(\'map-territory\');if(window._terrHighlight)window._terrHighlight(t)})(this,\'' + t + '\')">' +
+      '<div class="terr-card-header"><span class="terr-dot" style="background:' + TERR_COLORS[t] + '"></span><span class="terr-card-name">' + t + '</span><span class="terr-card-count">' + s.n + ' bairros</span></div>' +
+      '<div class="terr-card-desc">' + (TERR_DESC[t] || '') + '</div>' +
+      '<div class="terr-stats-row">' +
+        '<div class="terr-stat">' + fmt(s.pop,'int') + ' <span>hab.</span></div>' +
+        '<div class="terr-stat">' + fmt(s.epob,'pct') + ' <span>ext.pob.</span></div>' +
+        '<div class="terr-stat">' + (s.esg != null ? (s.esg*100).toFixed(0) + '%' : '—') + ' <span>esgoto</span></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  window._terrHighlight = highlightTerritory;
+
+  // ── Territory comparison table ─────────────────────────────────────────
+  const thead = '<thead><tr>' +
+    '<th>Território</th><th>Bairros</th><th>Pop.</th>' +
+    '<th>Ext. Pobreza</th><th>CadÚnico</th><th>Analfab.</th><th>IDHM</th>' +
+    '<th>Esgoto</th><th>Água</th><th>Renda (2010)</th>' +
+    '<th>Empr./1k</th><th>OSCs/10k</th>' +
+  '</tr></thead>';
+  const tbody = '<tbody>' + TERR_ORDER.map(t => {
+    const s = TS[t];
+    return '<tr>' +
+      '<td><span style="display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#062040"><span style="width:9px;height:9px;border-radius:50%;background:' + TERR_COLORS[t] + ';display:inline-block"></span>' + t + '</span></td>' +
+      '<td>' + s.n + '</td>' +
+      '<td>' + fmt(s.pop,'int') + '</td>' +
+      '<td>' + fmt(s.epob,'pct') + '</td>' +
+      '<td>' + fmt(s.cad,'pct') + '</td>' +
+      '<td>' + fmt(s.anal,'pct') + '</td>' +
+      '<td>' + fmt(s.idhm,'index') + '</td>' +
+      '<td>' + fmt(s.esg,'pct') + '</td>' +
+      '<td>' + fmt(s.agua,'pct') + '</td>' +
+      '<td>' + fmt(s.renda,'money') + '</td>' +
+      '<td>' + (s.emp1k != null ? s.emp1k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) : '—') + '</td>' +
+      '<td>' + (s.osc10k != null ? s.osc10k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) : '—') + '</td>' +
+    '</tr>';
+  }).join('') + '</tbody>';
+  document.getElementById('table-territory').innerHTML = thead + tbody;
+
+  // ── Dimensions & normalization (min-max like Maracanaú) ────────────────
+  const dimAxes = [
+    {key:'educ',  label:'Literacia (Censo 2022)',             short:'Literacia',   absoluteMin:0,    getValue:s=>s.anal!=null?(1-s.anal)*100:null,  note:'% adultos alfabetizados (1 − analfabetismo). IBGE Censo 2022.'},
+    {key:'prot',  label:'Baixa pobreza (CadÚnico 2025)',     short:'B. Pobreza',  absoluteMin:0,    getValue:s=>s.epob!=null?(1-s.epob)*100:null,  note:'1 − extrema pobreza (CadÚnico 2025). Eixo positivo.'},
+    {key:'san',   label:'Saneamento (Censo 2022)',            short:'Saneamento',  absoluteMin:0,    getValue:s=>{const v=[s.esg,s.agua,s.lixo].filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length*100:null}, note:'Média esgoto + água + coleta (% domicílios). IBGE Censo 2022.'},
+    {key:'renda', label:'Renda (2010)',                       short:'Renda',       absoluteMin:null, getValue:s=>s.renda,  note:'Renda média domiciliar per capita R$ (2010). IBGE Censo 2010.'},
+    {key:'econ',  label:'Densidade empresarial (dez/2024)',   short:'Empresas',    absoluteMin:null, getValue:s=>s.emp1k,  note:'CNPJs ativos / 1.000 hab. Receita Federal.'},
+    {key:'soc',   label:'OSCs ativas (IPEA 2024)',            short:'Civil',       absoluteMin:null, getValue:s=>s.osc10k, note:'OSCs ativas / 10.000 hab. IPEA Mapa das OSCs 2024.'}
+  ];
+  const normScores = {};
+  TERR_ORDER.forEach(t => { normScores[t] = []; });
+  dimAxes.forEach(ax => {
+    const vals = TERR_ORDER.map(t => ax.getValue(TS[t])).filter(v => v != null && !isNaN(v));
+    const maxV = Math.max(...vals) || 1;
+    const minV = ax.absoluteMin != null ? ax.absoluteMin : Math.min(...vals);
+    const range = maxV - minV || 1;
+    TERR_ORDER.forEach(t => {
+      const v = ax.getValue(TS[t]);
+      normScores[t].push(v != null && !isNaN(v) ? Math.round((v - minV) / range * 100) : 0);
+    });
+  });
+
+  // ── Radar with toggle buttons ──────────────────────────────────────────
+  const radarPalette = {
+    'Grande Mucuripe':   {border: UI_COLORS.blue,  bg: 'rgba(11,79,168,.15)'},
+    'Grande Bom Jardim': {border: UI_COLORS.teal, bg: 'rgba(26,110,194,.15)'}
+  };
+  const defaultVisible = new Set(TERR_ORDER);
+  const visibleTerritories = new Set(defaultVisible);
+
+  function makeRadarDatasets(visSet){
+    return TERR_ORDER.filter(t => visSet.has(t)).map(t => ({
+      label: t,
+      data: normScores[t],
+      borderColor: radarPalette[t].border,
+      backgroundColor: radarPalette[t].bg,
+      pointBackgroundColor: radarPalette[t].border,
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2
+    }));
+  }
+  function getRadarOptions(){
+    return {
+      responsive: true, maintainAspectRatio: false,
+      animation: {duration: 200},
+      layout: {padding:{top:8,bottom:8,left:8,right:8}},
+      plugins: {
+        legend: {position:'bottom', labels:{font:{size:11,weight:'600'}, color:'#5C6E7E', usePointStyle:true, pointStyle:'circle', boxWidth:9, boxHeight:9, padding:16}},
+        tooltip: {
+          backgroundColor: 'rgba(27,45,62,.92)', titleFont:{size:12,weight:'700'}, bodyFont:{size:12}, cornerRadius:6, padding:10,
+          callbacks: {
+            title(i){ return i[0]?.label || ''; },
             label(ctx){
-              const v = Number(ctx.parsed.r || 0).toLocaleString('pt-BR',{minimumFractionDigits:1, maximumFractionDigits:1});
-              return `${ctx.dataset.label}: ${v} pontos padronizados`;
-            },
-            afterLabel(ctx){
-              const raw = ctx.dataset.rawValues?.[ctx.dataIndex];
-              return raw ? `Valor original: ${raw.rawLabel}` : '';
+              const t = ctx.dataset.label; const ax = dimAxes[ctx.dataIndex]; const raw = ax.getValue(TS[t]);
+              if(raw == null) return ' ' + t + ': —';
+              if(ax.key === 'renda') return ' ' + t + ': ' + fmt(raw,'money');
+              if(ax.key === 'econ')  return ' ' + t + ': ' + raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' emp/1k';
+              if(ax.key === 'soc')   return ' ' + t + ': ' + raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' OSC/10k';
+              return ' ' + t + ': ' + raw.toFixed(1) + '%';
             }
           }
         }
       },
-      scales:{
-        r:{
-          min:0,max:100,
-          angleLines:{color:'#e6edf3'},
-          grid:{color:'#e6edf3'},
-          pointLabels:{color:UI_COLORS.text, font:{family:'Inter', size:11, weight:'700'}},
-          ticks:{backdropColor:'transparent', color:UI_COLORS.muted, font:{family:'Inter', size:10}, stepSize:20, showLabelBackdrop:false}
-        }
-      }
-    }
-  });
-
-  const radarValuesEl = document.getElementById('radar-values');
-  if(radarValuesEl){
-    radarValuesEl.innerHTML = radarAxes.map(axis => `
-      <div class="radar-card">
-        <div class="radar-card-title">${axis.label}</div>
-        <div class="radar-card-lines">
-          <div class="radar-line">
-            <span class="name">Grande Mucuripe</span>
-            <span class="value">${axis.rawLabel ? axis.rawLabel(gm) : fmt(axis.rawValue(gm), axis.rawKind)}</span>
-          </div>
-          <div class="radar-line">
-            <span class="name">Grande Bom Jardim</span>
-            <span class="value">${axis.rawLabel ? axis.rawLabel(gbj) : fmt(axis.rawValue(gbj), axis.rawKind)}</span>
-          </div>
-        </div>
-      </div>
-    `).join('');
+      scales:{r:{
+        min:0, max:100,
+        angleLines:{color:'rgba(216,224,232,.8)'},
+        grid:{color:'rgba(216,224,232,.7)'},
+        pointLabels:{color:'#1B2D3E', font:{size:12,weight:'700'}, padding:14},
+        ticks:{display:false}
+      }}
+    };
+  }
+  function buildRadar(){
+    destroyChart('chart-comp-radar');
+    CHARTS['chart-comp-radar'] = new Chart(
+      document.getElementById('chart-comp-radar'),
+      {type:'radar', data:{labels:dimAxes.map(a=>a.short), datasets:makeRadarDatasets(visibleTerritories)}, options:getRadarOptions()}
+    );
   }
 
-  function terrMean(data, territory, key){
-    const rows = data.filter(d => d.t === territory && Number.isFinite(d[key]));
-    if(!rows.length) return null;
-    return rows.reduce((s,d)=>s+d[key],0)/rows.length;
-  }
-  function terrSum(data, territory, key){
-    return data.filter(d => d.t === territory).reduce((s,d)=>s+(d[key]||0),0);
-  }
-  const gmNI = terrSum(DATA, 'Grande Mucuripe', 'negImpacto');
-  const gbjNI = terrSum(DATA, 'Grande Bom Jardim', 'negImpacto');
-  const gmGA = terrMean(DATA, 'Grande Mucuripe', 'gravAdol');
-  const gbjGA = terrMean(DATA, 'Grande Bom Jardim', 'gravAdol');
-  const gmIBEU = terrMean(DATA, 'Grande Mucuripe', 'ibeu');
-  const gbjIBEU = terrMean(DATA, 'Grande Bom Jardim', 'ibeu');
-  const gmCoops = terrSum(DATA, 'Grande Mucuripe', 'coops');
-  const gbjCoops = terrSum(DATA, 'Grande Bom Jardim', 'coops');
-  const gmFav = terrSum(DATA, 'Grande Mucuripe', 'favelas');
-  const gbjFav = terrSum(DATA, 'Grande Bom Jardim', 'favelas');
+  // Toggle mechanism
+  window._rebuildTerrRadar = function(toggledTerritory){
+    const vis = window._radarVisT; if(!vis) return;
+    if(vis.has(toggledTerritory)){ if(vis.size > 1) vis.delete(toggledTerritory); } else vis.add(toggledTerritory);
+    visibleTerritories.clear(); vis.forEach(t => visibleTerritories.add(t));
+    document.querySelectorAll('#radar-toggles button').forEach(b => {
+      const on = vis.has(b.dataset.territory);
+      b.style.opacity = on ? '1' : '.4';
+      b.style.fontWeight = on ? '700' : '400';
+    });
+    buildRadar();
+  };
+  window._radarVisT = new Set(defaultVisible);
+  const togglesEl = document.getElementById('radar-toggles');
+  togglesEl.innerHTML = TERR_ORDER.map(t => {
+    const active = defaultVisible.has(t);
+    const col = radarPalette[t].border;
+    return '<button data-territory="' + t + '" onclick="window._rebuildTerrRadar(\'' + t + '\')" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;border:1px solid ' + col + ';background:#fff;cursor:pointer;font-size:11px;font-weight:' + (active?'700':'400') + ';color:#062040;opacity:' + (active?'1':'.4') + ';transition:opacity .15s,font-weight .1s"><span style="width:8px;height:8px;border-radius:50%;background:' + col + ';display:inline-block"></span>' + t + '</button>';
+  }).join('');
+  buildRadar();
 
-  const rows = [
-    ['População total', fmt(gm.pop,'int'), fmt(gbj.pop,'int'), 'habitantes'],
-    ['IDHM médio ponderado', fmt(gm.idhm,'index'), fmt(gbj.idhm,'index'), 'índice'],
-    ['Incidência média CadÚnico', fmt(gm.cad,'pct'), fmt(gbj.cad,'pct'), '% pop.'],
-    ['Extrema pobreza média', fmt(gm.epob,'pct'), fmt(gbj.epob,'pct'), '% pop.'],
-    ['Renda média ponderada', fmt(gm.renda,'money'), fmt(gbj.renda,'money'), 'R$/mês'],
-    ['Esgoto médio', fmt(gm.esg,'pct'), fmt(gbj.esg,'pct'), '% dom.'],
-    ['Cobertura média de eSF', fmt(gm.esfc,'float1')+'%', fmt(gbj.esfc,'float1')+'%', '% pop.'],
-    ['Empresas formais', fmt(gm.emp,'int'), fmt(gbj.emp,'int'), 'nº'],
-    ['Participação média de MEIs', fmt(gm.meiShare,'pct'), fmt(gbj.meiShare,'pct'), '% empresas'],
-    ['Negócios de impacto social', fmt(gmNI,'int'), fmt(gbjNI,'int'), 'nº'],
-    ['Cooperativas ativas', fmt(gmCoops,'int'), fmt(gbjCoops,'int'), 'nº'],
-    ['OSCs totais', fmt(gm.osc,'int'), fmt(gbj.osc,'int'), 'nº'],
-    ['OSCs por 10 mil hab.', fmt(gm.osc10k,'float1'), fmt(gbj.osc10k,'float1'), 'nº/10 mil'],
-    ['Homicídios médios', fmt(gm.hom,'float1'), fmt(gbj.hom,'float1'), 'por 100 mil'],
-    ['IBEU médio', fmt(gmIBEU,'index'), fmt(gbjIBEU,'index'), 'índice'],
-    ['Gravidez adolescência média', fmt(gmGA,'float1')+'%', fmt(gbjGA,'float1')+'%', '%'],
-    ['Bairros com favelas', fmt(gmFav,'int'), fmt(gbjFav,'int'), 'nº bairros']
+  // ── Reading panel — real values ────────────────────────────────────────
+  const readingEl = document.getElementById('dim-reading');
+  function fmtDimRaw(ax, raw){
+    if(raw == null || isNaN(raw)) return '—';
+    if(ax.key === 'renda') return fmt(raw, 'money');
+    if(ax.key === 'econ') return raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' emp/1k';
+    if(ax.key === 'soc')  return raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' OSC/10k';
+    return (raw*1).toFixed(1) + '%';
+  }
+  const dimHTML = dimAxes.map(ax => {
+    const vals = TERR_ORDER.map(t => ({t, raw: ax.getValue(TS[t])})).filter(x => x.raw != null && !isNaN(x.raw));
+    const sorted = [...vals].sort((a,b) => b.raw - a.raw);
+    const leader = sorted[0];
+    const laggard = sorted[sorted.length - 1];
+    return '<div class="dim-insight-row">' +
+      '<div class="dim-insight-key">' + ax.label + '</div>' +
+      '<div style="font-size:11px;color:#5C6E7E;margin-bottom:1px">' + ax.note + '</div>' +
+      '<div class="dim-insight-val">' +
+        '<span style="color:#1a7a4a;font-weight:700">&uarr; ' + leader.t + '</span> <span style="color:#1B2D3E;font-weight:600">' + fmtDimRaw(ax,leader.raw) + '</span><br>' +
+        '<span style="color:#b52b27;font-weight:700">&darr; ' + laggard.t + '</span> <span style="color:#1B2D3E;font-weight:600">' + fmtDimRaw(ax,laggard.raw) + '</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  readingEl.innerHTML = '<div class="dim-reading-title">Leitura por dimensão</div><div class="dim-insights">' + dimHTML + '</div>';
+
+  // ── Bairro comparison table (sortable, first click = descending) ───────
+  const sel = document.getElementById('comp-sort');
+  const cols = [
+    {key:'pop',  label:'Pop. (2022)',       fmt:'int'},
+    {key:'epob', label:'Ext. pobreza (2025)',fmt:'pct'},
+    {key:'cad',  label:'CadÚnico (2025)',   fmt:'pct'},
+    {key:'anal', label:'Analfab. (2022)',    fmt:'pct'},
+    {key:'idhm', label:'IDHM (2010)',        fmt:'index'},
+    {key:'esg',  label:'Esgoto (2022)',      fmt:'pct'},
+    {key:'agua', label:'Água (2022)',        fmt:'pct'},
+    {key:'emp',  label:'Empresas (2024)',    fmt:'int'},
+    {key:'osc',  label:'OSCs (2024)',        fmt:'int'},
+    {key:'renda',label:'Renda (2010)',       fmt:'money'},
+    {key:'dens', label:'Dens. (2022)',       fmt:'float1'}
   ];
-  document.getElementById('table-comp').innerHTML = `
-    <thead><tr><th>Indicador</th><th>Grande Mucuripe</th><th>Grande Bom Jardim</th><th>Unidade</th></tr></thead>
-    <tbody>${rows.map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</tbody>`;
+  sel.innerHTML = cols.map((c,i) => '<option value="' + c.key + '"' + (i===0?' selected':'') + '>' + c.label + '</option>').join('');
+
+  function renderBairroTable(sortKey){
+    const desc = ['pop','emp','osc','renda','agua','esg','dens','idhm'].includes(sortKey);
+    const rows = [...DATA].sort((a,b) => {
+      const va = a[sortKey], vb = b[sortKey];
+      if(va == null) return 1;
+      if(vb == null) return -1;
+      return desc ? vb - va : va - vb;
+    });
+    document.getElementById('table-comp').innerHTML =
+      '<thead><tr><th>#</th><th>Bairro</th><th>Território</th><th>Pop.</th><th>Ext. Pobreza</th><th>CadÚnico</th><th>Analfab.</th><th>IDHM</th><th>Esgoto</th><th>Água</th><th>Empresas</th><th>OSCs</th><th>Renda (2010)</th></tr></thead>' +
+      '<tbody>' + rows.map((d,i) => {
+        const t = d.t || '—';
+        const col = TERR_COLORS[t] || '#888';
+        return '<tr>' +
+          '<td style="font-weight:800;color:var(--brand)">' + (i+1) + '</td>' +
+          '<td><strong>' + d.b + '</strong></td>' +
+          '<td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#1B2D3E"><span style="width:8px;height:8px;border-radius:50%;background:' + col + ';display:inline-block;flex-shrink:0"></span>' + t + '</span></td>' +
+          '<td>' + fmt(d.pop,'int') + '</td>' +
+          '<td>' + fmt(d.epob,'pct') + '</td>' +
+          '<td>' + fmt(d.cad,'pct') + '</td>' +
+          '<td>' + fmt(d.anal,'pct') + '</td>' +
+          '<td>' + fmt(d.idhm,'index') + '</td>' +
+          '<td>' + fmt(d.esg,'pct') + '</td>' +
+          '<td>' + fmt(d.agua,'pct') + '</td>' +
+          '<td>' + fmt(d.emp,'int') + '</td>' +
+          '<td>' + fmt(d.osc,'int') + '</td>' +
+          '<td>' + fmt(d.renda,'money') + '</td>' +
+        '</tr>';
+      }).join('') + '</tbody>';
+  }
+  renderBairroTable('pop');
+  sel.addEventListener('change', () => renderBairroTable(sel.value));
 }
 
 function initTab(tab){

@@ -2009,6 +2009,7 @@ function initComp(){
         anal:wmean('anal'),
         esg:wmean('esg'),
         agua:wmean('agua'),
+        lixo:wmean('lixo'),
         renda:wmean('renda'),
         emp:sum('emp'),
         osc:sum('osc'),
@@ -2065,30 +2066,60 @@ function initComp(){
     </div>`;
   }).join('');
 
-  // ── Regional comparison table ────────────────────────────────────────────
-  const thead=`<thead><tr>
-    <th>Região</th><th>Bairros</th><th>Pop.</th>
-    <th>Ext. Pobreza (2025)</th><th>CadÚnico (2025)</th><th>Analfab. (2022)</th>
-    <th>Esgoto (2022)</th><th>Água (2022)</th><th>Renda (2010)</th>
-    <th>Empr./1k (2024)</th><th>OSCs/10k (2024)</th>
-  </tr></thead>`;
-  const tbody=`<tbody>${REGION_ORDER.map(r=>{
-    const s=RS[r];
-    return`<tr>
-      <td><span style="display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#062040"><span style="width:9px;height:9px;border-radius:50%;background:${REGION_COLORS[r]};display:inline-block"></span>${r}</span></td>
-      <td>${s.n}</td>
-      <td>${fmt(s.pop,'int')}</td>
-      <td>${fmt(s.epob,'pct')}</td>
-      <td>${fmt(s.cad,'pct')}</td>
-      <td>${fmt(s.anal,'pct')}</td>
-      <td>${fmt(s.esg,'pct')}</td>
-      <td>${fmt(s.agua,'pct')}</td>
-      <td>${fmt(s.renda,'money')}</td>
-      <td>${s.emp1k!=null?s.emp1k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}):'—'}</td>
-      <td>${s.osc10k!=null?s.osc10k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}):'—'}</td>
-    </tr>`;
-  }).join('')}</tbody>`;
-  document.getElementById('table-region').innerHTML=thead+tbody;
+  // ── Regional comparison table (sortable) ──────────────────────────────────
+  const regCols=[
+    {key:'name',label:'Região',sortVal:s=>s.name},
+    {key:'n',label:'Bairros',sortVal:s=>s.n},
+    {key:'pop',label:'Pop.',sortVal:s=>s.pop},
+    {key:'epob',label:'Ext. Pobreza (2025)',sortVal:s=>s.epob},
+    {key:'cad',label:'CadÚnico (2025)',sortVal:s=>s.cad},
+    {key:'anal',label:'Analfab. (2022)',sortVal:s=>s.anal},
+    {key:'esg',label:'Esgoto (2022)',sortVal:s=>s.esg},
+    {key:'agua',label:'Água (2022)',sortVal:s=>s.agua},
+    {key:'renda',label:'Renda (2010)',sortVal:s=>s.renda},
+    {key:'emp1k',label:'Empr./1k (2024)',sortVal:s=>s.emp1k},
+    {key:'osc10k',label:'OSCs/10k (2024)',sortVal:s=>s.osc10k}
+  ];
+  let regSortKey='pop',regSortDesc=true;
+  function renderRegionTable(){
+    const sorted=[...REGION_ORDER].sort((a,b)=>{
+      if(regSortKey==='name') return regSortDesc?b.localeCompare(a,'pt-BR'):a.localeCompare(b,'pt-BR');
+      const va=regCols.find(c=>c.key===regSortKey).sortVal(RS[a]);
+      const vb=regCols.find(c=>c.key===regSortKey).sortVal(RS[b]);
+      if(va==null)return 1;if(vb==null)return-1;
+      return regSortDesc?vb-va:va-vb;
+    });
+    const thead=`<thead><tr>${regCols.map(c=>{
+      const active=regSortKey===c.key;
+      const icon=active?(regSortDesc?'↓':'↑'):'↕';
+      return`<th class="sortable${active?' sort-'+(regSortDesc?'desc':'asc'):''}" data-reg-col="${c.key}">${c.label}<span class="sort-icon">${icon}</span></th>`;
+    }).join('')}</tr></thead>`;
+    const tbody=`<tbody>${sorted.map(r=>{
+      const s=RS[r];
+      return`<tr>
+        <td><span style="display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#062040"><span style="width:9px;height:9px;border-radius:50%;background:${REGION_COLORS[r]};display:inline-block"></span>${r}</span></td>
+        <td>${s.n}</td>
+        <td>${fmt(s.pop,'int')}</td>
+        <td>${fmt(s.epob,'pct')}</td>
+        <td>${fmt(s.cad,'pct')}</td>
+        <td>${fmt(s.anal,'pct')}</td>
+        <td>${fmt(s.esg,'pct')}</td>
+        <td>${fmt(s.agua,'pct')}</td>
+        <td>${fmt(s.renda,'money')}</td>
+        <td>${s.emp1k!=null?s.emp1k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}):'—'}</td>
+        <td>${s.osc10k!=null?s.osc10k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}):'—'}</td>
+      </tr>`;
+    }).join('')}</tbody>`;
+    document.getElementById('table-region').innerHTML=thead+tbody;
+    document.querySelectorAll('#table-region th.sortable').forEach(th=>{
+      th.addEventListener('click',()=>{
+        const col=th.dataset.regCol;
+        if(regSortKey===col){regSortDesc=!regSortDesc}else{regSortKey=col;regSortDesc=true}
+        renderRegionTable();
+      });
+    });
+  }
+  renderRegionTable();
 
   // ── Dimensions & normalization ──────────────────────────────────────────
   const dimAxes=[
