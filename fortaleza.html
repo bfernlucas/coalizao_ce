@@ -1793,7 +1793,7 @@ body{background:#fff}
 .kpi .label{color:#5C6E7E;text-transform:uppercase;letter-spacing:.06em;font-size:10px;font-weight:700}
 .kpi .value{color:#0B2B44;font-size:22px;font-weight:800;letter-spacing:-.02em}
 .kpi .sub{font-size:11px;color:#7F91A3;margin-top:3px}
-.panel{border-color:#E8EDF2;box-shadow:none;border-radius:4px}
+.panel{border-color:#E8EDF2;box-shadow:none;border-radius:6px}
 .panel-title{color:#0B2B44;font-size:13px;font-weight:700}
 .panel-sub{font-size:11px;color:#5C6E7E}
 .analysis-kicker{background:var(--brand-5);color:var(--brand);font-size:10px;border-radius:3px}
@@ -1828,8 +1828,8 @@ body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,
 .decision::before{display:none}
 .decision h3{color:var(--brand);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
 .decision p{font-size:13px;line-height:1.6;color:#3B4C5C}
-.panel{border-color:#D8E0E8;box-shadow:none;border-radius:4px;background:#fff}
-.panel-title{color:#111;font-size:13px;font-weight:700}
+.panel{border-color:#D8E0E8;box-shadow:none;border-radius:6px;background:#fff}
+.panel-title{color:#0B2B44;font-size:13px;font-weight:700}
 .panel-sub{font-size:11px;color:#5C6E7E}
 .analysis-kicker{background:var(--brand-5);color:var(--brand);font-size:10px;border-radius:3px;border:none}
 .analysis-title{color:var(--navy)}
@@ -4293,6 +4293,7 @@ function initComp(){
           '<td>' + fmt(d.renda,'money') + '</td>' +
         '</tr>';
       }).join('') + '</tbody>';
+    try{ delete document.getElementById('table-comp').dataset.sortableInit; enableTableSorting(); }catch(e){}
   }
   renderBairroTable('pop');
   sel.addEventListener('change', () => renderBairroTable(sel.value));
