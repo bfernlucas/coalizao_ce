@@ -439,10 +439,6 @@ tbody tr:hover{background:#EEF4FF}
 .mge-search-wrap{padding:10px 20px 4px}
 .mge-search{width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:4px;font:inherit;font-size:13px;background:#f8fafb;color:var(--text)}
 .mge-search:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
-th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
-th.sortable:hover{color:var(--brand)}
-th.sortable .sort-icon{font-size:10px;color:var(--muted);opacity:.4;margin-left:3px}
-th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .tipo-badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.04em}
 .tipo-m{background:#e0f2e9;color:#1a6040}
 .tipo-f{background:#fef3cd;color:#7c5c00}
@@ -2308,11 +2304,11 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que já possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-mge-top' || tbl.id === 'table-econ') return;
+    if(tbl.id === 'table-mge-top' || tbl.id === 'table-econ' || tbl.id === 'table-region') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
-      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
+      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined || th.dataset.regCol !== undefined) return;
       if(!th.classList.contains('sortable')) th.classList.add('sortable');
       if(!th.querySelector('.sort-icon')){
         const ic = document.createElement('span');
@@ -2330,7 +2326,7 @@ function sortTableByColumn(tbl, idx, th){
   const next = curr === 'desc' ? 'asc' : 'desc';
   tbl.querySelectorAll('thead th').forEach(h => {
     h.classList.remove('sort-asc','sort-desc');
-    const ic = h.querySelector('.sort-icon'); if(ic && !h.dataset.col && !h.dataset.econCol) ic.textContent = ' ↕';
+    const ic = h.querySelector('.sort-icon'); if(ic && !h.dataset.col && !h.dataset.econCol && !h.dataset.regCol) ic.textContent = ' ↕';
   });
   th.classList.add(next === 'desc' ? 'sort-desc' : 'sort-asc');
   const icon = th.querySelector('.sort-icon'); if(icon) icon.textContent = next === 'desc' ? ' ↓' : ' ↑';
@@ -2353,9 +2349,9 @@ document.addEventListener('click', e => {
   const th = e.target.closest('thead th');
   if(!th) return;
   if(th.classList.contains('no-sort')) return;
-  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return; // handled by custom logic
+  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined || th.dataset.regCol !== undefined) return; // handled by custom logic
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-mge-top' || tbl.id === 'table-econ') return;
+  if(tbl.id === 'table-mge-top' || tbl.id === 'table-econ' || tbl.id === 'table-region') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;

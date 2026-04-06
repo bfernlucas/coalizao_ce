@@ -4119,6 +4119,7 @@ function initComp(){
     '</tr>';
   }).join('') + '</tbody>';
   document.getElementById('table-territory').innerHTML = thead + tbody;
+  try{ delete document.getElementById('table-territory').dataset.sortableInit; enableTableSorting(); }catch(e){}
 
   // ── Dimensions & normalization (min-max like Maracanaú) ────────────────
   const dimAxes = [
