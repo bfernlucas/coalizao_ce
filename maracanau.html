@@ -99,6 +99,11 @@ tbody tr{background:#fff}tbody tr:nth-child(even){background:#fbfdff}tbody tr:ho
 @media(max-width:1100px){.map-analytics-layout{grid-template-columns:1fr}}
 
 .leaflet-popup-content-wrapper{border-radius:6px!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important}
+/* MGE cluster styles */
+.mge-cluster{display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);box-shadow:0 3px 10px rgba(124,58,237,.35)}
+.mge-cluster-sm{width:34px;height:34px;background:rgba(192,132,252,.85);border:2px solid rgba(255,255,255,.8)}
+.mge-cluster-md{width:42px;height:42px;background:rgba(168,85,247,.85);border:2px solid rgba(255,255,255,.8)}
+.mge-cluster-lg{width:52px;height:52px;background:rgba(124,58,237,.85);border:3px solid rgba(255,255,255,.8);font-size:13px}
 .mge-popup{padding:14px 16px}
 .mge-popup h4{margin:0 0 4px;font-size:14px;font-weight:700;color:#062040}
 .mge-popup .mge-cap{font-size:18px;font-weight:700;color:#7C3AED;margin:6px 0}
@@ -871,16 +876,15 @@ body{background:#fff}
           </div>
         </div>
       </div>
-      <!-- Bubble color legend -->
+      <!-- Choropleth + marker legend -->
       <div class="cap-legend">
-        <span class="cap-legend-label">Capital social:</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#C084FC"></span>&lt; R$ 100 mil</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#A855F7"></span>R$ 100 mil – 1 M</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#f39c12"></span>R$ 1 M – 10 M</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#e67e22"></span>R$ 10 M – 100 M</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#e74c3c"></span>R$ 100 M – 1 bi</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#c0392b"></span>≥ R$ 1 bilhão</span>
-        <span class="cap-legend-item" style="margin-left:10px;color:var(--muted);font-style:italic">· Tamanho proporcional ao capital</span>
+        <span class="cap-legend-label">Capital por bairro (choropleth):</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#F5F3FF;border:1px solid #ddd"></span>Baixo</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#DDD6FE"></span>Médio</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#A78BFA"></span>Alto</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#7C3AED"></span>Muito alto</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#5B21B6"></span>Máximo</span>
+        <span style="margin-left:12px;color:var(--muted);font-size:11px">· Pontos agrupados por proximidade (clique para expandir)</span>
       </div>
     </div>
 
@@ -1370,14 +1374,28 @@ function initEcon(){
   const regioesBubble=[...new Set(MGE_BUBBLES.map(r=>REGION_MAP[r[4]]||'').filter(Boolean))].sort();
   regioesBubble.forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;selRegiao.appendChild(o)});
 
-  // --- MGE Map ---
+  // --- MGE Map (choropleth + clustering) ---
+  // Build capital lookup for choropleth
+  const capByBairro={};
+  MGE_BAIRRO.forEach(b=>{capByBairro[b.b]=b.cap});
+  const maxBairroCap=Math.max(...MGE_BAIRRO.map(b=>b.cap));
+  function choroplethColor(cap){
+    if(!cap||cap<=0) return '#F5F3FF';
+    const t=Math.log10(cap+1)/Math.log10(maxBairroCap+1);
+    const stops=['#F5F3FF','#EDE9FE','#DDD6FE','#C4B5FD','#A78BFA','#8B5CF6','#7C3AED','#6D28D9','#5B21B6'];
+    const idx=Math.min(Math.floor(t*stops.length),stops.length-1);
+    return stops[idx];
+  }
   if(!MAPS['map-mge']){
     MAPS['map-mge']={};
     const m=L.map('map-mge',{zoomControl:true,scrollWheelZoom:true});
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM · CARTO',maxZoom:18}).addTo(m);
     MAPS['map-mge'].map=m;
     MAPS['map-mge'].geo=L.geoJSON(GEO,{
-      style:{fillColor:'#7C3AED',fillOpacity:0.04,color:'#7C3AED',weight:1,opacity:0.3},
+      style:function(f){
+        const cap=capByBairro[f.properties.nome]||0;
+        return {fillColor:choroplethColor(cap),fillOpacity:0.55,color:'#7C3AED',weight:1,opacity:0.4};
+      },
       onEachFeature:function(f,layer){
         const d=findData(f.properties.nome);
         const mge=MGE_BAIRRO.find(b=>b.b===f.properties.nome);
@@ -1389,11 +1407,23 @@ function initEcon(){
           const avgStr=mge?fmtCap(mge.avg):'—';
           layer.bindPopup(`<div class="mge-popup"><h4>${f.properties.nome}</h4><div style="font-size:10px;font-weight:700;color:${regCol};margin-bottom:6px">${reg}</div><div class="mge-cap">${capStr}</div><div class="mge-meta">${nStr} empresas M/G · capital médio ${avgStr}<br>Pop. ${d?fmt(d.pop,'int'):'—'} · MEI ${d&&d.meiShare!=null?fmt(d.meiShare,'pct'):'—'}</div></div>`,{maxWidth:300});
         }
-        layer.on('mouseover',function(){this.setStyle({weight:2.5,fillOpacity:.15})});
+        layer.on('mouseover',function(){this.setStyle({weight:2.5,fillOpacity:.7})});
         layer.on('mouseout',function(){MAPS['map-mge'].geo.resetStyle(this)});
       }
     }).addTo(m);
-    MAPS['map-mge'].bubbleLayer=L.layerGroup().addTo(m);
+    // Cluster layer instead of raw bubbles
+    MAPS['map-mge'].clusterLayer=L.markerClusterGroup({
+      maxClusterRadius:45,
+      spiderfyOnMaxZoom:true,
+      showCoverageOnHover:false,
+      iconCreateFunction:function(cluster){
+        const count=cluster.getChildCount();
+        let cls='mge-cluster-sm';
+        if(count>=50) cls='mge-cluster-lg';
+        else if(count>=15) cls='mge-cluster-md';
+        return L.divIcon({html:'<div class="mge-cluster '+cls+'">'+count+'</div>',className:'',iconSize:[52,52],iconAnchor:[26,26]});
+      }
+    }).addTo(m);
     m.fitBounds(MAPS['map-mge'].geo.getBounds(),{padding:[20,20]});
   }
 
@@ -1412,18 +1442,22 @@ function initEcon(){
   }
 
   function renderMGEMap(){
-    const bl=MAPS['map-mge'].bubbleLayer;
-    bl.clearLayers();
+    const cl=MAPS['map-mge'].clusterLayer;
+    cl.clearLayers();
     const filtered=getFilteredMGE();
     filtered.forEach(r=>{
       const [lat,lng,cap,setor,bairro,nome,tipo]=r;
       const reg=REGION_MAP[bairro]||'—';
       const regCol=REGION_COLORS[reg]||'#888';
-      const c=L.circleMarker([lat,lng],{
-        radius:mgeRadius(cap),fillColor:mgeColor(cap),fillOpacity:0.55,
-        color:'#fff',weight:1.5,opacity:0.9
+      const dotColor=mgeColor(cap);
+      const mk=L.marker([lat,lng],{
+        icon:L.divIcon({
+          className:'',
+          html:`<div style="width:10px;height:10px;border-radius:50%;background:${dotColor};border:1.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25)"></div>`,
+          iconSize:[10,10],iconAnchor:[5,5]
+        })
       });
-      c.bindPopup(`<div class="mge-popup">
+      mk.bindPopup(`<div class="mge-popup">
         <h4>${nome}</h4>
         <div style="font-size:10px;font-weight:700;color:${regCol};margin-bottom:6px">${reg} · ${bairro}</div>
         <div class="mge-cap">${fmtCap(cap)}</div>
@@ -1432,9 +1466,7 @@ function initEcon(){
           <span class="mge-tag" style="${tipo==='M'?'background:#e0f2e9;color:#7C3AED':'background:#fef3cd;color:#7c5c00'}">${tipo==='M'?'Matriz':'Filial'}</span>
         </div>
       </div>`,{maxWidth:300});
-      c.on('mouseover',function(){this.setStyle({fillOpacity:.9,weight:3})});
-      c.on('mouseout',function(){this.setStyle({fillOpacity:.55,weight:1.5})});
-      bl.addLayer(c);
+      cl.addLayer(mk);
     });
 
     // Sidebar — full empresa list with scroll
