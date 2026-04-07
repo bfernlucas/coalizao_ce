@@ -497,6 +497,10 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 }
 .footer-credit{margin-top:6px;font-size:11px;color:#8292A0}
 
+/* Outdated data indicator */
+.data-outdated{display:inline-flex;align-items:center;gap:4px}
+.data-outdated::after{content:'⚠';color:#DC2626;font-size:10px;font-weight:700;vertical-align:super;line-height:1}
+
 /* Leaflet popup */
 .leaflet-popup-content-wrapper{
   border-radius:6px;
@@ -1098,7 +1102,7 @@ const INDICATORS={
   lixo:{label:'Coleta de lixo (Censo 2022)',fmt:'pct',higher:'bom'},
   emp:{label:'Empresas formais (dez/2024)',fmt:'int',higher:'alto'},
   osc:{label:'OSCs ativas (IPEA 2024)',fmt:'int',higher:'alto'},
-  renda:{label:'Renda domiciliar per capita (2010)',fmt:'money',higher:'bom'},
+  renda:{label:'Renda domiciliar per capita (IBGE, 2010) ⚠',fmt:'money',higher:'bom'},
 };
 
 function createMap(containerId){
@@ -1900,7 +1904,7 @@ const REGION_DESC = {
 function initComp(){
   // ── Bairro comparison table ──────────────────────────────────────────────
   const sel=document.getElementById('comp-sort');
-  const cols=[{key:'pop',label:'Pop. (2022)',fmt:'int'},{key:'epob',label:'Ext. pobreza (2025)',fmt:'pct'},{key:'cad',label:'CadÚnico (2025)',fmt:'pct'},{key:'anal',label:'Analfab. (2022)',fmt:'pct'},{key:'esg',label:'Esgoto (2022)',fmt:'pct'},{key:'agua',label:'Água (2022)',fmt:'pct'},{key:'emp',label:'Empresas (2024)',fmt:'int'},{key:'osc',label:'OSCs (2024)',fmt:'int'},{key:'renda',label:'Renda (2010)',fmt:'money'},{key:'dens',label:'Dens. (2022)',fmt:'float1'}];
+  const cols=[{key:'pop',label:'Pop. (2022)',fmt:'int'},{key:'epob',label:'Ext. pobreza (2025)',fmt:'pct'},{key:'cad',label:'CadÚnico (2025)',fmt:'pct'},{key:'anal',label:'Analfab. (2022)',fmt:'pct'},{key:'esg',label:'Esgoto (2022)',fmt:'pct'},{key:'agua',label:'Água (2022)',fmt:'pct'},{key:'emp',label:'Empresas (2024)',fmt:'int'},{key:'osc',label:'OSCs (2024)',fmt:'int'},{key:'renda',label:'Renda (IBGE, 2010) ⚠',fmt:'money'},{key:'dens',label:'Dens. (2022)',fmt:'float1'}];
   sel.innerHTML=cols.map((c,i)=>`<option value="${c.key}"${i===0?' selected':''}>${c.label}</option>`).join('');
   function renderBairroTable(sortKey){
     const desc=['pop','emp','osc','renda','agua','esg','dens'].includes(sortKey);
@@ -2019,7 +2023,7 @@ function initComp(){
     {key:'educ',  label:'Literacia (Censo 2022)',             short:'Literacia',   absoluteMin:0,    getValue:s=>s.anal!=null?(1-s.anal)*100:null,  note:'% adultos alfabetizados (1 − analfabetismo). IBGE Censo 2022.'},
     {key:'prot',  label:'Baixa pobreza (CadÚnico 2025)',         short:'B. Pobreza',  absoluteMin:0,    getValue:s=>s.epob!=null?(1-s.epob)*100:null,  note:'1 − extrema pobreza (CadÚnico 2025). Eixo positivo.'},
     {key:'san',   label:'Saneamento (Censo 2022)',             short:'Saneamento',  absoluteMin:0,    getValue:s=>{const v=[s.esg,s.agua,s.lixo].filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length*100:null}, note:'Média esgoto + água + coleta (% domicílios). IBGE Censo 2022.'},
-    {key:'renda', label:'Renda (2010)',                  short:'Renda',       absoluteMin:null, getValue:s=>s.renda,  note:'Renda média domiciliar per capita R$ (2010). IBGE Censo 2010.'},
+    {key:'renda', label:'Renda (IBGE, 2010) ⚠',                  short:'Renda',       absoluteMin:null, getValue:s=>s.renda,  note:'Renda média domiciliar per capita R$ (2010). IBGE Censo 2010.'},
     {key:'econ',  label:'Densidade empresarial (dez/2024)', short:'Empresas',    absoluteMin:null, getValue:s=>s.emp1k,  note:'CNPJs ativos / 1.000 hab. Receita Federal.'},
     {key:'soc',   label:'OSCs ativas (IPEA 2024)',           short:'Civil',       absoluteMin:null, getValue:s=>s.osc10k, note:'OSCs ativas / 10.000 hab. IPEA Mapa das OSCs 2024.'},
   ];
