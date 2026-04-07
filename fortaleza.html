@@ -3538,13 +3538,11 @@ function initEcon(){
     options:baseChartOptions()
   });
   // Impact KPIs
-  const totalNI = DATA.reduce((s,d)=>s+(d.negImpacto||0),0);
-  const totalCoopsK = DATA.reduce((s,d)=>s+(d.coops||0),0);
   const totalOI = DATA.reduce((s,d)=>s+(d.oi||0),0);
   const impKpi = document.getElementById('kpi-impacto');
   if(impKpi) impKpi.innerHTML = [
     {l:'Negócios de impacto social',v:fmt(totalNI,'int'),s:'Empresas com propósito social'},
-    {l:'Cooperativas ativas',v:fmt(totalCoopsK,'int'),s:'Receita Federal, 2024'},
+    {l:'Cooperativas ativas',v:fmt(totalCoops,'int'),s:'Receita Federal, 2024'},
     {l:'OSCs de inclusão produtiva',v:fmt(totalOI,'int'),s:'IPEA, 2024'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
   // Impact chart
