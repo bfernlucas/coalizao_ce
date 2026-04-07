@@ -2129,6 +2129,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <h3>Análise</h3>
       <p>O Grande Mucuripe reúne maior densidade econômica e forte capacidade de tração em bairros específicos, especialmente Papicu, Mucuripe e Varjota. O Grande Bom Jardim apresenta maior peso relativo de microempreendimentos e MEIs, o que sugere um ecossistema menos denso, mas potencialmente mais aderente a estratégias de fortalecimento de pequenos negócios, formalização e circuitos econômicos de bairro.</p>
     </div>
+    <div class="kpi-grid four" id="kpi-econ"></div>
     <div class="panel">
       <div class="panel-head">
         <div>
@@ -2170,6 +2171,16 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="chart-box"><canvas id="chart-econ-mei" class="chart"></canvas></div>
       </div>
     </div>
+    <div class="grid two">
+      <div class="panel">
+        <div class="panel-head"><div><h3 class="panel-title">Micro e pequenas vs. médias e grandes (dez/2024)</h3><p class="panel-sub">Empresas por porte e bairro</p></div></div>
+        <div class="chart-box"><canvas id="chart-econ-porte" class="chart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3 class="panel-title">Negócios de impacto e cooperativas</h3><p class="panel-sub">Organizações com propósito social por bairro</p></div></div>
+        <div class="chart-box"><canvas id="chart-econ-impacto" class="chart"></canvas></div>
+      </div>
+    </div>
     <div class="panel">
       <div class="panel-head">
         <div>
@@ -2196,6 +2207,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <h2 class="section-title">Organizações da Sociedade Civil</h2>
       <p class="section-desc">OSCs ativas: distribuição espacial, áreas de atuação e presença por bairro (IPEA 2024).</p>
     </div>
+    <div class="kpi-grid four" id="kpi-osc"></div>
     <div class="decision">
       <h3>Análise</h3>
       <p>Na base de OSCs ativas geolocalizadas, o Grande Bom Jardim concentra maior escala institucional, com forte peso de Siqueira e Granja Lisboa. O Grande Mucuripe tem menor volume total, mas uma distribuição menos concentrada entre Vicente Pinzon, Papicu e Cais do Porto. O Grande Bom Jardim oferece maior massa crítica de organizações; o Grande Mucuripe permite leitura territorial mais seletiva por bairro.</p>
@@ -2314,8 +2326,12 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       </div>
     </div>
     <div class="panel" style="margin-top:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Bairros lado a lado</h3><p class="panel-sub">Principais métricas para sustentar a comparação entre os dois territórios.</p></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Territórios lado a lado</h3><p class="panel-sub">Principais métricas agregadas para comparação entre os dois territórios.</p></div></div>
       <div class="table-wrap"><table id="table-comp"></table></div>
+    </div>
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Ranking completo por bairro</h3><p class="panel-sub">Todos os 13 bairros com indicadores-chave. Clique nos cabeçalhos para ordenar.</p></div></div>
+      <div class="table-wrap"><table id="table-comp-bairros"></table></div>
     </div>
   </section>
 
@@ -3461,10 +3477,47 @@ function initInfra(){
 
 function initEcon(){
   createMap('econ');
+  // KPIs
+  const totalEmp = DATA.reduce((s,d)=>s+(d.emp||0),0);
+  const totalMEI = DATA.reduce((s,d)=>s+(d.mei||0),0);
+  const totalMPE = DATA.reduce((s,d)=>s+(d.mpe||0),0);
+  const totalMGE = DATA.reduce((s,d)=>s+(d.mge||0),0);
+  const totalNI = DATA.reduce((s,d)=>s+(d.negImpacto||0),0);
+  const totalCoops = DATA.reduce((s,d)=>s+(d.coops||0),0);
+  const kpiEl = document.getElementById('kpi-econ');
+  if(kpiEl) kpiEl.innerHTML = [
+    {l:'Empresas formais ativas',v:fmt(totalEmp,'int'),s:'Todos os portes · dez/2024'},
+    {l:'MEIs',v:fmt(totalMEI,'int'),s:`${(totalMEI/totalEmp*100).toFixed(1)}% do total`},
+    {l:'Micro e pequenas',v:fmt(totalMPE,'int'),s:`${(totalMPE/totalEmp*100).toFixed(1)}% do total`},
+    {l:'Impacto + cooperativas',v:fmt(totalNI+totalCoops,'int'),s:`${fmt(totalNI,'int')} impacto · ${fmt(totalCoops,'int')} coops`}
+  ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
+
   const empRows = sortRows('emp', true);
   makeBar('chart-econ-emp', empRows.map(d=>d.b), [{data:empRows.map(d=>d.emp), backgroundColor:empRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
   const meiRows = sortRows('meiShare', true);
   makeBar('chart-econ-mei', meiRows.map(d=>d.b), [{data:meiRows.map(d=>d.meiShare*100), backgroundColor:meiRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
+  // Porte chart
+  const porteRows = [...DATA].sort((a,b)=>(b.mpe||0)-(a.mpe||0));
+  destroyChart('chart-econ-porte');
+  CHARTS['chart-econ-porte'] = new Chart(document.getElementById('chart-econ-porte'), {
+    type:'bar',
+    data:{labels:porteRows.map(d=>d.b), datasets:[
+      {label:'Micro e pequenas', data:porteRows.map(d=>d.mpe||0), backgroundColor:UI_COLORS.blue, borderRadius:5},
+      {label:'Médias e grandes', data:porteRows.map(d=>d.mge||0), backgroundColor:UI_COLORS.gold||'#b2873d', borderRadius:5}
+    ]},
+    options:baseChartOptions()
+  });
+  // Impact chart
+  const impRows = [...DATA].sort((a,b)=>(b.negImpacto||0)-(a.negImpacto||0));
+  destroyChart('chart-econ-impacto');
+  CHARTS['chart-econ-impacto'] = new Chart(document.getElementById('chart-econ-impacto'), {
+    type:'bar',
+    data:{labels:impRows.map(d=>d.b), datasets:[
+      {label:'Neg. impacto social', data:impRows.map(d=>d.negImpacto||0), backgroundColor:UI_COLORS.teal, borderRadius:5},
+      {label:'Cooperativas', data:impRows.map(d=>d.coops||0), backgroundColor:UI_COLORS.gold||'#b2873d', borderRadius:5}
+    ]},
+    options:baseChartOptions()
+  });
   // ── Tabela enriquecida com filtros (bairro + território) ──
   const fmtInt = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR');
   const fmtPct = n => (n==null||isNaN(n))?'—':(Number(n)*100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
@@ -3513,6 +3566,19 @@ function initEcon(){
 
 function initOsc(){
   createMap('osc');
+
+  // KPIs
+  const totalOsc = OSC_POINTS.length;
+  const totalAreas = [...new Set(OSC_POINTS.flatMap(p=>p.areas||[]))].filter(a=>a&&a!=='Sem classificação').length;
+  const totalBairros = [...new Set(OSC_POINTS.map(p=>p.b))].length;
+  const totalMatriz = OSC_POINTS.filter(p=>p.tipo==='Matriz').length;
+  const kpiEl = document.getElementById('kpi-osc');
+  if(kpiEl) kpiEl.innerHTML = [
+    {l:'OSCs ativas geolocalizadas',v:fmt(totalOsc,'int'),s:'Base IPEA 2024'},
+    {l:'Áreas de atuação distintas',v:fmt(totalAreas,'int'),s:'Categorias temáticas'},
+    {l:'Bairros com presença',v:fmt(totalBairros,'int'),s:'Dos 13 bairros analisados'},
+    {l:'Matrizes',v:fmt(totalMatriz,'int'),s:`${(totalMatriz/totalOsc*100).toFixed(0)}% do total`}
+  ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
 
   // Top bairros sidebar (ranking de OSCs ativas geolocalizadas)
   try{
@@ -3781,6 +3847,50 @@ function initComp(){
   document.getElementById('table-comp').innerHTML = `
     <thead><tr><th>Indicador</th><th>Grande Mucuripe</th><th>Grande Bom Jardim</th><th>Unidade</th></tr></thead>
     <tbody>${rows.map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</tbody>`;
+
+  // Ranking bairros
+  const oscAgg = getOscAggregateRows('Todos','Todos','Todos','Todos');
+  const oscLk = {}; oscAgg.forEach(d => { oscLk[d.b] = d; });
+  const bairroRows = [...DATA].sort((a,b)=>(b.idhm||0)-(a.idhm||0));
+  const bairroTbl = document.getElementById('table-comp-bairros');
+  if(bairroTbl){
+    const fmtI = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR');
+    const fmtP = n => (n==null||isNaN(n))?'—':(Number(n)*100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+    const fmtX = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const fmtF = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
+    bairroTbl.innerHTML = `
+      <thead><tr>
+        <th>Bairro</th><th>Território</th>
+        <th style="text-align:right">Pop.</th>
+        <th style="text-align:right">IDHM</th>
+        <th style="text-align:right">Ext. pobreza</th>
+        <th style="text-align:right">Renda p.c.</th>
+        <th style="text-align:right">Esgoto</th>
+        <th style="text-align:right">CadÚnico</th>
+        <th style="text-align:right">Empresas</th>
+        <th style="text-align:right">% MEI</th>
+        <th style="text-align:right">OSCs</th>
+        <th style="text-align:right">IBEU</th>
+      </tr></thead>
+      <tbody>${bairroRows.map(d => {
+        const osc = oscLk[d.b] || {};
+        return `<tr>
+          <td><strong>${d.b}</strong></td>
+          <td>${d.t==='Grande Mucuripe'?'<span class="tag">GM</span>':'<span class="tag gbj">GBJ</span>'}</td>
+          <td style="text-align:right" data-sort-value="${d.pop||0}">${fmtI(d.pop)}</td>
+          <td style="text-align:right" data-sort-value="${d.idhm||0}">${fmtX(d.idhm)}</td>
+          <td style="text-align:right" data-sort-value="${d.epob||0}">${fmtP(d.epob)}</td>
+          <td style="text-align:right" data-sort-value="${d.renda||0}">${fmt(d.renda,'money')}</td>
+          <td style="text-align:right" data-sort-value="${d.esg||0}">${fmtP(d.esg)}</td>
+          <td style="text-align:right" data-sort-value="${d.cad||0}">${fmtP(d.cad)}</td>
+          <td style="text-align:right" data-sort-value="${d.emp||0}">${fmtI(d.emp)}</td>
+          <td style="text-align:right" data-sort-value="${d.meiShare||0}">${fmtP(d.meiShare)}</td>
+          <td style="text-align:right" data-sort-value="${osc.oscGeoCount||0}">${fmtI(osc.oscGeoCount||0)}</td>
+          <td style="text-align:right" data-sort-value="${d.ibeu||0}">${fmtX(d.ibeu)}</td>
+        </tr>`;
+      }).join('')}</tbody>`;
+    try{ enableTableSorting(bairroTbl); }catch(e){}
+  }
 }
 
 function initTab(tab){
