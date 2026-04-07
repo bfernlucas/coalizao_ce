@@ -76,7 +76,7 @@ button,select,input,textarea{font:inherit}
 .kpi .label{text-transform:uppercase;letter-spacing:.05em;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px}
 .kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
 .kpi .sub{margin-top:6px;font-size:12px;color:var(--muted)}
-.chart-box{padding:6px 24px 26px;max-height:500px;overflow-y:auto}.chart{height:300px}.chart.tall{height:700px;min-height:700px}
+.chart-box{padding:6px 24px 26px;max-height:500px;overflow-y:auto}.chart{height:300px}.chart.tall{height:auto}
 .footer{margin-top:30px;padding:18px 22px;border-radius:18px;box-shadow:var(--shadow-soft);background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);border:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.7}
 .footer-credit{margin-top:10px;font-size:11px;color:#8292a0}
 .map-analytics-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);gap:20px;padding:0 24px 4px;align-items:stretch}
@@ -1054,7 +1054,7 @@ function fmt(v,kind){
 }
 function destroyChart(id){if(CHARTS[id]){CHARTS[id].destroy();delete CHARTS[id]}}
 function baseOpts(h){return{indexAxis:h?'y':'x',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#14324a',titleFont:{family:'Inter',size:12,weight:'700'},bodyFont:{family:'Inter',size:12},cornerRadius:10,padding:10}},scales:{x:{grid:{color:'#edf2f6'},ticks:{font:{family:'Inter',size:10},color:'#7a8d9f'}},y:{grid:{color:'#edf2f6'},ticks:{font:{family:'Inter',size:10},color:'#7a8d9f'}}}}}
-function makeBar(id,labels,datasets,extra){destroyChart(id);const o=baseOpts(true);if(extra?.plugins)o.plugins={...o.plugins,...extra.plugins};CHARTS[id]=new Chart(document.getElementById(id),{type:'bar',data:{labels,datasets},options:o})}
+function makeBar(id,labels,datasets,extra){destroyChart(id);const canvas=document.getElementById(id);const barH=Math.max(labels.length*28,300);canvas.style.height=barH+'px';canvas.parentElement.style.height='auto';const o=baseOpts(true);if(extra?.plugins)o.plugins={...o.plugins,...extra.plugins};CHARTS[id]=new Chart(canvas,{type:'bar',data:{labels,datasets},options:o})}
 
 const CHOROPLETH_COLORS=['#F3E8FF','#DDD6FE','#C084FC','#A855F7','#7C3AED','#5B21B6'];
 const VULN_COLORS=['#F3E8FF','#DDD6FE','#C084FC','#A855F7','#7C3AED','#4C1D95'];
