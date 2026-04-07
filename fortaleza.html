@@ -3894,16 +3894,16 @@ function initComp(){
     bairroTbl.innerHTML = `
       <thead><tr>
         <th>Bairro</th><th>Território</th>
-        <th style="text-align:right">Pop.</th>
-        <th style="text-align:right">IDHM</th>
-        <th style="text-align:right">Ext. pobreza</th>
-        <th style="text-align:right">Renda p.c.</th>
-        <th style="text-align:right">Esgoto</th>
-        <th style="text-align:right">CadÚnico</th>
-        <th style="text-align:right">Empresas</th>
-        <th style="text-align:right">% MEI</th>
-        <th style="text-align:right">OSCs</th>
-        <th style="text-align:right">IBEU</th>
+        <th style="text-align:right">Pop. ↑↓</th>
+        <th style="text-align:right">IDHM ↑↓</th>
+        <th style="text-align:right">Ext. pobreza ↑↓</th>
+        <th style="text-align:right">Renda p.c. ↑↓</th>
+        <th style="text-align:right">Esgoto ↑↓</th>
+        <th style="text-align:right">CadÚnico ↑↓</th>
+        <th style="text-align:right">Empresas ↑↓</th>
+        <th style="text-align:right">% MEI ↑↓</th>
+        <th style="text-align:right">OSCs ↑↓</th>
+        <th style="text-align:right">IBEU ↑↓</th>
       </tr></thead>
       <tbody>${bairroRows.map(d => {
         const osc = oscLk[d.b] || {};
