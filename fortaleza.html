@@ -3331,6 +3331,26 @@ function makeBar(id, labels, dataset, extra={}){
   });
 }
 
+function addTerritoryLegend(chartId){
+  const canvas = document.getElementById(chartId);
+  if(!canvas) return;
+  const chartBox = canvas.closest('.chart-box');
+  if(!chartBox || !chartBox.parentElement) return;
+  const panel = chartBox.parentElement;
+  const existing = panel.querySelector('[data-territory-legend]');
+  if(existing) existing.remove();
+  const el = document.createElement('div');
+  el.setAttribute('data-territory-legend','true');
+  el.style.cssText = 'display:flex;gap:16px;padding:0 20px 8px;font-size:12px;color:#5C6E7E';
+  el.innerHTML = `
+    <span style="display:flex;align-items:center;gap:5px">
+      <span style="width:10px;height:10px;background:${UI_COLORS.blueSoft};border-radius:2px;display:inline-block"></span>Grande Mucuripe
+    </span>
+    <span style="display:flex;align-items:center;gap:5px">
+      <span style="width:10px;height:10px;background:${UI_COLORS.teal};border-radius:2px;display:inline-block"></span>Grande Bom Jardim
+    </span>`;
+  panel.insertBefore(el, chartBox);
+}
 
 function sortRows(key, descending=true, includeNull=false){
   return [...DATA].filter(d => includeNull ? true : Number.isFinite(d[key])).sort((a,b)=>descending?(b[key]-a[key]):(a[key]-b[key]));
@@ -3426,11 +3446,13 @@ function initOverview(){
     plugins:{legend:{display:false}},
     scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y, min:0, max:1}}
   });
+  addTerritoryLegend('chart-visao-idhm');
   const rowsCad = sortRows('cad', true);
   makeBar('chart-visao-cad', rowsCad.map(d=>d.b), [{data:rowsCad.map(d=>d.cad*100), backgroundColor:rowsCad.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
     plugins:{legend:{display:false}},
     scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y}}
   });
+  addTerritoryLegend('chart-visao-cad');
 
   refreshOverviewCharts('Todos', 'Todos');
 }
@@ -3439,19 +3461,23 @@ function initDemo(){
   createMap('demo');
   const popRows = sortRows('pop', true);
   makeBar('chart-demo-pop', popRows.map(d=>d.b), [{data:popRows.map(d=>d.pop), backgroundColor:popRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
+  addTerritoryLegend('chart-demo-pop');
   const densRows = sortRows('dens', true);
   makeBar('chart-demo-dens', densRows.map(d=>d.b), [{data:densRows.map(d=>d.dens), backgroundColor:densRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blue:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
+  addTerritoryLegend('chart-demo-dens');
 }
 
 function initVuln(){
   createMap('vuln');
   const epRows = sortRows('epob', true);
   makeBar('chart-vuln-epob', epRows.map(d=>d.b), [{data:epRows.map(d=>d.epob*100), backgroundColor:epRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
+  addTerritoryLegend('chart-vuln-epob');
   const idRows = sortRows('idhm', false);
   makeBar('chart-vuln-idhm', idRows.map(d=>d.b), [{data:idRows.map(d=>d.idhm), backgroundColor:idRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
     plugins:{legend:{display:false}},
     scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y, min:0, max:1}}
   });
+  addTerritoryLegend('chart-vuln-idhm');
 }
 
 function initInfra(){
@@ -3495,8 +3521,10 @@ function initEcon(){
 
   const empRows = sortRows('emp', true);
   makeBar('chart-econ-emp', empRows.map(d=>d.b), [{data:empRows.map(d=>d.emp), backgroundColor:empRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
+  addTerritoryLegend('chart-econ-emp');
   const meiRows = sortRows('meiShare', true);
   makeBar('chart-econ-mei', meiRows.map(d=>d.b), [{data:meiRows.map(d=>d.meiShare*100), backgroundColor:meiRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
+  addTerritoryLegend('chart-econ-mei');
   // Porte chart
   const porteRows = [...DATA].sort((a,b)=>(b.mpe||0)-(a.mpe||0));
   destroyChart('chart-econ-porte');
@@ -3612,6 +3640,7 @@ function initOsc(){
     [{data:oscRows.map(d=>d.oscGeoCount), backgroundColor:oscRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}],
     {plugins:{legend:{display:false}}}
   );
+  addTerritoryLegend('chart-osc-total');
 
   const territoryNames = ['Grande Mucuripe', 'Grande Bom Jardim'];
   const areaCounts = {};
