@@ -692,11 +692,11 @@ body{background:#fff}
     </div>
     <div class="grid two" style="margin-top:16px">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title" id="chart-visao-title">Extrema pobreza por bairro (CadÚnico 2025)</h3><p class="panel-sub" id="chart-visao-sub">% dos domicílios</p></div></div>
+        <div class="panel-head"><div><h3 class="panel-title" id="chart-visao-title">Extrema pobreza por bairro (MDS, 2025)</h3><p class="panel-sub" id="chart-visao-sub">% dos domicílios</p></div></div>
         <div class="chart-box"><canvas id="chart-visao-epob" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Esgotamento sanitário (Censo 2022)</h3><p class="panel-sub">% dos domicílios com rede de esgoto</p></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Esgotamento sanitário (IBGE, 2022)</h3><p class="panel-sub">% dos domicílios com rede de esgoto</p></div></div>
         <div class="chart-box"><canvas id="chart-visao-esg" class="chart tall"></canvas></div>
       </div>
     </div>
@@ -707,11 +707,11 @@ body{background:#fff}
     <div class="section-head">
       <span class="section-kicker">Quem mora aqui</span>
       <h2 class="section-title">Perfil da população</h2>
-      <p class="section-desc">Distribuição espacial, densidade e composição demográfica dos 44 bairros (Censo 2022).</p>
+      <p class="section-desc">Distribuição espacial, densidade e composição demográfica dos 44 bairros (IBGE, 2022).</p>
     </div>
     <div class="decision"><h3>Análise</h3><p>A população se distribui de forma desigual: Pajuçara concentra 22 mil habitantes enquanto bairros como Parque Santa Maria e Picada têm menos de 600. As densidades mais altas estão nos conjuntos Jereissati e Conjunto Timbó. A população não-branca é amplamente majoritária, chegando a 96,6% em Olho d'Água do Pitaguari.</p></div>
     <div class="panel">
-      <div class="panel-head"><div><h3 class="panel-title">Distribuição espacial (Censo 2022)</h3></div>
+      <div class="panel-head"><div><h3 class="panel-title">Distribuição espacial (IBGE, 2022)</h3></div>
         <div class="filters"><select id="demo-indicador"></select></div>
       </div>
       <div class="map-analytics-layout">
@@ -735,7 +735,7 @@ body{background:#fff}
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">População por bairro (Censo 2022)</h3></div></div><div class="chart-box"><canvas id="chart-demo-pop" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">População por bairro (IBGE, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-demo-pop" class="chart tall"></canvas></div></div>
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Densidade demográfica (hab/km²)</h3></div></div><div class="chart-box"><canvas id="chart-demo-dens" class="chart tall"></canvas></div></div>
     </div>
   </section>
@@ -745,7 +745,7 @@ body{background:#fff}
     <div class="section-head"><span class="section-kicker">Vulnerabilidade</span><h2 class="section-title">Pobreza e privação</h2><p class="section-desc">Extrema pobreza, CadÚnico (2025) e analfabetismo por bairro.</p></div>
     <div class="decision"><h3>Análise</h3><p>A incidência de CadÚnico ultrapassa 100% em Acaracuzinho I. A extrema pobreza ultrapassa 50% dos domicílios em Parque Santa Maria, Jari e Parque Tropical. O analfabetismo é mais alto em Olho d'Água do Pitaguari (13,6%) e Mucunã (12,2%).</p></div>
     <div class="panel">
-      <div class="panel-head"><div><h3 class="panel-title">Vulnerabilidade por bairro (CadÚnico 2025)</h3></div><div class="filters"><select id="vuln-indicador"></select></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Vulnerabilidade por bairro (MDS, 2025)</h3></div><div class="filters"><select id="vuln-indicador"></select></div></div>
       <div class="map-analytics-layout">
         <div id="map-vuln" class="map-box split"></div>
         <div class="analysis-side">
@@ -767,17 +767,17 @@ body{background:#fff}
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Extrema pobreza nos domicílios (CadÚnico 2025)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-epob" class="chart tall"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Analfabetismo, 15+ anos (Censo 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-anal" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Extrema pobreza nos domicílios (MDS, 2025)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-epob" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Analfabetismo, 15+ anos (IBGE, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-anal" class="chart tall"></canvas></div></div>
     </div>
   </section>
 
   <!-- INFRAESTRUTURA -->
   <section id="section-infra" class="section">
-    <div class="section-head"><span class="section-kicker">Infraestrutura</span><h2 class="section-title">O que a cidade oferece</h2><p class="section-desc">Cobertura de saneamento, saúde e equipamentos públicos por bairro (Censo 2022 · CNES 2024).</p></div>
+    <div class="section-head"><span class="section-kicker">Infraestrutura</span><h2 class="section-title">O que a cidade oferece</h2><p class="section-desc">Cobertura de saneamento, saúde e equipamentos públicos por bairro (IBGE, 2022 · CNES, 2024).</p></div>
     <div class="decision"><h3>Análise</h3><p>O esgotamento sanitário é o maior gargalo. Diversos bairros têm menos de 5% de cobertura de esgoto. A água e a coleta de lixo apresentam cobertura próxima da universalidade. Equipamentos concentram-se nos bairros mais populosos.</p></div>
     <div class="panel">
-      <div class="panel-head"><div><h3 class="panel-title">Cobertura de serviços (Censo 2022)</h3></div><div class="filters"><select id="infra-indicador"></select></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Cobertura de serviços (IBGE, 2022)</h3></div><div class="filters"><select id="infra-indicador"></select></div></div>
       <div class="map-analytics-layout">
         <div id="map-infra" class="map-box split"></div>
         <div class="analysis-side">
@@ -823,14 +823,14 @@ body{background:#fff}
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Saúde pública por bairro (CNES 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-saude" class="chart"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rede escolar pública (CNES 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-esc" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Saúde pública por bairro (CNES, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-saude" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rede escolar pública (CNES, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-infra-esc" class="chart"></canvas></div></div>
     </div>
   </section>
 
   <!-- TECIDO ECONÔMICO -->
   <section id="section-econ" class="section">
-    <div class="section-head"><span class="section-kicker">Economia local</span><h2 class="section-title">Tecido econômico</h2><p class="section-desc">Atividade empresarial, MEIs e capital social acumulado por bairro (Receita Federal dez/2024).</p></div>
+    <div class="section-head"><span class="section-kicker">Economia local</span><h2 class="section-title">Tecido econômico</h2><p class="section-desc">Atividade empresarial, MEIs e capital social acumulado por bairro (Receita Federal, 2024).</p></div>
     <div class="decision"><h3>Análise</h3><p>Pajuçara e Jereissati A concentram o maior volume de empresas. O Distrito Industrial se destaca em médias e grandes empresas e em capital social acumulado. A participação de MEIs é altíssima, ultrapassando 80% em vários bairros. Entre as 2.250 empresas de porte "Demais", o capital social total ultrapassa R$ 1,3 trilhão (inflado por filiais de grandes bancos e redes nacionais).</p></div>
 
     <!-- KPIs MGE -->
@@ -944,7 +944,7 @@ body{background:#fff}
     <!-- Map + sidebar -->
     <div class="panel" style="margin-bottom:20px">
       <div class="panel-head">
-        <div><h3 class="panel-title">Mapa de OSCs (IPEA 2024)</h3><p class="panel-sub">Filtre por área de atuação, nome ou bairro. Fonte: Mapa das OSCs — IPEA 2024.</p></div>
+        <div><h3 class="panel-title">Mapa de OSCs (IPEA, 2024)</h3><p class="panel-sub">Filtre por área de atuação, nome ou bairro. Fonte: IPEA, 2024.</p></div>
         <span class="table-count" id="osc-map-count"></span>
       </div>
       <div class="map-analytics-layout" style="padding:0 24px 4px">
@@ -973,8 +973,8 @@ body{background:#fff}
 
     <!-- Charts row -->
     <div class="grid two" style="margin-bottom:0">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro (IPEA 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs (IPEA 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro (IPEA, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs (IPEA, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart"></canvas></div></div>
     </div>
   </section>
 
@@ -1008,9 +1008,9 @@ body{background:#fff}
               <strong>Como cada variável foi construída</strong>
               Os eixos são padronizados internamente (min–max entre as 6 regiões) para tornar visualmente comparáveis indicadores de unidades distintas. Valores reais estão no painel lateral.
               <ul>
-                <li><strong>Literacia:</strong> % adultos (≥15 anos) alfabetizados — calculado como 1 − taxa de analfabetismo, ponderado pela população de cada bairro. Fonte: IBGE Censo 2022.</li>
-                <li><strong>Baixa pobreza:</strong> inverso da taxa de extrema pobreza (1 − proporção de famílias CadÚnico com renda ≤ R$218/mês). Eixo positivo: maior valor = menor pobreza. Fonte: MDS CadÚnico 2025.</li>
-                <li><strong>Saneamento:</strong> média aritmética das coberturas de esgotamento sanitário, abastecimento de água e coleta de lixo (% de domicílios atendidos). Fonte: IBGE Censo 2022.</li>
+                <li><strong>Literacia:</strong> % adultos (≥15 anos) alfabetizados — calculado como 1 − taxa de analfabetismo, ponderado pela população de cada bairro. Fonte: IBGE, 2022.</li>
+                <li><strong>Baixa pobreza:</strong> inverso da taxa de extrema pobreza (1 − proporção de famílias CadÚnico com renda ≤ R$218/mês). Eixo positivo: maior valor = menor pobreza. Fonte: MDS, 2025.</li>
+                <li><strong>Saneamento:</strong> média aritmética das coberturas de esgotamento sanitário, abastecimento de água e coleta de lixo (% de domicílios atendidos). Fonte: IBGE, 2022.</li>
                 <li><strong>Renda:</strong> renda média domiciliar per capita em R$, ponderada pela população dos bairros. Dado de 2010 — reflete estrutura relativa de renda entre territórios. Fonte: IBGE Censo 2010.</li>
                 <li><strong>Empresas:</strong> número de CNPJs ativos com sede no território por 1.000 habitantes (inclui MEI, MPE e médias/grandes empresas). Fonte: Receita Federal — Cadastro CNPJ.</li>
                 <li><strong>Civil:</strong> organizações da sociedade civil ativas por 10.000 habitantes (associações, fundações e demais OSCs registradas). Fonte: IPEA — Mapa das OSCs 2024.</li>
@@ -1039,7 +1039,7 @@ body{background:#fff}
   </section>
 
   <div class="footer">
-    <strong>Fontes:</strong> IBGE Censo 2022 · MDS CadÚnico 2025 · INEP IDEB 2023 · CNES/DataSUS 2024 · Receita Federal CNPJ dez/2024 · Mapa das OSCs IPEA 2024 · Cartografia: IBGE 2022
+    <strong>Fontes:</strong> IBGE, 2022 · MDS, 2025 · INEP, 2023 · CNES, 2024 · Receita Federal, 2024 · IPEA, 2024 · Cartografia: IBGE 2022
     <div class="footer-credit">Elaborado por Lucas Fernandes</div>
   </div>
 </main>
@@ -1090,18 +1090,18 @@ function getColor(v,breaks,colors){
 }
 
 const INDICATORS={
-  pop:{label:'População total (Censo 2022)',fmt:'int',higher:'alto'},
-  dens:{label:'Densidade demográfica (Censo 2022)',fmt:'float1',higher:'alto'},
-  raca:{label:'Pop. não-branca (Censo 2022)',fmt:'pct',higher:'alto'},
-  mulh:{label:'Chefia feminina (Censo 2022)',fmt:'pct',higher:'alto'},
+  pop:{label:'População total (IBGE, 2022)',fmt:'int',higher:'alto'},
+  dens:{label:'Densidade demográfica (IBGE, 2022)',fmt:'float1',higher:'alto'},
+  raca:{label:'Pop. não-branca (IBGE, 2022)',fmt:'pct',higher:'alto'},
+  mulh:{label:'Chefia feminina (IBGE, 2022)',fmt:'pct',higher:'alto'},
   cad:{label:'Incidência CadÚnico (2025)',fmt:'pct',higher:'alto'},
-  epob:{label:'Extrema pobreza (CadÚnico 2025)',fmt:'pct',higher:'alto'},
-  anal:{label:'Analfabetismo 15+ (Censo 2022)',fmt:'pct',higher:'alto'},
-  esg:{label:'Rede de esgoto (Censo 2022)',fmt:'pct',higher:'bom'},
-  agua:{label:'Rede de água (Censo 2022)',fmt:'pct',higher:'bom'},
-  lixo:{label:'Coleta de lixo (Censo 2022)',fmt:'pct',higher:'bom'},
+  epob:{label:'Extrema pobreza (MDS, 2025)',fmt:'pct',higher:'alto'},
+  anal:{label:'Analfabetismo 15+ (IBGE, 2022)',fmt:'pct',higher:'alto'},
+  esg:{label:'Rede de esgoto (IBGE, 2022)',fmt:'pct',higher:'bom'},
+  agua:{label:'Rede de água (IBGE, 2022)',fmt:'pct',higher:'bom'},
+  lixo:{label:'Coleta de lixo (IBGE, 2022)',fmt:'pct',higher:'bom'},
   emp:{label:'Empresas formais (dez/2024)',fmt:'int',higher:'alto'},
-  osc:{label:'OSCs ativas (IPEA 2024)',fmt:'int',higher:'alto'},
+  osc:{label:'OSCs ativas (IPEA, 2024)',fmt:'int',higher:'alto'},
   renda:{label:'Renda domiciliar per capita (IBGE, 2010) ⚠',fmt:'money',higher:'bom'},
 };
 
@@ -2020,12 +2020,12 @@ function initComp(){
   // ── Dimensions & normalization ──────────────────────────────────────────
   const dimAxes=[
     // absoluteMin=0 for % axes so the chart shows real absolute position (anchored at 0)
-    {key:'educ',  label:'Literacia (Censo 2022)',             short:'Literacia',   absoluteMin:0,    getValue:s=>s.anal!=null?(1-s.anal)*100:null,  note:'% adultos alfabetizados (1 − analfabetismo). IBGE Censo 2022.'},
-    {key:'prot',  label:'Baixa pobreza (CadÚnico 2025)',         short:'B. Pobreza',  absoluteMin:0,    getValue:s=>s.epob!=null?(1-s.epob)*100:null,  note:'1 − extrema pobreza (CadÚnico 2025). Eixo positivo.'},
-    {key:'san',   label:'Saneamento (Censo 2022)',             short:'Saneamento',  absoluteMin:0,    getValue:s=>{const v=[s.esg,s.agua,s.lixo].filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length*100:null}, note:'Média esgoto + água + coleta (% domicílios). IBGE Censo 2022.'},
+    {key:'educ',  label:'Literacia (IBGE, 2022)',             short:'Literacia',   absoluteMin:0,    getValue:s=>s.anal!=null?(1-s.anal)*100:null,  note:'% adultos alfabetizados (1 − analfabetismo). IBGE, 2022.'},
+    {key:'prot',  label:'Baixa pobreza (MDS, 2025)',         short:'B. Pobreza',  absoluteMin:0,    getValue:s=>s.epob!=null?(1-s.epob)*100:null,  note:'1 − extrema pobreza (MDS, 2025). Eixo positivo.'},
+    {key:'san',   label:'Saneamento (IBGE, 2022)',             short:'Saneamento',  absoluteMin:0,    getValue:s=>{const v=[s.esg,s.agua,s.lixo].filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length*100:null}, note:'Média esgoto + água + coleta (% domicílios). IBGE, 2022.'},
     {key:'renda', label:'Renda (IBGE, 2010) ⚠',                  short:'Renda',       absoluteMin:null, getValue:s=>s.renda,  note:'Renda média domiciliar per capita R$ (2010). IBGE Censo 2010.'},
     {key:'econ',  label:'Densidade empresarial (dez/2024)', short:'Empresas',    absoluteMin:null, getValue:s=>s.emp1k,  note:'CNPJs ativos / 1.000 hab. Receita Federal.'},
-    {key:'soc',   label:'OSCs ativas (IPEA 2024)',           short:'Civil',       absoluteMin:null, getValue:s=>s.osc10k, note:'OSCs ativas / 10.000 hab. IPEA Mapa das OSCs 2024.'},
+    {key:'soc',   label:'OSCs ativas (IPEA, 2024)',           short:'Civil',       absoluteMin:null, getValue:s=>s.osc10k, note:'OSCs ativas / 10.000 hab. IPEA Mapa das OSCs 2024.'},
   ];
   // % axes anchored at absoluteMin=0; others min-max among regions
   const normScores={};
