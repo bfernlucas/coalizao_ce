@@ -3909,7 +3909,7 @@ function initComp(){
         const osc = oscLk[d.b] || {};
         return `<tr>
           <td><strong>${d.b}</strong></td>
-          <td>${d.t==='Grande Mucuripe'?'<span class="tag">GM</span>':'<span class="tag gbj">GBJ</span>'}</td>
+          <td>${d.t}</td>
           <td style="text-align:right" data-sort-value="${d.pop||0}"${markup(d.pop,'pop')}>${fmtI(d.pop)}</td>
           <td style="text-align:right" data-sort-value="${d.idhm||0}"${markup(d.idhm,'idhm')}>${fmtX(d.idhm)}</td>
           <td style="text-align:right" data-sort-value="${d.epob||0}"${markup(d.epob,'epob')}>${fmtP(d.epob)}</td>
