@@ -3463,7 +3463,7 @@ function initDemo(){
   makeBar('chart-demo-pop', popRows.map(d=>d.b), [{data:popRows.map(d=>d.pop), backgroundColor:popRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
   addTerritoryLegend('chart-demo-pop');
   const densRows = sortRows('dens', true);
-  makeBar('chart-demo-dens', densRows.map(d=>d.b), [{data:densRows.map(d=>d.dens), backgroundColor:densRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blue:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
+  makeBar('chart-demo-dens', densRows.map(d=>d.b), [{data:densRows.map(d=>d.dens), backgroundColor:densRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
   addTerritoryLegend('chart-demo-dens');
 }
 
