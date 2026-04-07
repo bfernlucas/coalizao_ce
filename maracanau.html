@@ -77,7 +77,13 @@ button,select,input,textarea{font:inherit}
 .kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
 .kpi .sub{margin-top:6px;font-size:12px;color:var(--muted)}
 .chart-box{padding:6px 24px 26px;max-height:500px;overflow-y:auto}.chart{height:300px}.chart.tall{height:auto;max-height:450px}
-.table-wrap{padding:0 24px 24px;overflow:auto}
+.table-wrap{padding:0 24px 24px;overflow:auto;max-height:550px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+table thead{position:sticky;top:0;background:#f5f3ff;z-index:10}
+table th{padding:12px 8px;text-align:left;font-weight:600;color:#374151;border-bottom:2px solid #e5e7eb;white-space:nowrap}
+table td{padding:10px 8px;border-bottom:1px solid #f3f4f6;color:#4b5563}
+table tbody tr:hover{background:#f9fafb}
+table tbody tr:nth-child(odd){background:#fafafa}
 table{width:100%;border-collapse:separate;border-spacing:0}
 th,td{padding:12px;font-size:13px;border-bottom:1px solid var(--line-2);text-align:left}
 thead th{background:#f7fafc;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-size:11px;border-top:1px solid var(--line-2)}
@@ -1574,14 +1580,14 @@ function initEcon(){
       const meiHigh=d.meiShare!=null&&d.meiShare>.8;
       const meiMed=d.meiShare!=null&&d.meiShare>.6&&d.meiShare<=.8;
       return `<tr${meiHigh?' class="mei-high"':''}>
-        <td><strong>${d.b}</strong></td>
+        <td>${d.b}</td>
         <td>${fmt(d.emp,'int')}</td>
         <td>${fmt(d.mei,'int')}</td>
-        <td style="font-weight:700;color:${meiHigh?'#B07C20':meiMed?'#7C3AED':'var(--text)'}">${d.meiShare!=null?fmt(d.meiShare,'pct'):'—'}</td>
+        <td style="color:${meiHigh?'#B07C20':meiMed?'#7C3AED':'var(--text)';font-weight:500}">${d.meiShare!=null?fmt(d.meiShare,'pct'):'—'}</td>
         <td>${fmt(d.mpe,'int')}</td>
         <td>${fmt(d.mge,'int')}</td>
         <td>${fmt(d.coops,'int')}</td>
-        <td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:${regCol};flex-shrink:0"></span>${reg}</span></td>
+        <td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:${regCol};flex-shrink:0"></span>${reg}</span></td>
         <td style="font-size:11px;max-width:200px;color:var(--muted)">${d.cn1||'—'}</td>
       </tr>`;
     }).join('')}</tbody>`;
