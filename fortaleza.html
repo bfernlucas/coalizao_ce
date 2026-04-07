@@ -1692,8 +1692,9 @@ tbody tr:hover{background:#EEF4FF}
 .tip strong{display:block;margin-bottom:4px;font-size:13px;font-weight:700}
 
 /* Outdated data indicator */
-.data-outdated{display:inline-flex;align-items:center;gap:4px}
-.data-outdated::after{content:'⚠';color:#DC2626;font-size:10px;font-weight:700;vertical-align:super;line-height:1}
+.data-outdated{display:inline-flex;align-items:center;gap:6px;position:relative}
+.data-outdated-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:700;cursor:help}
+.data-outdated-icon:hover::after{content:'Dados de 2010. São as últimas estatísticas disponíveis no nível de bairro.';position:absolute;top:-40px;left:0;background:#1F2937;color:#fff;padding:6px 10px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 
 /* Footer */
 .footer{
@@ -1925,7 +1926,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <div class="grid two">
       <div class="panel">
         <div class="panel-head">
-          <div><h3 class="panel-title"><span class="data-outdated">IDHM por bairro (IBGE, 2010)</span></h3></div>
+          <div><h3 class="panel-title">IDHM por bairro (IBGE, 2010) <span class="data-outdated"><span class="data-outdated-icon">⚠</span></span></h3></div>
         </div>
         <div class="chart-box"><canvas id="chart-visao-idhm" class="chart"></canvas></div>
       </div>
@@ -2038,7 +2039,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="chart-box"><canvas id="chart-vuln-epob" class="chart"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title"><span class="data-outdated">IDHM (IBGE, 2010)</span></h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">IDHM (IBGE, 2010) <span class="data-outdated"><span class="data-outdated-icon">⚠</span></span></h3></div></div>
         <div class="chart-box"><canvas id="chart-vuln-idhm" class="chart"></canvas></div>
       </div>
     </div>
