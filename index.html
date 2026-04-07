@@ -64,44 +64,44 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
 }
 
 /* ── Main ── */
-.content{flex:1;padding:48px;max-width:1080px;margin:0 auto;width:100%}
+.content{flex:1;padding:56px 48px;max-width:1200px;margin:0 auto;width:100%}
 
 /* ── Section label ── */
 .label{
   font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:#5C6E7E;margin-bottom:18px;padding-bottom:10px;
-  border-bottom:1px solid #D8E0E8;
+  color:#6B7280;margin-bottom:28px;padding-bottom:14px;
+  border-bottom:2px solid #E5E7EB;
 }
 
 /* ── Municipality cards ── */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:48px;}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:64px;}
 .card{
   background:#fff;text-decoration:none;color:#111;
-  padding:32px;display:flex;flex-direction:column;gap:20px;
-  border:1px solid #E5E7EB;border-radius:8px;
+  padding:40px;display:flex;flex-direction:column;gap:24px;
+  border:1px solid #E5E7EB;border-radius:10px;
   transition:all .24s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 1px 3px rgba(0,0,0,.08);
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
 }
 .card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 12px 24px rgba(0,0,0,.12);
+  transform:translateY(-6px);
+  box-shadow:0 16px 32px rgba(0,0,0,.14);
   border-color:#D1D5DB;
 }
 .card-region{
   display:inline-flex;align-items:center;gap:6px;
   font-size:10px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase;
-  padding:4px 10px;background:#6B7280;border-radius:4px;width:fit-content;margin-bottom:8px;
+  padding:6px 12px;background:#6B7280;border-radius:6px;width:fit-content;margin-bottom:12px;
 }
 .card[href="fortaleza.html"] .card-region{background:#0B4FA8}
 .card[href="maracanau.html"] .card-region{background:#7C3AED}
-.card-name{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1}
-.card-rule{width:32px;height:3px;background:#0B4FA8;border-radius:2px;transition:width .24s}
-.card:hover .card-rule{width:48px}
-.card-stats{display:flex;gap:24px;margin-top:8px}
-.card-stat{display:flex;flex-direction:column;gap:2px;animation:fadeInUp .6s ease-out}
-.card-stat strong{font-size:20px;font-weight:800;color:#111;letter-spacing:-.02em}
-.card-stat span{font-size:11px;color:#6B7280;font-weight:500}
-.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid #F3F4F6;margin-top:auto}
+.card-name{font-size:36px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
+.card-rule{width:40px;height:4px;background:#0B4FA8;border-radius:2px;transition:width .24s}
+.card:hover .card-rule{width:56px}
+.card-stats{display:flex;gap:32px;margin-top:16px}
+.card-stat{display:flex;flex-direction:column;gap:6px;animation:fadeInUp .6s ease-out}
+.card-stat strong{font-size:24px;font-weight:800;color:#111;letter-spacing:-.02em;line-height:1}
+.card-stat span{font-size:12px;color:#6B7280;font-weight:500}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid #F3F4F6;margin-top:auto}
 .card-sources{font-size:11px;color:#9CA3AF}
 .card-cta{font-size:12px;font-weight:700;display:flex;align-items:center;gap:5px;letter-spacing:.01em;transition:gap .24s}
 
@@ -133,9 +133,9 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
 .supporters{font-size:13px;font-weight:500;color:#5C6E7E;line-height:1.8}
 
 /* ── Partners Section ── */
-.partners-section{margin-top:80px;padding:32px 0;border-top:1px solid #E8EDF5;text-align:center}
-.partners-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5C6E7E;margin-bottom:12px}
-.partners-list{font-size:13px;font-weight:500;color:#5C6E7E;line-height:1.6;white-space:nowrap;overflow:auto}
+.partners-section{margin-top:96px;padding:48px 0;border-top:2px solid #E5E7EB;text-align:center}
+.partners-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6B7280;margin-bottom:20px}
+.partners-list{font-size:14px;font-weight:500;color:#4B5563;line-height:1.8;white-space:wrap;overflow:visible}
 
 /* ── Sources ── */
 .source-chip{
@@ -145,30 +145,33 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
 
 /* ── Footer ── */
 .footer{
-  border-top:1px solid #D8E0E8;padding:16px 48px;
-  font-size:11px;color:#7F91A3;
+  border-top:2px solid #E5E7EB;padding:32px 48px;
+  font-size:12px;color:#6B7280;
   display:flex;align-items:center;justify-content:space-between;
   background:#fff;
+  margin-top:auto;
 }
 
 /* ── About Section ── */
 .about-section{
-  background:#F9FAFB;padding:40px 32px;border-radius:8px;
-  margin-bottom:48px;border:1px solid #E5E7EB;
+  background:#F9FAFB;padding:48px;border-radius:10px;
+  margin-bottom:64px;border:1px solid #E5E7EB;
 }
 .about-title{
   font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:#6B7280;margin-bottom:24px;
+  color:#374151;margin-bottom:40px;padding-bottom:16px;border-bottom:2px solid #E5E7EB;
 }
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
-.about-item{display:flex;flex-direction:column;gap:12px}
-.about-label{font-size:11px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.about-value{font-size:13px;font-weight:500;color:#374151;line-height:1.7}
-.about-sources{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;gap-row:40px}
+.about-item{display:flex;flex-direction:column;gap:16px}
+.about-label{font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.08em}
+.about-value{font-size:14px;font-weight:500;color:#4B5563;line-height:1.8}
+.about-sources{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
 .source-tag{
-  display:inline-block;padding:4px 10px;background:#fff;border:1px solid #E5E7EB;
-  border-radius:4px;font-size:11px;font-weight:600;color:#374151;
+  display:inline-block;padding:6px 12px;background:#fff;border:1px solid #D1D5DB;
+  border-radius:6px;font-size:12px;font-weight:600;color:#374151;
+  transition:all .2s;
 }
+.source-tag:hover{background:#fff;border-color:#9CA3AF;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 
 /* ── Animations ── */
 @keyframes fadeInUp{
@@ -183,13 +186,14 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
 
 @media(max-width:700px){
   .topbar{padding:0 20px}
-  .page-header{padding:36px 20px 32px}
+  .page-header{padding:40px 20px 36px}
   .header-title{font-size:28px}
-  .content{padding:28px 20px}
-  .cards{grid-template-columns:1fr}
-  .about-grid{grid-template-columns:1fr}
+  .content{padding:40px 20px}
+  .cards{grid-template-columns:1fr;gap:24px;margin-bottom:56px}
+  .about-grid{grid-template-columns:1fr;gap:32px;gap-row:32px}
+  .about-section{padding:40px 24px;margin-bottom:56px}
   .meta-row{grid-template-columns:1fr}
-  .footer{flex-direction:column;gap:4px;text-align:center}
+  .footer{flex-direction:column;gap:8px;text-align:center;padding:24px 20px}
   .topbar-right{display:none}
 }
 </style>
@@ -239,7 +243,7 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
       </div>
       <div class="about-item">
         <div class="about-label">Base de dados</div>
-        <div class="about-value">Setores censitários (IBGE 2010) e divisões por bairros, integrados com dados econômicos (RAIS, Receita Federal), infraestrutura social (Mapa OSC) e indicadores estaduais e municipais (IPECE, Prefeitura de Fortaleza, Governo do Estado).</div>
+        <div class="about-value">Setores censitários (IBGE 2010 e 2022) com divisão por bairros, integrados com dados econômicos e de vínculos empregatícios (RAIS 2022), dados de pessoas jurídicas (Receita Federal 2024), mapeamento de organizações sociais (Mapa OSC) e indicadores estaduais e municipais (IPECE, Prefeitura de Fortaleza, Governo do Ceará).</div>
       </div>
       <div class="about-item">
         <div class="about-label">Abrangência geográfica</div>
