@@ -3888,6 +3888,18 @@ function initComp(){
     const fmtP = n => (n==null||isNaN(n))?'—':(Number(n)*100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
     const fmtX = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
     const fmtF = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
+
+    // Compute max/min for each column
+    const cols = {pop: bairroRows.filter(d=>d.pop!=null).map(d=>d.pop), idhm: bairroRows.filter(d=>d.idhm!=null).map(d=>d.idhm), epob: bairroRows.filter(d=>d.epob!=null).map(d=>d.epob), renda: bairroRows.filter(d=>d.renda!=null).map(d=>d.renda), esg: bairroRows.filter(d=>d.esg!=null).map(d=>d.esg), cad: bairroRows.filter(d=>d.cad!=null).map(d=>d.cad), emp: bairroRows.filter(d=>d.emp!=null).map(d=>d.emp), meiShare: bairroRows.filter(d=>d.meiShare!=null).map(d=>d.meiShare), ibeu: bairroRows.filter(d=>d.ibeu!=null).map(d=>d.ibeu), osc: bairroRows.map(d=>(oscLk[d.b]||{}).oscGeoCount||0)};
+    const extrema = {pop: [Math.max(...cols.pop), Math.min(...cols.pop)], idhm: [Math.max(...cols.idhm), Math.min(...cols.idhm)], epob: [Math.min(...cols.epob), Math.max(...cols.epob)], renda: [Math.max(...cols.renda), Math.min(...cols.renda)], esg: [Math.max(...cols.esg), Math.min(...cols.esg)], cad: [Math.max(...cols.cad), Math.min(...cols.cad)], emp: [Math.max(...cols.emp), Math.min(...cols.emp)], meiShare: [Math.max(...cols.meiShare), Math.min(...cols.meiShare)], ibeu: [Math.max(...cols.ibeu), Math.min(...cols.ibeu)], osc: [Math.max(...cols.osc), Math.min(...cols.osc)]};
+    const markup = (v, key) => {
+      const [max, min] = extrema[key];
+      if(v==null || isNaN(v)) return '';
+      if(Math.abs(v-max) < 0.0001) return ' style="background:#E8F5E9;font-weight:600"';
+      if(Math.abs(v-min) < 0.0001) return ' style="background:#FFEBEE;opacity:.8"';
+      return '';
+    };
+
     bairroTbl.innerHTML = `
       <thead><tr>
         <th>Bairro</th><th>Território</th>
@@ -3907,16 +3919,16 @@ function initComp(){
         return `<tr>
           <td><strong>${d.b}</strong></td>
           <td>${d.t==='Grande Mucuripe'?'<span class="tag">GM</span>':'<span class="tag gbj">GBJ</span>'}</td>
-          <td style="text-align:right" data-sort-value="${d.pop||0}">${fmtI(d.pop)}</td>
-          <td style="text-align:right" data-sort-value="${d.idhm||0}">${fmtX(d.idhm)}</td>
-          <td style="text-align:right" data-sort-value="${d.epob||0}">${fmtP(d.epob)}</td>
-          <td style="text-align:right" data-sort-value="${d.renda||0}">${fmt(d.renda,'money')}</td>
-          <td style="text-align:right" data-sort-value="${d.esg||0}">${fmtP(d.esg)}</td>
-          <td style="text-align:right" data-sort-value="${d.cad||0}">${fmtP(d.cad)}</td>
-          <td style="text-align:right" data-sort-value="${d.emp||0}">${fmtI(d.emp)}</td>
-          <td style="text-align:right" data-sort-value="${d.meiShare||0}">${fmtP(d.meiShare)}</td>
-          <td style="text-align:right" data-sort-value="${osc.oscGeoCount||0}">${fmtI(osc.oscGeoCount||0)}</td>
-          <td style="text-align:right" data-sort-value="${d.ibeu||0}">${fmtX(d.ibeu)}</td>
+          <td style="text-align:right" data-sort-value="${d.pop||0}"${markup(d.pop,'pop')}>${fmtI(d.pop)}</td>
+          <td style="text-align:right" data-sort-value="${d.idhm||0}"${markup(d.idhm,'idhm')}>${fmtX(d.idhm)}</td>
+          <td style="text-align:right" data-sort-value="${d.epob||0}"${markup(d.epob,'epob')}>${fmtP(d.epob)}</td>
+          <td style="text-align:right" data-sort-value="${d.renda||0}"${markup(d.renda,'renda')}>${fmt(d.renda,'money')}</td>
+          <td style="text-align:right" data-sort-value="${d.esg||0}"${markup(d.esg,'esg')}>${fmtP(d.esg)}</td>
+          <td style="text-align:right" data-sort-value="${d.cad||0}"${markup(d.cad,'cad')}>${fmtP(d.cad)}</td>
+          <td style="text-align:right" data-sort-value="${d.emp||0}"${markup(d.emp,'emp')}>${fmtI(d.emp)}</td>
+          <td style="text-align:right" data-sort-value="${d.meiShare||0}"${markup(d.meiShare,'meiShare')}>${fmtP(d.meiShare)}</td>
+          <td style="text-align:right" data-sort-value="${osc.oscGeoCount||0}"${markup((osc.oscGeoCount||0),'osc')}>${fmtI(osc.oscGeoCount||0)}</td>
+          <td style="text-align:right" data-sort-value="${d.ibeu||0}"${markup(d.ibeu,'ibeu')}>${fmtX(d.ibeu)}</td>
         </tr>`;
       }).join('')}</tbody>`;
     try{ enableTableSorting(bairroTbl); }catch(e){}
