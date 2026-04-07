@@ -1884,12 +1884,12 @@ const REGION_MAP = {
   "Antônio Justa":"Zona Sul","Alto da Mangueira":"Zona Sul"
 };
 const REGION_COLORS = {
-  "Extremo Norte":      "#DC2626",
-  "Zona Norte":         "#EA580C",
-  "Centro e Jereissati":"#7C3AED",
-  "Zona Leste":         "#9333EA",
-  "Zona Oeste":         "#5B21B6",
-  "Zona Sul":           "#A855F7"
+  "Extremo Norte":      "#7C3AED",
+  "Zona Norte":         "#2563EB",
+  "Centro e Jereissati":"#0891B2",
+  "Zona Leste":         "#059669",
+  "Zona Oeste":         "#D97706",
+  "Zona Sul":           "#DC2626"
 };
 const REGION_ORDER = ["Extremo Norte","Zona Norte","Centro e Jereissati","Zona Leste","Zona Oeste","Zona Sul"];
 const REGION_DESC = {
@@ -1969,6 +1969,30 @@ function initComp(){
   mapReg.fitBounds(regionLayer.getBounds(),{padding:[10,10]});
   MAPS['map-region'].layer=regionLayer;
 
+  // Add region name labels on map
+  const regionCentroids={};
+  regionLayer.eachLayer(l=>{
+    const reg=REGION_MAP[l.feature.properties.nome];
+    if(!reg) return;
+    const c=l.getBounds().getCenter();
+    if(!regionCentroids[reg]) regionCentroids[reg]={lat:0,lng:0,n:0};
+    regionCentroids[reg].lat+=c.lat;
+    regionCentroids[reg].lng+=c.lng;
+    regionCentroids[reg].n++;
+  });
+  Object.entries(regionCentroids).forEach(([reg,c])=>{
+    const lat=c.lat/c.n, lng=c.lng/c.n;
+    const col=REGION_COLORS[reg]||'#333';
+    L.marker([lat,lng],{
+      icon:L.divIcon({
+        className:'',
+        html:`<div style="font-size:10px;font-weight:700;color:#fff;background:${col};padding:2px 6px;border-radius:3px;white-space:nowrap;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.25)">${reg}</div>`,
+        iconSize:[0,0],
+        iconAnchor:[0,0]
+      })
+    }).addTo(mapReg);
+  });
+
   function highlightRegion(reg){
     activeRegion=reg;
     regionLayer.eachLayer(l=>{
@@ -2042,12 +2066,12 @@ function initComp(){
   });
   // ── Radar with toggle buttons ────────────────────────────────────────────
   const radarPalette={
-    "Extremo Norte":       {border:'#DC2626',bg:'rgba(220,38,38,.15)'},
-    "Zona Norte":          {border:'#EA580C',bg:'rgba(234,88,12,.15)'},
-    "Centro e Jereissati": {border:'#7C3AED',bg:'rgba(124,58,237,.15)'},
-    "Zona Leste":          {border:'#9333EA',bg:'rgba(147,51,234,.15)'},
-    "Zona Oeste":          {border:'#5B21B6',bg:'rgba(91,33,182,.15)'},
-    "Zona Sul":            {border:'#A855F7',bg:'rgba(168,85,247,.15)'},
+    "Extremo Norte":       {border:'#7C3AED',bg:'rgba(124,58,237,.15)'},
+    "Zona Norte":          {border:'#2563EB',bg:'rgba(37,99,235,.15)'},
+    "Centro e Jereissati": {border:'#0891B2',bg:'rgba(8,145,178,.15)'},
+    "Zona Leste":          {border:'#059669',bg:'rgba(5,150,105,.15)'},
+    "Zona Oeste":          {border:'#D97706',bg:'rgba(217,119,6,.15)'},
+    "Zona Sul":            {border:'#DC2626',bg:'rgba(220,38,38,.15)'},
   };
   // Default: show all regions
   const defaultVisible=new Set(REGION_ORDER);
