@@ -898,21 +898,24 @@ body{background:#fff}
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Participação de MEIs (dez/2024)</h3><p class="panel-sub">% das empresas que são MEIs</p></div></div><div class="chart-box"><canvas id="chart-econ-mei" class="chart tall"></canvas></div></div>
     </div>
 
-    <!-- TOP 50 TABLE -->
+    <!-- EMPRESAS TABLE -->
     <div class="panel" style="margin-top:18px">
       <div class="panel-head">
-        <div><h3 class="panel-title">Top 50 empresas por capital social (dez/2024)</h3><p class="panel-sub">Receita Federal · CNPJ dez/2024</p></div>
+        <div><h3 class="panel-title">Empresas por capital social (dez/2024)</h3><p class="panel-sub">Receita Federal · CNPJ dez/2024 · Exibindo 20 por vez — role para ver mais</p></div>
         <span class="table-count" id="mge-top-count"></span>
       </div>
       <div class="table-filter-bar">
         <input type="search" id="mge-top-search" placeholder="Buscar por nome, bairro ou setor…" autocomplete="off">
+        <select id="mge-top-bairro"><option value="">Todos os bairros</option></select>
+        <select id="mge-top-regiao"><option value="">Todas as regiões</option></select>
+        <select id="mge-top-setor"><option value="">Todos os setores</option></select>
         <select id="mge-top-tipo">
           <option value="">Matriz e Filial</option>
           <option value="Matriz">Somente Matrizes</option>
           <option value="Filial">Somente Filiais</option>
         </select>
       </div>
-      <div class="table-wrap"><table id="table-mge-top"></table></div>
+      <div class="table-wrap" id="mge-top-wrap" style="max-height:680px;overflow-y:auto"><table id="table-mge-top"></table></div>
     </div>
 
     <div class="panel" style="margin-top:18px">
@@ -1502,15 +1505,33 @@ function initEcon(){
     updateFilterUI();
   });
 
-  // --- Top 50 Table (sortable + searchable) ---
-  let top50SortKey=-1; // -1 = default (capital desc)
+  // --- Empresas Table (sortable + searchable + filters + lazy scroll) ---
+  // Populate filter dropdowns
+  (function(){
+    const bairros=[...new Set(MGE_TOP50.map(d=>d.b))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+    const setores=[...new Set(MGE_TOP50.map(d=>d.s))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+    const selB=document.getElementById('mge-top-bairro');
+    bairros.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;selB.appendChild(o)});
+    const selR=document.getElementById('mge-top-regiao');
+    REGION_ORDER.forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;selR.appendChild(o)});
+    const selS=document.getElementById('mge-top-setor');
+    setores.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;selS.appendChild(o)});
+  })();
+  let top50SortKey=-1;
   let top50SortDir=-1;
-  function renderTop50Table(){
+  let top50Visible=20;
+  function getFilteredTop50(){
     const q=(document.getElementById('mge-top-search').value||'').toLowerCase().trim();
     const tipoF=document.getElementById('mge-top-tipo').value;
+    const bairroF=document.getElementById('mge-top-bairro').value;
+    const regiaoF=document.getElementById('mge-top-regiao').value;
+    const setorF=document.getElementById('mge-top-setor').value;
     let rows=[...MGE_TOP50];
     if(q) rows=rows.filter(d=>d.n.toLowerCase().includes(q)||d.b.toLowerCase().includes(q)||d.s.toLowerCase().includes(q));
     if(tipoF) rows=rows.filter(d=>d.tipo===tipoF);
+    if(bairroF) rows=rows.filter(d=>d.b===bairroF);
+    if(regiaoF) rows=rows.filter(d=>(REGION_MAP[d.b]||'')===regiaoF);
+    if(setorF) rows=rows.filter(d=>d.s===setorF);
     if(top50SortKey>=0){
       const keys=['n','b','s','tipo','cap'];
       const k=keys[top50SortKey];
@@ -1520,6 +1541,15 @@ function initEcon(){
         return top50SortDir*(va-vb);
       });
     }
+    return rows;
+  }
+  function renderTop50Table(){
+    top50Visible=20;
+    renderTop50Rows();
+  }
+  function renderTop50Rows(){
+    const rows=getFilteredTop50();
+    const shown=rows.slice(0,top50Visible);
     const countEl=document.getElementById('mge-top-count');
     if(countEl) countEl.textContent=`${rows.length} empresa${rows.length!==1?'s':''}`;
     const sortIcons=['','','','',''];
@@ -1531,19 +1561,18 @@ function initEcon(){
       <th class="sortable" data-col="2">Setor<span class="sort-icon">${sortIcons[2]||'↕'}</span></th>
       <th class="sortable" data-col="3">Tipo<span class="sort-icon">${sortIcons[3]||'↕'}</span></th>
       <th class="sortable" data-col="4" style="text-align:right">Capital Social<span class="sort-icon">${sortIcons[4]||'↕'}</span></th>
-    </tr></thead><tbody>${rows.map((d,i)=>{
+    </tr></thead><tbody>${shown.map((d,i)=>{
       const reg=REGION_MAP[d.b]||'';
       const regCol=REGION_COLORS[reg]||'transparent';
       return `<tr>
         <td class="rank">${i+1}</td>
-        <td><strong style="font-size:12px">${d.n}</strong></td>
-        <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><span style="width:7px;height:7px;border-radius:50%;background:${regCol};flex-shrink:0"></span>${d.b}</span></td>
+        <td style="font-size:11px;font-weight:500">${d.n}</td>
+        <td><span style="display:flex;align-items:center;gap:5px;font-size:11px"><span style="width:6px;height:6px;border-radius:50%;background:${regCol};flex-shrink:0"></span>${d.b}</span></td>
         <td><span class="sector-tag">${d.s}</span></td>
         <td><span class="tipo-badge ${d.tipo==='Matriz'?'tipo-m':'tipo-f'}">${d.tipo}</span></td>
-        <td style="text-align:right;font-weight:700;color:#7C3AED">${fmtCap(d.cap)}</td>
+        <td style="text-align:right;font-weight:500;font-size:11px;color:#7C3AED">${fmtCap(d.cap)}</td>
       </tr>`;
-    }).join('')}</tbody>`;
-    // Bind sort clicks — primeira vez sempre desc (maior→menor)
+    }).join('')}${top50Visible<rows.length?`<tr id="mge-top-load-more"><td colspan="6" style="text-align:center;padding:12px;font-size:12px;color:var(--muted);cursor:pointer;font-weight:500">Exibindo ${top50Visible} de ${rows.length} — role para ver mais ↓</td></tr>`:''}</tbody>`;
     document.querySelectorAll('#table-mge-top th.sortable').forEach(th=>{
       th.addEventListener('click',()=>{
         const col=parseInt(th.dataset.col);
@@ -1553,9 +1582,24 @@ function initEcon(){
       });
     });
   }
+  // Scroll-based lazy loading
+  document.getElementById('mge-top-wrap').addEventListener('scroll',function(){
+    const wrap=this;
+    if(wrap.scrollTop+wrap.clientHeight>=wrap.scrollHeight-40){
+      const total=getFilteredTop50().length;
+      if(top50Visible<total){
+        top50Visible=Math.min(top50Visible+20,total);
+        renderTop50Rows();
+        wrap.scrollTop=wrap.scrollTop; // maintain position
+      }
+    }
+  });
   renderTop50Table();
   document.getElementById('mge-top-search').addEventListener('input',renderTop50Table);
   document.getElementById('mge-top-tipo').addEventListener('change',renderTop50Table);
+  document.getElementById('mge-top-bairro').addEventListener('change',renderTop50Table);
+  document.getElementById('mge-top-regiao').addEventListener('change',renderTop50Table);
+  document.getElementById('mge-top-setor').addEventListener('change',renderTop50Table);
 
   // --- Detailed business table (sortable + searchable + region) ---
   // Populate region filter
