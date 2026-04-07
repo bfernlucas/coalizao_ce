@@ -2252,7 +2252,7 @@ function initFavelasMap(mun, bairrosGeo){
     },
     onEachFeature:(feat,layer)=>{
       const e=enriched.find(x=>x.feat===feat);
-      const bInfo=e&&e.bData?`<div style="margin-top:6px;font-size:11px;color:#5C6E7E;line-height:1.5">Pop. ${fmt(e.bData.pop,'int')} · Ext. pobreza ${e.bData.epob!=null?fmt(e.bData.epob,'pct'):'—'}<br>CadÚnico ${e.bData.cad!=null?fmt(e.bData.cad,'pct'):'—'} · Esgoto ${e.bData.esg!=null?fmt(e.bData.esg,'pct'):'—'}</div>`:'';
+      const bInfo=e&&e.bData?`<div style="margin-top:8px;padding-top:6px;border-top:1px solid #E5E7EB"><div style="font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Dados do bairro ${e.bairro}</div><div style="font-size:11px;color:#5C6E7E;line-height:1.5">Pop. ${fmt(e.bData.pop,'int')} · Ext. pobreza ${e.bData.epob!=null?fmt(e.bData.epob,'pct'):'—'}<br>CadÚnico ${e.bData.cad!=null?fmt(e.bData.cad,'pct'):'—'} · Esgoto ${e.bData.esg!=null?fmt(e.bData.esg,'pct'):'—'}</div></div>`:'';
       layer.bindPopup(`<div style="padding:8px"><strong style="font-size:13px">${feat.properties.nm_fcu}</strong><div style="font-size:11px;font-weight:600;color:${e?e.regColor:'#7C3AED'};margin-top:4px">${e?e.region:''} · ${e?e.bairro:''}</div>${bInfo}</div>`,{maxWidth:280});
       layer.on('mouseover',function(){this.setStyle({fillOpacity:0.65,weight:3})});
       layer.on('mouseout',function(){gj.resetStyle(this)});
