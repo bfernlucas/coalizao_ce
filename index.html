@@ -55,7 +55,7 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
 }
 .header-title span{color:#059669}
 .header-desc{
-  font-size:14px;color:#3B4C5C;line-height:1.65;max-width:600px;
+  font-size:14px;color:#3B4C5C;line-height:1.65;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 
 /* ── Main ── */
@@ -69,10 +69,10 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
 }
 
 /* ── Municipality cards ── */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:64px;}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:64px;}
 .card{
   background:#fff;text-decoration:none;color:#111;
-  padding:40px;display:flex;flex-direction:column;gap:24px;
+  padding:28px 32px;display:flex;flex-direction:column;gap:16px;
   border:1px solid #E5E7EB;border-radius:10px;
   transition:all .24s cubic-bezier(.4,0,.2,1);
   box-shadow:0 1px 3px rgba(0,0,0,.06);
@@ -85,18 +85,18 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
 .card-region{
   display:inline-flex;align-items:center;gap:6px;
   font-size:10px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase;
-  padding:6px 12px;background:#6B7280;border-radius:6px;width:fit-content;margin-bottom:12px;
+  padding:5px 10px;background:#6B7280;border-radius:6px;width:fit-content;margin-bottom:6px;
 }
 .card[href="fortaleza.html"] .card-region{background:#0B4FA8}
 .card[href="maracanau.html"] .card-region{background:#7C3AED}
-.card-name{font-size:36px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
-.card-rule{width:40px;height:4px;background:#0B4FA8;border-radius:2px;transition:width .24s}
+.card-name{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:4px}
+.card-rule{width:40px;height:4px;background:#0B4FA8;border-radius:2px;transition:width .24s;margin-bottom:4px}
 .card:hover .card-rule{width:56px}
-.card-stats{display:flex;gap:32px;margin-top:16px}
-.card-stat{display:flex;flex-direction:column;gap:6px;animation:fadeInUp .6s ease-out}
-.card-stat strong{font-size:24px;font-weight:800;color:#111;letter-spacing:-.02em;line-height:1}
-.card-stat span{font-size:12px;color:#6B7280;font-weight:500}
-.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid #F3F4F6;margin-top:auto}
+.card-stats{display:flex;gap:28px;margin-top:10px}
+.card-stat{display:flex;flex-direction:column;gap:4px;animation:fadeInUp .6s ease-out}
+.card-stat strong{font-size:22px;font-weight:800;color:#111;letter-spacing:-.02em;line-height:1}
+.card-stat span{font-size:11px;color:#6B7280;font-weight:500}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid #F3F4F6;margin-top:auto}
 .card-sources{font-size:11px;color:#9CA3AF}
 .card-cta{font-size:12px;font-weight:700;display:flex;align-items:center;gap:5px;letter-spacing:.01em;transition:gap .24s}
 
