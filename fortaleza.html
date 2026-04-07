@@ -2362,16 +2362,18 @@ DATA.forEach(d => {
 const UI_COLORS = {
   navy:'#0B2B44',
   blue:'#0B4FA8',
-  blueSoft:'#7AA8C8',
-  teal:'#1A6EC2',
-  tealSoft:'#C8D9F5',
-  gold:'#B07C20',
-  red:'#C0392B',
-  redDark:'#7B1D1A',
-  gray:'#D8E0E8',
-  graySoft:'#EEF4FF',
+  blueSoft:'#93C5FD',
+  teal:'#1E40AF',
+  tealSoft:'#DBEAFE',
+  gold:'#D4A574',
+  red:'#DC2626',
+  redDark:'#991B1B',
+  gray:'#E5E7EB',
+  graySoft:'#EFF6FF',
   text:'#1B2D3E',
-  muted:'#5C6E7E'
+  muted:'#6B7280',
+  territoryGM:'#0B4FA8',
+  territoryGBJ:'#1E40AF'
 };
 
 const CHOROPLETH_COLORS = ['#f3f6fb','#dbe6f0','#b9ccdb','#84a8bf','#4f7b98','#1f4d6b'];
@@ -3592,7 +3594,7 @@ function initOsc(){
       const maxVal = top[0]?.oscGeoCount || 1;
       topEl.innerHTML = top.map((d,i) => {
         const pct = Math.round((d.oscGeoCount/maxVal)*100);
-        const terrColor = d.t === 'Grande Mucuripe' ? '#7AA8C8' : '#1A6EC2';
+        const terrColor = d.t === 'Grande Mucuripe' ? UI_COLORS.territoryGM : UI_COLORS.territoryGBJ;
         return `<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #F0F3F0">
           <span style="font-size:11px;font-weight:700;color:#7F91A3;width:18px;flex-shrink:0">${i+1}</span>
           <div style="flex:1;min-width:0">
