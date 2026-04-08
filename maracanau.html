@@ -497,6 +497,10 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .network-legend{display:flex;flex-wrap:wrap;gap:12px;padding:8px 24px;font-size:11px;color:var(--muted)}
 .network-legend .net-leg{display:flex;align-items:center;gap:5px}
 .network-legend .net-leg span{width:12px;height:12px;border-radius:50%;display:inline-block;flex-shrink:0}
+.net-degree-bar{position:absolute;top:10px;left:10px;display:flex;gap:4px;z-index:10;flex-wrap:wrap}
+.net-deg-btn{padding:5px 10px;border:1px solid var(--line-2);border-radius:6px;background:#fff;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;transition:all .15s;line-height:1;white-space:nowrap}
+.net-deg-btn:hover{border-color:var(--brand);color:var(--brand)}
+.net-deg-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
 .net-tooltip{position:absolute;pointer-events:none;background:rgba(20,50,74,.96);color:#fff;padding:10px 14px;border-radius:10px;font-size:11px;line-height:1.5;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:999;opacity:0;transition:opacity .15s}
 .net-tooltip strong{display:block;font-size:13px;margin-bottom:4px}
 .net-tooltip .net-tag{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:.04em;margin-top:4px}
@@ -1023,19 +1027,21 @@ body{background:#fff}
           <p class="panel-sub">Conexões inferidas por afinidade temática e proximidade geográfica com OSCs do território</p>
         </div>
         <div class="filters">
+          <select id="net-regiao-filter"><option value="">Todas as regiões</option></select>
           <select id="net-bairro-filter"><option value="">Todos os bairros</option></select>
-          <select id="net-filter">
-            <option value="all">Todas as conexões</option>
-            <option value="strong">Conexões fortes</option>
-            <option value="medium">Conexões médias</option>
-            <option value="area">Por área de atuação</option>
-            <option value="geo">Por proximidade geográfica</option>
-          </select>
         </div>
       </div>
       <div class="map-analytics-layout">
         <div style="min-width:0;display:flex;flex-direction:column">
-          <div id="network-graph" style="width:100%;flex:1;min-height:580px;position:relative;background:#FAFBFC;border:1px solid var(--line-2);border-radius:10px;box-sizing:border-box"></div>
+          <div id="network-graph" style="width:100%;flex:1;min-height:580px;position:relative;background:#FAFBFC;border:1px solid var(--line-2);border-radius:10px;box-sizing:border-box">
+            <div class="net-degree-bar" id="net-degree-bar">
+              <button class="net-deg-btn active" data-deg="all">Todas</button>
+              <button class="net-deg-btn" data-deg="strong">Fortes</button>
+              <button class="net-deg-btn" data-deg="medium">Médias</button>
+              <button class="net-deg-btn" data-deg="light">Leves</button>
+              <button class="net-deg-btn" data-deg="peer">Entre pares</button>
+            </div>
+          </div>
           <div class="network-legend" id="network-legend" style="padding:10px 4px 0"></div>
         </div>
         <div class="analysis-side">
@@ -2089,10 +2095,30 @@ function initNetwork(){
     {label:'Áreas representadas',value:Object.keys(areaCount).length,sub:Object.entries(areaCount).sort((a,b)=>b[1]-a[1]).map(([k,v])=>(AREA_LABELS[k]||k)+': '+v).join(' · ')}
   ].map(c=>`<div class="analysis-stat"><div class="analysis-stat-label">${c.label}</div><div class="analysis-stat-value">${c.value}</div><div class="analysis-stat-sub">${c.sub}</div></div>`).join('');
 
-  // Bairro filter
-  const bairros=[...new Set(scored.map(o=>o.bairro))].sort();
+  // Region + Bairro filters
   const bairroSel=document.getElementById('net-bairro-filter');
-  bairros.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;bairroSel.appendChild(o)});
+  const regiaoSel=document.getElementById('net-regiao-filter');
+  const regioes=[...new Set(scored.map(o=>o.region).filter(Boolean))].sort();
+  regioes.forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;regiaoSel.appendChild(o)});
+  const allBairros=[...new Set(scored.map(o=>o.bairro))].sort();
+  function populateBairros(region){
+    bairroSel.innerHTML='<option value="">Todos os bairros</option>';
+    const list=region?allBairros.filter(b=>(REGION_MAP[b]||'')===region):allBairros;
+    list.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;bairroSel.appendChild(o)});
+  }
+  populateBairros('');
+  regiaoSel.addEventListener('change',()=>{populateBairros(regiaoSel.value);bairroSel.value='';applyFilters();});
+
+  // Degree buttons inside graph
+  let activeDeg='all';
+  document.querySelectorAll('#net-degree-bar .net-deg-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#net-degree-bar .net-deg-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      activeDeg=btn.dataset.deg;
+      applyFilters();
+    });
+  });
 
   // Clickable legend — toggling areas
   const legendAreas=[...new Set(scored.map(o=>o.a))];
@@ -2200,15 +2226,16 @@ function initNetwork(){
 
   // Unified filter logic
   function applyFilters(){
-    const connFilter=document.getElementById('net-filter').value;
     const bairroFilter=bairroSel.value;
-    const showLabels=connFilter!=='all'||bairroFilter!=='';
+    const regiaoFilter=regiaoSel.value;
+    const hasFilter=activeDeg!=='all'||bairroFilter!==''||regiaoFilter!=='';
 
     // Determine visible nodes
     nodeG.each(function(d){
       if(d.isAnchor){d._visible=true;return;}
       let vis=true;
       if(hiddenAreas.has(d.area)) vis=false;
+      if(regiaoFilter&&d.region!==regiaoFilter) vis=false;
       if(bairroFilter&&d.bairro!==bairroFilter) vis=false;
       d._visible=vis;
     });
@@ -2217,31 +2244,27 @@ function initNetwork(){
     link.each(function(d){
       const src=d.source,tgt=d.target;
       let vis=src._visible!==false&&tgt._visible!==false;
-      if(vis&&connFilter!=='all'){
-        if(connFilter==='strong') vis=d.strength==='strong';
-        else if(connFilter==='medium') vis=d.strength==='strong'||d.strength==='medium';
-        else if(connFilter==='area') vis=d.strength!=='peer'&&d.value>=3;
-        else if(connFilter==='geo') vis=d.strength!=='peer';
+      if(vis&&activeDeg!=='all'){
+        vis=d.strength===activeDeg;
       }
       d._linkVis=vis;
       d3.select(this).attr('display',vis?null:'none');
     });
 
-    // If connection filter active, hide nodes with no visible links
-    if(connFilter!=='all'){
+    // If degree filter active, hide nodes with no visible links
+    if(activeDeg!=='all'){
       nodeG.each(function(d){
         if(d.isAnchor) return;
-        if(!d._visible){return;}
+        if(!d._visible) return;
         const hasLink=edges.some(e=>e._linkVis&&(e.source===d||e.target===d));
         d._visible=hasLink;
       });
     }
 
     nodeG.attr('display',d=>d._visible?null:'none');
-    nodeG.selectAll('.net-label').style('display',d=>(showLabels&&d._visible)?null:'none');
+    nodeG.selectAll('.net-label').style('display',d=>(hasFilter&&d._visible)?null:'none');
   }
 
-  document.getElementById('net-filter').addEventListener('change',applyFilters);
   bairroSel.addEventListener('change',applyFilters);
 }
 
