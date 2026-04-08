@@ -1862,6 +1862,9 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .table-filter-bar input:focus,.table-filter-bar select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
 .table-count{font-size:11px;color:var(--muted);white-space:nowrap;align-self:center}
 .tag,.chip{background:var(--brand-5);border-color:var(--brand-4);color:var(--brand)}
+.kpi-grid.six{grid-template-columns:repeat(6,1fr)}
+@media(max-width:1100px){.kpi-grid.six{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.kpi-grid.six{grid-template-columns:repeat(2,1fr)}}
 .mge-map-wrap{position:relative}
 .map-filter-overlay{
   position:absolute;top:10px;left:10px;right:10px;z-index:900;
@@ -3655,9 +3658,9 @@ function initOsc(){
   const totalMatriz=OSC_POINTS.filter(p=>p.tipo==='Matriz').length;
 
   // Top area by count
-  const areaCounts={};
-  OSC_POINTS.forEach(p=>{(p.areas||[]).forEach(a=>{areaCounts[a]=(areaCounts[a]||0)+1;})});
-  const topArea=Object.entries(areaCounts).filter(([a])=>a!=='Sem classificação').sort((a,b)=>b[1]-a[1])[0];
+  const kpiAreaCounts={};
+  OSC_POINTS.forEach(p=>{(p.areas||[]).forEach(a=>{kpiAreaCounts[a]=(kpiAreaCounts[a]||0)+1;})});
+  const topArea=Object.entries(kpiAreaCounts).filter(([a])=>a!=='Sem classificação').sort((a,b)=>b[1]-a[1])[0];
 
   // OSCs by territory
   const oscByTerritory={};
@@ -3667,7 +3670,7 @@ function initOsc(){
   if(kpiEl) kpiEl.innerHTML=[
     {l:'OSCs ativas geolocalizadas',v:fmt(totalOsc,'int'),s:'Base IPEA 2024'},
     {l:'Bairros cobertos',v:fmt(totalBairros,'int'),s:'Com presença de OSCs'},
-    {l:'Área predominante',v:OSC_AREA_SHORT_LABELS[topArea?topArea[0]:'—']||topArea?topArea[0]:'—',s:`${topArea?topArea[1]:0} entidades (${topArea?Math.round(topArea[1]/totalOsc*100):0}%)`},
+    {l:'Área predominante',v:topArea?(OSC_AREA_SHORT_LABELS[topArea[0]]||topArea[0]):'—',s:`${topArea?topArea[1]:0} entidades (${topArea?Math.round(topArea[1]/totalOsc*100):0}%)`},
     {l:'Matrizes (sedes)',v:fmt(totalMatriz,'int'),s:`${(totalMatriz/totalOsc*100).toFixed(0)}% do total`},
     {l:'Grande Mucuripe',v:fmt(oscByTerritory['Grande Mucuripe']||0,'int'),s:'OSCs no território'},
     {l:'Grande Bom Jardim',v:fmt(oscByTerritory['Grande Bom Jardim']||0,'int'),s:'OSCs no território'}
@@ -4208,9 +4211,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => activateTab(btn.dataset.tab));
 });
 
-activateTab('visao');
-
 const TERRITORY_BAIRROS={'Grande Mucuripe':['Mucuripe','Cais do Porto','Vicente Pinzon','Vicente Pinzón','Papicu','Varjota','De Lourdes','Praia Futuro I','Praia Futuro II','Praia do Futuro I','Praia do Futuro II','Meireles','Aldeota','Cocó','Dionísio Torres','Cidade 2000','Edson Queiroz','Engenheiro Luciano Cavalcante','Guararapes','Salinas','Sabiaguaba','Manuel Dias Branco','Joaquim Távora','Aerolândia','Alto da Balança','Jardim das Oliveiras','Praia de Iracema','Tauape','Dias Macedo','Cidade dos Funcionários','Cambeba','Sapiranga / Coité','Parque Manibura','José de Alencar','Lagoa Redonda','Coaçu','Curió','Messejana','Paupina','Ancuri','Pedras','Jangurussu','Passaré','Barroso','Cajazeiras','Parque Iracema','Parque Dois Irmãos','Serrinha','Itaperi','Dendê','Parque Santa Maria'],'Grande Bom Jardim':['Bom Jardim','Siqueira','Canindezinho','Granja Portugal','Granja Lisboa']};
+
+activateTab('visao');
 
 function initFavelasMap(mun, bairrosGeo){
   const mapId='map-favelas-'+mun;
