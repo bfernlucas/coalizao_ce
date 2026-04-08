@@ -4068,22 +4068,22 @@ function initOsc(){
 function initNetworkFort(){
   /* ── 4 anchor organisations ── */
   const ANCHORS=[
-    {id:'ccbj',name:'Centro Cultural Bom Jardim',short:'CCBJ',
+    {id:'ccbj',name:'Centro Cultural Bom Jardim',short:'CCBJ',label:'CCBJ — Bom Jardim',
      bairro:'Bom Jardim',territory:'Grande Bom Jardim',color:'#E63946',
      focus:['Cultura e recreação','Educação e pesquisa'],
      related:['Desenvolvimento e defesa de direitos','Assistência social'],
      desc:'Equipamento cultural do Governo do Ceará, gerido pelo IDM/Secult. Primeiro espaço cultural público fora do corredor turístico de Fortaleza. Oferece formação em artes, dança, teatro, música e audiovisual pelo programa ECA. Atende 50 mil pessoas/ano no Grande Bom Jardim.'},
-    {id:'msm',name:'Movimento Saúde Mental',short:'MSM',
+    {id:'msm',name:'Movimento Saúde Mental',short:'MSM',label:'Saúde Mental — Bom Jardim',
      bairro:'Bom Jardim',territory:'Grande Bom Jardim',color:'#7C3AED',
      focus:['Saúde','Assistência social'],
      related:['Desenvolvimento e defesa de direitos','Educação e pesquisa'],
      desc:'Fundado em 1996 pelo Pe. Rino Bonvini. Atua com saúde mental comunitária pela Abordagem Sistêmica Comunitária. O Giardino Buffet gera renda solidária para mulheres. A Escola de Gastronomia Autossustentável (EGA) forma profissionais no território.'},
-    {id:'egsb',name:'Escola de Gastronomia Social Ivens Dias Branco',short:'EGS',
+    {id:'egsb',name:'Escola de Gastronomia Social Ivens Dias Branco',short:'EGS',label:'Gastronomia Social — Cais do Porto',
      bairro:'Cais do Porto',territory:'Grande Mucuripe',color:'#0B4FA8',
      focus:['Educação e pesquisa','Assistência social'],
      related:['Saúde','Desenvolvimento e defesa de direitos'],
      desc:'Gerida pelo IDM/Secult, inaugurada em 2018 no Cais do Porto. Centro de formação, pesquisa e inovação em gastronomia social. Oferece 300 vagas gratuitas por ciclo. Vencedora do Prêmio LED 2026. Parceira da Coalizão pela Alimentação Escolar.'},
-    {id:'im',name:'Instituto Metamorfose',short:'IM',
+    {id:'im',name:'Instituto Metamorfose',short:'IM',label:'Inst. Metamorfose — Cais do Porto',
      bairro:'Cais do Porto',territory:'Grande Mucuripe',color:'#D97706',
      focus:['Assistência social','Desenvolvimento e defesa de direitos'],
      related:['Educação e pesquisa','Saúde'],
@@ -4177,7 +4177,7 @@ function initNetworkFort(){
 
   /* ── Filters: anchor, territory, bairro ── */
   const anchorSel=document.getElementById('net-anchor-filter');
-  ANCHORS.forEach(a=>{const o=document.createElement('option');o.value=a.id;o.textContent=a.short;anchorSel.appendChild(o);});
+  ANCHORS.forEach(a=>{const o=document.createElement('option');o.value=a.id;o.textContent=a.label;anchorSel.appendChild(o);});
   const terrSel=document.getElementById('net-territorio-filter');
   TERRITORIES.filter(t=>t!=='Todos').forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;terrSel.appendChild(o);});
   const bairroSel=document.getElementById('net-bairro-filter');
