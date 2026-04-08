@@ -926,28 +926,32 @@ body{background:#fff}
     <!-- Map + sidebar -->
     <div class="panel" style="margin-bottom:20px">
       <div class="panel-head">
-        <div><h3 class="panel-title">Mapa de OSCs (IPEA, 2024)</h3><p class="panel-sub">Filtre por área de atuação, nome ou bairro. Fonte: IPEA, 2024.</p></div>
+        <div><h3 class="panel-title">Distribuição de OSCs por bairro (IPEA, 2024)</h3><p class="panel-sub">Mapa coroplético por densidade de OSCs · Use os filtros para explorar por área, região ou bairro</p></div>
         <span class="table-count" id="osc-map-count"></span>
       </div>
       <div class="map-analytics-layout" style="padding:0 24px 4px">
         <div class="mge-map-wrap">
-          <div class="map-box split" id="map-osc" style="min-height:470px"></div>
+          <div class="map-box split" id="map-osc" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="osc-filter-overlay">
-            <input type="search" id="osc-search" placeholder="Buscar por nome…" style="flex:1;min-width:160px;max-width:260px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px">
-            <select id="osc-bairro-filter" style="appearance:none;padding:6px 26px 6px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%236a7f91%22 stroke-width=%221.5%22 fill=%22none%22/></svg>') no-repeat right 8px center;flex:1;min-width:130px;max-width:200px"><option value="">Todos os bairros</option></select>
-            <button class="mge-clear-btn" id="osc-clear-filters" style="display:none">✕ Limpar</button>
+            <input type="search" id="osc-search" placeholder="Buscar por nome…" style="flex:1;min-width:140px;max-width:220px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px">
+            <select id="osc-bairro-filter" title="Filtrar por bairro">
+              <option value="">Todos os bairros</option>
+            </select>
+            <select id="osc-regiao-filter" title="Filtrar por região">
+              <option value="">Todas as regiões</option>
+            </select>
+            <select id="osc-area-filter" title="Filtrar por área de atuação">
+              <option value="">Todas as áreas</option>
+            </select>
+            <button class="mge-clear-btn" id="osc-clear-filters" title="Limpar filtros" style="display:none">✕ Limpar</button>
             <span class="mge-filter-badge" id="osc-filter-count" style="display:none"></span>
           </div>
         </div>
         <div class="analysis-side">
-          <div class="analysis-card" style="min-height:auto">
-            <div class="analysis-kicker">Filtrar por área</div>
-            <h3 class="analysis-title" style="font-size:16px;margin:10px 0 6px">Clique para filtrar</h3>
-            <div id="osc-legend" style="display:flex;flex-direction:column;gap:6px;margin-top:6px"></div>
-          </div>
-          <div class="analysis-card" style="min-height:auto">
-            <div class="analysis-kicker">Top bairros</div>
-            <div id="osc-top-bairros" style="margin-top:10px"></div>
+          <div class="analysis-card" style="flex:1;display:flex;flex-direction:column;max-height:520px">
+            <div class="analysis-kicker">Organizações no filtro</div>
+            <p class="analysis-text" id="osc-analysis-text" style="margin:6px 0 8px;font-size:12px"></p>
+            <div id="osc-top-list" style="flex:1;overflow-y:auto;min-height:0"></div>
           </div>
         </div>
       </div>
@@ -1566,7 +1570,6 @@ function initEcon(){
 }
 
 function initOsc(){
-  // KPIs
   const totalOsc=OSCS.length;
   const areaCounts={};
   OSCS.forEach(o=>{areaCounts[o.a]=(areaCounts[o.a]||0)+1;});
@@ -1601,176 +1604,218 @@ function initOsc(){
     options:baseOpts(false)
   });
 
+  // --- Populate filters ---
+  const selBairro=document.getElementById('osc-bairro-filter');
+  const selRegiao=document.getElementById('osc-regiao-filter');
+  const selArea=document.getElementById('osc-area-filter');
+  const oscBairros=[...new Set(OSCS.map(o=>o.bairro))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  oscBairros.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;selBairro.appendChild(o)});
+  const oscRegioes=[...new Set(OSCS.map(o=>REGION_MAP[o.bairro]||'').filter(Boolean))].sort();
+  oscRegioes.forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;selRegiao.appendChild(o)});
+  const oscAreas=[...new Set(OSCS.map(o=>o.a))].sort();
+  oscAreas.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=AREA_LABELS[a]||a;selArea.appendChild(o)});
+
+  // Build OSC count per bairro for choropleth
+  const oscByBairro={};
+  OSCS.forEach(o=>{oscByBairro[o.bairro]=(oscByBairro[o.bairro]||0)+1;});
+  const maxOscBairro=Math.max(...Object.values(oscByBairro));
+  function oscChoroplethColor(n){
+    if(!n||n<=0) return '#F5F3FF';
+    const t=Math.log10(n+1)/Math.log10(maxOscBairro+1);
+    const stops=['#F5F3FF','#EDE9FE','#DDD6FE','#C4B5FD','#A78BFA','#8B5CF6','#7C3AED','#6D28D9','#5B21B6'];
+    return stops[Math.min(Math.floor(t*stops.length),stops.length-1)];
+  }
+
   // Map
   if(!MAPS['map-osc']){
-    const m=L.map('map-osc',{zoomControl:true});
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap · © CARTO',maxZoom:18}).addTo(m);
-    MAPS['map-osc']=m;
+    MAPS['map-osc']={};
+    const m=L.map('map-osc',{zoomControl:true,scrollWheelZoom:true});
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM · CARTO',maxZoom:18}).addTo(m);
+    MAPS['map-osc'].map=m;
 
-    // GeoJSON bairro boundaries
-    let oscGeoLayer=L.geoJSON(GEO,{
-      style:{fillColor:'#7C3AED',fillOpacity:0.03,color:'#7C3AED',weight:1,opacity:0.25},
-      onEachFeature:function(f,layer){layer.bindTooltip(f.properties.nome,{sticky:true,direction:'center',opacity:.85});}
+    // GeoJSON choropleth by OSC density
+    MAPS['map-osc'].geo=L.geoJSON(GEO,{
+      style:function(f){
+        const n=oscByBairro[f.properties.nome]||0;
+        return {fillColor:oscChoroplethColor(n),fillOpacity:0.55,color:'#7C3AED',weight:1,opacity:0.4};
+      },
+      onEachFeature:function(f,layer){
+        const nome=f.properties.nome;
+        const n=oscByBairro[nome]||0;
+        const reg=REGION_MAP[nome]||'—';
+        const regCol=REGION_COLORS[reg]||'#888';
+        const d=findData(nome);
+        layer.bindPopup(`<div class="mge-popup"><h4>${nome}</h4><div style="font-size:10px;font-weight:700;color:${regCol};margin-bottom:6px">${reg}</div><div class="mge-cap">${n} OSCs</div><div class="mge-meta">Pop. ${d?fmt(d.pop,'int'):'—'}</div></div>`,{maxWidth:300});
+        layer.on('mouseover',function(){this.setStyle({weight:2.5,fillOpacity:.7})});
+        layer.on('mouseout',function(){MAPS['map-osc'].geo.resetStyle(this)});
+      }
     }).addTo(m);
-    MAPS['map-osc']._geoLayer=oscGeoLayer;
 
     // MarkerCluster
-    const cluster=L.markerClusterGroup({maxClusterRadius:40,spiderfyOnMaxZoom:true,showCoverageOnHover:false});
-    const allOscMarkers=[];
-
-    function createOscIcon(color){
-      return L.divIcon({
-        className:'',
-        html:'<div style="width:13px;height:13px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)"></div>',
-        iconSize:[13,13],iconAnchor:[6,6]
-      });
-    }
-
+    MAPS['map-osc'].clusterLayer=L.markerClusterGroup({
+      maxClusterRadius:45,
+      spiderfyOnMaxZoom:true,
+      showCoverageOnHover:false,
+      iconCreateFunction:function(cluster){
+        const count=cluster.getChildCount();
+        let cls='mge-cluster-sm';
+        if(count>=50) cls='mge-cluster-lg';
+        else if(count>=15) cls='mge-cluster-md';
+        return L.divIcon({html:'<div class="mge-cluster '+cls+'">'+count+'</div>',className:'',iconSize:[52,52],iconAnchor:[26,26]});
+      }
+    }).addTo(m);
+    const cluster=MAPS['map-osc'].clusterLayer;
     OSCS.forEach(o=>{
       const color=AREA_COLORS[o.a]||'#999';
       const areaLabel=AREA_LABELS[o.a]||o.a;
-      const mk=L.marker([o.lat,o.lng],{icon:createOscIcon(color)});
+      const reg=REGION_MAP[o.bairro]||'—';
+      const regCol=REGION_COLORS[reg]||'#888';
+      const mk=L.marker([o.lat,o.lng],{
+        icon:L.divIcon({
+          className:'',
+          html:`<div style="width:10px;height:10px;border-radius:50%;background:${color};border:1.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25)"></div>`,
+          iconSize:[10,10],iconAnchor:[5,5]
+        })
+      });
       mk._oscData=o;
-      const popup=`<div class="osc-popup-head">
-        <h4 style="margin:0 0 4px;font-size:13px;font-weight:700">${o.n}</h4>
-        ${o.f?'<div class="fantasia">'+o.f+'</div>':''}
-        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">
-          <span class="popup-kicker" style="background:${color}">${areaLabel}</span>
-          ${o.bairro?'<span class="popup-kicker bairro">'+o.bairro+'</span>':''}
+      mk.bindPopup(`<div class="mge-popup">
+        <h4>${o.n}</h4>
+        ${o.f?'<div style="font-size:11px;color:#5C6E7E;margin-bottom:4px">'+o.f+'</div>':''}
+        <div style="font-size:10px;font-weight:700;color:${regCol};margin-bottom:6px">${reg} · ${o.bairro}</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin:6px 0">
+          <span class="mge-tag" style="background:${color};color:#fff">${areaLabel}</span>
         </div>
-      </div>
-      <div class="osc-popup-body">
-        ${o.fund?'<div style="font-size:11px;color:var(--muted)">Fundação: <strong>'+o.fund+'</strong></div>':''}
-        <div class="popup-end">${o.end}</div>
-      </div>`;
-      mk.bindPopup(popup,{maxWidth:340,minWidth:260});
-      allOscMarkers.push(mk);
+        ${o.fund?'<div style="font-size:11px;color:#5C6E7E;margin-top:6px">Fundação: <strong>'+o.fund+'</strong></div>':''}
+        <div style="font-size:10px;color:#999;margin-top:4px;border-top:1px solid #eee;padding-top:4px">${o.end}</div>
+      </div>`,{maxWidth:340});
       cluster.addLayer(mk);
     });
 
-    m.addLayer(cluster);
-    try{m.fitBounds(cluster.getBounds(),{padding:[30,30]});}catch(e){m.setView([-3.87,-38.60],13);}
-
-    MAPS['map-osc']._cluster=cluster;
-    MAPS['map-osc']._allMarkers=allOscMarkers;
+    m.fitBounds(MAPS['map-osc'].geo.getBounds(),{padding:[20,20]});
   }
 
-  // Active areas set for filter
-  const activeAreas=new Set(Object.keys(AREA_COLORS));
-  MAPS['map-osc']._activeAreas=activeAreas;
+  // --- Filter + render logic (like Economia tab) ---
+  let oscListVisible=20;
 
-  // Build interactive legend
-  const legendEl=document.getElementById('osc-legend');
-  legendEl.innerHTML='';
-  Object.entries(areaCounts).sort((a,b)=>b[1]-a[1]).forEach(([area,count])=>{
-    const item=document.createElement('div');
-    item.className='osc-legend-item';
-    item.dataset.area=area;
-    item.innerHTML=`<span class="osc-dot" style="background:${AREA_COLORS[area]||'#999'};width:11px;height:11px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,.5);box-shadow:0 1px 3px rgba(0,0,0,.2)"></span>
-      <span class="osc-label" style="flex:1;font-size:11px">${AREA_LABELS[area]||area}</span>
-      <span class="osc-count" style="font-size:11px;font-weight:700;color:var(--muted)">${count}</span>`;
-    item.addEventListener('click',()=>{
-      if(activeAreas.has(area)){activeAreas.delete(area);item.style.opacity='.35';}
-      else{activeAreas.add(area);item.style.opacity='1';}
-      renderOSCMap();
-    });
-    legendEl.appendChild(item);
-  });
-
-  // Populate bairro filter
-  const bairroSel=document.getElementById('osc-bairro-filter');
-  bairroSel.innerHTML='<option value="">Todos os bairros</option>';
-  Object.keys(bairroCounts).sort().forEach(b=>{
-    const opt=document.createElement('option');
-    opt.value=b; opt.textContent=b+' ('+bairroCounts[b]+')';
-    bairroSel.appendChild(opt);
-  });
-
-  // Top bairros sidebar
-  function renderTopBairros(){
-    const topEl=document.getElementById('osc-top-bairros');
-    const top8=Object.entries(bairroCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
-    const maxVal=top8[0][1];
-    topEl.innerHTML=top8.map(([b,n])=>`
-      <div class="osc-bairro-row">
-        <div style="flex:1">
-          <div style="display:flex;justify-content:space-between;margin-bottom:3px">
-            <span style="font-size:11px">${b}</span>
-            <span style="font-size:11px;font-weight:700;color:var(--navy)">${n}</span>
-          </div>
-          <div style="height:3px;background:#e8edf2;border-radius:2px">
-            <div style="height:3px;border-radius:2px;background:${UI.blue};width:${Math.round(n/maxVal*100)}%"></div>
-          </div>
-        </div>
-      </div>`).join('');
+  function getFilteredOSC(){
+    const bf=selBairro.value;
+    const rf=selRegiao.value;
+    const af=selArea.value;
+    const sf=(document.getElementById('osc-search').value||'').toLowerCase();
+    let filtered=[...OSCS];
+    if(bf) filtered=filtered.filter(o=>o.bairro===bf);
+    if(rf) filtered=filtered.filter(o=>(REGION_MAP[o.bairro]||'')===rf);
+    if(af) filtered=filtered.filter(o=>o.a===af);
+    if(sf) filtered=filtered.filter(o=>o.n.toLowerCase().includes(sf)||(o.f&&o.f.toLowerCase().includes(sf)));
+    return filtered;
   }
-  renderTopBairros();
 
-  function renderOSCMap(){
-    const searchTerm=(document.getElementById('osc-search').value||'').toLowerCase();
-    const bairroFilter=document.getElementById('osc-bairro-filter').value;
-    const cluster=MAPS['map-osc']._cluster;
-    const activeAreas=MAPS['map-osc']._activeAreas;
-    const geoLayer=MAPS['map-osc']._geoLayer;
-
-    cluster.clearLayers();
-    let count=0;
-    MAPS['map-osc']._allMarkers.forEach(mk=>{
-      const o=mk._oscData;
-      const areaOk=activeAreas.has(o.a);
-      const searchOk=!searchTerm||o.n.toLowerCase().includes(searchTerm)||(o.f&&o.f.toLowerCase().includes(searchTerm));
-      const bairroOk=!bairroFilter||o.bairro===bairroFilter;
-      if(areaOk&&searchOk&&bairroOk){cluster.addLayer(mk);count++;}
-    });
-
-    document.getElementById('osc-map-count').textContent=count+' OSCs';
-
-    // Active filter UI
-    const hasSrch=!!searchTerm, hasBairro=!!bairroFilter;
-    const activeCount=(hasSrch?1:0)+(hasBairro?1:0)+(activeAreas.size<Object.keys(AREA_COLORS).length?1:0);
-    document.getElementById('osc-clear-filters').style.display=activeCount>0?'':'none';
-    const badge=document.getElementById('osc-filter-count');
-    if(activeCount>0){badge.style.display='';badge.textContent=activeCount+' filtro'+(activeCount>1?'s':'');}
-    else{badge.style.display='none';}
-
-    // Highlight bairro on GeoJSON
-    geoLayer.eachLayer(layer=>{
-      const nome=layer.feature.properties.nome;
-      if(bairroFilter&&nome===bairroFilter){
-        layer.setStyle({fillColor:'#7C3AED',fillOpacity:0.18,color:'#7C3AED',weight:2.5,opacity:0.7});
-      } else if(bairroFilter){
-        layer.setStyle({fillColor:'#7C3AED',fillOpacity:0.01,color:'#7C3AED',weight:0.5,opacity:0.12});
-      } else {
-        layer.setStyle({fillColor:'#7C3AED',fillOpacity:0.03,color:'#7C3AED',weight:1,opacity:0.25});
-      }
-    });
-
-    // Zoom to bairro or fit markers
-    if(bairroFilter){
-      geoLayer.eachLayer(layer=>{
-        if(layer.feature.properties.nome===bairroFilter){
-          MAPS['map-osc'].fitBounds(layer.getBounds(),{padding:[60,60],maxZoom:15});
-        }
+  function renderOscMap(){
+    const cl=MAPS['map-osc'].clusterLayer;
+    cl.clearLayers();
+    const filtered=getFilteredOSC();
+    filtered.forEach(o=>{
+      const color=AREA_COLORS[o.a]||'#999';
+      const areaLabel=AREA_LABELS[o.a]||o.a;
+      const reg=REGION_MAP[o.bairro]||'—';
+      const regCol=REGION_COLORS[reg]||'#888';
+      const mk=L.marker([o.lat,o.lng],{
+        icon:L.divIcon({
+          className:'',
+          html:`<div style="width:10px;height:10px;border-radius:50%;background:${color};border:1.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25)"></div>`,
+          iconSize:[10,10],iconAnchor:[5,5]
+        })
       });
-    } else if(count>0){
-      try{MAPS['map-osc'].fitBounds(cluster.getBounds(),{padding:[30,30]});}catch(e){}
-    }
+      mk.bindPopup(`<div class="mge-popup">
+        <h4>${o.n}</h4>
+        ${o.f?'<div style="font-size:11px;color:#5C6E7E;margin-bottom:4px">'+o.f+'</div>':''}
+        <div style="font-size:10px;font-weight:700;color:${regCol};margin-bottom:6px">${reg} · ${o.bairro}</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin:6px 0">
+          <span class="mge-tag" style="background:${color};color:#fff">${areaLabel}</span>
+        </div>
+        ${o.fund?'<div style="font-size:11px;color:#5C6E7E;margin-top:6px">Fundação: <strong>'+o.fund+'</strong></div>':''}
+        <div style="font-size:10px;color:#999;margin-top:4px;border-top:1px solid #eee;padding-top:4px">${o.end}</div>
+      </div>`,{maxWidth:340});
+      cl.addLayer(mk);
+    });
+
+    document.getElementById('osc-map-count').textContent=filtered.length+' OSCs';
+    oscListVisible=20;
+    renderOscList();
   }
 
-  renderOSCMap();
+  function renderOscList(){
+    const filtered=getFilteredOSC();
+    const bf=selBairro.value,rf=selRegiao.value,af=selArea.value;
+    const sf=(document.getElementById('osc-search').value||'').toLowerCase();
+    const activeFilters=[bf&&`bairro: ${bf}`,rf&&`região: ${rf}`,af&&`área: ${AREA_LABELS[af]||af}`,sf&&`busca: "${sf}"`].filter(Boolean);
 
-  document.getElementById('osc-search').addEventListener('input',renderOSCMap);
-  document.getElementById('osc-bairro-filter').addEventListener('change',renderOSCMap);
-  document.getElementById('osc-clear-filters').addEventListener('click',()=>{
-    document.getElementById('osc-search').value='';
-    document.getElementById('osc-bairro-filter').value='';
-    MAPS['map-osc']._activeAreas=new Set(Object.keys(AREA_COLORS));
-    document.getElementById('osc-legend').querySelectorAll('.osc-legend-item').forEach(el=>el.style.opacity='1');
-    renderOSCMap();
+    // Count areas in filtered
+    const filteredAreas={};
+    filtered.forEach(o=>{filteredAreas[o.a]=(filteredAreas[o.a]||0)+1;});
+    const areaBreakdown=Object.entries(filteredAreas).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k,v])=>`${AREA_LABELS[k]||k}: ${v}`).join(' · ');
+
+    document.getElementById('osc-analysis-text').innerHTML=`<strong>${filtered.length}</strong> OSC${filtered.length!==1?'s':''}${activeFilters.length?` <span style="color:var(--brand)">(${activeFilters.join(' · ')})</span>`:''}<br><span style="font-size:10px;color:var(--muted)">${areaBreakdown}</span>`;
+
+    const shown=filtered.slice(0,oscListVisible);
+    const listEl=document.getElementById('osc-top-list');
+    listEl.innerHTML=shown.map((o,i)=>{
+      const reg=REGION_MAP[o.bairro]||'';
+      const regCol=REGION_COLORS[reg]||'#ccc';
+      const areaCol=AREA_COLORS[o.a]||'#999';
+      return `<div style="padding:5px 0;border-bottom:1px solid var(--line-2)">
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-weight:600;color:var(--muted);font-size:10px;min-width:18px">${i+1}</span>
+          <span style="width:8px;height:8px;border-radius:50%;background:${areaCol};flex-shrink:0"></span>
+          <span style="flex:1;font-size:11px;font-weight:500;color:var(--navy);line-height:1.3">${o.f||o.n}</span>
+        </div>
+        <div style="padding-left:32px;margin-top:2px;display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+          <span style="width:6px;height:6px;border-radius:50%;background:${regCol};display:inline-block;flex-shrink:0"></span>
+          <span style="font-size:10px;color:var(--muted)">${o.bairro}</span>
+          <span class="sector-tag" style="font-size:9px;padding:1px 5px">${AREA_LABELS[o.a]||o.a}</span>
+        </div>
+      </div>`;
+    }).join('')+(oscListVisible<filtered.length?`<div style="text-align:center;padding:10px;font-size:11px;color:var(--muted)">Exibindo ${oscListVisible} de ${filtered.length} — role para ver mais ↓</div>`:'');
+  }
+
+  // Lazy scroll
+  document.getElementById('osc-top-list').addEventListener('scroll',function(){
+    if(this.scrollTop+this.clientHeight>=this.scrollHeight-30){
+      const total=getFilteredOSC().length;
+      if(oscListVisible<total){
+        oscListVisible=Math.min(oscListVisible+20,total);
+        renderOscList();
+      }
+    }
   });
 
-  // Invalidate map size when tab becomes visible
-  setTimeout(()=>{if(MAPS['map-osc'])MAPS['map-osc'].invalidateSize();},200);
+  function updateOscFilterUI(){
+    const bf=selBairro.value,rf=selRegiao.value,af=selArea.value;
+    const sf=(document.getElementById('osc-search').value||'').toLowerCase();
+    const active=[bf,rf,af,sf].filter(Boolean).length;
+    const clearBtn=document.getElementById('osc-clear-filters');
+    const badge=document.getElementById('osc-filter-count');
+    clearBtn.style.display=active?'':'none';
+    badge.style.display=active?'':'none';
+    if(active) badge.textContent=`${active} filtro${active>1?'s':''}`;
+    selBairro.classList.toggle('active-filter',!!bf);
+    selRegiao.classList.toggle('active-filter',!!rf);
+    selArea.classList.toggle('active-filter',!!af);
+    renderOscMap();
+  }
+
+  renderOscMap();
+  selBairro.addEventListener('change',updateOscFilterUI);
+  selRegiao.addEventListener('change',updateOscFilterUI);
+  selArea.addEventListener('change',updateOscFilterUI);
+  document.getElementById('osc-search').addEventListener('input',updateOscFilterUI);
+  document.getElementById('osc-clear-filters').addEventListener('click',()=>{
+    selBairro.value='';selRegiao.value='';selArea.value='';
+    document.getElementById('osc-search').value='';
+    updateOscFilterUI();
+  });
+
+  setTimeout(()=>{if(MAPS['map-osc']&&MAPS['map-osc'].map)MAPS['map-osc'].map.invalidateSize();},200);
 }
 
 
