@@ -3988,6 +3988,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 activateTab('visao');
 
+const TERRITORY_BAIRROS={'Grande Mucuripe':['Mucuripe','Cais do Porto','Vicente Pinzon','Vicente Pinzón','Papicu','Varjota','De Lourdes','Praia Futuro I','Praia Futuro II','Praia do Futuro I','Praia do Futuro II','Meireles','Aldeota','Cocó','Dionísio Torres','Cidade 2000','Edson Queiroz','Engenheiro Luciano Cavalcante','Guararapes','Salinas','Sabiaguaba','Manuel Dias Branco','Joaquim Távora','Aerolândia','Alto da Balança','Jardim das Oliveiras','Praia de Iracema','Tauape','Dias Macedo','Cidade dos Funcionários','Cambeba','Sapiranga / Coité','Parque Manibura','José de Alencar','Lagoa Redonda','Coaçu','Curió','Messejana','Paupina','Ancuri','Pedras','Jangurussu','Passaré','Barroso','Cajazeiras','Parque Iracema','Parque Dois Irmãos','Serrinha','Itaperi','Dendê','Parque Santa Maria'],'Grande Bom Jardim':['Bom Jardim','Siqueira','Canindezinho','Granja Portugal','Granja Lisboa']};
 function initFavelasMap(mun, bairrosGeo){
   const mapId='map-favelas-'+mun;
   const listId='favelas-list-'+mun;
@@ -4034,7 +4035,9 @@ function initFavelasMap(mun, bairrosGeo){
     const [lat,lng]=getCentroid(f);
     const bairro=findBairro([lat,lng]);
     const bData=DATA.find(d=>d.b===bairro);
-    const territory=bData?bData.t:'';
+    let territory=bData?bData.t:'';
+    if(!territory&&bairro){for(const [t,bs] of Object.entries(TERRITORY_BAIRROS)){if(bs.includes(bairro)){territory=t;break;}}}
+    if(!territory) territory='Grande Mucuripe';
     const tColor=TERR_COLORS[territory]||'#0B4FA8';
     return {feat:f, bairro, territory, tColor, bData, lat, lng};
   });
