@@ -427,6 +427,7 @@ button,select,input,textarea{font:inherit}
   gap:14px;
   padding:0 20px 20px;
 }
+.kpi-grid.four{grid-template-columns:repeat(4,1fr)}
 .kpi{
   padding:16px 16px 14px;
   border:1px solid var(--line-2);
@@ -1565,7 +1566,7 @@ body{
   box-shadow:none;
 }
 .map-box.split{height:440px;margin:0}
-.map-analytics-layout{gap:16px;padding:12px 20px 4px}
+.map-analytics-layout{gap:20px;padding:0 24px 4px}
 .map-footer{padding:12px 20px 20px;gap:16px}
 .map-overlay-controls{
   border-radius:6px;
@@ -1581,27 +1582,31 @@ body{
 
 /* Analysis cards (right of map) */
 .analysis-card{
-  background:#FFFFFF;border:1px solid var(--line);
-  border-radius:var(--radius);padding:16px 18px;
-  box-shadow:none;min-height:auto;
+  border-radius:20px;padding:20px;
+  background:linear-gradient(180deg,#ffffff 0%,#f9fbfd 100%);
+  border:1px solid var(--line);box-shadow:0 10px 24px rgba(16,42,67,.05);
+  min-height:220px;
 }
 .analysis-kicker{
-  padding:4px 8px;font-size:10px;font-weight:700;
-  background:#EEF4FF;border-radius:3px;color:var(--brand);
-  border:none;letter-spacing:.07em;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 10px;border-radius:999px;
+  background:#eef5fb;color:var(--brand);
+  font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
 }
 .analysis-title{
-  font-size:18px;font-weight:700;color:var(--navy);
-  margin:10px 0 8px;letter-spacing:-.01em;
+  margin:14px 0 10px;font-size:22px;line-height:1.15;
+  letter-spacing:-.02em;color:var(--navy);
 }
-.analysis-text{font-size:13px;line-height:1.7;color:var(--text)}
+.analysis-text{margin:0;color:var(--text);font-size:13px;line-height:1.8}
+.analysis-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .analysis-stat{
-  background:#F4F6F9;border:1px solid var(--line);
-  border-radius:var(--radius);padding:12px 14px;box-shadow:none;
+  border-radius:18px;padding:16px;
+  background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);
+  border:1px solid var(--line-2);box-shadow:0 6px 18px rgba(16,42,67,.04);
 }
-.analysis-stat-label{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;line-height:1.4}
-.analysis-stat-value{font-size:20px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
-.analysis-stat-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+.analysis-stat-label{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;line-height:1.4}
+.analysis-stat-value{font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
+.analysis-stat-sub{margin-top:6px;color:var(--muted);font-size:11px;line-height:1.5}
 
 /* Legend */
 .legend-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0}
@@ -1624,18 +1629,19 @@ body{
 }
 
 /* KPI grid */
-.kpi-grid{padding:12px 20px 20px;gap:12px}
+.kpi-grid{padding:0 24px 24px;gap:16px}
+.kpi-grid.four{grid-template-columns:repeat(4,1fr)}
 .kpi{
-  background:#FFFFFF;border:1px solid var(--line);
-  border-top:3px solid var(--brand);border-radius:var(--radius);
-  padding:14px 16px;box-shadow:none;
+  padding:18px;border:1px solid #e8eff5;border-radius:18px;
+  background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);
+  box-shadow:0 8px 20px rgba(16,42,67,.04);
 }
 .kpi .label{
-  font-size:10px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;
+  text-transform:uppercase;letter-spacing:.05em;font-size:11px;
+  font-weight:700;color:var(--muted);margin-bottom:8px;
 }
-.kpi .value{font-size:24px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
-.kpi .sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+.kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
+.kpi .sub{margin-top:6px;font-size:12px;color:var(--muted)}
 
 /* Charts */
 .chart-box{padding:12px 20px 20px}
@@ -1741,6 +1747,13 @@ tbody tr:hover{background:#EEF4FF}
   background:#F8FAFB;border:1px solid var(--line-2);
   border-radius:4px;padding:10px 11px;
 }
+.popup-card{width:300px;padding:16px}
+.popup-card h4{margin:0 0 8px;font-size:16px;color:var(--navy)}
+.popup-card .popup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.popup-card .popup-stat{background:#f7fafc;border:1px solid var(--line-2);border-radius:14px;padding:10px}
+.popup-card .popup-stat strong{display:block;font-size:14px;color:var(--navy);margin-bottom:4px}
+.popup-card .popup-stat span{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+.popup-card .popup-footer{margin-top:10px;padding-top:8px;border-top:1px solid var(--line-2);font-size:11px;color:var(--muted);line-height:1.6}
 
 /* Radar values */
 .radar-card{
@@ -1796,10 +1809,7 @@ body{background:#fff}
 .decision::before{display:none}
 .decision h3{color:#0B4FA8;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .decision p{font-size:13px;line-height:1.65;color:#3B4C5C}
-.kpi{border-top:none;border-color:#E8EDF2;box-shadow:none;background:#fff}
-.kpi .label{color:#5C6E7E;text-transform:uppercase;letter-spacing:.06em;font-size:10px;font-weight:700}
-.kpi .value{color:#0B2B44;font-size:22px;font-weight:800;letter-spacing:-.02em}
-.kpi .sub{font-size:11px;color:#7F91A3;margin-top:3px}
+.kpi .sub{margin-top:6px;font-size:12px;color:#7F91A3}
 .panel{border-color:#E8EDF2;box-shadow:none;border-radius:4px}
 .panel-title{color:#0B2B44;font-size:13px;font-weight:700}
 .panel-sub{font-size:11px;color:#5C6E7E}
@@ -1838,12 +1848,12 @@ body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,
 .panel{border-color:#D8E0E8;box-shadow:none;border-radius:4px;background:#fff}
 .panel-title{color:#111;font-size:13px;font-weight:700}
 .panel-sub{font-size:11px;color:#5C6E7E}
-.analysis-kicker{background:var(--brand-5);color:var(--brand);font-size:10px;border-radius:3px;border:none}
-.analysis-title{color:var(--navy)}
-.kpi{background:#fff;border:1px solid #D8E0E8;border-top:none;border-radius:0;box-shadow:none;padding:14px 16px}
-.kpi .label{color:#5C6E7E;text-transform:uppercase;letter-spacing:.06em;font-size:10px;font-weight:700}
-.kpi .value{color:#111;font-size:22px;font-weight:800;letter-spacing:-.02em}
-.kpi .sub{font-size:11px;color:#7F91A3}
+.analysis-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#eef5fb;color:var(--brand);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:none}
+.analysis-title{margin:14px 0 10px;font-size:22px;line-height:1.15;letter-spacing:-.02em;color:var(--navy)}
+.kpi{padding:18px;border:1px solid #e8eff5;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);box-shadow:0 8px 20px rgba(16,42,67,.04)}
+.kpi .label{text-transform:uppercase;letter-spacing:.05em;font-size:11px;font-weight:700;color:#5C6E7E;margin-bottom:8px}
+.kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
+.kpi .sub{margin-top:6px;font-size:12px;color:#7F91A3}
 .brand-title{font-weight:700;font-size:13px;color:#fff!important}
 .brand-sub{font-size:11px;color:rgba(255,255,255,.65)!important}
 .map-box{border-radius:4px;border:1px solid var(--line);background:#EBF0F5;box-shadow:none}
@@ -1950,36 +1960,41 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <h3>Leitura territorial</h3>
       <p>Grande Bom Jardim: maior escala populacional, pobreza mais contínua. Grande Mucuripe: melhor base econômica, maior densidade institucional e heterogeneidade interna.</p>
     </div>
-    <div class="grid hero">
-      <div class="panel">
-        <div class="panel-head">
-          <div><h3 class="panel-title">Mapa analítico</h3></div>
-          <div class="filters">
-            <select id="visao-territorio"></select>
-            <select id="visao-bairro"></select>
-            <select id="visao-indicador"></select>
-          </div>
-        </div>
-        <div id="map-visao" class="map-box"></div>
-        <div class="map-footer">
-          <div class="legend-wrap">
-            <div class="legend-title" id="legend-title-visao">Escala</div>
-            <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-            <div class="legend-labels"><span id="legend-min-visao">0</span><span id="legend-max-visao">0</span></div>
-          </div>
-          <div class="note-box" id="note-visao"></div>
+    <div class="kpi-grid four" id="overview-kpis"></div>
+    <div class="panel">
+      <div class="panel-head">
+        <div><h3 class="panel-title">Mapa analítico</h3></div>
+        <div class="filters">
+          <select id="visao-territorio"></select>
+          <select id="visao-bairro"></select>
+          <select id="visao-indicador"></select>
         </div>
       </div>
-      <div class="panel">
-        <div class="panel-head">
-          <div><h3 class="panel-title" id="perfil-titulo">Perfil do território</h3></div>
+      <div class="map-analytics-layout">
+        <div id="map-visao" class="map-box split"></div>
+        <div class="analysis-side">
+          <div class="analysis-card">
+            <span class="analysis-kicker">Indicador selecionado</span>
+            <h4 class="analysis-title" id="map-summary-title-visao">Selecione um indicador</h4>
+            <p class="analysis-text" id="map-summary-visao"></p>
+          </div>
+          <div class="analysis-stats" id="map-insights-visao"></div>
         </div>
-        <div class="kpi-grid" id="overview-kpis"></div>
-        <div class="territory-card" id="card-gm"></div>
-        <div class="territory-card alt" id="card-gbj"></div>
+      </div>
+      <div class="map-footer" style="padding-top:12px">
+        <div class="legend-wrap">
+          <div class="legend-title" id="legend-title-visao">Escala</div>
+          <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="legend-labels"><span id="legend-min-visao">0</span><span id="legend-max-visao">0</span></div>
+        </div>
+        <div class="note-box" id="note-visao"></div>
       </div>
     </div>
-    <div class="grid two">
+    <div class="grid two" style="margin-top:16px">
+      <div class="territory-card" id="card-gm" style="margin:0"></div>
+      <div class="territory-card alt" id="card-gbj" style="margin:0"></div>
+    </div>
+    <div class="grid two" style="margin-top:16px">
       <div class="panel">
         <div class="panel-head">
           <div><h3 class="panel-title">IDHM por bairro (IBGE, 2010) <span class="data-outdated"><span class="data-outdated-icon">⚠</span></span></h3></div>
@@ -2828,11 +2843,10 @@ function buildPopup(d, metric, section='visao'){
       <div class="small">Áreas distintas no resultado: ${fmt(d.oscGeoAreasDistinct, 'int')} · Subáreas distintas: ${fmt(d.oscGeoSubsDistinct, 'int')}</div>
     `;
   }
-  return `
-    <div class="popup-title">${d.b}</div>
-    <div class="popup-ter">${d.t}${d.idhClass ? ' · IDH '+d.idhClass : ''}${d.favelas ? ' · Com favelas' : ''}</div>
+  return `<div class="popup-card"><h4>${d.b}</h4>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:6px">${d.t}${d.idhClass ? ' · IDH '+d.idhClass : ''}${d.favelas ? ' · Com favelas' : ''}</div>
     <div class="popup-grid">
-      <div class="popup-stat"><strong>${fmt(d[metric], METRICS[metric].fmt)}</strong><span>${metricLabel}</span></div>
+      <div class="popup-stat"><strong>${fmt(d.pop,'int')}</strong><span>População</span></div>
       <div class="popup-stat"><strong>${fmt(d.epob, 'pct')}</strong><span>Ext. pobreza</span></div>
       <div class="popup-stat"><strong>${fmt(d.rendaPC, 'money')}</strong><span>Renda per capita</span></div>
       <div class="popup-stat"><strong>${fmt(d.renda, 'money')}</strong><span>Renda responsável</span></div>
@@ -2841,8 +2855,8 @@ function buildPopup(d, metric, section='visao'){
       <div class="popup-stat"><strong>${fmt(d.emp, 'int')}</strong><span>Empresas ativas</span></div>
       <div class="popup-stat"><strong>${fmt(d.osc, 'int')}</strong><span>OSCs totais</span></div>
     </div>
-    <div class="hr"></div>
-    <div class="small">CadÚnico: ${fmt(d.cad,'pct')} · IBEU: ${fmt(d.ibeu,'index')} · Neg. impacto: ${fmt(d.negImpacto,'int')} · Grav. adolesc.: ${fmt(d.gravAdol,'float1')}%</div>
+    <div class="popup-footer">CadÚnico: ${fmt(d.cad,'pct')} · IBEU: ${fmt(d.ibeu,'index')} · Neg. impacto: ${fmt(d.negImpacto,'int')} · Grav. adolesc.: ${fmt(d.gravAdol,'float1')}%</div>
+  </div>
   `;
 }
 
@@ -3124,7 +3138,7 @@ function createMap(section){
         const d = section === 'osc'
           ? (MAPS[section]?.rowLookup?.[canonical(feature.properties.nome)] || null)
           : findDataByFeature(feature);
-        layer.bindPopup(buildPopup(d, metric, section)).openPopup();
+        layer.bindPopup(buildPopup(d, metric, section),{maxWidth:340}).openPopup();
       });
     }
   }).addTo(map);
@@ -3439,12 +3453,6 @@ function refreshOverviewCharts(territory, bairro){
   const rows = filteredData(territory, bairro);
   if(!rows.length) return;
 
-  // Panel title
-  const titulo = document.getElementById('perfil-titulo');
-  if(titulo){
-    titulo.textContent = bairro !== 'Todos' ? bairro : territory !== 'Todos' ? territory : 'Perfil do território';
-  }
-
   // KPIs
   const pop = rows.reduce((s,d)=>s+(d.pop||0),0);
   const emp = rows.reduce((s,d)=>s+(d.emp||0),0);
@@ -3467,6 +3475,7 @@ function refreshOverviewCharts(territory, bairro){
 
   const cardGm = document.getElementById('card-gm');
   const cardGbj = document.getElementById('card-gbj');
+  const terrGrid = cardGm.parentElement;
   if(showGm){
     const gmRows = rows.filter(d=>d.t==='Grande Mucuripe');
     if(gmRows.length) cardGm.innerHTML = buildTerrCard('Grande Mucuripe', gmRows);
@@ -3481,6 +3490,7 @@ function refreshOverviewCharts(territory, bairro){
   } else {
     cardGbj.style.display = 'none';
   }
+  terrGrid.style.display = (showGm || showGbj) ? '' : 'none';
 
   // Charts
   const rowsIdhm = [...rows].sort((a,b)=>(b.idhm||0)-(a.idhm||0));
