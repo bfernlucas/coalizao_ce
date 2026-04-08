@@ -1641,7 +1641,8 @@ body{
 .chart{height:260px}
 
 /* Tables */
-.table-wrap{padding:0;overflow:auto}
+.table-wrap{padding:0;overflow:auto;max-height:550px}
+.table-wrap thead th{position:sticky;top:0;z-index:10}
 table{border-collapse:collapse;width:100%}
 th,td{padding:10px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--line)}
 th{
@@ -1862,7 +1863,7 @@ th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
 th.sortable:hover{color:var(--brand)}
 th.sortable .sort-icon{font-size:10px;color:var(--muted);opacity:.45;margin-left:4px}
 th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
-.table-filter-bar{padding:12px 0;border-bottom:1px solid var(--line);display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:transparent}
+.table-filter-bar{padding:10px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:transparent}
 .table-filter-bar input,.table-filter-bar select{padding:8px 12px;border:1px solid var(--line);border-radius:6px;font:inherit;font-size:13px;font-weight:500;background:#fff;color:var(--text);flex:1;min-width:140px}
 .table-filter-bar input:focus,.table-filter-bar select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
 .table-count{font-size:11px;color:var(--muted);white-space:nowrap;align-self:center}
@@ -1915,6 +1916,23 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
   background:var(--brand);color:#fff;font-size:11px;font-weight:700;
   white-space:nowrap;
 }
+/* cap-legend (choropleth legend bar) */
+.cap-legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:10px 20px 14px;border-top:1px solid var(--line);align-items:center}
+.cap-legend-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-right:4px}
+.cap-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.cap-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,.5)}
+/* dim-outer / dim-bottom / dim-reading (síntese layout) */
+.dim-outer{display:flex;flex-direction:column;gap:20px}
+.dim-bottom{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+.dim-reading{background:#F4F6F9;border:1px solid #D8E0E8;border-radius:6px;padding:16px 18px;max-height:520px;overflow-y:auto}
+.dim-reading-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5C6E7E;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #D8E0E8}
+.dim-insights{margin-top:0}
+.dim-insight-row{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #EEF1F4}
+.dim-insight-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+@media(max-width:860px){.dim-bottom{grid-template-columns:1fr}}
+/* map-col / analysis-col (regional map layout) */
+.map-col{min-height:0}
+.analysis-col{display:flex;flex-direction:column;gap:12px}
 </style>
 </head>
 <body>
@@ -1978,7 +1996,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="territory-card alt" id="card-gbj"></div>
       </div>
     </div>
-    <div class="grid two">
+    <div class="grid two" style="margin-top:18px">
       <div class="panel">
         <div class="panel-head">
           <div><h3 class="panel-title">IDHM por bairro (IBGE, 2010) <span class="data-outdated"><span class="data-outdated-icon">⚠</span></span></h3></div>
@@ -2035,7 +2053,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="note-box" id="note-demo"></div>
       </div>
     </div>
-    <div class="grid two">
+    <div class="grid two" style="margin-top:18px">
       <div class="panel">
         <div class="panel-head"><div><h3 class="panel-title">População por bairro (IBGE, 2022)</h3></div></div>
         <div class="chart-box"><canvas id="chart-demo-pop" class="chart tall"></canvas></div>
@@ -2088,7 +2106,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="note-box" id="note-vuln"></div>
       </div>
     </div>
-    <div class="grid two">
+    <div class="grid two" style="margin-top:18px">
       <div class="panel">
         <div class="panel-head"><div><h3 class="panel-title">Extrema pobreza (MDS, 2025)</h3></div></div>
         <div class="chart-box"><canvas id="chart-vuln-epob" class="chart tall"></canvas></div>
@@ -2167,7 +2185,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div id="map-favelas-fortaleza" style="min-height:500px;border:1px solid #E8EDF2;border-radius:6px"></div>
       </div>
     </div>
-    <div class="grid two">
+    <div class="grid two" style="margin-top:18px">
       <div class="panel">
         <div class="chart-box"><canvas id="chart-infra-san" class="chart tall"></canvas></div>
       </div>
@@ -2188,49 +2206,52 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <h3>Análise</h3>
       <p>O Grande Mucuripe reúne maior densidade econômica e forte capacidade de tração em bairros específicos, especialmente Papicu, Mucuripe e Varjota. O Grande Bom Jardim apresenta maior peso relativo de microempreendimentos e MEIs, o que sugere um ecossistema menos denso, mas potencialmente mais aderente a estratégias de fortalecimento de pequenos negócios, formalização e circuitos econômicos de bairro.</p>
     </div>
-    <div class="kpi-grid four" id="kpi-econ"></div>
+    <div class="kpi-grid six" id="kpi-econ"></div>
     <div class="panel">
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Atividade econômica no território (Receita Federal, 2024)</h3>
-        </div>
-        <div class="filters">
-          <select id="econ-territorio"></select>
-          <select id="econ-bairro"></select>
-          <select id="econ-indicador"></select>
+          <p class="panel-sub">Mapa coroplético por indicador selecionado · Use os filtros sobrepostos para explorar por território, bairro ou métrica</p>
         </div>
       </div>
       <div class="map-analytics-layout">
-        <div id="map-econ" class="map-box split"></div>
+        <div class="mge-map-wrap">
+          <div id="map-econ" class="map-box split" style="min-height:520px"></div>
+          <div class="map-filter-overlay" id="econ-filter-overlay">
+            <select id="econ-territorio" title="Filtrar por território"></select>
+            <select id="econ-bairro" title="Filtrar por bairro"></select>
+            <select id="econ-indicador" title="Selecionar indicador"></select>
+          </div>
+        </div>
         <div class="analysis-side">
-          <div class="analysis-card">
+          <div class="analysis-card" style="flex:1;display:flex;flex-direction:column;max-height:520px">
             <span class="analysis-kicker">Análise do indicador selecionado</span>
             <h4 class="analysis-title" id="map-summary-title-econ">Formalidade e renda</h4>
-            <p class="analysis-text" id="map-summary-econ"></p>
+            <p class="analysis-text" id="map-summary-econ" style="margin:6px 0 8px;font-size:12px"></p>
+            <div class="analysis-stats" id="map-insights-econ"></div>
           </div>
-          <div class="analysis-stats" id="map-insights-econ"></div>
         </div>
       </div>
-      <div class="map-footer">
-        <div class="legend-wrap">
-          <div class="legend-title" id="legend-title-econ"></div>
-          <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          <div class="legend-labels"><span id="legend-min-econ"></span><span id="legend-max-econ"></span></div>
-        </div>
-        <div class="note-box" id="note-econ"></div>
+      <div class="cap-legend">
+        <span class="cap-legend-label" id="legend-title-econ"></span>
+        <div class="legend-scale" style="flex:1;max-width:280px"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <span style="font-size:11px;color:var(--muted)" id="legend-min-econ"></span>
+        <span style="font-size:11px;color:var(--muted)">→</span>
+        <span style="font-size:11px;color:var(--muted)" id="legend-max-econ"></span>
       </div>
+      <div style="padding:8px 20px 16px"><div class="note-box" id="note-econ"></div></div>
     </div>
-    <div class="grid two">
+    <div class="grid two" style="margin-top:18px">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Volume empresarial por bairro (Receita Federal, 2024)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Volume empresarial por bairro (Receita Federal, 2024)</h3><p class="panel-sub">Todos os portes</p></div></div>
         <div class="chart-box"><canvas id="chart-econ-emp" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Peso dos MEIs (Receita Federal, 2024)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Participação de MEIs (Receita Federal, 2024)</h3><p class="panel-sub">% das empresas que são MEIs</p></div></div>
         <div class="chart-box"><canvas id="chart-econ-mei" class="chart tall"></canvas></div>
       </div>
     </div>
-    <div class="grid two">
+    <div class="grid two" style="margin-top:18px">
       <div class="panel">
         <div class="panel-head"><div><h3 class="panel-title">Micro e pequenas vs. médias e grandes (Receita Federal, 2024)</h3><p class="panel-sub">Empresas por porte e bairro</p></div></div>
         <div class="chart-box"><canvas id="chart-econ-porte" class="chart tall"></canvas></div>
@@ -2241,22 +2262,22 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="chart-box"><canvas id="chart-econ-impacto" class="chart tall"></canvas></div>
       </div>
     </div>
-    <div class="panel">
+    <div class="panel" style="margin-top:18px">
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Atividade empresarial por bairro (Receita Federal, 2024)</h3>
-          <p class="panel-sub">Totais de empresas, MEIs e ramos CNAE predominantes. Clique nos cabeçalhos para ordenar (1º clique: maior → menor).</p>
+          <p class="panel-sub">Todos os portes · ordenável por qualquer coluna (1º clique: maior → menor)</p>
         </div>
+        <span class="table-count" id="econ-table-count"></span>
       </div>
       <div style="padding:12px 20px"><div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Principais setores CNAE</div><div id="top-sectors"></div></div>
       <div class="table-filter-bar">
-        <input type="text" id="econ-table-search" placeholder="Buscar bairro…">
+        <input type="search" id="econ-table-search" placeholder="Buscar bairro…" autocomplete="off">
         <select id="econ-table-terr">
           <option value="">Todos os territórios</option>
           <option value="Grande Bom Jardim">Grande Bom Jardim</option>
           <option value="Grande Mucuripe">Grande Mucuripe</option>
         </select>
-        <span class="table-count" id="econ-table-count"></span>
       </div>
       <div class="table-wrap"><table id="table-cnae"></table></div>
     </div>
@@ -2313,60 +2334,150 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     </div>
   </section>
 
-  <section id="section-comp" class="section">
-    <div class="section-head">
-      <span class="section-kicker">Comparativo</span>
-      <h2 class="section-title">Bairros em perspectiva</h2>
-      <p class="section-desc">Comparativo direto entre os dois territórios em dimensões sociais, econômicas e de infraestrutura.</p>
+  <section id=”section-comp” class=”section”>
+    <div class=”section-head”>
+      <span class=”section-kicker”>Síntese Estratégica</span>
+      <h2 class=”section-title”>Oportunidades para a Coalizão</h2>
+      <p class=”section-desc”>Diagnóstico cruzado dos eixos de <strong>Inclusão Produtiva</strong> e <strong>Insegurança Alimentar</strong> nos territórios de Fortaleza, identificando convergências, padrões consolidados e potencial de adicionalidade.</p>
     </div>
-    <div class="decision">
+    <div class=”decision”>
       <h3>Análise</h3>
-      <p>Se a prioridade for impacto social em escala e maior adicionalidade, o Grande Bom Jardim tende a oferecer o caso mais claro. Se a prioridade for ativar redes, capacidade econômica e pilotos com maior chance de rápida articulação, o Grande Mucuripe oferece melhor ponto de entrada. A melhor leitura estratégica não é escolher um único território “vencedor”, mas reconhecer que os dois territórios respondem a lógicas distintas de intervenção.</p>
+      <p>Se a prioridade for impacto social em escala e maior adicionalidade, o Grande Bom Jardim tende a oferecer o caso mais claro. Se a prioridade for ativar redes, capacidade econômica e pilotos com maior chance de rápida articulação, o Grande Mucuripe oferece melhor ponto de entrada. Os dois territórios respondem a lógicas distintas de intervenção e a Coalizão pode atuar de forma complementar em ambos.</p>
     </div>
-    <div class="comparison-grid">
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="title-with-info">
-              <div>
-                <h3 class="panel-title">Dimensões por território</h3>
-                <p class="panel-sub">Valores maiores indicam posição relativa mais favorável em cada eixo.</p>
-              </div>
-              <details class="info-popover">
-                <summary aria-label="Como as dimensões do radar foram mensuradas">i</summary>
-                <div class="info-balloon">
-                  <strong>Como este radar foi mensurado</strong>
-                  Seis dimensões padronizadas, todas em leitura positiva (maior = condição relativa mais favorável). Mesmo conjunto usado no painel de Maracanaú, permitindo comparação entre municípios.
-                  <ul>
-                    <li><strong>Baixa pobreza (MDS, 2025):</strong> 100 − % em extrema pobreza. Eixo invertido para evitar leitura ambígua.</li>
-                    <li><strong>Saneamento (IBGE, 2022):</strong> % de domicílios com esgotamento sanitário adequado (IBGE).</li>
-                    <li><strong>Renda (IBGE, 2010):</strong> renda domiciliar per capita. Normalizada 0–100 pelo melhor valor do conjunto comparado.</li>
-                    <li><strong>Densidade empresarial (Receita Federal, 2024):</strong> CNPJs ativos por 1.000 hab. (Receita Federal).</li>
-                    <li><strong>Sociedade civil (IPEA, 2024):</strong> OSCs ativas por 10.000 hab. (Mapa das OSCs / IPEA).</li>
-                    <li><strong>Desenvolvimento humano (IBGE, 2010):</strong> proxy de capacidade humana; em Maracanaú usa-se Literacia como proxy equivalente.</li>
-                  </ul>
-                  <strong>Leitura:</strong> o bloco abaixo do radar mostra os valores brutos. O tooltip exibe o valor padronizado (0–100) e o valor original. Observar que eixos %/renda são normalizados pelo melhor valor do conjunto comparado.
-                </div>
-              </details>
-            </div>
-          </div>
+
+    <!-- Convergência com os Eixos -->
+    <div class=”panel” style=”margin-bottom:20px”>
+      <div class=”panel-head”><div><h3 class=”panel-title”>Convergência com os eixos da Coalizão</h3><p class=”panel-sub”>Elementos do território que dialogam diretamente com Inclusão Produtiva e Insegurança Alimentar.</p></div></div>
+      <div style=”display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 24px 16px”>
+        <div>
+          <div style=”font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brand);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--brand-4)”>Eixo 1 &mdash; Inclusão Produtiva</div>
+          <div class=”kpi-grid” style=”grid-template-columns:repeat(2,1fr);padding:0” id=”kpi-eixo-ip”></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
-          <div>
-        <div class="radar-note"><strong>Como ler:</strong> o polígono maior indica posição relativa mais favorável no conjunto comparado. O eixo social foi invertido para <em>baixa pobreza extrema</em>, evitando que vulnerabilidade apareça como “vantagem” visual.</div>
-        <div class="chart-box"><canvas id="chart-comp-radar" class="chart" style="height:380px"></canvas></div>
+        <div>
+          <div style=”font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#DC2626;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #FECACA”>Eixo 2 &mdash; Insegurança Alimentar</div>
+          <div class=”kpi-grid” style=”grid-template-columns:repeat(2,1fr);padding:0” id=”kpi-eixo-ia”></div>
+        </div>
+      </div>
+      <!-- Two radars side by side -->
+      <div style=”display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 24px 20px”>
+        <div>
+          <div class=”title-with-info” style=”margin-bottom:10px”>
+            <div style=”font-size:12px;font-weight:700;color:var(--brand)”>Inclusão Produtiva por território</div>
+            <details class=”info-popover”>
+              <summary aria-label=”Variáveis do radar de Inclusão Produtiva”>i</summary>
+              <div class=”info-balloon”>
+                <strong>Variáveis — Inclusão Produtiva</strong>
+                Todas em escala per capita para comparação entre territórios. Quanto mais expandido o polígono, maior a capacidade de inclusão produtiva.
+                <ul>
+                  <li><strong>Empresas / 1 mil hab.:</strong> CNPJs ativos com sede no território. Receita Federal, 2024.</li>
+                  <li><strong>MEIs / 1 mil hab.:</strong> microempreendedores individuais — principal porta de entrada na formalização. Receita Federal, 2024.</li>
+                  <li><strong>Cooperativas / 10 mil hab.:</strong> cooperativas ativas no território. Receita Federal, 2024.</li>
+                  <li><strong>OSCs / 10 mil hab.:</strong> organizações da sociedade civil ativas. IPEA, 2024.</li>
+                  <li><strong>Neg. impacto / 10 mil hab.:</strong> negócios de impacto social. Receita Federal, 2024.</li>
+                </ul>
+              </div>
+            </details>
           </div>
-          <div class="radar-values" id="radar-values" style="display:flex;flex-direction:column;gap:16px;padding-top:8px"></div>
+          <div style=”position:relative;height:340px”><canvas id=”chart-radar-ip”></canvas></div>
+        </div>
+        <div>
+          <div class=”title-with-info” style=”margin-bottom:10px”>
+            <div style=”font-size:12px;font-weight:700;color:#DC2626”>Vulnerabilidade Alimentar por território</div>
+            <details class=”info-popover”>
+              <summary aria-label=”Variáveis do radar de Vulnerabilidade Alimentar”>i</summary>
+              <div class=”info-balloon”>
+                <strong>Variáveis — Vulnerabilidade Alimentar</strong>
+                Todos os eixos estão em percentual (0–100%). Quanto mais expandido o polígono, <strong>mais vulnerável</strong> o território.
+                <ul>
+                  <li><strong>Extrema pobreza (%):</strong> proporção de famílias com renda ≤ R$218/mês. MDS, 2025.</li>
+                  <li><strong>Chefia feminina (%):</strong> proporção de domicílios chefiados por mulheres. IBGE, 2022.</li>
+                  <li><strong>Déficit saneamento (%):</strong> 100 − cobertura de esgoto. IBGE, 2022.</li>
+                  <li><strong>CadÚnico (%):</strong> incidência de famílias no Cadastro Único. MDS, 2025.</li>
+                  <li><strong>Analfabetismo (%):</strong> taxa de analfabetismo 15+. IBGE, 2022.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+          <div style=”position:relative;height:340px”><canvas id=”chart-radar-sa”></canvas></div>
         </div>
       </div>
     </div>
-    <div class="panel" style="margin-top:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Territórios lado a lado</h3><p class="panel-sub">Principais métricas agregadas para comparação entre os dois territórios.</p></div></div>
-      <div class="table-wrap"><table id="table-comp"></table></div>
+
+    <!-- Potencial de Adicionalidade -->
+    <div class=”panel” style=”margin-bottom:20px”>
+      <div class=”panel-head”>
+        <div class=”title-with-info”>
+          <div>
+            <h3 class=”panel-title”>Potencial de adicionalidade da Coalizão</h3>
+            <p class=”panel-sub”>Bairros onde a combinação de alta vulnerabilidade e baixa cobertura cria maior espaço para impacto.</p>
+          </div>
+          <details class=”info-popover”>
+            <summary aria-label=”Como o índice de adicionalidade foi calculado”>i</summary>
+            <div class=”info-balloon”>
+              <strong>Como o índice de adicionalidade foi calculado</strong>
+              O índice mede o <em>espaço para impacto</em> da Coalizão em cada bairro. Combina dois fatores:
+              <ul>
+                <li><strong>Vulnerabilidade (0–100):</strong> composto de extrema pobreza + déficit de saneamento + incidência CadÚnico.</li>
+                <li><strong>Capacidade de inclusão produtiva (0–100):</strong> composto de densidade empresarial + OSCs per capita.</li>
+              </ul>
+              <strong>Fórmula:</strong> Adicionalidade = Vulnerabilidade × (100 − Capacidade) / 100.<br>
+              Bairros com <strong>alta vulnerabilidade</strong> e <strong>baixa capacidade instalada</strong> recebem pontuação mais alta.
+            </div>
+          </details>
+        </div>
+      </div>
+      <div class=”chart-box”><canvas id=”chart-adicionalidade” class=”chart tall”></canvas></div>
+      <div id=”adicionalidade-ranking” style=”padding:0 24px 20px”></div>
     </div>
-    <div class="panel" style="margin-top:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Ranking completo por bairro</h3><p class="panel-sub">Todos os 13 bairros com indicadores-chave. Clique nos cabeçalhos para ordenar.</p></div></div>
-      <div class="table-wrap"><table id="table-comp-bairros"></table></div>
+
+    <!-- Dimensões por território (radar existente, melhorado) -->
+    <div class=”panel” style=”margin-bottom:20px”>
+      <div class=”panel-head”>
+        <div>
+          <div class=”title-with-info”>
+            <div>
+              <h3 class=”panel-title”>Dimensões por território</h3>
+              <p class=”panel-sub”>Seis dimensões padronizadas — valores maiores indicam posição relativa mais favorável. Mesmo conjunto usado em Maracanaú.</p>
+            </div>
+            <details class=”info-popover”>
+              <summary aria-label=”Como as dimensões do radar foram mensuradas”>i</summary>
+              <div class=”info-balloon”>
+                <strong>Como este radar foi mensurado</strong>
+                Seis dimensões padronizadas, todas em leitura positiva (maior = condição relativa mais favorável).
+                <ul>
+                  <li><strong>Baixa pobreza (MDS, 2025):</strong> 100 − % em extrema pobreza.</li>
+                  <li><strong>Saneamento (IBGE, 2022):</strong> % de domicílios com esgotamento sanitário adequado.</li>
+                  <li><strong>Renda (IBGE, 2010):</strong> renda domiciliar per capita. Normalizada 0–100.</li>
+                  <li><strong>Densidade empresarial (Receita Federal, 2024):</strong> CNPJs ativos por 1.000 hab.</li>
+                  <li><strong>Sociedade civil (IPEA, 2024):</strong> OSCs ativas por 10.000 hab.</li>
+                  <li><strong>Desenvolvimento humano (IBGE, 2010):</strong> IDHM.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class=”dim-outer”>
+        <div class=”dim-bottom”>
+          <div>
+            <div class=”radar-note”><strong>Como ler:</strong> o polígono maior indica posição relativa mais favorável. O eixo social foi invertido para <em>baixa pobreza extrema</em>.</div>
+            <div style=”position:relative;height:380px”><canvas id=”chart-comp-radar”></canvas></div>
+          </div>
+          <div class=”dim-reading” id=”radar-values”></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicadores consolidados -->
+    <div class=”panel” style=”margin-bottom:20px”>
+      <div class=”panel-head”><div><h3 class=”panel-title”>Territórios lado a lado</h3><p class=”panel-sub”>Principais métricas agregadas para comparação entre os dois territórios.</p></div></div>
+      <div class=”table-wrap”><table id=”table-comp”></table></div>
+    </div>
+
+    <!-- Ranking bairros -->
+    <div class=”panel” style=”margin-bottom:20px”>
+      <div class=”panel-head”><div><h3 class=”panel-title”>Ranking completo por bairro</h3><p class=”panel-sub”>Todos os 13 bairros com indicadores-chave. Clique nos cabeçalhos para ordenar (1º clique: maior → menor).</p></div></div>
+      <div class=”table-wrap”><table id=”table-comp-bairros”></table></div>
     </div>
   </section>
 
@@ -3565,10 +3676,12 @@ function initEcon(){
   const totalCoops = DATA.reduce((s,d)=>s+(d.coops||0),0);
   const kpiEl = document.getElementById('kpi-econ');
   if(kpiEl) kpiEl.innerHTML = [
-    {l:'Empresas formais ativas',v:fmt(totalEmp,'int'),s:'Todos os portes · dez/2024'},
+    {l:'Empresas formais',v:fmt(totalEmp,'int'),s:'Todos os portes · dez/2024'},
     {l:'MEIs',v:fmt(totalMEI,'int'),s:`${(totalMEI/totalEmp*100).toFixed(1)}% do total`},
     {l:'Micro e pequenas',v:fmt(totalMPE,'int'),s:`${(totalMPE/totalEmp*100).toFixed(1)}% do total`},
-    {l:'Impacto + cooperativas',v:fmt(totalNI+totalCoops,'int'),s:`${fmt(totalNI,'int')} impacto · ${fmt(totalCoops,'int')} coops`}
+    {l:'Médias e grandes',v:fmt(totalMGE,'int'),s:`${(totalMGE/totalEmp*100).toFixed(1)}% do total`},
+    {l:'Neg. de impacto',v:fmt(totalNI,'int'),s:'organizações com propósito social'},
+    {l:'Cooperativas',v:fmt(totalCoops,'int'),s:'ativas no território'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
 
   const empRows = sortRows('emp', true);
@@ -4111,21 +4224,122 @@ function initComp(){
 
   const radarValuesEl = document.getElementById('radar-values');
   if(radarValuesEl){
-    radarValuesEl.innerHTML = radarAxes.map(axis => `
-      <div class="radar-card">
-        <div class="radar-card-title">${axis.label}</div>
-        <div class="radar-card-lines">
-          <div class="radar-line">
-            <span class="name">Grande Mucuripe</span>
-            <span class="value">${axis.rawLabel ? axis.rawLabel(gm) : fmt(axis.rawValue(gm), axis.rawKind)}</span>
-          </div>
-          <div class="radar-line">
-            <span class="name">Grande Bom Jardim</span>
-            <span class="value">${axis.rawLabel ? axis.rawLabel(gbj) : fmt(axis.rawValue(gbj), axis.rawKind)}</span>
-          </div>
+    radarValuesEl.innerHTML = `<div class="dim-reading-title">Valores por dimensão</div>` + radarAxes.map(axis => `
+      <div class="dim-insight-row">
+        <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:4px">${axis.label}</div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text)">
+          <span>Grande Mucuripe</span>
+          <span style="font-weight:600">${axis.rawLabel ? axis.rawLabel(gm) : fmt(axis.rawValue(gm), axis.rawKind)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text)">
+          <span>Grande Bom Jardim</span>
+          <span style="font-weight:600">${axis.rawLabel ? axis.rawLabel(gbj) : fmt(axis.rawValue(gbj), axis.rawKind)}</span>
         </div>
       </div>
     `).join('');
+  }
+
+  // ═══ Eixo 1: Inclusão Produtiva ═══
+  const gmMei = terrSum(DATA,'Grande Mucuripe','mei');
+  const gbjMei = terrSum(DATA,'Grande Bom Jardim','mei');
+  const gmCoopsIP = terrSum(DATA,'Grande Mucuripe','coops');
+  const gbjCoopsIP = terrSum(DATA,'Grande Bom Jardim','coops');
+  const gmOscIP = terrSum(DATA,'Grande Mucuripe','osc');
+  const gbjOscIP = terrSum(DATA,'Grande Bom Jardim','osc');
+  const gmNIIP = terrSum(DATA,'Grande Mucuripe','negImpacto');
+  const gbjNIIP = terrSum(DATA,'Grande Bom Jardim','negImpacto');
+
+  document.getElementById('kpi-eixo-ip').innerHTML = `
+    <div class="kpi"><div class="label">Empresas formais</div><div class="value">${fmt(gm.emp+gbj.emp,'int')}</div><div class="sub">nos dois territórios</div></div>
+    <div class="kpi"><div class="label">MEIs</div><div class="value">${fmt(gmMei+gbjMei,'int')}</div><div class="sub">${fmt((gmMei+gbjMei)/(gm.emp+gbj.emp)*100,'float1')}% do total</div></div>
+    <div class="kpi"><div class="label">Cooperativas</div><div class="value">${fmt(gmCoopsIP+gbjCoopsIP,'int')}</div><div class="sub">ativas no território</div></div>
+    <div class="kpi"><div class="label">OSCs</div><div class="value">${fmt(gmOscIP+gbjOscIP,'int')}</div><div class="sub">organizações ativas</div></div>`;
+
+  // ═══ Eixo 2: Insegurança Alimentar ═══
+  const totalPop = gm.pop + gbj.pop;
+  const avgEpob = (gm.epob*gm.pop + gbj.epob*gbj.pop) / totalPop;
+  const avgCad = (gm.cad*gm.pop + gbj.cad*gbj.pop) / totalPop;
+  const avgEsg = (gm.esg*gm.pop + gbj.esg*gbj.pop) / totalPop;
+
+  document.getElementById('kpi-eixo-ia').innerHTML = `
+    <div class="kpi"><div class="label">Extrema pobreza</div><div class="value">${fmt(avgEpob,'pct')}</div><div class="sub">média ponderada</div></div>
+    <div class="kpi"><div class="label">Cobertura CadÚnico</div><div class="value">${fmt(avgCad,'pct')}</div><div class="sub">famílias cadastradas</div></div>
+    <div class="kpi"><div class="label">Déficit saneamento</div><div class="value">${fmt(1-avgEsg,'pct')}</div><div class="sub">sem rede de esgoto</div></div>
+    <div class="kpi"><div class="label">Cobertura eSF</div><div class="value">${fmt((gm.esfc*gm.pop+gbj.esfc*gbj.pop)/totalPop,'float1')}%</div><div class="sub">média ponderada</div></div>`;
+
+  // ═══ Radar: Inclusão Produtiva por território ═══
+  function terrPerCap(terr, key, per){
+    const pop = terr.pop || 1;
+    const val = terr[key] != null ? terr[key] : terrSum(DATA, terr.t, key);
+    return (val / pop) * per;
+  }
+  const ipAxes = ['Empresas/1k hab','MEIs/1k hab','Coops/10k hab','OSCs/10k hab','Neg. impacto/10k hab'];
+  const ipGM = [gm.emp/gm.pop*1000, gmMei/gm.pop*1000, gmCoopsIP/gm.pop*10000, gm.osc10k, gmNIIP/gm.pop*10000];
+  const ipGBJ = [gbj.emp/gbj.pop*1000, gbjMei/gbj.pop*1000, gbjCoopsIP/gbj.pop*10000, gbj.osc10k, gbjNIIP/gbj.pop*10000];
+  const ipMax = ipGM.map((v,i)=>Math.max(v,ipGBJ[i])||1);
+  const ipGMn = ipGM.map((v,i)=>(v/ipMax[i])*100);
+  const ipGBJn = ipGBJ.map((v,i)=>(v/ipMax[i])*100);
+
+  function makeCoalRadar(canvasId, labels, dsArr, maxVal){
+    destroyChart(canvasId);
+    CHARTS[canvasId] = new Chart(document.getElementById(canvasId), {
+      type:'radar',
+      data:{labels:labels, datasets:dsArr},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{labels:{font:{family:'Inter',size:11,weight:'600'},color:UI_COLORS.muted,usePointStyle:true,pointStyle:'circle',boxWidth:8,boxHeight:8,padding:14}},
+          tooltip:{callbacks:{label(ctx){return `${ctx.dataset.label}: ${Number(ctx.parsed.r||0).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})}`;}}}
+        },
+        scales:{r:{min:0,max:maxVal||100,angleLines:{color:'#e6edf3'},grid:{color:'#e6edf3'},pointLabels:{color:UI_COLORS.text,font:{family:'Inter',size:10,weight:'700'}},ticks:{backdropColor:'transparent',color:UI_COLORS.muted,font:{size:9},stepSize:20,showLabelBackdrop:false}}}
+      }
+    });
+  }
+
+  makeCoalRadar('chart-radar-ip', ipAxes, [
+    {label:'Grande Mucuripe',data:ipGMn,borderColor:UI_COLORS.blue,backgroundColor:'rgba(11,79,168,.15)',pointBackgroundColor:UI_COLORS.blue,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:3,borderWidth:2.5},
+    {label:'Grande Bom Jardim',data:ipGBJn,borderColor:UI_COLORS.teal,backgroundColor:'rgba(30,64,175,.12)',pointBackgroundColor:UI_COLORS.teal,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:3,borderWidth:2.5}
+  ]);
+
+  // ═══ Radar: Vulnerabilidade Alimentar por território ═══
+  const saAxes = ['Extrema pobreza (%)','Chefia feminina (%)','Déficit saneamento (%)','CadÚnico (%)','Analfabetismo (%)'];
+  const gmMulh = terrMean(DATA,'Grande Mucuripe','mulh') || 0;
+  const gbjMulh = terrMean(DATA,'Grande Bom Jardim','mulh') || 0;
+  const gmAnal = terrMean(DATA,'Grande Mucuripe','anal') || 0;
+  const gbjAnal = terrMean(DATA,'Grande Bom Jardim','anal') || 0;
+  const saGM = [gm.epob*100, gmMulh*100, (1-gm.esg)*100, Math.min(gm.cad*100,100), gmAnal*100];
+  const saGBJ = [gbj.epob*100, gbjMulh*100, (1-gbj.esg)*100, Math.min(gbj.cad*100,100), gbjAnal*100];
+
+  makeCoalRadar('chart-radar-sa', saAxes, [
+    {label:'Grande Mucuripe',data:saGM,borderColor:UI_COLORS.blue,backgroundColor:'rgba(11,79,168,.12)',pointBackgroundColor:UI_COLORS.blue,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:3,borderWidth:2.5},
+    {label:'Grande Bom Jardim',data:saGBJ,borderColor:'#DC2626',backgroundColor:'rgba(220,38,38,.10)',pointBackgroundColor:'#DC2626',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:3,borderWidth:2.5}
+  ]);
+
+  // ═══ Adicionalidade por bairro ═══
+  const adicData = DATA.map(d => {
+    const vuln = ((d.epob||0)*100 + (1-(d.esg||0))*100 + Math.min((d.cad||0)*100,100)) / 3;
+    const emp1k = d.pop ? (d.emp||0)/d.pop*1000 : 0;
+    const osc10k = d.pop ? (d.osc||0)/d.pop*10000 : 0;
+    const maxEmp1k = Math.max(...DATA.map(r=>r.pop?(r.emp||0)/r.pop*1000:0));
+    const maxOsc10k = Math.max(...DATA.map(r=>r.pop?(r.osc||0)/r.pop*10000:0));
+    const cap = ((emp1k/(maxEmp1k||1))*100 + (osc10k/(maxOsc10k||1))*100) / 2;
+    const adic = vuln * (100 - cap) / 100;
+    return {b:d.b, t:d.t, vuln, cap, adic};
+  }).sort((a,b)=>b.adic-a.adic);
+
+  makeBar('chart-adicionalidade', adicData.map(d=>d.b), [{
+    data:adicData.map(d=>+d.adic.toFixed(1)),
+    backgroundColor:adicData.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blue:UI_COLORS.teal),
+    borderRadius:5
+  }]);
+  addTerritoryLegend('chart-adicionalidade');
+
+  const rankEl = document.getElementById('adicionalidade-ranking');
+  if(rankEl){
+    const top3 = adicData.slice(0,3);
+    rankEl.innerHTML = `<div style="font-size:12px;color:var(--muted);line-height:1.7">
+      <strong>Maior potencial de adicionalidade:</strong> ${top3.map((d,i)=>`<strong>${i+1}.</strong> ${d.b} (${d.adic.toFixed(1)} pts — vulnerabilidade ${d.vuln.toFixed(0)}, capacidade ${d.cap.toFixed(0)})`).join(' · ')}
+    </div>`;
   }
 
   function terrMean(data, territory, key){
