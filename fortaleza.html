@@ -1929,14 +1929,14 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
   background:var(--brand);color:#fff;font-size:11px;font-weight:700;
   white-space:nowrap;
 }
-.mge-cluster{display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);box-shadow:0 3px 10px rgba(124,58,237,.35)}
-.mge-cluster-sm{width:34px;height:34px;background:rgba(192,132,252,.85);border:2px solid rgba(255,255,255,.8)}
-.mge-cluster-md{width:42px;height:42px;background:rgba(168,85,247,.85);border:2px solid rgba(255,255,255,.8)}
-.mge-cluster-lg{width:52px;height:52px;background:rgba(124,58,237,.85);border:3px solid rgba(255,255,255,.8);font-size:13px}
+.mge-cluster{display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);box-shadow:0 3px 10px rgba(11,79,168,.35)}
+.mge-cluster-sm{width:34px;height:34px;background:rgba(147,197,253,.85);border:2px solid rgba(255,255,255,.8)}
+.mge-cluster-md{width:42px;height:42px;background:rgba(79,123,152,.85);border:2px solid rgba(255,255,255,.8)}
+.mge-cluster-lg{width:52px;height:52px;background:rgba(11,79,168,.85);border:3px solid rgba(255,255,255,.8);font-size:13px}
 .mge-popup{padding:14px 16px}
 .mge-popup h4{margin:0 0 4px;font-size:14px;font-weight:700;color:#062040}
-.mge-popup .mge-cap{font-size:18px;font-weight:700;color:#7C3AED;margin:6px 0}
-.mge-popup .mge-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;margin-right:3px;background:#F3E8FF;color:#7C3AED}
+.mge-popup .mge-cap{font-size:18px;font-weight:700;color:#0B4FA8;margin:6px 0}
+.mge-popup .mge-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;margin-right:3px;background:#EFF6FF;color:#0B4FA8}
 .mge-popup .mge-meta{font-size:11px;color:#5C6E7E;margin-top:6px}
 .cap-legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:10px 20px 14px;border-top:1px solid var(--line);align-items:center}
 .cap-legend-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-right:4px}
@@ -2272,11 +2272,11 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <!-- Choropleth + marker legend -->
       <div class="cap-legend">
         <span class="cap-legend-label">Capital por bairro (choropleth):</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#F5F3FF;border:1px solid #ddd"></span>Baixo</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#DDD6FE"></span>Médio</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#A78BFA"></span>Alto</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#7C3AED"></span>Muito alto</span>
-        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#5B21B6"></span>Máximo</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#EFF6FF;border:1px solid #ddd"></span>Baixo</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#BFDBFE"></span>Médio</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#60A5FA"></span>Alto</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#2563EB"></span>Muito alto</span>
+        <span class="cap-legend-item"><span class="cap-legend-dot" style="background:#1E40AF"></span>Máximo</span>
         <span style="margin-left:12px;color:var(--muted);font-size:11px">· Pontos agrupados por proximidade (clique para expandir)</span>
       </div>
     </div>
@@ -2287,38 +2287,6 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Empresas médias e grandes por bairro (dez/2024)</h3><p class="panel-sub">Quantidade de estabelecimentos porte "Demais"</p></div></div><div class="chart-box"><canvas id="chart-mge-bairro" class="chart tall"></canvas></div></div>
     </div>
 
-    <div class="kpi-grid four" id="kpi-econ"></div>
-    <div class="panel">
-      <div class="panel-head">
-        <div>
-          <h3 class="panel-title">Atividade econômica no território (Receita Federal, 2024)</h3>
-        </div>
-        <div class="filters">
-          <select id="econ-territorio"></select>
-          <select id="econ-bairro"></select>
-          <select id="econ-indicador"></select>
-        </div>
-      </div>
-      <div class="map-analytics-layout">
-        <div id="map-econ" class="map-box split"></div>
-        <div class="analysis-side">
-          <div class="analysis-card">
-            <span class="analysis-kicker">Análise do indicador selecionado</span>
-            <h4 class="analysis-title" id="map-summary-title-econ">Formalidade e renda</h4>
-            <p class="analysis-text" id="map-summary-econ"></p>
-          </div>
-          <div class="analysis-stats" id="map-insights-econ"></div>
-        </div>
-      </div>
-      <div class="map-footer">
-        <div class="legend-wrap">
-          <div class="legend-title" id="legend-title-econ"></div>
-          <div class="legend-scale"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          <div class="legend-labels"><span id="legend-min-econ"></span><span id="legend-max-econ"></span></div>
-        </div>
-        <div class="note-box" id="note-econ"></div>
-      </div>
-    </div>
     <div class="grid two">
       <div class="panel">
         <div class="panel-head"><div><h3 class="panel-title">Volume empresarial por bairro (Receita Federal, 2024)</h3></div></div>
@@ -2329,33 +2297,18 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="chart-box"><canvas id="chart-econ-mei" class="chart tall"></canvas></div>
       </div>
     </div>
-    <div class="grid two">
-      <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Micro e pequenas vs. médias e grandes (Receita Federal, 2024)</h3><p class="panel-sub">Empresas por porte e bairro</p></div></div>
-        <div class="chart-box"><canvas id="chart-econ-porte" class="chart tall"></canvas></div>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Negócios de impacto e cooperativas (Receita Federal, 2024)</h3><p class="panel-sub">Organizações com propósito social por bairro — oportunidades de inclusão produtiva local</p></div></div>
-        <div id="kpi-impacto" class="kpi-grid" style="padding:0 20px"></div>
-        <div class="chart-box"><canvas id="chart-econ-impacto" class="chart tall"></canvas></div>
-      </div>
-    </div>
-    <div class="panel">
+    <div class="panel" style="margin-top:18px">
       <div class="panel-head">
-        <div>
-          <h3 class="panel-title">Atividade empresarial por bairro (Receita Federal, 2024)</h3>
-          <p class="panel-sub">Totais de empresas, MEIs e ramos CNAE predominantes. Clique nos cabeçalhos para ordenar (1º clique: maior → menor).</p>
-        </div>
+        <div><h3 class="panel-title">Atividade empresarial por bairro (dez/2024)</h3><p class="panel-sub">Todos os portes · ordenável por qualquer coluna</p></div>
+        <span class="table-count" id="econ-table-count"></span>
       </div>
-      <div style="padding:12px 20px"><div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Principais setores CNAE</div><div id="top-sectors"></div></div>
       <div class="table-filter-bar">
-        <input type="text" id="econ-table-search" placeholder="Buscar bairro…">
+        <input type="search" id="econ-table-search" placeholder="Buscar bairro…" autocomplete="off">
         <select id="econ-table-terr">
           <option value="">Todos os territórios</option>
           <option value="Grande Bom Jardim">Grande Bom Jardim</option>
           <option value="Grande Mucuripe">Grande Mucuripe</option>
         </select>
-        <span class="table-count" id="econ-table-count"></span>
       </div>
       <div class="table-wrap"><table id="table-cnae"></table></div>
     </div>
@@ -3761,16 +3714,15 @@ function fmtCap(v){
   return 'R$ '+v.toFixed(0);
 }
 function mgeColor(cap){
-  if(cap>=1e9) return '#c0392b';
-  if(cap>=1e8) return '#e74c3c';
-  if(cap>=1e7) return '#e67e22';
-  if(cap>=1e6) return '#f39c12';
-  if(cap>=1e5) return '#7C3AED';
-  return '#C084FC';
+  if(cap>=1e9) return '#1E3A5F';
+  if(cap>=1e8) return '#1E40AF';
+  if(cap>=1e7) return '#2563EB';
+  if(cap>=1e6) return '#3B82F6';
+  if(cap>=1e5) return '#60A5FA';
+  return '#93C5FD';
 }
 
 function initEcon(){
-  createMap('econ');
 
   // --- MGE KPIs ---
   const totalMGE=MGE_BUBBLES.length;
@@ -3789,8 +3741,8 @@ function initEcon(){
 
   // --- MGE Charts ---
   const setorTop15=MGE_SETOR.slice(0,15);
-  makeBar('chart-mge-setor',setorTop15.map(s=>s.s),[{data:setorTop15.map(s=>s.cap),backgroundColor:setorTop15.map(s=>mgeColor(s.cap)),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>fmtCap(ctx.parsed.x)}}}});
-  makeBar('chart-mge-bairro',MGE_BAIRRO.map(b=>b.b),[{data:MGE_BAIRRO.map(b=>b.n),backgroundColor:MGE_BAIRRO.map(b=>b.b===topBairro.b?'#7C3AED':UI_COLORS.blue),borderRadius:5}]);
+  makeBar('chart-mge-setor',setorTop15.map(s=>s.s),[{data:setorTop15.map(s=>s.cap),backgroundColor:UI_COLORS.blue,borderRadius:5}],{plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmtCap(ctx.parsed.x)}}}});
+  makeBar('chart-mge-bairro',MGE_BAIRRO.map(b=>b.b),[{data:MGE_BAIRRO.map(b=>b.n),backgroundColor:UI_COLORS.blue,borderRadius:5}],{plugins:{legend:{display:false}}});
 
   // --- Populate MGE filters ---
   const selBairroMge=document.getElementById('mge-bairro-filter');
@@ -3810,7 +3762,7 @@ function initEcon(){
   function choroplethColor(cap){
     if(!cap||cap<=0) return '#F5F3FF';
     const t=Math.log10(cap+1)/Math.log10(maxBairroCap+1);
-    const stops=['#F5F3FF','#EDE9FE','#DDD6FE','#C4B5FD','#A78BFA','#8B5CF6','#7C3AED','#6D28D9','#5B21B6'];
+    const stops=['#EFF6FF','#DBEAFE','#BFDBFE','#93C5FD','#60A5FA','#3B82F6','#2563EB','#1D4ED8','#1E40AF'];
     const idx=Math.min(Math.floor(t*stops.length),stops.length-1);
     return stops[idx];
   }
@@ -3822,7 +3774,7 @@ function initEcon(){
     MAPS['map-mge'].geo=L.geoJSON(GEOJSON,{
       style:function(f){
         const cap=capByBairro[f.properties.nome]||0;
-        return {fillColor:choroplethColor(cap),fillOpacity:0.55,color:'#7C3AED',weight:1,opacity:0.4};
+        return {fillColor:choroplethColor(cap),fillOpacity:0.55,color:'#0B4FA8',weight:1,opacity:0.4};
       },
       onEachFeature:function(f,layer){
         const d=LOOKUP[canonical(f.properties.nome)]||null;
@@ -3890,7 +3842,7 @@ function initEcon(){
         <div class="mge-cap">${fmtCap(cap)}</div>
         <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
           <span class="mge-tag">${setor}</span>
-          <span class="mge-tag" style="${tipo==='M'?'background:#e0f2e9;color:#7C3AED':'background:#fef3cd;color:#7c5c00'}">${tipo==='M'?'Matriz':'Filial'}</span>
+          <span class="mge-tag" style="${tipo==='M'?'background:#e0f2e9;color:#0B4FA8':'background:#fef3cd;color:#7c5c00'}">${tipo==='M'?'Matriz':'Filial'}</span>
         </div>
       </div>`,{maxWidth:300});
       cl.addLayer(mk);
@@ -3914,13 +3866,13 @@ function initEcon(){
         <div style="display:flex;gap:6px;align-items:center">
           <span style="font-weight:600;color:var(--muted);font-size:10px;min-width:18px">${i+1}</span>
           <span style="flex:1;font-size:11px;font-weight:500;color:var(--navy);line-height:1.3">${r[5]}</span>
-          <span style="font-weight:500;color:#7C3AED;font-size:11px;white-space:nowrap">${fmtCap(r[2])}</span>
+          <span style="font-weight:500;color:#0B4FA8;font-size:11px;white-space:nowrap">${fmtCap(r[2])}</span>
         </div>
         <div style="padding-left:24px;margin-top:2px;display:flex;gap:4px;flex-wrap:wrap;align-items:center">
           <span style="width:6px;height:6px;border-radius:50%;background:${terrCol};display:inline-block;flex-shrink:0"></span>
           <span style="font-size:10px;color:var(--muted)">${r[4]}</span>
-          <span style="font-size:10px;padding:2px 6px;border-radius:3px;background:#F3E8FF;color:#7C3AED;font-weight:600">${r[3]}</span>
-          <span style="font-size:10px;font-weight:600;color:${r[6]==='M'?'#7C3AED':'#7c5c00'}">${r[6]==='M'?'Matriz':'Filial'}</span>
+          <span style="font-size:10px;padding:2px 6px;border-radius:3px;background:#EFF6FF;color:#0B4FA8;font-weight:600">${r[3]}</span>
+          <span style="font-size:10px;font-weight:600;color:${r[6]==='M'?'#0B4FA8':'#7c5c00'}">${r[6]==='M'?'Matriz':'Filial'}</span>
         </div>
       </div>`;
     }).join('')+(mgeListVisible<filtered.length?`<div style="text-align:center;padding:10px;font-size:11px;color:var(--muted)">Exibindo ${mgeListVisible} de ${filtered.length} — role para ver mais ↓</div>`:'');
@@ -3960,20 +3912,6 @@ function initEcon(){
   });
 
   // --- Original econ charts ---
-  // KPIs
-  const totalEmp = DATA.reduce((s,d)=>s+(d.emp||0),0);
-  const totalMEI = DATA.reduce((s,d)=>s+(d.mei||0),0);
-  const totalMPE = DATA.reduce((s,d)=>s+(d.mpe||0),0);
-  const totalMGEkpi = DATA.reduce((s,d)=>s+(d.mge||0),0);
-  const totalNI = DATA.reduce((s,d)=>s+(d.negImpacto||0),0);
-  const totalCoops = DATA.reduce((s,d)=>s+(d.coops||0),0);
-  const kpiEl = document.getElementById('kpi-econ');
-  if(kpiEl) kpiEl.innerHTML = [
-    {l:'Empresas formais ativas',v:fmt(totalEmp,'int'),s:'Todos os portes · dez/2024'},
-    {l:'MEIs',v:fmt(totalMEI,'int'),s:`${(totalMEI/totalEmp*100).toFixed(1)}% do total`},
-    {l:'Micro e pequenas',v:fmt(totalMPE,'int'),s:`${(totalMPE/totalEmp*100).toFixed(1)}% do total`},
-    {l:'Impacto + cooperativas',v:fmt(totalNI+totalCoops,'int'),s:`${fmt(totalNI,'int')} impacto · ${fmt(totalCoops,'int')} coops`}
-  ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
 
   const empRows = sortRows('emp', true);
   makeBar('chart-econ-emp', empRows.map(d=>d.b), [{data:empRows.map(d=>d.emp), backgroundColor:empRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false}}});
@@ -3981,104 +3919,59 @@ function initEcon(){
   const meiRows = sortRows('meiShare', true);
   makeBar('chart-econ-mei', meiRows.map(d=>d.b), [{data:meiRows.map(d=>(d.meiShare||0)*100), backgroundColor:meiRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.x.toFixed(1)+'%'}}}});
   addTerritoryLegend('chart-econ-mei');
-  // Porte chart
-  const porteRows = [...DATA].sort((a,b)=>(b.mpe||0)-(a.mpe||0));
-  destroyChart('chart-econ-porte');
-  const porteCanvas=document.getElementById('chart-econ-porte');
-  const porteH=Math.max(porteRows.length*50,300);
-  porteCanvas.style.height=porteH+'px';
-  porteCanvas.parentElement.style.height='auto';
-  const porteOpts=baseChartOptions();
-  porteOpts.indexAxis='y';
-  CHARTS['chart-econ-porte'] = new Chart(porteCanvas, {
-    type:'bar',
-    data:{labels:porteRows.map(d=>d.b), datasets:[
-      {label:'Micro e pequenas', data:porteRows.map(d=>d.mpe||0), backgroundColor:UI_COLORS.blue, borderRadius:5},
-      {label:'Médias e grandes', data:porteRows.map(d=>d.mge||0), backgroundColor:UI_COLORS.gold||'#b2873d', borderRadius:5}
-    ]},
-    options:porteOpts
-  });
-  // Impact KPIs
-  const totalOI = DATA.reduce((s,d)=>s+(d.oi||0),0);
-  const impKpi = document.getElementById('kpi-impacto');
-  if(impKpi) impKpi.innerHTML = [
-    {l:'Negócios de impacto social',v:fmt(totalNI,'int'),s:'Empresas com propósito social'},
-    {l:'Cooperativas ativas',v:fmt(totalCoops,'int'),s:'Receita Federal, 2024'},
-    {l:'OSCs de inclusão produtiva',v:fmt(totalOI,'int'),s:'IPEA, 2024'}
-  ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
-  // Impact chart
-  const impRows = [...DATA].sort((a,b)=>(b.negImpacto||0)-(a.negImpacto||0));
-  destroyChart('chart-econ-impacto');
-  const impCanvas=document.getElementById('chart-econ-impacto');
-  const impH=Math.max(impRows.length*50,300);
-  impCanvas.style.height=impH+'px';
-  impCanvas.parentElement.style.height='auto';
-  const impOpts=baseChartOptions();
-  impOpts.indexAxis='y';
-  CHARTS['chart-econ-impacto'] = new Chart(impCanvas, {
-    type:'bar',
-    data:{labels:impRows.map(d=>d.b), datasets:[
-      {label:'Neg. impacto social', data:impRows.map(d=>d.negImpacto||0), backgroundColor:UI_COLORS.teal, borderRadius:5},
-      {label:'Cooperativas', data:impRows.map(d=>d.coops||0), backgroundColor:UI_COLORS.gold||'#b2873d', borderRadius:5}
-    ]},
-    options:impOpts
-  });
-  // Top sectors summary
-  const sectorCount = {};
-  DATA.forEach(d => {
-    [d.cn1,d.cn2,d.cn3].filter(Boolean).forEach(s => {
-      const name = s.replace(/\s*\([\d,.%]+\)\s*/g,'').trim();
-      sectorCount[name] = (sectorCount[name]||0) + 1;
-    });
-  });
-  const topSectors = Object.entries(sectorCount).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const topSectorsEl = document.getElementById('top-sectors');
-  if(topSectorsEl) topSectorsEl.innerHTML = topSectors.map(([s,c],i) =>
-    `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)">
-      <span style="font-size:12px;font-weight:600;color:var(--text)">${i+1}. ${s}</span>
-      <span style="font-size:11px;color:var(--muted)">${c} bairros</span>
-    </div>`
-  ).join('');
-  // ── Tabela enriquecida ──
+  // ── Tabela Maracanaú-style (sortable columns) ──
   const fmtInt = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR');
   const fmtPct = n => (n==null||isNaN(n))?'—':(Number(n)*100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
   const econSearchEl = document.getElementById('econ-table-search');
   const econTerrEl = document.getElementById('econ-table-terr');
   const econCountEl = document.getElementById('econ-table-count');
+  let econSortKey='emp';
+  let econSortDir=-1;
   function renderCnaeTable(){
     const q = (econSearchEl.value||'').toLowerCase().trim();
     const tf = econTerrEl.value;
-    let rows = [...DATA];
+    let rows = [...DATA].filter(d=>d.emp!=null);
     if(q) rows = rows.filter(d => d.b.toLowerCase().includes(q));
     if(tf) rows = rows.filter(d => d.t === tf);
+    rows.sort((a,b)=>{
+      const va=a[econSortKey],vb=b[econSortKey];
+      if(va==null) return 1; if(vb==null) return -1;
+      if(typeof va==='string') return econSortDir*va.localeCompare(vb,'pt-BR');
+      return econSortDir*(va-vb);
+    });
     if(econCountEl) econCountEl.textContent = `${rows.length} bairro${rows.length!==1?'s':''}`;
-    document.getElementById('table-cnae').innerHTML = `
-      <thead><tr>
-        <th>Bairro</th>
-        <th>Território</th>
-        <th style="text-align:right">Empresas</th>
-        <th style="text-align:right">MEIs</th>
-        <th style="text-align:right">% MEI</th>
-        <th style="text-align:right">M/G</th>
-        <th>1º CNAE</th>
-        <th>2º CNAE</th>
-        <th>3º CNAE</th>
-      </tr></thead>
-      <tbody>${rows.map(d => {
-        const meiHigh = d.meiShare!=null && d.meiShare>0.65;
-        return `<tr>
-          <td><strong>${d.b}</strong></td>
-          <td>${d.t === 'Grande Mucuripe' ? '<span class="tag">GM</span>' : '<span class="tag gbj">GBJ</span>'}</td>
-          <td style="text-align:right">${fmtInt(d.emp)}</td>
-          <td style="text-align:right">${fmtInt(d.mei)}</td>
-          <td style="text-align:right;font-weight:700;color:${meiHigh?'#B07C20':'var(--text)'}">${fmtPct(d.meiShare)}</td>
-          <td style="text-align:right">${fmtInt(d.mge)}</td>
-          <td style="font-size:11px;color:var(--muted)">${d.cn1||'—'}</td>
-          <td style="font-size:11px;color:var(--muted)">${d.cn2||'—'}</td>
-          <td style="font-size:11px;color:var(--muted)">${d.cn3||'—'}</td>
-        </tr>`;
-      }).join('')}</tbody>`;
-    try{ delete document.getElementById('table-cnae').dataset.sortableInit; enableTableSorting(); }catch(e){}
+    const colHeaders=[
+      {k:'b',label:'Bairro'},{k:'emp',label:'Empresas (2024)'},{k:'mei',label:'MEIs (2024)'},
+      {k:'meiShare',label:'% MEI (2024)'},{k:'mpe',label:'Micro/Peq. (2024)'},{k:'mge',label:'Méd./Grd. (2024)'},
+      {k:'coops',label:'Coops. (2024)'}
+    ];
+    document.getElementById('table-cnae').innerHTML = `<thead><tr>
+      ${colHeaders.map(h=>`<th class="sortable${econSortKey===h.k?' sort-'+(econSortDir===1?'asc':'desc'):''}" data-econ-col="${h.k}">${h.label}<span class="sort-icon">${econSortKey===h.k?(econSortDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}
+      <th>Território</th><th>Principal CNAE</th>
+    </tr></thead><tbody>${rows.map(d=>{
+      const terrCol=d.t==='Grande Mucuripe'?UI_COLORS.territoryGM||'#0B4FA8':UI_COLORS.territoryGBJ||'#059669';
+      const meiHigh=d.meiShare!=null&&d.meiShare>.8;
+      const meiMed=d.meiShare!=null&&d.meiShare>.6&&d.meiShare<=.8;
+      return `<tr${meiHigh?' class="mei-high"':''}>
+        <td>${d.b}</td>
+        <td>${fmtInt(d.emp)}</td>
+        <td>${fmtInt(d.mei)}</td>
+        <td style="color:${meiHigh?'#B07C20':meiMed?'#0B4FA8':'var(--text)'};font-weight:500">${d.meiShare!=null?fmtPct(d.meiShare):'—'}</td>
+        <td>${fmtInt(d.mpe)}</td>
+        <td>${fmtInt(d.mge)}</td>
+        <td>${fmtInt(d.coops)}</td>
+        <td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:${terrCol};flex-shrink:0"></span>${d.t||'—'}</span></td>
+        <td style="font-size:11px;max-width:200px;color:var(--muted)">${d.cn1||'—'}</td>
+      </tr>`;
+    }).join('')}</tbody>`;
+    document.querySelectorAll('#table-cnae th.sortable').forEach(th=>{
+      th.addEventListener('click',()=>{
+        const col=th.dataset.econCol;
+        if(econSortKey===col) econSortDir*=-1;
+        else{econSortKey=col;econSortDir=-1;}
+        renderCnaeTable();
+      });
+    });
   }
   renderCnaeTable();
   econSearchEl.addEventListener('input', renderCnaeTable);
