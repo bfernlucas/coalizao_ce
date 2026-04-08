@@ -575,28 +575,30 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .info-popover summary{list-style:none;width:22px;height:22px;border-radius:999px;border:1px solid var(--line);background:#f4f8fc;color:var(--brand);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;cursor:pointer;transition:.2s ease}
 .info-popover summary:hover,.info-popover[open] summary{background:#edf4fa;border-color:#bfd5ea}
 .info-popover summary::-webkit-details-marker{display:none}
-.info-balloon{position:absolute;top:30px;right:0;left:auto;width:min(520px,calc(100vw - 48px));padding:0;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:0 20px 48px rgba(15,39,64,.16);color:var(--text);font-size:12.5px;line-height:1.7;z-index:9999;overflow:hidden}
-.info-balloon::before{content:'';position:absolute;top:-8px;right:12px;left:auto;width:14px;height:14px;background:var(--brand);border-left:1px solid var(--brand);border-top:1px solid var(--brand);transform:rotate(45deg);z-index:1}
-.info-balloon .ib-header{background:linear-gradient(135deg,var(--brand) 0%,#1a5276 100%);padding:16px 20px 14px;color:#fff}
-.info-balloon .ib-header h5{margin:0 0 4px;font-size:14px;font-weight:800;letter-spacing:-.01em;color:#fff}
-.info-balloon .ib-header p{margin:0;font-size:11.5px;opacity:.85;line-height:1.5;color:rgba(255,255,255,.9)}
-.info-balloon .ib-body{padding:16px 20px 18px}
-.info-balloon .ib-section{margin-bottom:14px}
+.info-balloon{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(400px,calc(100vw - 48px));max-height:80vh;overflow-y:auto;padding:0;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:0 24px 60px rgba(15,39,64,.28);color:var(--text);font-size:11.5px;line-height:1.6;z-index:99999;overflow-x:hidden}
+.info-balloon::before{display:none}
+.info-popover[open]~.info-backdrop,.info-backdrop{display:none}
+.info-popover[open] .info-backdrop{display:block;position:fixed;inset:0;background:rgba(15,39,64,.18);z-index:99998}
+.info-balloon .ib-header{background:linear-gradient(135deg,var(--brand) 0%,#1a5276 100%);padding:14px 16px 12px;color:#fff}
+.info-balloon .ib-header h5{margin:0 0 3px;font-size:13px;font-weight:800;letter-spacing:-.01em;color:#fff}
+.info-balloon .ib-header p{margin:0;font-size:10.5px;opacity:.85;line-height:1.45;color:rgba(255,255,255,.9)}
+.info-balloon .ib-body{padding:12px 16px 14px}
+.info-balloon .ib-section{margin-bottom:10px}
 .info-balloon .ib-section:last-child{margin-bottom:0}
-.info-balloon .ib-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--brand);margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line-2)}
-.info-balloon .ib-row{display:flex;align-items:flex-start;gap:10px;margin:6px 0;padding:5px 8px;border-radius:6px;background:#f8fafc;transition:background .15s}
+.info-balloon .ib-section-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--brand);margin:0 0 6px;padding-bottom:5px;border-bottom:1px solid var(--line-2)}
+.info-balloon .ib-row{display:flex;align-items:flex-start;gap:8px;margin:4px 0;padding:4px 6px;border-radius:5px;background:#f8fafc;transition:background .15s}
 .info-balloon .ib-row:hover{background:#eef4fa}
-.info-balloon .ib-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.info-balloon .ib-row-label{font-weight:700;color:var(--navy);white-space:nowrap;min-width:70px}
-.info-balloon .ib-row-desc{color:var(--muted);font-size:11.5px;line-height:1.55}
-.info-balloon .ib-conn{display:flex;align-items:center;gap:8px;padding:6px 10px;margin:5px 0;border-radius:8px;border-left:3px solid var(--line-2)}
+.info-balloon .ib-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.info-balloon .ib-row-label{font-weight:700;color:var(--navy);white-space:nowrap;min-width:60px;font-size:11px}
+.info-balloon .ib-row-desc{color:var(--muted);font-size:10.5px;line-height:1.5}
+.info-balloon .ib-conn{display:flex;align-items:center;gap:6px;padding:4px 8px;margin:4px 0;border-radius:6px;border-left:3px solid var(--line-2)}
 .info-balloon .ib-conn-strong{border-left-color:#E63946;background:rgba(230,57,70,.04)}
 .info-balloon .ib-conn-medium{border-left-color:#7C3AED;background:rgba(124,58,237,.04)}
 .info-balloon .ib-conn-light{border-left-color:#94a3b8;background:rgba(148,163,184,.06)}
 .info-balloon .ib-conn-peer{border-left-color:#64748b;background:rgba(100,116,139,.04)}
-.info-balloon .ib-conn b{font-size:12px;color:var(--navy);min-width:55px}
-.info-balloon .ib-conn span{font-size:11px;color:var(--muted)}
-.info-balloon .ib-note{margin-top:12px;padding:10px 12px;border-radius:8px;background:#f0f4f8;font-size:11px;color:var(--muted);line-height:1.6;border:1px solid var(--line-2)}
+.info-balloon .ib-conn b{font-size:11px;color:var(--navy);min-width:50px}
+.info-balloon .ib-conn span{font-size:10px;color:var(--muted)}
+.info-balloon .ib-note{margin-top:10px;padding:8px 10px;border-radius:6px;background:#f0f4f8;font-size:10px;color:var(--muted);line-height:1.5;border:1px solid var(--line-2)}
 
 /* Responsive tweaks */
 @media(max-width:1100px){
@@ -998,7 +1000,7 @@ body{background:#fff}
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Rede de afinidade — CEASA Mais Nutrição (Organização Âncora)
-            <details class="info-popover" style="display:inline;margin-left:6px"><summary>i</summary><div class="info-balloon">
+            <details class="info-popover" style="display:inline;margin-left:6px"><summary>i</summary><div class="info-backdrop" onclick="this.parentElement.removeAttribute('open')"></div><div class="info-balloon">
               <div class="ib-header">
                 <h5>Metodologia da Rede de Afinidade</h5>
                 <p>Esta rede mapeia potenciais conexões entre a CEASA Mais Nutrição e as Organizações da Sociedade Civil de Maracanaú. As ligações não representam parcerias formais — são inferências baseadas em proximidade temática e territorial.</p>
