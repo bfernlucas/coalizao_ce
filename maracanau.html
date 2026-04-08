@@ -1335,14 +1335,14 @@ function renderAnalysis(section,indicatorKey){
 /* ===== INIT FUNCTIONS ===== */
 function initOverview(){
   const totalPop=DATA.reduce((s,d)=>s+(d.pop||0),0);
-  const totalDom=DATA.reduce((s,d)=>s+(d.dom||0),0);
   const totalEmp=DATA.reduce((s,d)=>s+(d.emp||0),0);
-  const totalOsc=DATA.reduce((s,d)=>s+(d.osc||0),0);
+  const totalRendaPC=totalPop?DATA.reduce((s,d)=>s+(d.rendaPC||0)*(d.pop||0),0)/totalPop:0;
+  const totalRenda=totalPop?DATA.reduce((s,d)=>s+(d.renda||0)*(d.pop||0),0)/totalPop:0;
   document.getElementById('overview-kpis').innerHTML=`
     <div class="kpi"><div class="label">População total</div><div class="value">${fmt(totalPop,'int')}</div><div class="sub">${DATA.length} bairros · Censo 2022</div></div>
-    <div class="kpi"><div class="label">Domicílios</div><div class="value">${fmt(totalDom,'int')}</div><div class="sub">Total</div></div>
-    <div class="kpi"><div class="label">Volume empresarial por bairro</div><div class="value">${fmt(totalEmp,'int')}</div><div class="sub">Ativas</div></div>
-    <div class="kpi"><div class="label">OSCs ativas</div><div class="value">${fmt(totalOsc,'int')}</div><div class="sub">${DATA.filter(d=>(d.osc||0)===0).length} bairros sem OSC</div></div>`;
+    <div class="kpi"><div class="label">Empresas ativas</div><div class="value">${fmt(totalEmp,'int')}</div><div class="sub">Receita Federal · dez/2024</div></div>
+    <div class="kpi"><div class="label">Renda per capita</div><div class="value">${fmt(totalRendaPC,'money')}</div><div class="sub">IBGE Censo, 2022</div></div>
+    <div class="kpi"><div class="label">Renda do responsável</div><div class="value">${fmt(totalRenda,'money')}</div><div class="sub">IBGE Censo, 2022</div></div>`;
   
   const sel=populateSelect('visao-indicador',['epob','esg','cad','pop','rendaPC','renda','osc','emp','anal']);
   createMap('map-visao');
