@@ -2206,15 +2206,15 @@ function initNetwork(){
   svg.call(d3.zoom().scaleExtent([0.3,5]).on('zoom',e=>g.attr('transform',e.transform)));
 
   const sim=d3.forceSimulation(nodes)
-    .force('link',d3.forceLink(edges).id(d=>d.id).distance(d=>d.strength==='peer'?60:d.value>=5?100:140).strength(d=>d.strength==='peer'?0.25:d.value>=5?0.5:0.15))
-    .force('charge',d3.forceManyBody().strength(d=>d.isAnchor?-800:-60))
+    .force('link',d3.forceLink(edges).id(d=>d.id).distance(d=>d.strength==='peer'?80:d.value>=5?130:180).strength(d=>d.strength==='peer'?0.2:d.value>=5?0.4:0.12))
+    .force('charge',d3.forceManyBody().strength(d=>d.isAnchor?-1200:-90))
     .force('center',d3.forceCenter(W/2,H/2))
-    .force('collision',d3.forceCollide().radius(18).strength(0.9))
+    .force('collision',d3.forceCollide().radius(22).strength(0.9))
     .force('x',d3.forceX(W/2).strength(0.04))
     .force('y',d3.forceY(H/2).strength(0.04));
 
   const strokeColor={strong:'rgba(230,57,70,.5)',medium:'rgba(124,58,237,.3)',light:'rgba(100,100,100,.15)',peer:'rgba(100,100,100,.08)'};
-  const strokeW={strong:1.5,medium:0.8,light:0.4,peer:0.2};
+  const strokeW={strong:1.2,medium:0.6,light:0.3,peer:0.15};
 
   const link=g.append('g').selectAll('line').data(edges).join('line')
     .attr('stroke',d=>strokeColor[d.strength]).attr('stroke-width',d=>strokeW[d.strength])
@@ -2314,10 +2314,10 @@ function initNetwork(){
 
     nodeG.attr('display',d=>d._visible?null:'none');
 
-    // Smart labels: show only when ≤80 visible nodes
+    // Smart labels: always show when degree filter active, or when ≤80 nodes with other filters
     let visCount=0;
     nodeG.each(d=>{if(d._visible&&!d.isAnchor)visCount++;});
-    const showLabels=hasFilter&&visCount<=80;
+    const showLabels=activeDeg!=='all'||(hasFilter&&visCount<=80);
     nodeG.selectAll('.net-label').style('display',d=>(showLabels&&d._visible)?null:'none');
 
     // Re-heat simulation to spread out filtered nodes
