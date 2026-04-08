@@ -972,10 +972,48 @@ body{background:#fff}
 
   <!-- SÍNTESE -->
   <section id="section-comp" class="section">
-    <div class="section-head"><span class="section-kicker">Síntese Municipal</span><h2 class="section-title">Território em perspectiva</h2></div>
+    <div class="section-head">
+      <span class="section-kicker">Sintese Estrategica</span>
+      <h2 class="section-title">Oportunidades para a Coalizao</h2>
+      <p class="section-desc">Diagnostico cruzado dos eixos de <strong>Inclusao Produtiva</strong> e <strong>Inseguranca Alimentar</strong> nos territorios de Maracanau, identificando convergencias, padroes consolidados e potencial de adicionalidade.</p>
+    </div>
+
+    <!-- ═══ Q1: Convergencia com os Eixos ═══ -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Convergencia com os eixos da Coalizao</h3><p class="panel-sub">Elementos do territorio que dialogam diretamente com Inclusao Produtiva e Inseguranca Alimentar.</p></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 24px 16px">
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brand);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--brand-4)">Eixo 1 &mdash; Inclusao Produtiva</div>
+          <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);padding:0" id="kpi-eixo-ip"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#DC2626;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #FECACA">Eixo 2 &mdash; Inseguranca Alimentar</div>
+          <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);padding:0" id="kpi-eixo-ia"></div>
+        </div>
+      </div>
+      <div style="padding:6px 24px 0"><p class="panel-sub" style="margin:0 0 4px">Indice composto por regiao: vulnerabilidade alimentar vs. capacidade de inclusao produtiva (0-100, normalizado min-max)</p></div>
+      <div class="chart-box"><canvas id="chart-eixos-region" class="chart tall"></canvas></div>
+    </div>
+
+    <!-- ═══ Q2: Indicadores Consolidados ═══ -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Indicadores consolidados entre regioes</h3><p class="panel-sub">Padroes que se repetem em todas as regioes e podem se tornar metricas estruturantes para a Coalizao.</p></div></div>
+      <div class="table-wrap"><table id="table-consolidado"></table></div>
+      <div id="consolidado-insights" style="padding:4px 24px 20px"></div>
+    </div>
+
+    <!-- ═══ Q3: Potencial de Adicionalidade ═══ -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Potencial de adicionalidade da Coalizao</h3><p class="panel-sub">Regioes onde a combinacao de alta vulnerabilidade e baixa cobertura cria maior espaco para impacto da Coalizao.</p></div></div>
+      <div class="chart-box"><canvas id="chart-adicionalidade" class="chart tall"></canvas></div>
+      <div id="adicionalidade-ranking" style="padding:0 24px 20px"></div>
+    </div>
+
+    <!-- ═══ Detalhamento Regional (existente) ═══ -->
+    <div style="margin:32px 0 18px;padding:0"><span class="section-kicker">Detalhamento Regional</span></div>
 
     <div class="panel" style="margin-bottom:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Divisão em 6 regiões</h3><p class="panel-sub">44 bairros organizados por perfil geográfico e socioeconômico. Clique em uma região para destacar no mapa.</p></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Divisao em 6 regioes</h3><p class="panel-sub">44 bairros organizados por perfil geografico e socioeconomico. Clique em uma regiao para destacar no mapa.</p></div></div>
       <div class="map-analytics-layout">
         <div class="map-col"><div id="map-region" style="height:380px;border-radius:6px;overflow:hidden;border:1px solid #D8E0E8"></div></div>
         <div class="analysis-col" id="region-cards-sidebar" style="overflow-y:auto;max-height:380px;padding-right:4px"></div>
@@ -1960,16 +1998,244 @@ function initComp(){
         anal:wmean('anal'),
         esg:wmean('esg'),
         agua:wmean('agua'),
+        lixo:wmean('lixo'),
         renda:wmean('renda'),
         emp:sum('emp'),
+        mei:sum('mei'),
         osc:sum('osc'),
+        oi:sum('oi'),
+        coops:sum('coops'),
+        esan:sum('esan'),
+        cras:sum('cras'),
+        cadEpobFam:sum('cadEpobFam'),
         emp1k: totalPop>0 ? sum('emp')/totalPop*1000 : null,
         osc10k: totalPop>0 ? sum('osc')/totalPop*10000 : null,
+        meiShare: sum('emp')>0 ? sum('mei')/sum('emp') : null,
       };
     });
     return stats;
   }
   const RS=regionAgg();
+
+  // ══ SÍNTESE ESTRATÉGICA — EIXOS DA COALIZÃO ══════════════════════════════
+
+  // Municipal aggregates
+  const synPop=DATA.reduce((s,d)=>s+(d.pop||0),0);
+  const synMEI=DATA.reduce((s,d)=>s+(d.mei||0),0);
+  const synEmp=DATA.reduce((s,d)=>s+(d.emp||0),0);
+  const synCoops=DATA.reduce((s,d)=>s+(d.coops||0),0);
+  const synOSC=DATA.reduce((s,d)=>s+(d.osc||0),0);
+  const synOI=DATA.reduce((s,d)=>s+(d.oi||0),0);
+  const synCadEpob=DATA.reduce((s,d)=>s+(d.cadEpobFam||0),0);
+  const synEsan=DATA.reduce((s,d)=>s+(d.esan||0),0);
+  const synWEpob=DATA.reduce((s,d)=>s+(d.epob||0)*(d.pop||0),0)/synPop;
+  const synWRenda=DATA.reduce((s,d)=>s+(d.renda||0)*(d.pop||0),0)/synPop;
+
+  // Q1: KPIs — Inclusão Produtiva
+  const ipEl=document.getElementById('kpi-eixo-ip');
+  if(ipEl) ipEl.innerHTML=[
+    {l:'MEIs ativos',v:fmt(synMEI,'int'),s:Math.round(synMEI/synEmp*100)+'% das empresas'},
+    {l:'Cooperativas',v:fmt(synCoops,'int'),s:'Receita Federal, 2024'},
+    {l:'OSCs incl. produtiva',v:fmt(synOI,'int'),s:'De '+fmt(synOSC,'int')+' OSCs ativas'},
+    {l:'Empresas / 1 mil hab.',v:(synEmp/synPop*1000).toFixed(1),s:'Densidade empresarial'}
+  ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
+
+  // Q1: KPIs — Insegurança Alimentar
+  const iaEl=document.getElementById('kpi-eixo-ia');
+  if(iaEl) iaEl.innerHTML=[
+    {l:'Familias ext. pobreza',v:fmt(synCadEpob,'int'),s:'MDS, 2025'},
+    {l:'Ext. pobreza media',v:(synWEpob*100).toFixed(1)+'%',s:'Ponderada por pop.'},
+    {l:'Equip. seg. alimentar',v:fmt(synEsan,'int'),s:'1 para cada '+fmt(Math.round(synPop/Math.max(synEsan,1)),'int')+' hab.'},
+    {l:'Renda per capita',v:'R$ '+fmt(Math.round(synWRenda),'int'),s:'IBGE Censo, 2010'}
+  ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
+
+  // Q1: Dual-axis chart — IP capacity vs IA vulnerability per region
+  function synMinMax(vals){
+    const mn=Math.min(...vals),mx=Math.max(...vals),rng=mx-mn||1;
+    return vals.map(v=>Math.round((v-mn)/rng*100));
+  }
+  // IP index: emp/1k + osc/10k (normalized, averaged)
+  const synIpEmp=synMinMax(REGION_ORDER.map(r=>RS[r].emp1k||0));
+  const synIpOsc=synMinMax(REGION_ORDER.map(r=>RS[r].osc10k||0));
+  const synIpIdx=REGION_ORDER.map((_,i)=>Math.round((synIpEmp[i]+synIpOsc[i])/2));
+  // IA vulnerability: epob + (1-saneamento) + (1-renda_norm)
+  const synIaEpob=synMinMax(REGION_ORDER.map(r=>(RS[r].epob||0)*100));
+  const maxRenda=Math.max(...REGION_ORDER.map(r=>RS[r].renda||0));
+  const synIaSan=synMinMax(REGION_ORDER.map(r=>{
+    const e=RS[r].esg,a=RS[r].agua,l=RS[r].lixo;
+    const vs=[e,a,l].filter(x=>x!=null);
+    return vs.length?(1-vs.reduce((a,b)=>a+b,0)/vs.length)*100:100;
+  }));
+  const synIaRenda=synMinMax(REGION_ORDER.map(r=>(1-(RS[r].renda||0)/maxRenda)*100));
+  const synIaIdx=REGION_ORDER.map((_,i)=>Math.round((synIaEpob[i]+synIaSan[i]+synIaRenda[i])/3));
+
+  // Render dual bar chart
+  destroyChart('chart-eixos-region');
+  const eixosCanvas=document.getElementById('chart-eixos-region');
+  if(eixosCanvas){
+    const eixosH=Math.max(REGION_ORDER.length*50,300);
+    eixosCanvas.style.height=eixosH+'px';
+    eixosCanvas.parentElement.style.height='auto';
+    CHARTS['chart-eixos-region']=new Chart(eixosCanvas,{
+      type:'bar',
+      data:{
+        labels:REGION_ORDER,
+        datasets:[
+          {label:'Vulnerabilidade alimentar',data:synIaIdx,backgroundColor:'#FCA5A5',borderColor:'#DC2626',borderWidth:1,borderRadius:5},
+          {label:'Capacidade incl. produtiva',data:synIpIdx,backgroundColor:'#C4B5FD',borderColor:'#7C3AED',borderWidth:1,borderRadius:5}
+        ]
+      },
+      options:{
+        indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:6,right:12,bottom:0,left:0}},
+        plugins:{
+          legend:{labels:{font:{family:'Inter',size:11,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:9,boxHeight:9,padding:16}},
+          tooltip:{backgroundColor:'rgba(27,45,62,.92)',titleFont:{size:12,weight:'700'},bodyFont:{size:12},cornerRadius:6,padding:10}
+        },
+        scales:{
+          x:{min:0,max:100,ticks:{color:'#61778a',font:{size:10},callback:v=>v},grid:{color:'#edf2f6',drawTicks:false},border:{display:false}},
+          y:{ticks:{color:'#1B2D3E',font:{size:11,weight:'600'}},grid:{display:false},border:{display:false}}
+        }
+      }
+    });
+  }
+
+  // ── Q2: Indicadores Consolidados — heatmap table ─────────────────────────
+  const consolidadoIndicators=[
+    {key:'epob',label:'Extrema pobreza',unit:'%',get:s=>(s.epob||0)*100,thresholds:[20,30],invert:true},
+    {key:'cad',label:'Incidencia CadUnico',unit:'%',get:s=>(s.cad||0)*100,thresholds:[50,80],invert:true},
+    {key:'renda',label:'Renda per capita',unit:'R$',get:s=>s.renda||0,thresholds:[600,500],invert:false},
+    {key:'esg',label:'Cobertura esgoto',unit:'%',get:s=>(s.esg||0)*100,thresholds:[90,70],invert:false},
+    {key:'agua',label:'Cobertura agua',unit:'%',get:s=>(s.agua||0)*100,thresholds:[95,85],invert:false},
+    {key:'emp1k',label:'Empresas / 1 mil hab.',unit:'',get:s=>s.emp1k||0,thresholds:[70,40],invert:false},
+    {key:'osc10k',label:'OSCs / 10 mil hab.',unit:'',get:s=>s.osc10k||0,thresholds:[15,8],invert:false},
+    {key:'anal',label:'Analfabetismo 15+',unit:'%',get:s=>(s.anal||0)*100,thresholds:[5,10],invert:true}
+  ];
+  function heatColor(val,thresh,invert){
+    if(invert){
+      if(val<=thresh[0]) return {bg:'#DCFCE7',fg:'#166534'};
+      if(val<=thresh[1]) return {bg:'#FEF9C3',fg:'#854D0E'};
+      return {bg:'#FEE2E2',fg:'#991B1B'};
+    } else {
+      if(val>=thresh[0]) return {bg:'#DCFCE7',fg:'#166534'};
+      if(val>=thresh[1]) return {bg:'#FEF9C3',fg:'#854D0E'};
+      return {bg:'#FEE2E2',fg:'#991B1B'};
+    }
+  }
+  const tblCons=document.getElementById('table-consolidado');
+  if(tblCons){
+    let html='<thead><tr><th style="text-align:left">Indicador</th>';
+    REGION_ORDER.forEach(r=>{html+=`<th style="text-align:center"><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:7px;height:7px;border-radius:50%;background:${REGION_COLORS[r]};display:inline-block"></span>${r}</span></th>`});
+    html+='<th style="text-align:center">Padrao</th></tr></thead><tbody>';
+    consolidadoIndicators.forEach(ind=>{
+      html+=`<tr><td style="font-weight:600;font-size:12px">${ind.label}</td>`;
+      let critCount=0;
+      REGION_ORDER.forEach(r=>{
+        const v=ind.get(RS[r]);
+        const c=heatColor(v,ind.thresholds,ind.invert);
+        const display=ind.unit==='R$'?'R$ '+Math.round(v):ind.unit==='%'?v.toFixed(1)+'%':v.toFixed(1);
+        if(c.bg==='#FEE2E2') critCount++;
+        html+=`<td style="text-align:center;background:${c.bg};color:${c.fg};font-weight:600;font-size:12px;border-radius:4px">${display}</td>`;
+      });
+      const pattern=critCount>=4?'Critico transversal':critCount>=2?'Atencao parcial':'Variavel';
+      const pCol=critCount>=4?'#991B1B':critCount>=2?'#854D0E':'#166534';
+      html+=`<td style="text-align:center;font-size:11px;font-weight:700;color:${pCol}">${pattern}</td></tr>`;
+    });
+    html+='</tbody>';
+    tblCons.innerHTML=html;
+  }
+  // Consolidated insights
+  const consInsEl=document.getElementById('consolidado-insights');
+  if(consInsEl){
+    const crossCritical=consolidadoIndicators.filter(ind=>{
+      let crit=0;
+      REGION_ORDER.forEach(r=>{const v=ind.get(RS[r]);const c=heatColor(v,ind.thresholds,ind.invert);if(c.bg==='#FEE2E2')crit++});
+      return crit>=4;
+    });
+    const insightHTML=crossCritical.length?
+      `<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:14px 18px"><p style="font-weight:700;font-size:13px;color:#991B1B;margin:0 0 6px">Indicadores criticos transversais</p><p style="font-size:12px;color:#7F1D1D;margin:0;line-height:1.6">${crossCritical.map(i=>i.label).join(', ')} apresentam niveis criticos em 4+ regioes. Estes sao candidatos a <strong>indicadores consolidados</strong> da Coalizao em Maracanau, pois refletem desafios estruturais compartilhados.</p></div>`:
+      '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 18px"><p style="font-size:12px;color:#166534;margin:0">Nenhum indicador apresenta nivel critico em todas as regioes simultaneamente.</p></div>';
+    consInsEl.innerHTML=insightHTML;
+  }
+
+  // ── Q3: Potencial de Adicionalidade ─────────────────────────────────────
+  // Gap score = vulnerability × (100 - capacity) / 100
+  const synGapScores=REGION_ORDER.map((_,i)=>Math.round(synIaIdx[i]*(100-synIpIdx[i])/100));
+  const gapSorted=REGION_ORDER.map((r,i)=>({r,gap:synGapScores[i],ia:synIaIdx[i],ip:synIpIdx[i]})).sort((a,b)=>b.gap-a.gap);
+
+  // Render additionality chart
+  destroyChart('chart-adicionalidade');
+  const adicCanvas=document.getElementById('chart-adicionalidade');
+  if(adicCanvas){
+    const adicLabels=gapSorted.map(g=>g.r);
+    const adicData=gapSorted.map(g=>g.gap);
+    const adicColors=gapSorted.map(g=>{
+      const t=g.gap/Math.max(...adicData);
+      return `rgba(124,58,237,${0.3+t*0.7})`;
+    });
+    const adicH=Math.max(gapSorted.length*50,280);
+    adicCanvas.style.height=adicH+'px';
+    adicCanvas.parentElement.style.height='auto';
+    CHARTS['chart-adicionalidade']=new Chart(adicCanvas,{
+      type:'bar',
+      data:{
+        labels:adicLabels,
+        datasets:[{
+          label:'Indice de adicionalidade',
+          data:adicData,
+          backgroundColor:adicColors,
+          borderColor:'#7C3AED',
+          borderWidth:1,
+          borderRadius:5
+        }]
+      },
+      options:{
+        indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:6,right:12,bottom:0,left:0}},
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            backgroundColor:'rgba(27,45,62,.92)',titleFont:{size:12,weight:'700'},bodyFont:{size:12},cornerRadius:6,padding:10,
+            callbacks:{
+              afterLabel:function(ctx){
+                const g=gapSorted[ctx.dataIndex];
+                return 'Vulnerabilidade: '+g.ia+' | Capacidade: '+g.ip;
+              }
+            }
+          }
+        },
+        scales:{
+          x:{min:0,max:100,ticks:{color:'#61778a',font:{size:10}},grid:{color:'#edf2f6',drawTicks:false},border:{display:false}},
+          y:{ticks:{color:'#1B2D3E',font:{size:11,weight:'600'}},grid:{display:false},border:{display:false}}
+        }
+      }
+    });
+  }
+
+  // Ranking cards
+  const rankEl=document.getElementById('adicionalidade-ranking');
+  if(rankEl){
+    rankEl.innerHTML=gapSorted.map((g,i)=>{
+      const s=RS[g.r];
+      const col=REGION_COLORS[g.r]||'#888';
+      const medal=i===0?'Maior potencial':i===1?'Alto potencial':i<4?'Potencial moderado':'Menor gap';
+      const medalBg=i===0?'#F3E8FF':i===1?'#EDE9FE':'#F9FAFB';
+      const medalCol=i===0?'#7C3AED':i===1?'#6D28D9':'#6B7280';
+      return `<div style="display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:12px 16px;border:1px solid #E5E7EB;border-radius:10px;margin-bottom:8px;background:${medalBg}">
+        <div style="font-size:22px;font-weight:800;color:${col}">${i+1}</div>
+        <div>
+          <div style="font-weight:700;font-size:13px;color:#1B2D3E;display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:${col};display:inline-block"></span>${g.r}</div>
+          <div style="font-size:11px;color:#6B7280;margin-top:2px">${s.n} bairros · ${fmt(s.pop,'int')} hab. · Ext. pob. ${fmt(s.epob,'pct')} · ${fmt(s.emp,'int')} empresas · ${fmt(s.osc,'int')} OSCs</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;font-weight:700;color:${medalCol};text-transform:uppercase;letter-spacing:.04em">${medal}</div>
+          <div style="font-size:20px;font-weight:800;color:${col}">${g.gap}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ═════════════════════════════════════════════════════════════════════════
 
   // ── Regional map ─────────────────────────────────────────────────────────
   let activeRegion=null;
