@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
@@ -596,45 +597,45 @@ tbody tr:hover{background:#f8fbff}
 }
 .info-popover summary::-webkit-details-marker{display:none}
 .info-balloon{
-  position:absolute;
-  top:34px;
-  left:0;
-  right:auto;
-  width:min(430px, calc(100vw - 60px));
-  max-width:calc(100vw - 60px);
-  padding:14px 16px;
-  border-radius:16px;
-  background:#ffffff;
-  border:1px solid var(--line);
-  box-shadow:0 18px 36px rgba(15,39,64,.14);
-  color:var(--text);
-  font-size:12px;
-  line-height:1.65;
-  z-index:9999;
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(400px,calc(100vw - 48px));max-height:80vh;overflow-y:auto;
+  padding:0;border-radius:14px;background:#fff;border:1px solid var(--line);
+  box-shadow:0 24px 60px rgba(15,39,64,.28);color:var(--text);
+  font-size:11.5px;line-height:1.6;z-index:99999;overflow-x:hidden;
 }
-.info-balloon::before{
-  content:'';
-  position:absolute;
-  top:-8px;
-  left:10px;
-  width:14px;
-  height:14px;
-  background:#fff;
-  border-left:1px solid var(--line);
-  border-top:1px solid var(--line);
-  transform:rotate(45deg);
-}
-.info-balloon strong{
-  display:block;
-  margin-bottom:6px;
-  color:var(--navy);
-  font-size:12px;
-}
-.info-balloon ul{
-  margin:8px 0 0 16px;
-  padding:0;
-}
+.info-balloon::before{display:none}
+.info-popover[open] .info-backdrop{display:block;position:fixed;inset:0;background:rgba(15,39,64,.18);z-index:99998}
+.info-backdrop{display:none}
+.info-balloon .ib-header{background:#f4f6f9;padding:14px 16px 12px;border-bottom:1px solid var(--line-2)}
+.info-balloon .ib-header h5{margin:0 0 4px;font-size:13px;font-weight:700;color:var(--navy)}
+.info-balloon .ib-header p{margin:0;font-size:10.5px;line-height:1.55;color:var(--muted);font-weight:400}
+.info-balloon .ib-body{padding:14px 16px 16px}
+.info-balloon .ib-section{margin-bottom:12px}
+.info-balloon .ib-section:last-child{margin-bottom:0}
+.info-balloon .ib-section-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 6px;padding-bottom:5px;border-bottom:1px solid var(--line-2)}
+.info-balloon .ib-row{margin:5px 0;padding:5px 0;font-size:10.5px;line-height:1.55;color:var(--muted);font-weight:400}
+.info-balloon .ib-row b{color:var(--navy);font-weight:600;font-size:10.5px}
+.info-balloon .ib-conn{padding:5px 10px;margin:4px 0;border-radius:6px;border-left:3px solid var(--line-2);background:#f9fafb;font-size:10.5px;line-height:1.55;color:var(--text);font-weight:400}
+.info-balloon .ib-conn b{color:var(--navy);font-weight:600;margin-right:3px}
+.info-balloon .ib-note{margin-top:12px;padding:8px 10px;border-radius:6px;background:#f4f6f9;font-size:10px;color:var(--muted);line-height:1.55;border:1px solid var(--line-2)}
+.info-balloon strong{display:block;margin-bottom:6px;color:var(--navy);font-size:12px}
+.info-balloon ul{margin:8px 0 0 16px;padding:0}
 .info-balloon li{margin:4px 0}
+
+/* Network graph */
+.network-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:14px 0 0;font-size:11px}
+.network-legend .net-leg{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:8px;background:#f8fafb;transition:all .15s}
+.network-legend .net-leg:hover{background:#eef3f8}
+.network-legend .net-leg .net-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.network-legend .net-leg .net-leg-name{font-weight:500;color:var(--text);font-size:10px;line-height:1.3}
+.network-legend .net-leg .net-leg-count{margin-left:auto;font-size:10px;font-weight:700;color:var(--navy);flex-shrink:0}
+.net-degree-bar{position:absolute;top:10px;left:10px;display:flex;gap:4px;z-index:10;flex-wrap:wrap}
+.net-deg-btn{padding:5px 10px;border:1px solid var(--line-2);border-radius:6px;background:#fff;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;transition:all .15s;line-height:1;white-space:nowrap}
+.net-deg-btn:hover{border-color:var(--brand);color:var(--brand)}
+.net-deg-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.net-tooltip{position:absolute;pointer-events:none;background:rgba(20,50,74,.96);color:#fff;padding:10px 14px;border-radius:10px;font-size:11px;line-height:1.5;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:999;opacity:0;transition:opacity .15s}
+.net-tooltip strong{display:block;font-size:13px;margin-bottom:4px}
+.net-tooltip .net-tag{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:.04em;margin-top:4px}
 
 .radar-note{
   margin:0 24px 10px;
@@ -2337,6 +2338,73 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro (IPEA, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div></div>
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs (IPEA, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart tall"></canvas></div></div>
     </div>
+
+    <!-- Network analysis -->
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title">Rede de afinidade — Organizações Âncoras
+            <details class="info-popover" style="display:inline;margin-left:6px"><summary>i</summary><div class="info-backdrop" onclick="this.parentElement.removeAttribute('open')"></div><div class="info-balloon">
+              <div class="ib-header">
+                <h5>Como a rede foi construída</h5>
+                <p>As conexões exibidas são inferências, não parcerias formais. Cada ligação é calculada com base em dois critérios: afinidade temática e proximidade geográfica com cada organização âncora.</p>
+              </div>
+              <div class="ib-body">
+                <div class="ib-section">
+                  <div class="ib-section-title">Afinidade temática</div>
+                  <div class="ib-row"><b>Alta (+3 pts):</b> Áreas diretamente alinhadas à missão de cada âncora (cultura, saúde mental, educação, gastronomia social, assistência social).</div>
+                  <div class="ib-row"><b>Moderada (+1 pt):</b> Áreas com atuação complementar (defesa de direitos, outras associativas).</div>
+                </div>
+                <div class="ib-section">
+                  <div class="ib-section-title">Proximidade geográfica</div>
+                  <div class="ib-row"><b>Mesmo bairro (+3 pts):</b> OSCs no bairro-sede de cada âncora.</div>
+                  <div class="ib-row"><b>Mesmo território (+2 pts):</b> OSCs no mesmo território (Grande Bom Jardim ou Grande Mucuripe).</div>
+                  <div class="ib-row"><b>Território vizinho (+1 pt):</b> OSCs no outro território coberto pela Coalizão.</div>
+                </div>
+                <div class="ib-section">
+                  <div class="ib-section-title">Grau de conexão</div>
+                  <div class="ib-conn"><b>Forte</b> Score &ge; 5. Combina alta afinidade temática e proximidade geográfica.</div>
+                  <div class="ib-conn"><b>Média</b> Score 3 a 4. Afinidade temática significativa ou proximidade territorial relevante.</div>
+                  <div class="ib-conn"><b>Leve</b> Score 2. Afinidade parcial ou proximidade geográfica isolada.</div>
+                  <div class="ib-conn"><b>Entre pares</b> OSCs conectadas entre si por atuarem na mesma área e território.</div>
+                </div>
+                <div class="ib-note">O score final é a soma dos pontos de afinidade temática e proximidade geográfica. Apenas organizações com score &ge; 2 são exibidas. Cada OSC pode conectar-se a múltiplas âncoras.</div>
+              </div>
+            </div></details>
+          </h3>
+          <p class="panel-sub">Conexões inferidas por afinidade temática e proximidade geográfica com OSCs dos territórios Grande Bom Jardim e Grande Mucuripe</p>
+        </div>
+        <div class="filters">
+          <select id="net-anchor-filter"><option value="">Todas as âncoras</option></select>
+          <select id="net-territorio-filter"><option value="">Todos os territórios</option></select>
+          <select id="net-bairro-filter"><option value="">Todos os bairros</option></select>
+        </div>
+      </div>
+      <div class="map-analytics-layout">
+        <div style="min-width:0;display:flex;flex-direction:column">
+          <div id="network-graph" style="width:100%;flex:1;min-height:560px;position:relative;background:#FAFBFC;border:1px solid var(--line-2);border-radius:10px;box-sizing:border-box">
+            <div class="net-degree-bar" id="net-degree-bar">
+              <button class="net-deg-btn active" data-deg="all">Todas</button>
+              <button class="net-deg-btn" data-deg="strong">Fortes</button>
+              <button class="net-deg-btn" data-deg="medium">Médias</button>
+              <button class="net-deg-btn" data-deg="light">Leves</button>
+              <button class="net-deg-btn" data-deg="peer">Entre pares</button>
+            </div>
+          </div>
+        </div>
+        <div class="analysis-side">
+          <div class="analysis-card" style="min-height:auto;padding:18px 20px">
+            <span class="analysis-kicker">Organizações âncoras</span>
+            <h4 class="analysis-title" style="font-size:16px;margin:10px 0 10px" id="net-anchor-title">4 organizações de referência</h4>
+            <div id="net-anchor-cards" style="font-size:12px;color:var(--text);line-height:1.65"></div>
+          </div>
+          <div class="analysis-stats" id="network-stats"></div>
+        </div>
+      </div>
+      <div style="padding:0 24px 16px">
+        <div class="network-legend" id="network-legend"></div>
+      </div>
+    </div>
   </section>
 
   <section id="section-comp" class="section">
@@ -3997,6 +4065,296 @@ function initOsc(){
   setTimeout(()=>{if(MAPS['map-osc']&&MAPS['map-osc'].map)MAPS['map-osc'].map.invalidateSize();},200);
 }
 
+function initNetworkFort(){
+  /* ── 4 anchor organisations ── */
+  const ANCHORS=[
+    {id:'ccbj',name:'Centro Cultural Bom Jardim',short:'CCBJ',
+     bairro:'Bom Jardim',territory:'Grande Bom Jardim',color:'#E63946',
+     focus:['Cultura e recreação','Educação e pesquisa'],
+     related:['Desenvolvimento e defesa de direitos','Assistência social'],
+     desc:'Equipamento cultural do Governo do Ceará no Grande Bom Jardim. Oferece formação em artes, música, teatro, dança e audiovisual para jovens em situação de vulnerabilidade. Referência de acesso à cultura na periferia.'},
+    {id:'msm',name:'Movimento Saúde Mental',short:'MSM',
+     bairro:'Bom Jardim',territory:'Grande Bom Jardim',color:'#7C3AED',
+     focus:['Saúde','Assistência social'],
+     related:['Desenvolvimento e defesa de direitos','Educação e pesquisa'],
+     desc:'Organização voltada à saúde mental comunitária no Bom Jardim. Atua com acolhimento psicossocial, geração de renda solidária (Giardino Buffet) e combate ao estigma da doença mental na periferia.'},
+    {id:'egsb',name:'Escola de Gastronomia Social Ivens Dias Branco',short:'EGS',
+     bairro:'Cais do Porto',territory:'Grande Mucuripe',color:'#0B4FA8',
+     focus:['Educação e pesquisa','Assistência social'],
+     related:['Saúde','Desenvolvimento e defesa de direitos'],
+     desc:'Escola social localizada no Cais do Porto. Forma jovens em vulnerabilidade para o mercado de gastronomia, promovendo segurança alimentar, inclusão produtiva e empreendedorismo social.'},
+    {id:'im',name:'Instituto Metamorfose',short:'IM',
+     bairro:'Cais do Porto',territory:'Grande Mucuripe',color:'#D97706',
+     focus:['Assistência social','Desenvolvimento e defesa de direitos'],
+     related:['Educação e pesquisa','Saúde'],
+     desc:'Organização no Cais do Porto que atua com transformação social, capacitação profissional, defesa de direitos e fortalecimento comunitário para populações em vulnerabilidade.'}
+  ];
+
+  const anchorNodes=ANCHORS.map(a=>({
+    id:a.id,name:a.name,shortName:a.short,area:a.focus[0],
+    bairro:a.bairro,territory:a.territory,isAnchor:true,color:a.color
+  }));
+
+  /* ── Score each OSC against each anchor ── */
+  const oscScored=[];
+  const oscBestAnchor={};
+  OSC_POINTS.forEach((o,i)=>{
+    let bestScore=0, bestAnchorId=null;
+    ANCHORS.forEach(a=>{
+      let thematic=0,geographic=0;
+      const primary=o.primary||'';
+      const areas=o.areas||[];
+      if(a.focus.some(f=>areas.includes(f)||primary===f)) thematic=3;
+      else if(a.related.some(r=>areas.includes(r)||primary===r)) thematic=1;
+      if(o.b===a.bairro) geographic=3;
+      else if(o.t===a.territory) geographic=2;
+      else if(o.t&&o.t!==a.territory) geographic=1;
+      const sc=thematic+geographic;
+      if(sc>bestScore){bestScore=sc;bestAnchorId=a.id;}
+    });
+    if(bestScore>=2){
+      oscScored.push({idx:i,...o,score:bestScore,anchorId:bestAnchorId,
+        territory:o.t||'',region:o.t||''});
+      oscBestAnchor['osc-'+i]=bestAnchorId;
+    }
+  });
+
+  const nodes=[...anchorNodes,...oscScored.map(o=>({
+    id:'osc-'+o.idx,name:o.n,shortName:(o.n||'').slice(0,25),
+    area:o.primary||o.areas[0]||'',bairro:o.b,territory:o.territory,
+    score:o.score,anchorId:o.anchorId
+  }))];
+
+  /* ── Edges ── */
+  const edges=[];
+  oscScored.forEach(o=>{
+    ANCHORS.forEach(a=>{
+      let thematic=0,geographic=0;
+      const areas=o.areas||[];const primary=o.primary||'';
+      if(a.focus.some(f=>areas.includes(f)||primary===f)) thematic=3;
+      else if(a.related.some(r=>areas.includes(r)||primary===r)) thematic=1;
+      if(o.b===a.bairro) geographic=3;
+      else if(o.t===a.territory) geographic=2;
+      else if(o.t&&o.t!==a.territory) geographic=1;
+      const sc=thematic+geographic;
+      if(sc>=2){
+        const strength=sc>=5?'strong':sc>=3?'medium':'light';
+        edges.push({source:a.id,target:'osc-'+o.idx,strength,value:sc,anchorId:a.id});
+      }
+    });
+  });
+  // Peer connections
+  for(let i=0;i<oscScored.length;i++){
+    for(let j=i+1;j<oscScored.length;j++){
+      const a=oscScored[i],b=oscScored[j];
+      if((a.primary===b.primary||a.areas[0]===b.areas[0])&&a.b===b.b)
+        edges.push({source:'osc-'+a.idx,target:'osc-'+b.idx,strength:'peer',value:1});
+    }
+  }
+
+  /* ── Anchor cards ── */
+  document.getElementById('net-anchor-cards').innerHTML=ANCHORS.map(a=>{
+    const cnt=oscScored.filter(o=>o.anchorId===a.id).length;
+    return `<div style="margin-bottom:10px;padding:8px 10px;border-radius:8px;background:#f8fafb;border-left:3px solid ${a.color}">
+      <div style="font-weight:600;color:var(--navy);font-size:11px;margin-bottom:2px">${a.short} · ${a.bairro}</div>
+      <div style="font-size:10px;color:var(--muted);line-height:1.5">${a.desc.slice(0,120)}…</div>
+      <div style="font-size:10px;color:var(--navy);font-weight:600;margin-top:4px">${cnt} OSCs conectadas</div>
+    </div>`;
+  }).join('');
+
+  /* ── Stats ── */
+  const areaCount={};
+  oscScored.forEach(o=>{const a=o.primary||o.areas[0]||'';areaCount[a]=(areaCount[a]||0)+1;});
+  const strongCount=edges.filter(e=>e.strength==='strong').length;
+  const peerCount=edges.filter(e=>e.strength==='peer').length;
+  document.getElementById('network-stats').innerHTML=[
+    {label:'OSCs conectadas',value:oscScored.length,sub:'Por afinidade temática e/ou geográfica'},
+    {label:'Conexões fortes',value:strongCount,sub:'Alta afinidade temática + proximidade'},
+    {label:'Conexões entre pares',value:peerCount,sub:'OSCs conectadas entre si (área + bairro)'},
+    {label:'Áreas representadas',value:Object.keys(areaCount).length,
+     sub:Object.entries(areaCount).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([k,v])=>(OSC_AREA_SHORT_LABELS[k]||k)+': '+v).join(' · ')}
+  ].map(c=>`<div class="analysis-stat"><div class="analysis-stat-label">${c.label}</div><div class="analysis-stat-value">${c.value}</div><div class="analysis-stat-sub">${c.sub}</div></div>`).join('');
+
+  /* ── Filters: anchor, territory, bairro ── */
+  const anchorSel=document.getElementById('net-anchor-filter');
+  ANCHORS.forEach(a=>{const o=document.createElement('option');o.value=a.id;o.textContent=a.short;anchorSel.appendChild(o);});
+  const terrSel=document.getElementById('net-territorio-filter');
+  TERRITORIES.filter(t=>t!=='Todos').forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;terrSel.appendChild(o);});
+  const bairroSel=document.getElementById('net-bairro-filter');
+  const allBairros=[...new Set(oscScored.map(o=>o.b))].sort();
+  function populateBairros(terr){
+    bairroSel.innerHTML='<option value="">Todos os bairros</option>';
+    const list=terr?allBairros.filter(b=>{
+      const tb=TERRITORY_BAIRROS['Grande Mucuripe']||[];
+      const tg=TERRITORY_BAIRROS['Grande Bom Jardim']||[];
+      if(terr==='Grande Mucuripe') return tb.includes(b);
+      if(terr==='Grande Bom Jardim') return tg.includes(b);
+      return true;
+    }):allBairros;
+    list.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;bairroSel.appendChild(o);});
+  }
+  populateBairros('');
+  terrSel.addEventListener('change',()=>{populateBairros(terrSel.value);bairroSel.value='';applyFilters();});
+
+  /* ── Degree buttons ── */
+  let activeDeg='all';
+  document.querySelectorAll('#net-degree-bar .net-deg-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#net-degree-bar .net-deg-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      activeDeg=btn.dataset.deg;
+      applyFilters();
+    });
+  });
+
+  /* ── Clickable legend ── */
+  const legendAreas=[...new Set(oscScored.map(o=>o.primary||o.areas[0]||''))].filter(Boolean);
+  const hiddenAreas=new Set();
+  const legendEl=document.getElementById('network-legend');
+  function renderLegend(){
+    const sorted=legendAreas.slice().sort((a,b)=>(areaCount[b]||0)-(areaCount[a]||0));
+    legendEl.innerHTML=
+      ANCHORS.map(a=>`<div class="net-leg" style="cursor:default"><div class="net-leg-dot" style="background:${a.color}"></div><span class="net-leg-name" style="font-weight:600">${a.short} (âncora)</span></div>`).join('')+
+      sorted.map(a=>{
+        const off=hiddenAreas.has(a);
+        const cnt=areaCount[a]||0;
+        return `<div class="net-leg net-leg-toggle" data-area="${a}" style="cursor:pointer;opacity:${off?0.4:1}">
+          <div class="net-leg-dot" style="background:${off?'#ccc':(OSC_CATEGORY_COLORS[a]||'#888')}"></div>
+          <span class="net-leg-name">${OSC_AREA_SHORT_LABELS[a]||a}</span>
+          <span class="net-leg-count">${cnt}</span></div>`;
+      }).join('');
+    legendEl.querySelectorAll('.net-leg-toggle').forEach(el=>{
+      el.addEventListener('click',()=>{
+        const a=el.dataset.area;
+        if(hiddenAreas.has(a)) hiddenAreas.delete(a); else hiddenAreas.add(a);
+        renderLegend();applyFilters();
+      });
+    });
+  }
+  renderLegend();
+
+  /* ── D3 graph ── */
+  const container=document.getElementById('network-graph');
+  const W=container.clientWidth||700,H=container.clientHeight||620;
+  const svg=d3.select(container).append('svg')
+    .attr('width','100%').attr('height','100%')
+    .attr('viewBox',`0 0 ${W} ${H}`)
+    .style('border-radius','8px');
+  const tooltip=d3.select(container).append('div').attr('class','net-tooltip');
+  const g=svg.append('g');
+  svg.call(d3.zoom().scaleExtent([0.2,5]).on('zoom',e=>g.attr('transform',e.transform)));
+
+  const sim=d3.forceSimulation(nodes)
+    .force('link',d3.forceLink(edges).id(d=>d.id).distance(d=>d.strength==='peer'?40:d.value>=5?60:90).strength(d=>d.strength==='peer'?0.15:d.value>=5?0.4:0.1))
+    .force('charge',d3.forceManyBody().strength(d=>d.isAnchor?-600:-40))
+    .force('center',d3.forceCenter(W/2,H/2))
+    .force('collision',d3.forceCollide().radius(d=>d.isAnchor?28:6))
+    .force('x',d3.forceX(W/2).strength(0.03))
+    .force('y',d3.forceY(H/2).strength(0.03));
+
+  const strokeColor={strong:'rgba(230,57,70,.4)',medium:'rgba(124,58,237,.25)',light:'rgba(100,100,100,.1)',peer:'rgba(100,100,100,.05)'};
+  const strokeW={strong:2,medium:1.2,light:0.6,peer:0.3};
+
+  const link=g.append('g').selectAll('line').data(edges).join('line')
+    .attr('stroke',d=>strokeColor[d.strength]).attr('stroke-width',d=>strokeW[d.strength])
+    .attr('stroke-dasharray',d=>d.strength==='peer'?'2,2':null);
+
+  const nodeG=g.append('g').selectAll('g').data(nodes).join('g')
+    .call(d3.drag().on('start',(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y})
+      .on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y}).on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}));
+
+  const nodeR=d=>d.isAnchor?18:Math.max(3,Math.min(9,(d.score||1)*1.2));
+  nodeG.append('circle')
+    .attr('r',nodeR)
+    .attr('fill',d=>d.isAnchor?d.color:(OSC_CATEGORY_COLORS[d.area]||'#888'))
+    .attr('stroke',d=>d.isAnchor?'#fff':'rgba(255,255,255,.6)')
+    .attr('stroke-width',d=>d.isAnchor?2.5:1)
+    .style('cursor','pointer')
+    .style('filter',d=>d.isAnchor?`drop-shadow(0 2px 6px ${d.color}80)`:null);
+
+  nodeG.filter(d=>d.isAnchor).append('text')
+    .text(d=>d.shortName).attr('text-anchor','middle').attr('dy','.35em')
+    .attr('fill','#fff').attr('font-size','7px').attr('font-weight','800').attr('letter-spacing','.04em')
+    .style('pointer-events','none');
+
+  nodeG.filter(d=>!d.isAnchor).append('text').attr('class','net-label')
+    .text(d=>d.shortName||d.name.slice(0,22))
+    .attr('dx',d=>nodeR(d)+3).attr('dy','.35em')
+    .attr('fill','var(--text)').attr('font-size','7px').attr('font-weight','600')
+    .style('pointer-events','none').style('display','none');
+
+  /* ── Hover ── */
+  nodeG.on('mouseover',function(e,d){
+    d3.select(this).select('circle').transition().duration(150).attr('r',d.isAnchor?22:nodeR(d)*1.5);
+    link.transition().duration(150).attr('stroke-opacity',l=>(l.source===d||l.target===d)?1:0.08);
+    nodeG.transition().duration(150).style('opacity',n=>{
+      if(n===d) return 1;
+      return edges.some(e=>(e.source===d&&e.target===n)||(e.target===d&&e.source===n))?1:0.1;
+    });
+    const areaLabel=OSC_AREA_SHORT_LABELS[d.area]||d.area;
+    const color=d.isAnchor?d.color:(OSC_CATEGORY_COLORS[d.area]||'#888');
+    tooltip.style('opacity',1).html(
+      `<strong>${d.name}</strong>`+
+      (d.bairro?`<br>${d.bairro}${d.territory?' · '+d.territory:''}`:'')+
+      `<br><span class="net-tag" style="background:${color};color:#fff">${areaLabel}</span>`+
+      (!d.isAnchor?`<br>Score: ${d.score}`:''));
+    const rect=container.getBoundingClientRect();
+    tooltip.style('left',Math.min(e.pageX-rect.left+12,W-220)+'px').style('top',(e.pageY-rect.top-60)+'px');
+  }).on('mouseout',function(e,d){
+    d3.select(this).select('circle').transition().duration(200).attr('r',nodeR(d));
+    link.transition().duration(200).attr('stroke-opacity',1);
+    nodeG.transition().duration(200).style('opacity',1);
+    tooltip.style('opacity',0);
+  });
+
+  sim.on('tick',()=>{
+    link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    nodeG.attr('transform',d=>`translate(${d.x},${d.y})`);
+  });
+
+  /* ── Unified filter ── */
+  function applyFilters(){
+    const anchorFilter=anchorSel.value;
+    const terrFilter=terrSel.value;
+    const bairroFilter=bairroSel.value;
+    const hasFilter=activeDeg!=='all'||anchorFilter||terrFilter||bairroFilter;
+
+    nodeG.each(function(d){
+      if(d.isAnchor){d._visible=anchorFilter?d.id===anchorFilter:true;return;}
+      let vis=true;
+      if(hiddenAreas.has(d.area)) vis=false;
+      if(terrFilter&&d.territory!==terrFilter) vis=false;
+      if(bairroFilter&&d.bairro!==bairroFilter) vis=false;
+      if(anchorFilter&&d.anchorId!==anchorFilter) vis=false;
+      d._visible=vis;
+    });
+
+    link.each(function(d){
+      const src=d.source,tgt=d.target;
+      let vis=src._visible!==false&&tgt._visible!==false;
+      if(vis&&activeDeg!=='all') vis=d.strength===activeDeg;
+      if(vis&&anchorFilter&&d.anchorId) vis=d.anchorId===anchorFilter;
+      d._linkVis=vis;
+      d3.select(this).attr('display',vis?null:'none');
+    });
+
+    if(activeDeg!=='all'||anchorFilter){
+      nodeG.each(function(d){
+        if(d.isAnchor) return;
+        if(!d._visible) return;
+        const hasLink=edges.some(e=>e._linkVis&&(e.source===d||e.target===d));
+        d._visible=hasLink;
+      });
+    }
+
+    nodeG.attr('display',d=>d._visible?null:'none');
+    nodeG.selectAll('.net-label').style('display',d=>(hasFilter&&d._visible)?null:'none');
+  }
+
+  anchorSel.addEventListener('change',applyFilters);
+  bairroSel.addEventListener('change',applyFilters);
+}
+
 function initComp(){
   const gm = TERR_STATS.find(d => d.t === 'Grande Mucuripe');
   const gbj = TERR_STATS.find(d => d.t === 'Grande Bom Jardim');
@@ -4269,7 +4627,7 @@ function initTab(tab){
   if(tab === 'vuln') initVuln();
   if(tab === 'infra') initInfra();
   if(tab === 'econ') initEcon();
-  if(tab === 'osc') initOsc();
+  if(tab === 'osc'){initOsc();initNetworkFort();}
   if(tab === 'comp') initComp();
   INITED.add(tab);
 }
