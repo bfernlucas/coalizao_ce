@@ -2351,12 +2351,6 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       </div>
     </div>
 
-    <!-- Charts row -->
-    <div class="grid two" style="margin-bottom:0">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro (IPEA, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs (IPEA, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart tall"></canvas></div></div>
-    </div>
-
     <!-- Network analysis -->
     <div class="panel" style="margin-top:20px">
       <div class="panel-head">
@@ -3849,40 +3843,6 @@ function initOsc(){
     {l:'Grande Mucuripe',v:fmt(oscByTerritory['Grande Mucuripe']||0,'int'),s:'OSCs no território'},
     {l:'Grande Bom Jardim',v:fmt(oscByTerritory['Grande Bom Jardim']||0,'int'),s:'OSCs no território'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
-
-  // Charts
-  const oscRows=[...getOscAggregateRows('Todos','Todos','Todos','Todos')].sort((a,b)=>b.oscGeoCount-a.oscGeoCount);
-  makeBar('chart-osc-total',oscRows.map(d=>d.b),[{data:oscRows.map(d=>d.oscGeoCount),backgroundColor:oscRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal),borderRadius:6}],{plugins:{legend:{display:false}}});
-  addTerritoryLegend('chart-osc-total');
-
-  const areaCounts={};
-  OSC_POINTS.forEach(point=>{
-    const areas=point.areas?.length?point.areas:['Sem classificação'];
-    [...new Set(areas)].forEach(area=>{
-      areaCounts[area]=areaCounts[area]||{'Grande Mucuripe':0,'Grande Bom Jardim':0,total:0};
-      areaCounts[area][point.t]+=1;
-      areaCounts[area].total+=1;
-    });
-  });
-  const areaLabels=Object.entries(areaCounts).filter(([a])=>a!=='Sem classificação').sort((a,b)=>b[1].total-a[1].total).map(([a])=>a).slice(0,8);
-  destroyChart('chart-osc-area');
-  const oscAreaCanvas=document.getElementById('chart-osc-area');
-  const oscAreaH=Math.max(areaLabels.length*50,300);
-  oscAreaCanvas.style.height=oscAreaH+'px';
-  oscAreaCanvas.parentElement.style.height='auto';
-  const oscAreaOpts=baseChartOptions();
-  oscAreaOpts.indexAxis='y';
-  CHARTS['chart-osc-area']=new Chart(oscAreaCanvas,{
-    type:'bar',
-    data:{
-      labels:areaLabels.map(a=>OSC_AREA_SHORT_LABELS[a]||a),
-      datasets:[
-        {label:'Grande Mucuripe',data:areaLabels.map(a=>areaCounts[a]['Grande Mucuripe']||0),backgroundColor:'#6DAFEF',borderRadius:5},
-        {label:'Grande Bom Jardim',data:areaLabels.map(a=>areaCounts[a]['Grande Bom Jardim']||0),backgroundColor:'#0B4FA8',borderRadius:5}
-      ]
-    },
-    options:oscAreaOpts
-  });
 
   // --- Populate filters ---
   const selBairro=document.getElementById('osc-bairro-filter');
