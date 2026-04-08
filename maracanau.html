@@ -1015,22 +1015,22 @@ body{background:#fff}
         </div>
         <div>
           <div class="title-with-info" style="margin-bottom:10px">
-            <div style="font-size:12px;font-weight:700;color:#DC2626">Segurança Alimentar por região</div>
+            <div style="font-size:12px;font-weight:700;color:#DC2626">Vulnerabilidade Alimentar por região</div>
             <details class="info-popover">
-              <summary aria-label="Variáveis do radar de Segurança Alimentar">i</summary>
+              <summary aria-label="Variáveis do radar de Vulnerabilidade Alimentar">i</summary>
               <div class="info-balloon">
-                <strong>Variáveis — Segurança Alimentar</strong>
-                O radar combina indicadores de <em>demanda</em> (vulnerabilidade) e <em>cobertura</em> (proteção). Eixos de demanda são invertidos: valores altos = menor vulnerabilidade = melhor.
+                <strong>Variáveis — Vulnerabilidade Alimentar</strong>
+                Todos os eixos estão em percentual (0–100%). Quanto mais expandido o polígono, <strong>mais vulnerável</strong> a região.
                 <ul>
-                  <li><strong>Baixa ext. pobreza:</strong> 1 − taxa de extrema pobreza. Quanto maior, menos famílias em situação de fome. MDS, 2025.</li>
-                  <li><strong>Baixa chefia feminina:</strong> 1 − proporção de domicílios com chefia feminina. Famílias monoparentais femininas têm 2× mais insegurança alimentar (PNAD). IBGE, 2022.</li>
-                  <li><strong>Baixa proporção infantil:</strong> 1 − proporção de crianças 0–9 na população. Faixa mais vulnerável à desnutrição. IBGE, 2022.</li>
-                  <li><strong>CRAS / 10 mil hab.:</strong> porta de entrada para Bolsa Família, cestas básicas e cadastro. MDS, 2025.</li>
-                  <li><strong>Equip. seg. alimentar / 10 mil hab.:</strong> cozinhas comunitárias, bancos de alimentos. CNES, 2024.</li>
-                  <li><strong>Escolas / 10 mil hab.:</strong> canal PNAE (merenda escolar) — principal política de alimentação infantil. INEP, 2023.</li>
-                  <li><strong>OSCs assist. social / 10 mil hab.:</strong> organizações que operam distribuição de alimentos, cozinhas comunitárias. IPEA, 2024.</li>
+                  <li><strong>Extrema pobreza (%):</strong> proporção de famílias com renda ≤ R$218/mês. MDS, 2025.</li>
+                  <li><strong>Chefia feminina (%):</strong> proporção de domicílios chefiados por mulheres — lares monoparentais femininos têm 2× mais insegurança alimentar (PNAD). IBGE, 2022.</li>
+                  <li><strong>Proporção infantil (%):</strong> crianças 0–9 como % da população — faixa mais vulnerável à desnutrição. IBGE, 2022.</li>
+                  <li><strong>Déficit CRAS (%):</strong> (1 − cobertura da região / cobertura da melhor região) × 100. Mede a distância em relação à região com mais CRAS por 10 mil hab. MDS, 2025.</li>
+                  <li><strong>Déficit eq. alimentar (%):</strong> mesmo cálculo para equipamentos de segurança alimentar (cozinhas comunitárias, bancos de alimentos). CNES, 2024.</li>
+                  <li><strong>Déficit escolar (%):</strong> mesmo cálculo para escolas — canal PNAE de merenda escolar. INEP, 2023.</li>
+                  <li><strong>Déficit OSCs assist. (%):</strong> mesmo cálculo para OSCs de assistência social que operam distribuição de alimentos. IPEA, 2024.</li>
                 </ul>
-                Quanto mais expandido o polígono, melhor a situação de segurança alimentar da região.
+                Os déficits de cobertura são calculados em relação à região com melhor atendimento per capita: 0% = mesma cobertura que a melhor região; 100% = nenhuma cobertura.
               </div>
             </details>
           </div>
@@ -2192,15 +2192,20 @@ function initComp(){
   ];
   makeCoalRadar('chart-radar-ip',ipAxes,radarPaletteQ1);
 
-  // SA axes (demand inverted + coverage per capita)
+  // SA axes — all in %, higher = more vulnerable
+  // Coverage: deficit relative to best region → (1 - value/max) × 100
+  const maxCras10k=Math.max(...REGION_ORDER.map(r=>RS[r].cras10k||0))||1;
+  const maxEsan10k=Math.max(...REGION_ORDER.map(r=>RS[r].esan10k||0))||1;
+  const maxEsc10k=Math.max(...REGION_ORDER.map(r=>RS[r].esc10k||0))||1;
+  const maxOscAs10k=Math.max(...REGION_ORDER.map(r=>RS[r].oscAs10k||0))||1;
   const saAxes=[
-    {short:'Baixa ext. pobreza',getValue:s=>s.epob!=null?(1-s.epob)*100:null,unit:'%'},
-    {short:'Baixa chefia fem.',getValue:s=>s.mulh!=null?(1-s.mulh)*100:null,unit:'%'},
-    {short:'Baixa prop. infantil',getValue:s=>s.pop09share!=null?(1-s.pop09share)*100:null,unit:'%'},
-    {short:'CRAS/10k',getValue:s=>s.cras10k||0,unit:''},
-    {short:'Eq. seg. alim./10k',getValue:s=>s.esan10k||0,unit:''},
-    {short:'Escolas/10k',getValue:s=>s.esc10k||0,unit:''},
-    {short:'OSCs assist./10k',getValue:s=>s.oscAs10k||0,unit:''},
+    {short:'Extrema pobreza',getValue:s=>s.epob!=null?s.epob*100:0,unit:'%'},
+    {short:'Chefia feminina',getValue:s=>s.mulh!=null?s.mulh*100:0,unit:'%'},
+    {short:'Proporção infantil',getValue:s=>s.pop09share!=null?s.pop09share*100:0,unit:'%'},
+    {short:'Déficit CRAS',getValue:s=>(1-(s.cras10k||0)/maxCras10k)*100,unit:'%'},
+    {short:'Déficit eq. alimentar',getValue:s=>(1-(s.esan10k||0)/maxEsan10k)*100,unit:'%'},
+    {short:'Déficit escolar',getValue:s=>(1-(s.esc10k||0)/maxEsc10k)*100,unit:'%'},
+    {short:'Déficit OSCs assist.',getValue:s=>(1-(s.oscAs10k||0)/maxOscAs10k)*100,unit:'%'},
   ];
   makeCoalRadar('chart-radar-sa',saAxes,radarPaletteQ1);
 
@@ -2288,9 +2293,9 @@ function initComp(){
 
   // ── Q3: Potencial de Adicionalidade ─────────────────────────────────────
   // Gap score = vulnerability × (100 - capacity) / 100
-  // synIaIdx: higher = better security, so vulnerability = 100 - synIaIdx
-  const synGapScores=REGION_ORDER.map((_,i)=>Math.round((100-synIaIdx[i])*(100-synIpIdx[i])/100));
-  const gapSorted=REGION_ORDER.map((r,i)=>({r,gap:synGapScores[i],vuln:100-synIaIdx[i],cap:synIpIdx[i]})).sort((a,b)=>b.gap-a.gap);
+  // synIaIdx: higher = more vulnerable (after SA axes flip)
+  const synGapScores=REGION_ORDER.map((_,i)=>Math.round(synIaIdx[i]*(100-synIpIdx[i])/100));
+  const gapSorted=REGION_ORDER.map((r,i)=>({r,gap:synGapScores[i],vuln:synIaIdx[i],cap:synIpIdx[i]})).sort((a,b)=>b.gap-a.gap);
 
   // Render additionality chart
   destroyChart('chart-adicionalidade');
