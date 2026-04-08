@@ -565,12 +565,12 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 }
 
 .title-with-info{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
-.info-popover{position:relative;display:inline-flex;align-items:center;flex-shrink:0;margin-top:2px}
+.info-popover{position:relative;display:inline-flex;align-items:center;flex-shrink:0;margin-top:2px;z-index:9999}
 .info-popover summary{list-style:none;width:22px;height:22px;border-radius:999px;border:1px solid var(--line);background:#f4f8fc;color:var(--brand);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;cursor:pointer;transition:.2s ease}
 .info-popover summary:hover,.info-popover[open] summary{background:#edf4fa;border-color:#bfd5ea}
 .info-popover summary::-webkit-details-marker{display:none}
-.info-balloon{position:absolute;top:30px;left:0;width:min(420px,calc(100vw - 60px));padding:14px 16px;border-radius:10px;background:#fff;border:1px solid var(--line);box-shadow:0 12px 28px rgba(15,39,64,.14);color:var(--text);font-size:12px;line-height:1.65;z-index:50}
-.info-balloon::before{content:'';position:absolute;top:-8px;left:10px;width:14px;height:14px;background:#fff;border-left:1px solid var(--line);border-top:1px solid var(--line);transform:rotate(45deg)}
+.info-balloon{position:absolute;top:30px;right:0;left:auto;width:min(440px,calc(100vw - 60px));padding:16px 18px;border-radius:10px;background:#fff;border:1px solid var(--line);box-shadow:0 16px 40px rgba(15,39,64,.18);color:var(--text);font-size:12px;line-height:1.65;z-index:9999}
+.info-balloon::before{content:'';position:absolute;top:-8px;right:10px;left:auto;width:14px;height:14px;background:#fff;border-left:1px solid var(--line);border-top:1px solid var(--line);transform:rotate(45deg)}
 .info-balloon strong{display:block;margin-bottom:6px;color:var(--navy);font-size:12px}
 .info-balloon ul{margin:8px 0 0 16px;padding:0}
 .info-balloon li{margin:5px 0;color:var(--muted)}
@@ -992,10 +992,10 @@ body{background:#fff}
         </div>
       </div>
       <!-- Two radars side by side -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 24px 20px">
-        <div>
-          <div class="title-with-info" style="margin-bottom:10px">
-            <div style="font-size:12px;font-weight:700;color:var(--brand)">Inclusão Produtiva por região</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 24px 24px">
+        <div style="position:relative">
+          <div class="title-with-info" style="margin-bottom:12px">
+            <div style="font-size:13px;font-weight:700;color:var(--brand)">Inclusão Produtiva por região</div>
             <details class="info-popover">
               <summary aria-label="Variáveis do radar de Inclusão Produtiva">i</summary>
               <div class="info-balloon">
@@ -1011,11 +1011,11 @@ body{background:#fff}
               </div>
             </details>
           </div>
-          <div style="position:relative;height:340px"><canvas id="chart-radar-ip"></canvas></div>
+          <div style="position:relative;height:400px"><canvas id="chart-radar-ip"></canvas></div>
         </div>
-        <div>
-          <div class="title-with-info" style="margin-bottom:10px">
-            <div style="font-size:12px;font-weight:700;color:#DC2626">Vulnerabilidade Alimentar por região</div>
+        <div style="position:relative">
+          <div class="title-with-info" style="margin-bottom:12px">
+            <div style="font-size:13px;font-weight:700;color:#DC2626">Vulnerabilidade Alimentar por região</div>
             <details class="info-popover">
               <summary aria-label="Variáveis do radar de Vulnerabilidade Alimentar">i</summary>
               <div class="info-balloon">
@@ -1034,7 +1034,7 @@ body{background:#fff}
               </div>
             </details>
           </div>
-          <div style="position:relative;height:340px"><canvas id="chart-radar-sa"></canvas></div>
+          <div style="position:relative;height:400px"><canvas id="chart-radar-sa"></canvas></div>
         </div>
       </div>
     </div>
@@ -2152,19 +2152,19 @@ function initComp(){
       data:axesDef.map(a=>{const v=a.getValue(RS[r]);return v!=null?Math.round(v*10)/10:0}),
       borderColor:palette[r].border,backgroundColor:palette[r].bg,
       pointBackgroundColor:palette[r].border,pointBorderColor:'#fff',
-      pointBorderWidth:1.5,pointRadius:3,pointHoverRadius:5,borderWidth:2
+      pointBorderWidth:1.5,pointRadius:3.5,pointHoverRadius:6,borderWidth:2.2
     }));
     CHARTS[canvasId]=new Chart(canvas,{
       type:'radar',
       data:{labels,datasets},
       options:{
         responsive:true,maintainAspectRatio:false,
-        animation:{duration:200},
-        layout:{padding:{top:8,bottom:8,left:8,right:8}},
+        animation:{duration:300},
+        layout:{padding:{top:16,bottom:12,left:16,right:16}},
         plugins:{
-          legend:{position:'bottom',labels:{font:{size:10,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:7,boxHeight:7,padding:10}},
+          legend:{position:'bottom',labels:{font:{size:11,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:8,boxHeight:8,padding:14}},
           tooltip:{
-            backgroundColor:'rgba(27,45,62,.92)',titleFont:{size:11,weight:'700'},bodyFont:{size:11},cornerRadius:6,padding:8,
+            backgroundColor:'rgba(27,45,62,.92)',titleFont:{size:12,weight:'700'},bodyFont:{size:11},cornerRadius:6,padding:10,
             callbacks:{
               title(i){return axesDef[i[0]?.dataIndex]?.short||''},
               label(ctx){return ` ${ctx.dataset.label}: ${ctx.parsed.r.toFixed(1)}${axesDef[ctx.dataIndex].unit||''}`}
@@ -2173,10 +2173,10 @@ function initComp(){
         },
         scales:{r:{
           min:0,max:scaleMax,
-          angleLines:{color:'rgba(216,224,232,.7)'},
-          grid:{color:'rgba(216,224,232,.6)'},
-          pointLabels:{color:'#1B2D3E',font:{size:10,weight:'700'},padding:12},
-          ticks:{display:true,backdropColor:'transparent',color:'#9CA3AF',font:{size:8},stepSize:Math.round(scaleMax/4),callback:v=>v+''}
+          angleLines:{color:'rgba(216,224,232,.55)'},
+          grid:{color:'rgba(216,224,232,.5)'},
+          pointLabels:{color:'#1B2D3E',font:{size:11,weight:'700'},padding:16},
+          ticks:{display:true,backdropColor:'transparent',color:'#9CA3AF',font:{size:9},stepSize:Math.round(scaleMax/4),callback:v=>v+''}
         }}
       }
     });
