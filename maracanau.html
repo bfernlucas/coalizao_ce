@@ -81,7 +81,7 @@ button,select,input,textarea{font:inherit}
 .footer{padding:16px 0;margin-top:32px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6}
 .footer-credit{margin-top:8px;font-size:12px;color:var(--muted)}
 .map-analytics-layout{display:grid;grid-template-columns:1.15fr minmax(340px,.85fr);gap:24px;padding:0 24px 4px;align-items:stretch}
-.analysis-side{display:flex;flex-direction:column;gap:16px}
+.analysis-side{display:flex;flex-direction:column;gap:14px;justify-content:space-between}
 .analysis-card{border-radius:20px;padding:20px;background:linear-gradient(180deg,#ffffff 0%,#f9fbfd 100%);border:1px solid var(--line);box-shadow:0 10px 24px rgba(16,42,67,.05);min-height:220px}
 .analysis-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#eef5fb;color:var(--brand);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .analysis-title{margin:14px 0 10px;font-size:22px;line-height:1.15;letter-spacing:-.02em;color:var(--navy)}
@@ -494,9 +494,12 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 
 /* Network graph */
 .network-wrap{padding:0 0 8px}
-.network-legend{display:flex;flex-wrap:wrap;gap:12px;padding:8px 24px;font-size:11px;color:var(--muted)}
-.network-legend .net-leg{display:flex;align-items:center;gap:5px}
-.network-legend .net-leg span{width:12px;height:12px;border-radius:50%;display:inline-block;flex-shrink:0}
+.network-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;padding:14px 0 0;font-size:11px;color:var(--muted)}
+.network-legend .net-leg{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid var(--line-2);background:#fff;transition:all .15s}
+.network-legend .net-leg:hover{border-color:var(--line);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.network-legend .net-leg span{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
+.network-legend .net-leg .net-leg-name{flex:1;font-weight:500;color:var(--text);font-size:10.5px;line-height:1.3}
+.network-legend .net-leg .net-leg-count{font-size:11px;font-weight:700;color:var(--navy);min-width:18px;text-align:right}
 .net-degree-bar{position:absolute;top:10px;left:10px;display:flex;gap:4px;z-index:10;flex-wrap:wrap}
 .net-deg-btn{padding:5px 10px;border:1px solid var(--line-2);border-radius:6px;background:#fff;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;transition:all .15s;line-height:1;white-space:nowrap}
 .net-deg-btn:hover{border-color:var(--brand);color:var(--brand)}
@@ -1033,7 +1036,7 @@ body{background:#fff}
       </div>
       <div class="map-analytics-layout">
         <div style="min-width:0;display:flex;flex-direction:column">
-          <div id="network-graph" style="width:100%;flex:1;min-height:580px;position:relative;background:#FAFBFC;border:1px solid var(--line-2);border-radius:10px;box-sizing:border-box">
+          <div id="network-graph" style="width:100%;flex:1;min-height:560px;position:relative;background:#FAFBFC;border:1px solid var(--line-2);border-radius:10px;box-sizing:border-box">
             <div class="net-degree-bar" id="net-degree-bar">
               <button class="net-deg-btn active" data-deg="all">Todas</button>
               <button class="net-deg-btn" data-deg="strong">Fortes</button>
@@ -1042,7 +1045,6 @@ body{background:#fff}
               <button class="net-deg-btn" data-deg="peer">Entre pares</button>
             </div>
           </div>
-          <div class="network-legend" id="network-legend" style="padding:10px 4px 0"></div>
         </div>
         <div class="analysis-side">
           <div class="analysis-card" style="min-height:auto;padding:18px 20px">
@@ -1052,6 +1054,9 @@ body{background:#fff}
           </div>
           <div class="analysis-stats" id="network-stats"></div>
         </div>
+      </div>
+      <div style="padding:0 24px 16px">
+        <div class="network-legend" id="network-legend"></div>
       </div>
     </div>
   </section>
@@ -2125,12 +2130,16 @@ function initNetwork(){
   const hiddenAreas=new Set();
   const legendEl=document.getElementById('network-legend');
   function renderLegend(){
+    const sorted=legendAreas.slice().sort((a,b)=>(areaCount[b]||0)-(areaCount[a]||0));
     legendEl.innerHTML=
-      `<div class="net-leg" style="cursor:default"><span style="background:#E63946;width:14px;height:14px;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,.3)"></span><strong>CEASA (âncora)</strong></div>`+
-      legendAreas.map(a=>{
+      `<div class="net-leg" style="cursor:default;border-color:#E63946;background:rgba(230,57,70,.04)"><span style="background:#E63946"></span><span class="net-leg-name" style="font-weight:600;color:var(--navy)">CEASA (âncora)</span></div>`+
+      sorted.map(a=>{
         const off=hiddenAreas.has(a);
-        return `<div class="net-leg net-leg-toggle" data-area="${a}" style="cursor:pointer;opacity:${off?0.35:1};transition:opacity .2s">
-          <span style="background:${off?'#ccc':(AREA_COLORS[a]||'#888')}"></span>${AREA_LABELS[a]||a}</div>`;
+        const cnt=areaCount[a]||0;
+        return `<div class="net-leg net-leg-toggle" data-area="${a}" style="cursor:pointer;opacity:${off?0.4:1}">
+          <span style="background:${off?'#ccc':(AREA_COLORS[a]||'#888')}"></span>
+          <span class="net-leg-name">${AREA_LABELS[a]||a}</span>
+          <span class="net-leg-count">${cnt}</span></div>`;
       }).join('');
     legendEl.querySelectorAll('.net-leg-toggle').forEach(el=>{
       el.addEventListener('click',()=>{
