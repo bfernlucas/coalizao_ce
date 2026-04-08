@@ -980,26 +980,7 @@ body{background:#fff}
 
     <!-- ═══ Q1: Convergência com os Eixos ═══ -->
     <div class="panel" style="margin-bottom:20px">
-      <div class="panel-head">
-        <div class="title-with-info">
-          <div>
-            <h3 class="panel-title">Convergência com os eixos da Coalizão</h3>
-            <p class="panel-sub">Elementos do território que dialogam diretamente com Inclusão Produtiva e Insegurança Alimentar.</p>
-          </div>
-          <details class="info-popover">
-            <summary aria-label="Como os índices foram construídos">i</summary>
-            <div class="info-balloon">
-              <strong>Como os índices foram construídos</strong>
-              Os dois índices por região (0–100) são compostos por normalização min–max entre as 6 regiões.
-              <ul>
-                <li><strong>Vulnerabilidade alimentar:</strong> média de três componentes normalizados — (1) taxa de extrema pobreza (MDS, 2025), (2) déficit de saneamento (1 − média de esgoto, água e coleta — IBGE, 2022) e (3) déficit de renda (1 − renda/renda máxima — IBGE, 2010). Quanto maior, mais vulnerável.</li>
-                <li><strong>Capacidade de inclusão produtiva:</strong> média de dois componentes normalizados — (1) empresas por 1.000 habitantes (Receita Federal, 2024) e (2) OSCs por 10.000 habitantes (IPEA, 2024). Quanto maior, mais capacidade instalada.</li>
-              </ul>
-              A diferença visual entre as duas barras indica o <em>gap</em> — regiões com alta vulnerabilidade e baixa capacidade são prioritárias para a Coalizão.
-            </div>
-          </details>
-        </div>
-      </div>
+      <div class="panel-head"><div><h3 class="panel-title">Convergência com os eixos da Coalizão</h3><p class="panel-sub">Elementos do território que dialogam diretamente com Inclusão Produtiva e Insegurança Alimentar.</p></div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 24px 16px">
         <div>
           <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brand);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--brand-4)">Eixo 1 &mdash; Inclusão Produtiva</div>
@@ -1010,8 +991,52 @@ body{background:#fff}
           <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);padding:0" id="kpi-eixo-ia"></div>
         </div>
       </div>
-      <div style="padding:6px 24px 0"><p class="panel-sub" style="margin:0 0 4px">Índice composto por região: vulnerabilidade alimentar vs. capacidade de inclusão produtiva (0–100, normalizado min–max)</p></div>
-      <div class="chart-box"><canvas id="chart-eixos-region" class="chart tall"></canvas></div>
+      <!-- Two radars side by side -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 24px 20px">
+        <div>
+          <div class="title-with-info" style="margin-bottom:10px">
+            <div style="font-size:12px;font-weight:700;color:var(--brand)">Inclusão Produtiva por região</div>
+            <details class="info-popover">
+              <summary aria-label="Variáveis do radar de Inclusão Produtiva">i</summary>
+              <div class="info-balloon">
+                <strong>Variáveis — Inclusão Produtiva</strong>
+                Todas em escala per capita para comparação entre regiões. Quanto mais expandido o polígono, maior a capacidade de inclusão produtiva.
+                <ul>
+                  <li><strong>Empresas / 1 mil hab.:</strong> CNPJs ativos com sede no território. Receita Federal, 2024.</li>
+                  <li><strong>MEIs / 1 mil hab.:</strong> microempreendedores individuais — principal porta de entrada na formalização. Receita Federal, 2024.</li>
+                  <li><strong>Cooperativas / 10 mil hab.:</strong> cooperativas ativas no território. Receita Federal, 2024.</li>
+                  <li><strong>OSCs / 10 mil hab.:</strong> organizações da sociedade civil ativas. IPEA, 2024.</li>
+                  <li><strong>OSCs de incl. produtiva / 10 mil hab.:</strong> OSCs classificadas como inclusão produtiva. IPEA, 2024.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+          <div style="position:relative;height:340px"><canvas id="chart-radar-ip"></canvas></div>
+        </div>
+        <div>
+          <div class="title-with-info" style="margin-bottom:10px">
+            <div style="font-size:12px;font-weight:700;color:#DC2626">Segurança Alimentar por região</div>
+            <details class="info-popover">
+              <summary aria-label="Variáveis do radar de Segurança Alimentar">i</summary>
+              <div class="info-balloon">
+                <strong>Variáveis — Segurança Alimentar</strong>
+                O radar combina indicadores de <em>demanda</em> (vulnerabilidade) e <em>cobertura</em> (proteção). Eixos de demanda são invertidos: valores altos = menor vulnerabilidade = melhor.
+                <ul>
+                  <li><strong>Baixa ext. pobreza:</strong> 1 − taxa de extrema pobreza. Quanto maior, menos famílias em situação de fome. MDS, 2025.</li>
+                  <li><strong>Baixa chefia feminina:</strong> 1 − proporção de domicílios com chefia feminina. Famílias monoparentais femininas têm 2× mais insegurança alimentar (PNAD). IBGE, 2022.</li>
+                  <li><strong>Baixa proporção infantil:</strong> 1 − proporção de crianças 0–9 na população. Faixa mais vulnerável à desnutrição. IBGE, 2022.</li>
+                  <li><strong>CRAS / 10 mil hab.:</strong> porta de entrada para Bolsa Família, cestas básicas e cadastro. MDS, 2025.</li>
+                  <li><strong>Equip. seg. alimentar / 10 mil hab.:</strong> cozinhas comunitárias, bancos de alimentos. CNES, 2024.</li>
+                  <li><strong>Escolas / 10 mil hab.:</strong> canal PNAE (merenda escolar) — principal política de alimentação infantil. INEP, 2023.</li>
+                  <li><strong>OSCs assist. social / 10 mil hab.:</strong> organizações que operam distribuição de alimentos, cozinhas comunitárias. IPEA, 2024.</li>
+                </ul>
+                Quanto mais expandido o polígono, melhor a situação de segurança alimentar da região.
+              </div>
+            </details>
+          </div>
+          <div style="position:relative;height:340px"><canvas id="chart-radar-sa"></canvas></div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══ Q2: Indicadores Consolidados ═══ -->
@@ -2039,6 +2064,7 @@ function initComp(){
         agua:wmean('agua'),
         lixo:wmean('lixo'),
         renda:wmean('renda'),
+        mulh:wmean('mulh'),
         emp:sum('emp'),
         mei:sum('mei'),
         osc:sum('osc'),
@@ -2046,7 +2072,11 @@ function initComp(){
         coops:sum('coops'),
         esan:sum('esan'),
         cras:sum('cras'),
+        esc:sum('esc'),
+        esaude:sum('esaude'),
         cadEpobFam:sum('cadEpobFam'),
+        pop09:sum('pop09'),
+        pop09share: totalPop>0 ? sum('pop09')/totalPop : null,
         emp1k: totalPop>0 ? sum('emp')/totalPop*1000 : null,
         osc10k: totalPop>0 ? sum('osc')/totalPop*10000 : null,
         meiShare: sum('emp')>0 ? sum('mei')/sum('emp') : null,
@@ -2055,6 +2085,19 @@ function initComp(){
     return stats;
   }
   const RS=regionAgg();
+
+  // Enrich RS with OSCs de assistência social per region (from OSCS array)
+  const oscAsBairro={};
+  if(typeof OSCS!=='undefined') OSCS.filter(o=>o.a==='Assistencia social').forEach(o=>{oscAsBairro[o.bairro]=(oscAsBairro[o.bairro]||0)+1});
+  REGION_ORDER.forEach(r=>{
+    const bairros=DATA.filter(d=>REGION_MAP[d.b]===r).map(d=>d.b);
+    const oscAs=bairros.reduce((s,b)=>s+(oscAsBairro[b]||0),0);
+    RS[r].oscAs=oscAs;
+    RS[r].oscAs10k=RS[r].pop>0?oscAs/RS[r].pop*10000:0;
+    RS[r].cras10k=RS[r].pop>0?RS[r].cras/RS[r].pop*10000:0;
+    RS[r].esan10k=RS[r].pop>0?RS[r].esan/RS[r].pop*10000:0;
+    RS[r].esc10k=RS[r].pop>0?RS[r].esc/RS[r].pop*10000:0;
+  });
 
   // ══ SÍNTESE ESTRATÉGICA — EIXOS DA COALIZÃO ══════════════════════════════
 
@@ -2088,56 +2131,102 @@ function initComp(){
     {l:'Renda per capita',v:'R$ '+fmt(Math.round(synWRenda),'int'),s:'IBGE Censo, 2010'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
 
-  // Q1: Dual-axis chart — IP capacity vs IA vulnerability per region
+  // ── Q1: Radar de Inclusão Produtiva ──────────────────────────────────────
+  const radarPaletteQ1={
+    "Extremo Norte":{border:'#7C3AED',bg:'rgba(124,58,237,.12)'},
+    "Zona Norte":{border:'#2563EB',bg:'rgba(37,99,235,.12)'},
+    "Centro e Jereissati":{border:'#0891B2',bg:'rgba(8,145,178,.12)'},
+    "Zona Leste":{border:'#059669',bg:'rgba(5,150,105,.12)'},
+    "Zona Oeste":{border:'#D97706',bg:'rgba(217,119,6,.12)'},
+    "Zona Sul":{border:'#DC2626',bg:'rgba(220,38,38,.12)'},
+  };
+  function makeCoalRadar(canvasId,axesDef,palette){
+    destroyChart(canvasId);
+    const canvas=document.getElementById(canvasId);
+    if(!canvas)return;
+    const labels=axesDef.map(a=>a.short);
+    const allVals=REGION_ORDER.flatMap(r=>axesDef.map(a=>a.getValue(RS[r])));
+    const scaleMax=Math.ceil(Math.max(...allVals.filter(v=>v!=null&&!isNaN(v)))/10)*10||100;
+    const datasets=REGION_ORDER.map(r=>({
+      label:r,
+      data:axesDef.map(a=>{const v=a.getValue(RS[r]);return v!=null?Math.round(v*10)/10:0}),
+      borderColor:palette[r].border,backgroundColor:palette[r].bg,
+      pointBackgroundColor:palette[r].border,pointBorderColor:'#fff',
+      pointBorderWidth:1.5,pointRadius:3,pointHoverRadius:5,borderWidth:2
+    }));
+    CHARTS[canvasId]=new Chart(canvas,{
+      type:'radar',
+      data:{labels,datasets},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        animation:{duration:200},
+        layout:{padding:{top:8,bottom:8,left:8,right:8}},
+        plugins:{
+          legend:{position:'bottom',labels:{font:{size:10,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:7,boxHeight:7,padding:10}},
+          tooltip:{
+            backgroundColor:'rgba(27,45,62,.92)',titleFont:{size:11,weight:'700'},bodyFont:{size:11},cornerRadius:6,padding:8,
+            callbacks:{
+              title(i){return axesDef[i[0]?.dataIndex]?.short||''},
+              label(ctx){return ` ${ctx.dataset.label}: ${ctx.parsed.r.toFixed(1)}${axesDef[ctx.dataIndex].unit||''}`}
+            }
+          }
+        },
+        scales:{r:{
+          min:0,max:scaleMax,
+          angleLines:{color:'rgba(216,224,232,.7)'},
+          grid:{color:'rgba(216,224,232,.6)'},
+          pointLabels:{color:'#1B2D3E',font:{size:10,weight:'700'},padding:12},
+          ticks:{display:true,backdropColor:'transparent',color:'#9CA3AF',font:{size:8},stepSize:Math.round(scaleMax/4),callback:v=>v+''}
+        }}
+      }
+    });
+  }
+
+  // IP axes (per capita rates)
+  const ipAxes=[
+    {short:'Empresas/1k',getValue:s=>s.emp1k||0,unit:''},
+    {short:'MEIs/1k',getValue:s=>s.pop>0?s.mei/s.pop*1000:0,unit:''},
+    {short:'Coops/10k',getValue:s=>s.pop>0?s.coops/s.pop*10000:0,unit:''},
+    {short:'OSCs/10k',getValue:s=>s.osc10k||0,unit:''},
+    {short:'OSCs incl.prod/10k',getValue:s=>s.pop>0?s.oi/s.pop*10000:0,unit:''},
+  ];
+  makeCoalRadar('chart-radar-ip',ipAxes,radarPaletteQ1);
+
+  // SA axes (demand inverted + coverage per capita)
+  const saAxes=[
+    {short:'Baixa ext. pobreza',getValue:s=>s.epob!=null?(1-s.epob)*100:null,unit:'%'},
+    {short:'Baixa chefia fem.',getValue:s=>s.mulh!=null?(1-s.mulh)*100:null,unit:'%'},
+    {short:'Baixa prop. infantil',getValue:s=>s.pop09share!=null?(1-s.pop09share)*100:null,unit:'%'},
+    {short:'CRAS/10k',getValue:s=>s.cras10k||0,unit:''},
+    {short:'Eq. seg. alim./10k',getValue:s=>s.esan10k||0,unit:''},
+    {short:'Escolas/10k',getValue:s=>s.esc10k||0,unit:''},
+    {short:'OSCs assist./10k',getValue:s=>s.oscAs10k||0,unit:''},
+  ];
+  makeCoalRadar('chart-radar-sa',saAxes,radarPaletteQ1);
+
+  // Compute composite indices for Q3 (additionality)
   function synMinMax(vals){
     const mn=Math.min(...vals),mx=Math.max(...vals),rng=mx-mn||1;
     return vals.map(v=>Math.round((v-mn)/rng*100));
   }
-  // IP index: emp/1k + osc/10k (normalized, averaged)
-  const synIpEmp=synMinMax(REGION_ORDER.map(r=>RS[r].emp1k||0));
-  const synIpOsc=synMinMax(REGION_ORDER.map(r=>RS[r].osc10k||0));
-  const synIpIdx=REGION_ORDER.map((_,i)=>Math.round((synIpEmp[i]+synIpOsc[i])/2));
-  // IA vulnerability: epob + (1-saneamento) + (1-renda_norm)
-  const synIaEpob=synMinMax(REGION_ORDER.map(r=>(RS[r].epob||0)*100));
-  const maxRenda=Math.max(...REGION_ORDER.map(r=>RS[r].renda||0));
-  const synIaSan=synMinMax(REGION_ORDER.map(r=>{
-    const e=RS[r].esg,a=RS[r].agua,l=RS[r].lixo;
-    const vs=[e,a,l].filter(x=>x!=null);
-    return vs.length?(1-vs.reduce((a,b)=>a+b,0)/vs.length)*100:100;
-  }));
-  const synIaRenda=synMinMax(REGION_ORDER.map(r=>(1-(RS[r].renda||0)/maxRenda)*100));
-  const synIaIdx=REGION_ORDER.map((_,i)=>Math.round((synIaEpob[i]+synIaSan[i]+synIaRenda[i])/3));
-
-  // Render dual bar chart
-  destroyChart('chart-eixos-region');
-  const eixosCanvas=document.getElementById('chart-eixos-region');
-  if(eixosCanvas){
-    const eixosH=Math.max(REGION_ORDER.length*50,300);
-    eixosCanvas.style.height=eixosH+'px';
-    eixosCanvas.parentElement.style.height='auto';
-    CHARTS['chart-eixos-region']=new Chart(eixosCanvas,{
-      type:'bar',
-      data:{
-        labels:REGION_ORDER,
-        datasets:[
-          {label:'Vulnerabilidade alimentar',data:synIaIdx,backgroundColor:'#FCA5A5',borderColor:'#DC2626',borderWidth:1,borderRadius:5},
-          {label:'Capacidade de inclusão produtiva',data:synIpIdx,backgroundColor:'#C4B5FD',borderColor:'#7C3AED',borderWidth:1,borderRadius:5}
-        ]
-      },
-      options:{
-        indexAxis:'y',responsive:true,maintainAspectRatio:false,
-        layout:{padding:{top:6,right:12,bottom:0,left:0}},
-        plugins:{
-          legend:{labels:{font:{family:'Inter',size:11,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:9,boxHeight:9,padding:16}},
-          tooltip:{backgroundColor:'rgba(27,45,62,.92)',titleFont:{size:12,weight:'700'},bodyFont:{size:12},cornerRadius:6,padding:10}
-        },
-        scales:{
-          x:{min:0,max:100,ticks:{color:'#61778a',font:{size:10},callback:v=>v},grid:{color:'#edf2f6',drawTicks:false},border:{display:false}},
-          y:{ticks:{color:'#1B2D3E',font:{size:11,weight:'600'}},grid:{display:false},border:{display:false}}
-        }
-      }
+  const synIpIdx=synMinMax(REGION_ORDER.map(r=>{
+    const vals=ipAxes.map(a=>a.getValue(RS[r]));
+    const norms=vals.map((v,i)=>{
+      const all=REGION_ORDER.map(r2=>ipAxes[i].getValue(RS[r2]));
+      const mn=Math.min(...all),mx=Math.max(...all),rng=mx-mn||1;
+      return (v-mn)/rng*100;
     });
-  }
+    return norms.reduce((a,b)=>a+b,0)/norms.length;
+  }));
+  const synIaIdx=synMinMax(REGION_ORDER.map(r=>{
+    const vals=saAxes.map(a=>a.getValue(RS[r]));
+    const norms=vals.map((v,i)=>{
+      const all=REGION_ORDER.map(r2=>saAxes[i].getValue(RS[r2]));
+      const mn=Math.min(...all),mx=Math.max(...all),rng=mx-mn||1;
+      return (v-mn)/rng*100;
+    });
+    return norms.reduce((a,b)=>a+b,0)/norms.length;
+  }));
 
   // ── Q2: Indicadores Consolidados — heatmap table ─────────────────────────
   const consolidadoIndicators=[
@@ -2199,8 +2288,9 @@ function initComp(){
 
   // ── Q3: Potencial de Adicionalidade ─────────────────────────────────────
   // Gap score = vulnerability × (100 - capacity) / 100
-  const synGapScores=REGION_ORDER.map((_,i)=>Math.round(synIaIdx[i]*(100-synIpIdx[i])/100));
-  const gapSorted=REGION_ORDER.map((r,i)=>({r,gap:synGapScores[i],ia:synIaIdx[i],ip:synIpIdx[i]})).sort((a,b)=>b.gap-a.gap);
+  // synIaIdx: higher = better security, so vulnerability = 100 - synIaIdx
+  const synGapScores=REGION_ORDER.map((_,i)=>Math.round((100-synIaIdx[i])*(100-synIpIdx[i])/100));
+  const gapSorted=REGION_ORDER.map((r,i)=>({r,gap:synGapScores[i],vuln:100-synIaIdx[i],cap:synIpIdx[i]})).sort((a,b)=>b.gap-a.gap);
 
   // Render additionality chart
   destroyChart('chart-adicionalidade');
@@ -2238,7 +2328,7 @@ function initComp(){
             callbacks:{
               afterLabel:function(ctx){
                 const g=gapSorted[ctx.dataIndex];
-                return 'Vulnerabilidade: '+g.ia+' | Capacidade: '+g.ip;
+                return 'Vulnerabilidade: '+g.vuln+' | Capacidade: '+g.cap;
               }
             }
           }
