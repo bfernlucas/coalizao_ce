@@ -772,8 +772,12 @@ body{background:#fff}
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Analfabetismo, 15+ anos (IBGE, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-anal" class="chart tall"></canvas></div></div>
     </div>
     <div class="grid two" style="margin-top:22px">
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Renda per capita (IBGE Censo, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-rendapc" class="chart tall"></canvas></div></div>
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rendimento médio do responsável (IBGE Censo, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-renda" class="chart tall"></canvas></div></div>
+    </div>
+    <div class="grid two" style="margin-top:22px">
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Moradores por domicílio (IBGE Censo, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-mordom" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Responsáveis por domicílio (IBGE Censo, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-resp" class="chart tall"></canvas></div></div>
     </div>
   </section>
 
@@ -1152,7 +1156,7 @@ const MGE_BUBBLES=[[-3.87466,-38.61287,70449914500,"Financeiro","Jereissati Seto
 
 
 function canonical(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'')}
-const LOOKUP={};DATA.forEach(d=>LOOKUP[canonical(d.b)]=d);
+const LOOKUP={};DATA.forEach(d=>{d.rendaPC=d.renda&&d.resp&&d.morDom?Math.round(d.renda*d.resp/d.morDom*100)/100:null;LOOKUP[canonical(d.b)]=d});
 function findData(name){return LOOKUP[canonical(name)]||null}
 
 function fmt(v,kind){
@@ -1196,6 +1200,7 @@ const INDICATORS={
   emp:{label:'Empresas formais (dez/2024)',fmt:'int',higher:'alto'},
   osc:{label:'OSCs ativas (IPEA, 2024)',fmt:'int',higher:'alto'},
   renda:{label:'Rendimento médio do responsável (IBGE Censo, 2022)',fmt:'money',higher:'bom'},
+  rendaPC:{label:'Renda per capita (IBGE Censo, 2022)',fmt:'money',higher:'bom'},
 };
 
 function createMap(containerId){
@@ -1254,9 +1259,9 @@ function paintMap(containerId,indicatorKey,colorSet){
       const popupHTML=`<div class="popup-card"><h4>${d.b}</h4><div class="popup-grid">
         <div class="popup-stat"><strong>${fmt(d.pop,'int')}</strong><span>População</span></div>
         <div class="popup-stat"><strong>${fmt(d.epob,'pct')}</strong><span>Ext. pobreza</span></div>
+        <div class="popup-stat"><strong>${fmt(d.rendaPC,'money')}</strong><span>Renda per capita</span></div>
         <div class="popup-stat"><strong>${fmt(d.esg,'pct')}</strong><span>Esgoto</span></div>
         <div class="popup-stat"><strong>${fmt(d.emp,'int')}</strong><span>Empresas</span></div>
-        <div class="popup-stat"><strong>${fmt(d.osc,'int')}</strong><span>OSCs</span></div>
         <div class="popup-stat"><strong>${fmt(d.cad,'pct')}</strong><span>CadÚnico</span></div>
       </div></div>`;
       layer.bindPopup(popupHTML,{maxWidth:340});
@@ -1337,7 +1342,7 @@ function initOverview(){
     <div class="kpi"><div class="label">Volume empresarial por bairro</div><div class="value">${fmt(totalEmp,'int')}</div><div class="sub">Ativas</div></div>
     <div class="kpi"><div class="label">OSCs ativas</div><div class="value">${fmt(totalOsc,'int')}</div><div class="sub">${DATA.filter(d=>(d.osc||0)===0).length} bairros sem OSC</div></div>`;
   
-  const sel=populateSelect('visao-indicador',['epob','esg','cad','pop','renda','osc','emp','anal']);
+  const sel=populateSelect('visao-indicador',['epob','esg','cad','pop','rendaPC','renda','osc','emp','anal']);
   createMap('map-visao');
   paintMap('map-visao','epob',VULN_COLORS);
   renderAnalysis('visao','epob');
@@ -1397,7 +1402,7 @@ function initDemo(){
 }
 
 function initVuln(){
-  const sel=populateSelect('vuln-indicador',['epob','cad','anal','renda']);
+  const sel=populateSelect('vuln-indicador',['epob','cad','anal','rendaPC','renda']);
   createMap('map-vuln');
   paintMap('map-vuln','epob',VULN_COLORS);
   renderAnalysis('vuln','epob');
@@ -1411,12 +1416,18 @@ function initVuln(){
   makeBar('chart-vuln-epob',byEpob.map(d=>d.b),[{data:byEpob.map(d=>((d.epob||0)*100).toFixed(1)),backgroundColor:byEpob.map(d=>(d.epob||0)>.4?UI.danger:(d.epob||0)>.25?UI.gold:UI.blue),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>ctx.parsed.x+'%'}}}});
   const byAnal=[...DATA].sort((a,b)=>(b.anal||0)-(a.anal||0));
   makeBar('chart-vuln-anal',byAnal.map(d=>d.b),[{data:byAnal.map(d=>((d.anal||0)*100).toFixed(1)),backgroundColor:byAnal.map(d=>(d.anal||0)>.1?UI.danger:(d.anal||0)>.07?UI.gold:UI.teal),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>ctx.parsed.x+'%'}}}});
+  // Renda per capita (Censo 2022)
+  const byRendaPC=[...DATA].filter(d=>d.rendaPC!=null).sort((a,b)=>a.rendaPC-b.rendaPC);
+  makeBar('chart-vuln-rendapc',byRendaPC.map(d=>d.b),[{data:byRendaPC.map(d=>Math.round(d.rendaPC)),backgroundColor:byRendaPC.map(d=>d.rendaPC<450?UI.danger:d.rendaPC<600?UI.gold:UI.teal),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>'R$ '+Number(ctx.parsed.x).toLocaleString('pt-BR')}}}});
   // Rendimento médio do responsável (Censo 2022)
   const byRenda=[...DATA].sort((a,b)=>(a.renda||0)-(b.renda||0));
   makeBar('chart-vuln-renda',byRenda.map(d=>d.b),[{data:byRenda.map(d=>Math.round(d.renda||0)),backgroundColor:byRenda.map(d=>(d.renda||0)<1300?UI.danger:(d.renda||0)<1600?UI.gold:UI.teal),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>'R$ '+Number(ctx.parsed.x).toLocaleString('pt-BR')}}}});
   // Moradores por domicílio (Censo 2022) — média = morDom/resp
   const byMorDom=[...DATA].filter(d=>d.resp>0).sort((a,b)=>(b.morDom/b.resp)-(a.morDom/a.resp));
   makeBar('chart-vuln-mordom',byMorDom.map(d=>d.b),[{data:byMorDom.map(d=>(d.morDom/d.resp).toFixed(2)),backgroundColor:byMorDom.map(d=>(d.morDom/d.resp)>2.3?UI.danger:(d.morDom/d.resp)>2.0?UI.gold:UI.blue),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>ctx.parsed.x+' moradores/domicílio'}}}});
+  // Responsáveis por domicílio (Censo 2022)
+  const byResp=[...DATA].filter(d=>d.resp>0).sort((a,b)=>b.resp-a.resp);
+  makeBar('chart-vuln-resp',byResp.map(d=>d.b),[{data:byResp.map(d=>d.resp),backgroundColor:UI.blue,borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>Number(ctx.parsed.x).toLocaleString('pt-BR')+' responsáveis'}}}});
 }
 
 function initInfra(){
@@ -2040,12 +2051,12 @@ const REGION_DESC = {
 function initComp(){
   // ── Bairro comparison table ──────────────────────────────────────────────
   const sel=document.getElementById('comp-sort');
-  const cols=[{key:'pop',label:'Pop. (2022)',fmt:'int'},{key:'epob',label:'Ext. pobreza (2025)',fmt:'pct'},{key:'cad',label:'CadÚnico (2025)',fmt:'pct'},{key:'anal',label:'Analfab. (2022)',fmt:'pct'},{key:'esg',label:'Esgoto (2022)',fmt:'pct'},{key:'agua',label:'Água (2022)',fmt:'pct'},{key:'emp',label:'Empresas (2024)',fmt:'int'},{key:'osc',label:'OSCs (2024)',fmt:'int'},{key:'renda',label:'Renda resp. (2022)',fmt:'money'},{key:'dens',label:'Dens. (2022)',fmt:'float1'}];
+  const cols=[{key:'pop',label:'Pop. (2022)',fmt:'int'},{key:'epob',label:'Ext. pobreza (2025)',fmt:'pct'},{key:'cad',label:'CadÚnico (2025)',fmt:'pct'},{key:'anal',label:'Analfab. (2022)',fmt:'pct'},{key:'esg',label:'Esgoto (2022)',fmt:'pct'},{key:'agua',label:'Água (2022)',fmt:'pct'},{key:'emp',label:'Empresas (2024)',fmt:'int'},{key:'osc',label:'OSCs (2024)',fmt:'int'},{key:'rendaPC',label:'Renda PC (2022)',fmt:'money'},{key:'renda',label:'Renda resp. (2022)',fmt:'money'},{key:'dens',label:'Dens. (2022)',fmt:'float1'}];
   sel.innerHTML=cols.map((c,i)=>`<option value="${c.key}"${i===0?' selected':''}>${c.label}</option>`).join('');
   function renderBairroTable(sortKey){
-    const desc=['pop','emp','osc','renda','agua','esg','dens'].includes(sortKey);
+    const desc=['pop','emp','osc','renda','rendaPC','agua','esg','dens'].includes(sortKey);
     const rows=[...DATA].sort((a,b)=>{const va=a[sortKey],vb=b[sortKey];if(va==null)return 1;if(vb==null)return-1;return desc?vb-va:va-vb});
-    document.getElementById('table-comp').innerHTML=`<thead><tr><th>#</th><th>Bairro</th><th>Região</th><th>Pop.</th><th>Ext. Pobreza (2025)</th><th>CadÚnico (2025)</th><th>Analfab. (2022)</th><th>Esgoto (2022)</th><th>Água (2022)</th><th>Empresas (2024)</th><th>OSCs (2024)</th><th>Renda resp. (2022)</th></tr></thead><tbody>${rows.map((d,i)=>{const reg=REGION_MAP[d.b]||'—';const col=REGION_COLORS[reg]||'#888';return`<tr><td style="font-weight:800;color:var(--brand)">${i+1}</td><td><strong>${d.b}</strong></td><td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#1B2D3E"><span style="width:8px;height:8px;border-radius:50%;background:${col};display:inline-block;flex-shrink:0"></span>${reg}</span></td><td>${fmt(d.pop,'int')}</td><td>${fmt(d.epob,'pct')}</td><td>${fmt(d.cad,'pct')}</td><td>${fmt(d.anal,'pct')}</td><td>${fmt(d.esg,'pct')}</td><td>${fmt(d.agua,'pct')}</td><td>${fmt(d.emp,'int')}</td><td>${fmt(d.osc,'int')}</td><td>${fmt(d.renda,'money')}</td></tr>`}).join('')}</tbody>`;
+    document.getElementById('table-comp').innerHTML=`<thead><tr><th>#</th><th>Bairro</th><th>Região</th><th>Pop.</th><th>Ext. Pobreza (2025)</th><th>CadÚnico (2025)</th><th>Analfab. (2022)</th><th>Esgoto (2022)</th><th>Água (2022)</th><th>Empresas (2024)</th><th>OSCs (2024)</th><th>Renda PC (2022)</th><th>Renda resp. (2022)</th></tr></thead><tbody>${rows.map((d,i)=>{const reg=REGION_MAP[d.b]||'—';const col=REGION_COLORS[reg]||'#888';return`<tr><td style="font-weight:800;color:var(--brand)">${i+1}</td><td><strong>${d.b}</strong></td><td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#1B2D3E"><span style="width:8px;height:8px;border-radius:50%;background:${col};display:inline-block;flex-shrink:0"></span>${reg}</span></td><td>${fmt(d.pop,'int')}</td><td>${fmt(d.epob,'pct')}</td><td>${fmt(d.cad,'pct')}</td><td>${fmt(d.anal,'pct')}</td><td>${fmt(d.esg,'pct')}</td><td>${fmt(d.agua,'pct')}</td><td>${fmt(d.emp,'int')}</td><td>${fmt(d.osc,'int')}</td><td>${fmt(d.rendaPC,'money')}</td><td>${fmt(d.renda,'money')}</td></tr>`}).join('')}</tbody>`;
   }
   renderBairroTable('pop');
   sel.addEventListener('change',()=>renderBairroTable(sel.value));
@@ -2074,6 +2085,7 @@ function initComp(){
         agua:wmean('agua'),
         lixo:wmean('lixo'),
         renda:wmean('renda'),
+        rendaPC:wmean('rendaPC'),
         mulh:wmean('mulh'),
         emp:sum('emp'),
         mei:sum('mei'),
@@ -2122,6 +2134,7 @@ function initComp(){
   const synEsan=DATA.reduce((s,d)=>s+(d.esan||0),0);
   const synWEpob=DATA.reduce((s,d)=>s+(d.epob||0)*(d.pop||0),0)/synPop;
   const synWRenda=DATA.reduce((s,d)=>s+(d.renda||0)*(d.pop||0),0)/synPop;
+  const synWRendaPC=DATA.reduce((s,d)=>s+(d.rendaPC||0)*(d.pop||0),0)/synPop;
 
   // Q1: KPIs — Inclusão Produtiva
   const ipEl=document.getElementById('kpi-eixo-ip');
@@ -2138,7 +2151,7 @@ function initComp(){
     {l:'Famílias em ext. pobreza',v:fmt(synCadEpob,'int'),s:'MDS, 2025'},
     {l:'Ext. pobreza média',v:(synWEpob*100).toFixed(1)+'%',s:'Ponderada por população'},
     {l:'Equip. seg. alimentar',v:fmt(synEsan,'int'),s:'1 para cada '+fmt(Math.round(synPop/Math.max(synEsan,1)),'int')+' hab.'},
-    {l:'Renda média do responsável',v:'R$ '+fmt(Math.round(synWRenda),'int'),s:'IBGE Censo, 2022'}
+    {l:'Renda per capita',v:'R$ '+fmt(Math.round(synWRendaPC),'int'),s:'IBGE Censo, 2022'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
 
   // ── Q1: Radar de Inclusão Produtiva ──────────────────────────────────────
@@ -2247,7 +2260,7 @@ function initComp(){
   const consolidadoIndicators=[
     {key:'epob',label:'Extrema pobreza',unit:'%',get:s=>(s.epob||0)*100,thresholds:[20,30],invert:true},
     {key:'cad',label:'Incidência CadÚnico',unit:'%',get:s=>(s.cad||0)*100,thresholds:[50,80],invert:true},
-    {key:'renda',label:'Renda do responsável',unit:'R$',get:s=>s.renda||0,thresholds:[1800,1500],invert:false},
+    {key:'rendaPC',label:'Renda per capita',unit:'R$',get:s=>s.rendaPC||0,thresholds:[600,450],invert:false},
     {key:'esg',label:'Cobertura de esgoto',unit:'%',get:s=>(s.esg||0)*100,thresholds:[90,70],invert:false},
     {key:'agua',label:'Cobertura de água',unit:'%',get:s=>(s.agua||0)*100,thresholds:[95,85],invert:false},
     {key:'emp1k',label:'Empresas / 1 mil hab.',unit:'',get:s=>s.emp1k||0,thresholds:[70,40],invert:false},
@@ -2454,7 +2467,7 @@ function initComp(){
   const thead=`<thead><tr>
     <th>Região</th><th>Bairros</th><th>Pop.</th>
     <th>Ext. Pobreza (2025)</th><th>CadÚnico (2025)</th><th>Analfab. (2022)</th>
-    <th>Esgoto (2022)</th><th>Água (2022)</th><th>Renda resp. (2022)</th>
+    <th>Esgoto (2022)</th><th>Água (2022)</th><th>Renda PC (2022)</th><th>Renda resp. (2022)</th>
     <th>Empr./1k (2024)</th><th>OSCs/10k (2024)</th>
   </tr></thead>`;
   const tbody=`<tbody>${REGION_ORDER.map(r=>{
@@ -2468,6 +2481,7 @@ function initComp(){
       <td>${fmt(s.anal,'pct')}</td>
       <td>${fmt(s.esg,'pct')}</td>
       <td>${fmt(s.agua,'pct')}</td>
+      <td>${fmt(s.rendaPC,'money')}</td>
       <td>${fmt(s.renda,'money')}</td>
       <td>${s.emp1k!=null?s.emp1k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}):'—'}</td>
       <td>${s.osc10k!=null?s.osc10k.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}):'—'}</td>
