@@ -643,6 +643,16 @@ tbody tr:hover{background:#f8fbff}
 .net-fullscreen{position:fixed!important;inset:0!important;z-index:99990!important;min-height:100vh!important;max-height:100vh!important;border-radius:0!important;border:none!important;background:#fff!important;flex:none!important}
 .net-fullscreen .net-degree-bar{top:16px;left:16px}
 .net-fullscreen .net-expand-btn{top:16px;right:16px}
+.net-fs-header{display:none;position:absolute;top:0;left:0;right:0;padding:12px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-2);z-index:11;justify-content:space-between;align-items:center;gap:12px}
+.net-fs-legend{display:none;position:absolute;bottom:0;left:0;right:0;padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid var(--line-2);z-index:11}
+.net-fullscreen .net-fs-header{display:flex}
+.net-fullscreen .net-fs-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;font-size:10px}
+.net-fullscreen .net-fs-legend .net-leg{display:flex;align-items:center;gap:5px;padding:5px 8px;border-radius:6px;background:rgba(248,250,251,.8);cursor:pointer;transition:opacity .15s}
+.net-fullscreen .net-fs-legend .net-leg .net-leg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.net-fullscreen .net-fs-legend .net-leg .net-leg-name{font-weight:500;color:var(--text);font-size:9.5px}
+.net-fullscreen .net-fs-legend .net-leg .net-leg-count{margin-left:auto;font-size:9.5px;font-weight:700;color:var(--navy)}
+.net-fullscreen .net-degree-bar{top:60px;left:16px}
+.net-fullscreen .net-expand-btn{top:14px;right:16px}
 .net-fs-backdrop{display:none;position:fixed;inset:0;background:rgba(15,39,64,.5);z-index:99989}
 
 .radar-note{
@@ -2400,6 +2410,27 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
               <button class="net-deg-btn" data-deg="peer">Entre pares</button>
             </div>
             <button class="net-expand-btn" id="net-expand-btn" title="Expandir visualização">⛶</button>
+            <!-- Fullscreen-only elements -->
+            <div class="net-fs-header" id="net-fs-header">
+              <div>
+                <h3 style="margin:0;font-size:14px;font-weight:700;color:var(--navy)">Rede de afinidade — Organizações Âncoras</h3>
+                <p style="margin:2px 0 0;font-size:11px;color:var(--muted)">Conexões inferidas por afinidade temática e proximidade geográfica com OSCs dos territórios Grande Bom Jardim e Grande Mucuripe</p>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center">
+                <select id="net-fs-territorio" class="net-anchor-sel"><option value="">Todos os territórios</option></select>
+                <select id="net-fs-bairro" class="net-anchor-sel"><option value="">Todos os bairros</option></select>
+                <details class="info-popover" style="display:inline-flex;margin-left:2px"><summary>i</summary><div class="info-backdrop" onclick="this.parentElement.removeAttribute('open')"></div><div class="info-balloon">
+                  <div class="ib-header"><h5>Como a rede foi construída</h5><p>As conexões exibidas são inferências, não parcerias formais. Cada ligação é calculada com base em afinidade temática e proximidade geográfica com cada organização âncora.</p></div>
+                  <div class="ib-body">
+                    <div class="ib-section"><div class="ib-section-title">Afinidade temática</div><div class="ib-row"><b>Alta (+3 pts):</b> Áreas diretamente alinhadas à missão de cada âncora.</div><div class="ib-row"><b>Moderada (+1 pt):</b> Áreas com atuação complementar.</div></div>
+                    <div class="ib-section"><div class="ib-section-title">Proximidade geográfica</div><div class="ib-row"><b>Mesmo bairro (+3 pts):</b> OSCs no bairro-sede de cada âncora.</div><div class="ib-row"><b>Mesmo território (+2 pts):</b> OSCs no mesmo território.</div><div class="ib-row"><b>Território vizinho (+1 pt):</b> OSCs no outro território.</div></div>
+                    <div class="ib-section"><div class="ib-section-title">Grau de conexão</div><div class="ib-conn"><b>Forte</b> Score &ge; 5.</div><div class="ib-conn"><b>Média</b> Score 3 a 4.</div><div class="ib-conn"><b>Leve</b> Score 2.</div><div class="ib-conn"><b>Entre pares</b> Mesma área e bairro.</div></div>
+                    <div class="ib-note">Score = afinidade temática + proximidade geográfica. Apenas score &ge; 2 exibidos.</div>
+                  </div>
+                </div></details>
+              </div>
+            </div>
+            <div class="net-fs-legend" id="net-fs-legend"></div>
           </div>
           <div class="net-fs-backdrop" id="net-fs-backdrop"></div>
         </div>
@@ -4372,6 +4403,53 @@ function initNetworkFort(){
   anchorSel.addEventListener('change',applyFilters);
   bairroSel.addEventListener('change',applyFilters);
 
+  /* ── Fullscreen territory/bairro filters (synced) ── */
+  const fsTerr=document.getElementById('net-fs-territorio');
+  const fsBairro=document.getElementById('net-fs-bairro');
+  TERRITORIES.filter(t=>t!=='Todos').forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;fsTerr.appendChild(o);});
+  function syncFsBairros(terr){
+    fsBairro.innerHTML='<option value="">Todos os bairros</option>';
+    const list=terr?allBairros.filter(b=>{
+      if(terr==='Grande Mucuripe') return (TERRITORY_BAIRROS['Grande Mucuripe']||[]).includes(b);
+      if(terr==='Grande Bom Jardim') return (TERRITORY_BAIRROS['Grande Bom Jardim']||[]).includes(b);
+      return true;
+    }):allBairros;
+    list.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;fsBairro.appendChild(o);});
+  }
+  syncFsBairros('');
+  // Sync FS filters → main filters
+  fsTerr.addEventListener('change',()=>{terrSel.value=fsTerr.value;syncFsBairros(fsTerr.value);fsBairro.value='';populateBairros(terrSel.value);bairroSel.value='';applyFilters();});
+  fsBairro.addEventListener('change',()=>{bairroSel.value=fsBairro.value;applyFilters();});
+  // Sync main filters → FS filters
+  terrSel.addEventListener('change',()=>{fsTerr.value=terrSel.value;syncFsBairros(fsTerr.value);fsBairro.value='';});
+  bairroSel.addEventListener('change',()=>{fsBairro.value=bairroSel.value;});
+
+  /* ── Fullscreen legend (mirror of main) ── */
+  const fsLegendEl=document.getElementById('net-fs-legend');
+  function renderFsLegend(){
+    const sorted=legendAreas.slice().sort((a,b)=>(areaCount[b]||0)-(areaCount[a]||0));
+    fsLegendEl.innerHTML=
+      ANCHORS.map(a=>`<div class="net-leg"><div class="net-leg-dot" style="background:${a.color}"></div><span class="net-leg-name" style="font-weight:600">${a.short} (âncora)</span></div>`).join('')+
+      sorted.map(a=>{
+        const off=hiddenAreas.has(a);const cnt=areaCount[a]||0;
+        return `<div class="net-leg" data-area="${a}" style="cursor:pointer;opacity:${off?0.4:1}">
+          <div class="net-leg-dot" style="background:${off?'#ccc':(OSC_CATEGORY_COLORS[a]||'#888')}"></div>
+          <span class="net-leg-name">${OSC_AREA_SHORT_LABELS[a]||a}</span>
+          <span class="net-leg-count">${cnt}</span></div>`;
+      }).join('');
+    fsLegendEl.querySelectorAll('.net-leg[data-area]').forEach(el=>{
+      el.addEventListener('click',()=>{
+        const a=el.dataset.area;
+        if(hiddenAreas.has(a)) hiddenAreas.delete(a); else hiddenAreas.add(a);
+        renderLegend();renderFsLegend();applyFilters();
+      });
+    });
+  }
+  // Patch main renderLegend to also update FS
+  const _origRenderLegend=renderLegend;
+  renderLegend=function(){_origRenderLegend();renderFsLegend();};
+  renderFsLegend();
+
   /* ── Fullscreen toggle ── */
   const expandBtn=document.getElementById('net-expand-btn');
   const backdrop=document.getElementById('net-fs-backdrop');
@@ -4383,6 +4461,10 @@ function initNetworkFort(){
     expandBtn.textContent=isFullscreen?'✕':'⛶';
     expandBtn.title=isFullscreen?'Fechar tela cheia':'Expandir visualização';
     document.body.style.overflow=isFullscreen?'hidden':'';
+    // Sync FS filter state
+    fsTerr.value=terrSel.value;
+    syncFsBairros(fsTerr.value);
+    fsBairro.value=bairroSel.value;
     // Resize SVG viewBox
     setTimeout(()=>{
       const nW=container.clientWidth,nH=container.clientHeight;
