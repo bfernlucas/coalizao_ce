@@ -4256,15 +4256,15 @@ function initNetworkFort(){
   svg.call(d3.zoom().scaleExtent([0.2,5]).on('zoom',e=>g.attr('transform',e.transform)));
 
   const sim=d3.forceSimulation(nodes)
-    .force('link',d3.forceLink(edges).id(d=>d.id).distance(d=>d.strength==='peer'?40:d.value>=5?60:90).strength(d=>d.strength==='peer'?0.15:d.value>=5?0.4:0.1))
-    .force('charge',d3.forceManyBody().strength(d=>d.isAnchor?-600:-40))
+    .force('link',d3.forceLink(edges).id(d=>d.id).distance(d=>d.strength==='peer'?60:d.value>=5?100:140).strength(d=>d.strength==='peer'?0.08:d.value>=5?0.2:0.05))
+    .force('charge',d3.forceManyBody().strength(d=>d.isAnchor?-800:-60).distanceMax(400))
     .force('center',d3.forceCenter(W/2,H/2))
-    .force('collision',d3.forceCollide().radius(d=>d.isAnchor?28:6))
-    .force('x',d3.forceX(W/2).strength(0.03))
-    .force('y',d3.forceY(H/2).strength(0.03));
+    .force('collision',d3.forceCollide().radius(d=>d.isAnchor?35:18).strength(0.9))
+    .force('x',d3.forceX(W/2).strength(0.02))
+    .force('y',d3.forceY(H/2).strength(0.02));
 
-  const strokeColor={strong:'rgba(230,57,70,.4)',medium:'rgba(124,58,237,.25)',light:'rgba(100,100,100,.1)',peer:'rgba(100,100,100,.05)'};
-  const strokeW={strong:2,medium:1.2,light:0.6,peer:0.3};
+  const strokeColor={strong:'rgba(230,57,70,.3)',medium:'rgba(124,58,237,.15)',light:'rgba(100,100,100,.07)',peer:'rgba(100,100,100,.03)'};
+  const strokeW={strong:1.5,medium:0.8,light:0.4,peer:0.2};
 
   const link=g.append('g').selectAll('line').data(edges).join('line')
     .attr('stroke',d=>strokeColor[d.strength]).attr('stroke-width',d=>strokeW[d.strength])
@@ -4274,7 +4274,7 @@ function initNetworkFort(){
     .call(d3.drag().on('start',(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y})
       .on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y}).on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}));
 
-  const nodeR=d=>d.isAnchor?18:Math.max(3,Math.min(9,(d.score||1)*1.2));
+  const nodeR=d=>d.isAnchor?16:Math.max(3,Math.min(7,(d.score||1)*1));
   nodeG.append('circle')
     .attr('r',nodeR)
     .attr('fill',d=>d.isAnchor?d.color:(OSC_CATEGORY_COLORS[d.area]||'#888'))
@@ -4289,9 +4289,9 @@ function initNetworkFort(){
     .style('pointer-events','none');
 
   nodeG.filter(d=>!d.isAnchor).append('text').attr('class','net-label')
-    .text(d=>d.shortName||d.name.slice(0,22))
-    .attr('dx',d=>nodeR(d)+3).attr('dy','.35em')
-    .attr('fill','var(--text)').attr('font-size','7px').attr('font-weight','600')
+    .text(d=>(d.shortName||d.name||'').slice(0,20))
+    .attr('dx',d=>nodeR(d)+4).attr('dy','.32em')
+    .attr('fill','var(--text)').attr('font-size','7px').attr('font-weight','500')
     .style('pointer-events','none').style('display','none');
 
   /* ── Hover ── */
@@ -4359,7 +4359,14 @@ function initNetworkFort(){
     }
 
     nodeG.attr('display',d=>d._visible?null:'none');
-    nodeG.selectAll('.net-label').style('display',d=>(hasFilter&&d._visible)?null:'none');
+    // Only show labels when filtered to a manageable count
+    let visCount=0;
+    nodeG.each(d=>{if(d._visible&&!d.isAnchor)visCount++;});
+    const showLabels=hasFilter&&visCount<=80;
+    nodeG.selectAll('.net-label').style('display',d=>(showLabels&&d._visible)?null:'none');
+
+    // Re-heat simulation to spread out filtered nodes
+    sim.alpha(0.4).restart();
   }
 
   anchorSel.addEventListener('change',applyFilters);
