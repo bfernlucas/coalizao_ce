@@ -1207,12 +1207,6 @@ tbody tr:hover{background:#f4f8fc}
   background:#f4f8fc;
   box-shadow:0 6px 16px rgba(16,42,67,.08);
 }
-.info-balloon{
-  top:38px;
-  border-radius:18px;
-  padding:15px 16px;
-  box-shadow:0 20px 44px rgba(16,42,67,.14);
-}
 .comparison-grid{gap:22px}
 .small{
   font-size:11px;
@@ -1785,16 +1779,6 @@ tbody tr:hover{background:#EEF4FF}
   background:#F8FAFB;font-size:12px;color:var(--muted);line-height:1.6;
 }
 
-/* Info popover */
-.info-popover summary{
-  background:#F4F6F9;border:1px solid var(--line);
-  border-radius:4px;box-shadow:none;color:var(--brand);
-}
-.info-balloon{
-  border-radius:6px;border:1px solid var(--line);
-  box-shadow:0 8px 24px rgba(0,0,0,.12);
-  font-size:12px;line-height:1.65;
-}
 
 /* Responsive tweaks */
 @media(max-width:1100px){
@@ -2406,22 +2390,24 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
             <button class="net-expand-btn" id="net-expand-btn" title="Expandir visualização">⛶</button>
             <!-- Fullscreen-only elements -->
             <div class="net-fs-header" id="net-fs-header">
-              <div>
-                <h3 style="margin:0;font-size:14px;font-weight:700;color:var(--navy)">Rede de afinidade — Organizações Âncoras</h3>
-                <p style="margin:2px 0 0;font-size:11px;color:var(--muted)">Conexões inferidas por afinidade temática e proximidade geográfica com OSCs dos territórios Grande Bom Jardim e Grande Mucuripe</p>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div>
+                  <h3 style="margin:0;font-size:14px;font-weight:700;color:var(--navy)">Rede de afinidade — Organizações Âncoras</h3>
+                  <p style="margin:2px 0 0;font-size:11px;color:var(--muted)">Conexões inferidas por afinidade temática e proximidade geográfica com OSCs dos territórios</p>
+                </div>
+                <details class="info-popover" style="flex-shrink:0"><summary>i</summary><div class="info-backdrop" onclick="this.parentElement.removeAttribute('open')"></div><div class="info-balloon">
+                  <div class="ib-header"><h5>Como a rede foi construída</h5><p>As conexões exibidas são inferências, não parcerias formais. Cada ligação é calculada com base em afinidade temática e proximidade geográfica com cada organização âncora.</p></div>
+                  <div class="ib-body">
+                    <div class="ib-section"><div class="ib-section-title">Afinidade temática</div><div class="ib-row"><b>Alta (+3 pts):</b> Áreas diretamente alinhadas à missão de cada âncora (cultura, saúde mental, educação, gastronomia social, assistência social).</div><div class="ib-row"><b>Moderada (+1 pt):</b> Áreas com atuação complementar (defesa de direitos, outras associativas).</div></div>
+                    <div class="ib-section"><div class="ib-section-title">Proximidade geográfica</div><div class="ib-row"><b>Mesmo bairro (+3 pts):</b> OSCs no bairro-sede de cada âncora.</div><div class="ib-row"><b>Mesmo território (+2 pts):</b> OSCs no mesmo território (Grande Bom Jardim ou Grande Mucuripe).</div><div class="ib-row"><b>Território vizinho (+1 pt):</b> OSCs no outro território coberto pela Coalizão.</div></div>
+                    <div class="ib-section"><div class="ib-section-title">Grau de conexão</div><div class="ib-conn"><b>Forte</b> Score &ge; 5. Combina alta afinidade temática e proximidade geográfica.</div><div class="ib-conn"><b>Média</b> Score 3 a 4. Afinidade temática significativa ou proximidade territorial relevante.</div><div class="ib-conn"><b>Leve</b> Score 2. Afinidade parcial ou proximidade geográfica isolada.</div><div class="ib-conn"><b>Entre pares</b> OSCs conectadas entre si por atuarem na mesma área e território.</div></div>
+                    <div class="ib-note">O score final é a soma dos pontos de afinidade temática e proximidade geográfica. Apenas organizações com score &ge; 2 são exibidas. Cada OSC pode conectar-se a múltiplas âncoras.</div>
+                  </div>
+                </div></details>
               </div>
               <div style="display:flex;gap:6px;align-items:center">
                 <select id="net-fs-territorio" class="net-anchor-sel"><option value="">Todos os territórios</option></select>
                 <select id="net-fs-bairro" class="net-anchor-sel"><option value="">Todos os bairros</option></select>
-                <details class="info-popover" style="display:inline-flex;margin-left:2px"><summary>i</summary><div class="info-backdrop" onclick="this.parentElement.removeAttribute('open')"></div><div class="info-balloon">
-                  <div class="ib-header"><h5>Como a rede foi construída</h5><p>As conexões exibidas são inferências, não parcerias formais. Cada ligação é calculada com base em afinidade temática e proximidade geográfica com cada organização âncora.</p></div>
-                  <div class="ib-body">
-                    <div class="ib-section"><div class="ib-section-title">Afinidade temática</div><div class="ib-row"><b>Alta (+3 pts):</b> Áreas diretamente alinhadas à missão de cada âncora.</div><div class="ib-row"><b>Moderada (+1 pt):</b> Áreas com atuação complementar.</div></div>
-                    <div class="ib-section"><div class="ib-section-title">Proximidade geográfica</div><div class="ib-row"><b>Mesmo bairro (+3 pts):</b> OSCs no bairro-sede de cada âncora.</div><div class="ib-row"><b>Mesmo território (+2 pts):</b> OSCs no mesmo território.</div><div class="ib-row"><b>Território vizinho (+1 pt):</b> OSCs no outro território.</div></div>
-                    <div class="ib-section"><div class="ib-section-title">Grau de conexão</div><div class="ib-conn"><b>Forte</b> Score &ge; 5.</div><div class="ib-conn"><b>Média</b> Score 3 a 4.</div><div class="ib-conn"><b>Leve</b> Score 2.</div><div class="ib-conn"><b>Entre pares</b> Mesma área e bairro.</div></div>
-                    <div class="ib-note">Score = afinidade temática + proximidade geográfica. Apenas score &ge; 2 exibidos.</div>
-                  </div>
-                </div></details>
               </div>
             </div>
             <div class="net-fs-legend" id="net-fs-legend"></div>
