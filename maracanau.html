@@ -973,47 +973,86 @@ body{background:#fff}
   <!-- SÍNTESE -->
   <section id="section-comp" class="section">
     <div class="section-head">
-      <span class="section-kicker">Sintese Estrategica</span>
-      <h2 class="section-title">Oportunidades para a Coalizao</h2>
-      <p class="section-desc">Diagnostico cruzado dos eixos de <strong>Inclusao Produtiva</strong> e <strong>Inseguranca Alimentar</strong> nos territorios de Maracanau, identificando convergencias, padroes consolidados e potencial de adicionalidade.</p>
+      <span class="section-kicker">Síntese Estratégica</span>
+      <h2 class="section-title">Oportunidades para a Coalizão</h2>
+      <p class="section-desc">Diagnóstico cruzado dos eixos de <strong>Inclusão Produtiva</strong> e <strong>Insegurança Alimentar</strong> nos territórios de Maracanaú, identificando convergências, padrões consolidados e potencial de adicionalidade.</p>
     </div>
 
-    <!-- ═══ Q1: Convergencia com os Eixos ═══ -->
+    <!-- ═══ Q1: Convergência com os Eixos ═══ -->
     <div class="panel" style="margin-bottom:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Convergencia com os eixos da Coalizao</h3><p class="panel-sub">Elementos do territorio que dialogam diretamente com Inclusao Produtiva e Inseguranca Alimentar.</p></div></div>
+      <div class="panel-head">
+        <div class="title-with-info">
+          <div>
+            <h3 class="panel-title">Convergência com os eixos da Coalizão</h3>
+            <p class="panel-sub">Elementos do território que dialogam diretamente com Inclusão Produtiva e Insegurança Alimentar.</p>
+          </div>
+          <details class="info-popover">
+            <summary aria-label="Como os índices foram construídos">i</summary>
+            <div class="info-balloon">
+              <strong>Como os índices foram construídos</strong>
+              Os dois índices por região (0–100) são compostos por normalização min–max entre as 6 regiões.
+              <ul>
+                <li><strong>Vulnerabilidade alimentar:</strong> média de três componentes normalizados — (1) taxa de extrema pobreza (MDS, 2025), (2) déficit de saneamento (1 − média de esgoto, água e coleta — IBGE, 2022) e (3) déficit de renda (1 − renda/renda máxima — IBGE, 2010). Quanto maior, mais vulnerável.</li>
+                <li><strong>Capacidade de inclusão produtiva:</strong> média de dois componentes normalizados — (1) empresas por 1.000 habitantes (Receita Federal, 2024) e (2) OSCs por 10.000 habitantes (IPEA, 2024). Quanto maior, mais capacidade instalada.</li>
+              </ul>
+              A diferença visual entre as duas barras indica o <em>gap</em> — regiões com alta vulnerabilidade e baixa capacidade são prioritárias para a Coalizão.
+            </div>
+          </details>
+        </div>
+      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 24px 16px">
         <div>
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brand);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--brand-4)">Eixo 1 &mdash; Inclusao Produtiva</div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brand);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--brand-4)">Eixo 1 &mdash; Inclusão Produtiva</div>
           <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);padding:0" id="kpi-eixo-ip"></div>
         </div>
         <div>
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#DC2626;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #FECACA">Eixo 2 &mdash; Inseguranca Alimentar</div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#DC2626;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #FECACA">Eixo 2 &mdash; Insegurança Alimentar</div>
           <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);padding:0" id="kpi-eixo-ia"></div>
         </div>
       </div>
-      <div style="padding:6px 24px 0"><p class="panel-sub" style="margin:0 0 4px">Indice composto por regiao: vulnerabilidade alimentar vs. capacidade de inclusao produtiva (0-100, normalizado min-max)</p></div>
+      <div style="padding:6px 24px 0"><p class="panel-sub" style="margin:0 0 4px">Índice composto por região: vulnerabilidade alimentar vs. capacidade de inclusão produtiva (0–100, normalizado min–max)</p></div>
       <div class="chart-box"><canvas id="chart-eixos-region" class="chart tall"></canvas></div>
     </div>
 
     <!-- ═══ Q2: Indicadores Consolidados ═══ -->
     <div class="panel" style="margin-bottom:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Indicadores consolidados entre regioes</h3><p class="panel-sub">Padroes que se repetem em todas as regioes e podem se tornar metricas estruturantes para a Coalizao.</p></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Indicadores consolidados entre regiões</h3><p class="panel-sub">Padrões que se repetem em todas as regiões e podem se tornar métricas estruturantes para a Coalizão.</p></div></div>
       <div class="table-wrap"><table id="table-consolidado"></table></div>
       <div id="consolidado-insights" style="padding:4px 24px 20px"></div>
     </div>
 
     <!-- ═══ Q3: Potencial de Adicionalidade ═══ -->
     <div class="panel" style="margin-bottom:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Potencial de adicionalidade da Coalizao</h3><p class="panel-sub">Regioes onde a combinacao de alta vulnerabilidade e baixa cobertura cria maior espaco para impacto da Coalizao.</p></div></div>
+      <div class="panel-head">
+        <div class="title-with-info">
+          <div>
+            <h3 class="panel-title">Potencial de adicionalidade da Coalizão</h3>
+            <p class="panel-sub">Regiões onde a combinação de alta vulnerabilidade e baixa cobertura cria maior espaço para impacto.</p>
+          </div>
+          <details class="info-popover">
+            <summary aria-label="Como o índice de adicionalidade foi calculado">i</summary>
+            <div class="info-balloon">
+              <strong>Como o índice de adicionalidade foi calculado</strong>
+              O índice de adicionalidade mede o <em>espaço para impacto</em> da Coalizão em cada região. Ele combina dois fatores:
+              <ul>
+                <li><strong>Vulnerabilidade alimentar (0–100):</strong> composto de extrema pobreza, déficit de saneamento e baixa renda (ver detalhamento no painel acima).</li>
+                <li><strong>Capacidade de inclusão produtiva (0–100):</strong> composto de densidade empresarial e densidade de OSCs (ver detalhamento no painel acima).</li>
+              </ul>
+              <strong>Fórmula:</strong> Adicionalidade = Vulnerabilidade × (100 − Capacidade) / 100.<br>
+              Regiões com <strong>alta vulnerabilidade</strong> e <strong>baixa capacidade instalada</strong> recebem pontuação mais alta — são os territórios onde a atuação da Coalizão pode gerar maior impacto adicional, pois há demanda significativa e poucas estruturas existentes para atendê-la.
+            </div>
+          </details>
+        </div>
+      </div>
       <div class="chart-box"><canvas id="chart-adicionalidade" class="chart tall"></canvas></div>
       <div id="adicionalidade-ranking" style="padding:0 24px 20px"></div>
     </div>
 
-    <!-- ═══ Detalhamento Regional (existente) ═══ -->
+    <!-- ═══ Detalhamento Regional ═══ -->
     <div style="margin:32px 0 18px;padding:0"><span class="section-kicker">Detalhamento Regional</span></div>
 
     <div class="panel" style="margin-bottom:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Divisao em 6 regioes</h3><p class="panel-sub">44 bairros organizados por perfil geografico e socioeconomico. Clique em uma regiao para destacar no mapa.</p></div></div>
+      <div class="panel-head"><div><h3 class="panel-title">Divisão em 6 regiões</h3><p class="panel-sub">44 bairros organizados por perfil geográfico e socioeconômico. Clique em uma região para destacar no mapa.</p></div></div>
       <div class="map-analytics-layout">
         <div class="map-col"><div id="map-region" style="height:380px;border-radius:6px;overflow:hidden;border:1px solid #D8E0E8"></div></div>
         <div class="analysis-col" id="region-cards-sidebar" style="overflow-y:auto;max-height:380px;padding-right:4px"></div>
@@ -1030,33 +1069,33 @@ body{background:#fff}
         <div class="title-with-info">
           <div>
             <h3 class="panel-title">Dimensões por região</h3>
-            <p class="panel-sub">Comparativo das 6 regiões em 6 eixos. Clique nos botões para mostrar ou ocultar.</p>
+            <p class="panel-sub">Comparativo das 6 regiões em variáveis percentuais diretas. Clique nos botões para mostrar ou ocultar.</p>
           </div>
           <details class="info-popover">
-            <summary aria-label="Como as variáveis foram construídas">i</summary>
+            <summary aria-label="Como ler o gráfico radar">i</summary>
             <div class="info-balloon">
-              <strong>Como cada variável foi construída</strong>
-              Os eixos são padronizados internamente (min–max entre as 6 regiões) para tornar visualmente comparáveis indicadores de unidades distintas. Valores reais estão no painel lateral.
+              <strong>Como ler o gráfico radar</strong>
+              Todos os eixos utilizam valores percentuais reais (0–100%), sem normalização. Isso permite comparar diretamente o desempenho de cada região.
               <ul>
-                <li><strong>Literacia:</strong> % adultos (≥15 anos) alfabetizados — calculado como 1 − taxa de analfabetismo, ponderado pela população de cada bairro. Fonte: IBGE, 2022.</li>
-                <li><strong>Baixa pobreza:</strong> inverso da taxa de extrema pobreza (1 − proporção de famílias CadÚnico com renda ≤ R$218/mês). Eixo positivo: maior valor = menor pobreza. Fonte: MDS, 2025.</li>
-                <li><strong>Saneamento:</strong> média aritmética das coberturas de esgotamento sanitário, abastecimento de água e coleta de lixo (% de domicílios atendidos). Fonte: IBGE, 2022.</li>
-                <li><strong>Renda:</strong> renda média domiciliar per capita em R$, ponderada pela população dos bairros. Dado de 2010 — reflete estrutura relativa de renda entre territórios. Fonte: IBGE Censo 2010.</li>
-                <li><strong>Empresas:</strong> número de CNPJs ativos com sede no território por 1.000 habitantes (inclui MEI, MPE e médias/grandes empresas). Fonte: Receita Federal — Cadastro CNPJ.</li>
-                <li><strong>Civil:</strong> organizações da sociedade civil ativas por 10.000 habitantes (associações, fundações e demais OSCs registradas). Fonte: IPEA — Mapa das OSCs 2024.</li>
+                <li><strong>Alfabetização:</strong> % de adultos (≥15 anos) alfabetizados (1 − taxa de analfabetismo). IBGE, 2022.</li>
+                <li><strong>Cobertura de esgoto:</strong> % de domicílios com rede de esgotamento sanitário. IBGE, 2022.</li>
+                <li><strong>Cobertura de água:</strong> % de domicílios com abastecimento de água. IBGE, 2022.</li>
+                <li><strong>Coleta de lixo:</strong> % de domicílios com coleta regular de lixo. IBGE, 2022.</li>
+                <li><strong>Baixa pobreza:</strong> % da população fora da extrema pobreza (1 − taxa de extrema pobreza). MDS, 2025.</li>
+                <li><strong>CadÚnico:</strong> incidência de famílias no CadÚnico (% sobre total de domicílios). MDS, 2025. Valores acima de 100% indicam mais famílias cadastradas do que domicílios.</li>
               </ul>
+              Quanto mais expandido o polígono, melhor o desempenho da região naquela dimensão.
             </div>
           </details>
         </div>
       </div>
       <div class="dim-outer">
-        <div class="dim-bottom">
+        <div class="dim-bottom" style="grid-template-columns:1fr 320px">
           <div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px" id="radar-toggles"></div>
-            <div class="radar-note" style="margin:0 0 14px"><strong>Como ler:</strong> eixos normalizados min-max entre as regiões. Valores reais no painel ao lado.</div>
-            <div class="chart-box"><canvas id="chart-region-radar" class="chart" style="height:420px"></canvas></div>
+            <div style="position:relative;height:460px"><canvas id="chart-region-radar"></canvas></div>
           </div>
-          <div class="dim-reading" id="dim-reading"></div>
+          <div class="dim-reading" id="dim-reading" style="max-height:520px;overflow-y:auto"></div>
         </div>
       </div>
     </div>
@@ -2036,15 +2075,15 @@ function initComp(){
   if(ipEl) ipEl.innerHTML=[
     {l:'MEIs ativos',v:fmt(synMEI,'int'),s:Math.round(synMEI/synEmp*100)+'% das empresas'},
     {l:'Cooperativas',v:fmt(synCoops,'int'),s:'Receita Federal, 2024'},
-    {l:'OSCs incl. produtiva',v:fmt(synOI,'int'),s:'De '+fmt(synOSC,'int')+' OSCs ativas'},
+    {l:'OSCs de inclusão produtiva',v:fmt(synOI,'int'),s:'De '+fmt(synOSC,'int')+' OSCs ativas'},
     {l:'Empresas / 1 mil hab.',v:(synEmp/synPop*1000).toFixed(1),s:'Densidade empresarial'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
 
   // Q1: KPIs — Insegurança Alimentar
   const iaEl=document.getElementById('kpi-eixo-ia');
   if(iaEl) iaEl.innerHTML=[
-    {l:'Familias ext. pobreza',v:fmt(synCadEpob,'int'),s:'MDS, 2025'},
-    {l:'Ext. pobreza media',v:(synWEpob*100).toFixed(1)+'%',s:'Ponderada por pop.'},
+    {l:'Famílias em ext. pobreza',v:fmt(synCadEpob,'int'),s:'MDS, 2025'},
+    {l:'Ext. pobreza média',v:(synWEpob*100).toFixed(1)+'%',s:'Ponderada por população'},
     {l:'Equip. seg. alimentar',v:fmt(synEsan,'int'),s:'1 para cada '+fmt(Math.round(synPop/Math.max(synEsan,1)),'int')+' hab.'},
     {l:'Renda per capita',v:'R$ '+fmt(Math.round(synWRenda),'int'),s:'IBGE Censo, 2010'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
@@ -2082,7 +2121,7 @@ function initComp(){
         labels:REGION_ORDER,
         datasets:[
           {label:'Vulnerabilidade alimentar',data:synIaIdx,backgroundColor:'#FCA5A5',borderColor:'#DC2626',borderWidth:1,borderRadius:5},
-          {label:'Capacidade incl. produtiva',data:synIpIdx,backgroundColor:'#C4B5FD',borderColor:'#7C3AED',borderWidth:1,borderRadius:5}
+          {label:'Capacidade de inclusão produtiva',data:synIpIdx,backgroundColor:'#C4B5FD',borderColor:'#7C3AED',borderWidth:1,borderRadius:5}
         ]
       },
       options:{
@@ -2103,10 +2142,10 @@ function initComp(){
   // ── Q2: Indicadores Consolidados — heatmap table ─────────────────────────
   const consolidadoIndicators=[
     {key:'epob',label:'Extrema pobreza',unit:'%',get:s=>(s.epob||0)*100,thresholds:[20,30],invert:true},
-    {key:'cad',label:'Incidencia CadUnico',unit:'%',get:s=>(s.cad||0)*100,thresholds:[50,80],invert:true},
+    {key:'cad',label:'Incidência CadÚnico',unit:'%',get:s=>(s.cad||0)*100,thresholds:[50,80],invert:true},
     {key:'renda',label:'Renda per capita',unit:'R$',get:s=>s.renda||0,thresholds:[600,500],invert:false},
-    {key:'esg',label:'Cobertura esgoto',unit:'%',get:s=>(s.esg||0)*100,thresholds:[90,70],invert:false},
-    {key:'agua',label:'Cobertura agua',unit:'%',get:s=>(s.agua||0)*100,thresholds:[95,85],invert:false},
+    {key:'esg',label:'Cobertura de esgoto',unit:'%',get:s=>(s.esg||0)*100,thresholds:[90,70],invert:false},
+    {key:'agua',label:'Cobertura de água',unit:'%',get:s=>(s.agua||0)*100,thresholds:[95,85],invert:false},
     {key:'emp1k',label:'Empresas / 1 mil hab.',unit:'',get:s=>s.emp1k||0,thresholds:[70,40],invert:false},
     {key:'osc10k',label:'OSCs / 10 mil hab.',unit:'',get:s=>s.osc10k||0,thresholds:[15,8],invert:false},
     {key:'anal',label:'Analfabetismo 15+',unit:'%',get:s=>(s.anal||0)*100,thresholds:[5,10],invert:true}
@@ -2126,7 +2165,7 @@ function initComp(){
   if(tblCons){
     let html='<thead><tr><th style="text-align:left">Indicador</th>';
     REGION_ORDER.forEach(r=>{html+=`<th style="text-align:center"><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:7px;height:7px;border-radius:50%;background:${REGION_COLORS[r]};display:inline-block"></span>${r}</span></th>`});
-    html+='<th style="text-align:center">Padrao</th></tr></thead><tbody>';
+    html+='<th style="text-align:center">Padrão</th></tr></thead><tbody>';
     consolidadoIndicators.forEach(ind=>{
       html+=`<tr><td style="font-weight:600;font-size:12px">${ind.label}</td>`;
       let critCount=0;
@@ -2137,7 +2176,7 @@ function initComp(){
         if(c.bg==='#FEE2E2') critCount++;
         html+=`<td style="text-align:center;background:${c.bg};color:${c.fg};font-weight:600;font-size:12px;border-radius:4px">${display}</td>`;
       });
-      const pattern=critCount>=4?'Critico transversal':critCount>=2?'Atencao parcial':'Variavel';
+      const pattern=critCount>=4?'Crítico transversal':critCount>=2?'Atenção parcial':'Variável';
       const pCol=critCount>=4?'#991B1B':critCount>=2?'#854D0E':'#166534';
       html+=`<td style="text-align:center;font-size:11px;font-weight:700;color:${pCol}">${pattern}</td></tr>`;
     });
@@ -2153,8 +2192,8 @@ function initComp(){
       return crit>=4;
     });
     const insightHTML=crossCritical.length?
-      `<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:14px 18px"><p style="font-weight:700;font-size:13px;color:#991B1B;margin:0 0 6px">Indicadores criticos transversais</p><p style="font-size:12px;color:#7F1D1D;margin:0;line-height:1.6">${crossCritical.map(i=>i.label).join(', ')} apresentam niveis criticos em 4+ regioes. Estes sao candidatos a <strong>indicadores consolidados</strong> da Coalizao em Maracanau, pois refletem desafios estruturais compartilhados.</p></div>`:
-      '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 18px"><p style="font-size:12px;color:#166534;margin:0">Nenhum indicador apresenta nivel critico em todas as regioes simultaneamente.</p></div>';
+      `<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:14px 18px"><p style="font-weight:700;font-size:13px;color:#991B1B;margin:0 0 6px">Indicadores críticos transversais</p><p style="font-size:12px;color:#7F1D1D;margin:0;line-height:1.6">${crossCritical.map(i=>i.label).join(', ')} apresentam níveis críticos em 4+ regiões. Estes são candidatos a <strong>indicadores consolidados</strong> da Coalizão em Maracanaú, pois refletem desafios estruturais compartilhados.</p></div>`:
+      '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px 18px"><p style="font-size:12px;color:#166534;margin:0">Nenhum indicador apresenta nível crítico em todas as regiões simultaneamente.</p></div>';
     consInsEl.innerHTML=insightHTML;
   }
 
@@ -2181,7 +2220,7 @@ function initComp(){
       data:{
         labels:adicLabels,
         datasets:[{
-          label:'Indice de adicionalidade',
+          label:'Índice de adicionalidade',
           data:adicData,
           backgroundColor:adicColors,
           borderColor:'#7C3AED',
@@ -2331,27 +2370,21 @@ function initComp(){
   }).join('')}</tbody>`;
   document.getElementById('table-region').innerHTML=thead+tbody;
 
-  // ── Dimensions & normalization ──────────────────────────────────────────
+  // ── Dimensões — variáveis percentuais diretas ──────────────────────────
   const dimAxes=[
-    // absoluteMin=0 for % axes so the chart shows real absolute position (anchored at 0)
-    {key:'educ',  label:'Literacia (IBGE, 2022)',             short:'Literacia',   absoluteMin:0,    getValue:s=>s.anal!=null?(1-s.anal)*100:null,  note:'% adultos alfabetizados (1 − analfabetismo). IBGE, 2022.'},
-    {key:'prot',  label:'Baixa pobreza (MDS, 2025)',         short:'B. Pobreza',  absoluteMin:0,    getValue:s=>s.epob!=null?(1-s.epob)*100:null,  note:'1 − extrema pobreza (MDS, 2025). Eixo positivo.'},
-    {key:'san',   label:'Saneamento (IBGE, 2022)',             short:'Saneamento',  absoluteMin:0,    getValue:s=>{const v=[s.esg,s.agua,s.lixo].filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length*100:null}, note:'Média esgoto + água + coleta (% domicílios). IBGE, 2022.'},
-    {key:'renda', label:'Renda (IBGE, 2010) ⚠',                  short:'Renda',       absoluteMin:null, getValue:s=>s.renda,  note:'Renda média domiciliar per capita R$ (2010). IBGE Censo 2010.'},
-    {key:'econ',  label:'Densidade empresarial (dez/2024)', short:'Empresas',    absoluteMin:null, getValue:s=>s.emp1k,  note:'CNPJs ativos / 1.000 hab. Receita Federal.'},
-    {key:'soc',   label:'OSCs ativas (IPEA, 2024)',           short:'Civil',       absoluteMin:null, getValue:s=>s.osc10k, note:'OSCs ativas / 10.000 hab. IPEA Mapa das OSCs 2024.'},
+    {key:'alfab', label:'Alfabetização (IBGE, 2022)',    short:'Alfabetização', getValue:s=>s.anal!=null?(1-s.anal)*100:null, unit:'%', note:'% adultos (≥15 anos) alfabetizados. IBGE, 2022.'},
+    {key:'bpob',  label:'Baixa pobreza (MDS, 2025)',     short:'Baixa pobreza', getValue:s=>s.epob!=null?(1-s.epob)*100:null, unit:'%', note:'% da população fora da extrema pobreza. MDS, 2025.'},
+    {key:'esg',   label:'Cobertura de esgoto (IBGE, 2022)', short:'Esgoto',     getValue:s=>s.esg!=null?s.esg*100:null,      unit:'%', note:'% de domicílios com rede de esgoto. IBGE, 2022.'},
+    {key:'agua',  label:'Cobertura de água (IBGE, 2022)',    short:'Água',       getValue:s=>s.agua!=null?s.agua*100:null,    unit:'%', note:'% de domicílios com abastecimento de água. IBGE, 2022.'},
+    {key:'lixo',  label:'Coleta de lixo (IBGE, 2022)',       short:'Coleta lixo', getValue:s=>s.lixo!=null?s.lixo*100:null,   unit:'%', note:'% de domicílios com coleta regular de lixo. IBGE, 2022.'},
+    {key:'cad',   label:'CadÚnico (MDS, 2025)',              short:'CadÚnico',   getValue:s=>s.cad!=null?s.cad*100:null,     unit:'%', note:'Incidência de famílias no CadÚnico. MDS, 2025.'},
   ];
-  // % axes anchored at absoluteMin=0; others min-max among regions
-  const normScores={};
-  REGION_ORDER.forEach(r=>{normScores[r]=[]});
-  dimAxes.forEach(ax=>{
-    const vals=REGION_ORDER.map(r=>ax.getValue(RS[r])).filter(v=>v!=null&&!isNaN(v));
-    const maxV=Math.max(...vals)||1;
-    const minV=ax.absoluteMin!=null ? ax.absoluteMin : Math.min(...vals);
-    const range=maxV-minV||1;
-    REGION_ORDER.forEach(r=>{
+  // Raw % values — no normalization needed
+  const rawScores={};
+  REGION_ORDER.forEach(r=>{
+    rawScores[r]=dimAxes.map(ax=>{
       const v=ax.getValue(RS[r]);
-      normScores[r].push(v!=null&&!isNaN(v)?Math.round((v-minV)/range*100):0);
+      return v!=null&&!isNaN(v)?Math.round(v*10)/10:0;
     });
   });
   // ── Radar with toggle buttons ────────────────────────────────────────────
@@ -2370,7 +2403,7 @@ function initComp(){
   function makeRadarDatasets(visSet){
     return REGION_ORDER.filter(r=>visSet.has(r)).map(r=>({
       label:r,
-      data:normScores[r],
+      data:rawScores[r],
       borderColor:radarPalette[r].border,
       backgroundColor:radarPalette[r].bg,
       pointBackgroundColor:radarPalette[r].border,
@@ -2379,33 +2412,32 @@ function initComp(){
     }));
   }
   function getRadarOptions(){
+    // Find max value across all axes to set scale ceiling (round up to next 10)
+    const allVals=REGION_ORDER.flatMap(r=>rawScores[r]);
+    const scaleMax=Math.ceil(Math.max(...allVals)/10)*10||100;
     return{
       responsive:true,maintainAspectRatio:false,
       animation:{duration:200},
-      layout:{padding:{top:8,bottom:8,left:8,right:8}},
+      layout:{padding:{top:12,bottom:12,left:12,right:12}},
       plugins:{
         legend:{position:'bottom',labels:{font:{size:11,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:9,boxHeight:9,padding:16}},
         tooltip:{
           backgroundColor:'rgba(27,45,62,.92)',titleFont:{size:12,weight:'700'},bodyFont:{size:12},cornerRadius:6,padding:10,
           callbacks:{
-            title(i){return i[0]?.label||''},
+            title(i){return dimAxes[i[0]?.dataIndex]?.short||''},
             label(ctx){
-              const r=ctx.dataset.label;const ax=dimAxes[ctx.dataIndex];const raw=ax.getValue(RS[r]);
-              if(raw==null) return ` ${r}: —`;
-              if(ax.key==='renda') return ` ${r}: ${fmt(raw,'money')}`;
-              if(ax.key==='econ')  return ` ${r}: ${raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})} emp/1k`;
-              if(ax.key==='soc')   return ` ${r}: ${raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})} OSC/10k`;
-              return ` ${r}: ${raw.toFixed(1)}%`;
+              const r=ctx.dataset.label;const v=ctx.parsed.r;
+              return ` ${r}: ${v.toFixed(1)}%`;
             }
           }
         }
       },
       scales:{r:{
-        min:0,max:100,
+        min:0,max:scaleMax,
         angleLines:{color:'rgba(216,224,232,.8)'},
         grid:{color:'rgba(216,224,232,.7)'},
-        pointLabels:{color:'#1B2D3E',font:{size:12,weight:'700'},padding:14},
-        ticks:{display:false}
+        pointLabels:{color:'#1B2D3E',font:{size:12,weight:'700'},padding:16},
+        ticks:{display:true,backdropColor:'transparent',color:'#9CA3AF',font:{size:9},stepSize:Math.round(scaleMax/5),callback:v=>v+'%'}
       }}
     };
   }
@@ -2441,10 +2473,7 @@ function initComp(){
   const readingEl=document.getElementById('dim-reading');
   function fmtDimRaw(ax,raw){
     if(raw==null||isNaN(raw)) return '—';
-    if(ax.key==='renda') return fmt(raw,'money');
-    if(ax.key==='econ') return raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' emp/1k';
-    if(ax.key==='soc')  return raw.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' OSC/10k';
-    return (raw*1).toFixed(1)+'%';
+    return raw.toFixed(1)+'%';
   }
   const dimHTML=dimAxes.map(ax=>{
     const vals=REGION_ORDER.map(r=>({r,raw:ax.getValue(RS[r])})).filter(x=>x.raw!=null&&!isNaN(x.raw));
