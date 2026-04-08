@@ -3340,13 +3340,13 @@ function baseChartOptions() {
     },
     scales:{
       x:{
-        ticks:{color:UI_COLORS.muted, font:{family:'Inter', size:10, weight:'600'}},
-        grid:{display:false, drawTicks:false},
+        ticks:{color:UI_COLORS.muted, font:{family:'Inter', size:10}},
+        grid:{color:'#edf2f6', drawTicks:false},
         border:{display:false}
       },
       y:{
-        ticks:{color:UI_COLORS.muted, font:{family:'Inter', size:10}},
-        grid:{color:'#edf2f6', drawTicks:false},
+        ticks:{color:UI_COLORS.muted, font:{family:'Inter', size:10, weight:'600'}},
+        grid:{display:false, drawTicks:false},
         border:{display:false}
       }
     }
@@ -3355,12 +3355,21 @@ function baseChartOptions() {
 function destroyChart(id){
   if(CHARTS[id]) CHARTS[id].destroy();
 }
-function makeBar(id, labels, dataset, extra={}){
+function makeBar(id, labels, datasets, extra={}){
   destroyChart(id);
-  CHARTS[id] = new Chart(document.getElementById(id), {
+  const canvas = document.getElementById(id);
+  if(!canvas) return;
+  const barH = Math.max(labels.length*28, 300);
+  canvas.style.height = barH+'px';
+  canvas.parentElement.style.height = 'auto';
+  const opts = baseChartOptions();
+  opts.indexAxis = 'y';
+  if(extra?.plugins) opts.plugins = {...opts.plugins, ...extra.plugins};
+  if(extra?.scales) opts.scales = {...opts.scales, ...extra.scales};
+  CHARTS[id] = new Chart(canvas, {
     type:'bar',
-    data:{labels, datasets:dataset},
-    options:Object.assign(baseChartOptions(), extra)
+    data:{labels, datasets},
+    options: opts
   });
 }
 
@@ -3477,13 +3486,12 @@ function initOverview(){
   const rowsIdhm = sortRows('idhm', true);
   makeBar('chart-visao-idhm', rowsIdhm.map(d=>d.b), [{data:rowsIdhm.map(d=>d.idhm), backgroundColor:rowsIdhm.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
     plugins:{legend:{display:false}},
-    scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y, min:0, max:1}}
+    scales:{x:{min:0, max:1}}
   });
   addTerritoryLegend('chart-visao-idhm');
   const rowsCad = sortRows('cad', true);
   makeBar('chart-visao-cad', rowsCad.map(d=>d.b), [{data:rowsCad.map(d=>d.cad*100), backgroundColor:rowsCad.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
-    plugins:{legend:{display:false}},
-    scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y}}
+    plugins:{legend:{display:false}}
   });
   addTerritoryLegend('chart-visao-cad');
 
@@ -3508,7 +3516,7 @@ function initVuln(){
   const idRows = sortRows('idhm', false);
   makeBar('chart-vuln-idhm', idRows.map(d=>d.b), [{data:idRows.map(d=>d.idhm), backgroundColor:idRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
     plugins:{legend:{display:false}},
-    scales:{x:baseChartOptions().scales.x, y:{...baseChartOptions().scales.y, min:0, max:1}}
+    scales:{x:{min:0, max:1}}
   });
   addTerritoryLegend('chart-vuln-idhm');
 }
