@@ -1997,15 +1997,15 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <div class="grid two" style="margin-top:16px">
       <div class="panel">
         <div class="panel-head">
-          <div><h3 class="panel-title">IDHM por bairro (IBGE, 2010) <span class="data-outdated"><span class="data-outdated-icon">⚠</span></span></h3></div>
+          <div><h3 class="panel-title">Extrema pobreza por bairro (MDS, 2025)</h3></div>
         </div>
-        <div class="chart-box"><canvas id="chart-visao-idhm" class="chart tall"></canvas></div>
+        <div class="chart-box"><canvas id="chart-visao-epob" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
         <div class="panel-head">
-          <div><h3 class="panel-title">Famílias no Cadúnico (MDS, 2025)</h3></div>
+          <div><h3 class="panel-title">Renda per capita por bairro (IBGE Censo, 2022)</h3></div>
         </div>
-        <div class="chart-box"><canvas id="chart-visao-cad" class="chart tall"></canvas></div>
+        <div class="chart-box"><canvas id="chart-visao-rendapc" class="chart tall"></canvas></div>
       </div>
     </div>
   </section>
@@ -2517,7 +2517,7 @@ const METRICS = {
 };
 
 const MAP_CONFIG = {
-  visao:{metrics:['idhm','cad','epob','esg','emp','osc10k','ibeu','rendaPC','renda'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'idhm'}},
+  visao:{metrics:['epob','rendaPC','idhm','cad','esg','emp','osc10k','ibeu','renda'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'epob'}},
   demo:{metrics:['pop','dens','raca','mulh','popFem','dom','pop09','gravAdol'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'dens'}},
   vuln:{metrics:['epob','cad','idhm','anal','rendaPC','renda','hom','idhEduc','idhLong','idhRenda','epob2010','cvli','mariaPenha','cadFam','cadEpobFam','favelas'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'epob'}},
   infra:{metrics:['esg','agua','lixo','esfc','esc','esaude','caps','cras','feiras','pracas','ibeu'], defaults:{territorio:'Todos', bairro:'Todos', indicador:'esg'}},
@@ -3493,38 +3493,37 @@ function refreshOverviewCharts(territory, bairro){
   terrGrid.style.display = (showGm || showGbj) ? '' : 'none';
 
   // Charts
-  const rowsIdhm = [...rows].sort((a,b)=>(b.idhm||0)-(a.idhm||0));
-  const chartIdhm = CHARTS['chart-visao-idhm'];
-  if(chartIdhm){
-    chartIdhm.data.labels = rowsIdhm.map(d=>d.b);
-    chartIdhm.data.datasets[0].data = rowsIdhm.map(d=>d.idhm);
-    chartIdhm.data.datasets[0].backgroundColor = rowsIdhm.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal);
-    chartIdhm.update('none');
+  const rowsEpob = [...rows].sort((a,b)=>(b.epob||0)-(a.epob||0));
+  const chartEpob = CHARTS['chart-visao-epob'];
+  if(chartEpob){
+    chartEpob.data.labels = rowsEpob.map(d=>d.b);
+    chartEpob.data.datasets[0].data = rowsEpob.map(d=>d.epob*100);
+    chartEpob.data.datasets[0].backgroundColor = rowsEpob.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal);
+    chartEpob.update('none');
   }
-  const rowsCad = [...rows].sort((a,b)=>(b.cad||0)-(a.cad||0));
-  const chartCad = CHARTS['chart-visao-cad'];
-  if(chartCad){
-    chartCad.data.labels = rowsCad.map(d=>d.b);
-    chartCad.data.datasets[0].data = rowsCad.map(d=>d.cad*100);
-    chartCad.data.datasets[0].backgroundColor = rowsCad.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal);
-    chartCad.update('none');
+  const rowsRendaPC = [...rows].sort((a,b)=>(b.rendaPC||0)-(a.rendaPC||0));
+  const chartRendaPC = CHARTS['chart-visao-rendapc'];
+  if(chartRendaPC){
+    chartRendaPC.data.labels = rowsRendaPC.map(d=>d.b);
+    chartRendaPC.data.datasets[0].data = rowsRendaPC.map(d=>Math.round(d.rendaPC||0));
+    chartRendaPC.data.datasets[0].backgroundColor = rowsRendaPC.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal);
+    chartRendaPC.update('none');
   }
 }
 
 function initOverview(){
   createMap('visao');
 
-  const rowsIdhm = sortRows('idhm', true);
-  makeBar('chart-visao-idhm', rowsIdhm.map(d=>d.b), [{data:rowsIdhm.map(d=>d.idhm), backgroundColor:rowsIdhm.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
-    plugins:{legend:{display:false}},
-    scales:{x:{min:0, max:1}}
-  });
-  addTerritoryLegend('chart-visao-idhm');
-  const rowsCad = sortRows('cad', true);
-  makeBar('chart-visao-cad', rowsCad.map(d=>d.b), [{data:rowsCad.map(d=>d.cad*100), backgroundColor:rowsCad.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
+  const rowsEpob = sortRows('epob', true);
+  makeBar('chart-visao-epob', rowsEpob.map(d=>d.b), [{data:rowsEpob.map(d=>d.epob*100), backgroundColor:rowsEpob.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
     plugins:{legend:{display:false}}
   });
-  addTerritoryLegend('chart-visao-cad');
+  addTerritoryLegend('chart-visao-epob');
+  const rowsRendaPC = sortRows('rendaPC', true);
+  makeBar('chart-visao-rendapc', rowsRendaPC.map(d=>d.b), [{data:rowsRendaPC.map(d=>Math.round(d.rendaPC||0)), backgroundColor:rowsRendaPC.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal), borderRadius:6}], {
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'R$ '+Number(ctx.parsed.x).toLocaleString('pt-BR')}}}
+  });
+  addTerritoryLegend('chart-visao-rendapc');
 
   refreshOverviewCharts('Todos', 'Todos');
 }
