@@ -3531,7 +3531,7 @@ function initInfra(){
   const rows = sortRows('esg', true);
   destroyChart('chart-infra-san');
   const sanCanvas=document.getElementById('chart-infra-san');
-  const sanH=Math.max(rows.length*28,300);
+  const sanH=Math.max(rows.length*50,300);
   sanCanvas.style.height=sanH+'px';
   sanCanvas.parentElement.style.height='auto';
   const sanOpts=baseChartOptions();
@@ -3581,7 +3581,7 @@ function initEcon(){
   const porteRows = [...DATA].sort((a,b)=>(b.mpe||0)-(a.mpe||0));
   destroyChart('chart-econ-porte');
   const porteCanvas=document.getElementById('chart-econ-porte');
-  const porteH=Math.max(porteRows.length*28,300);
+  const porteH=Math.max(porteRows.length*50,300);
   porteCanvas.style.height=porteH+'px';
   porteCanvas.parentElement.style.height='auto';
   const porteOpts=baseChartOptions();
@@ -3606,7 +3606,7 @@ function initEcon(){
   const impRows = [...DATA].sort((a,b)=>(b.negImpacto||0)-(a.negImpacto||0));
   destroyChart('chart-econ-impacto');
   const impCanvas=document.getElementById('chart-econ-impacto');
-  const impH=Math.max(impRows.length*28,300);
+  const impH=Math.max(impRows.length*50,300);
   impCanvas.style.height=impH+'px';
   impCanvas.parentElement.style.height='auto';
   const impOpts=baseChartOptions();
@@ -3724,7 +3724,7 @@ function initOsc(){
   const areaLabels=Object.entries(areaCounts).filter(([a])=>a!=='Sem classificação').sort((a,b)=>b[1].total-a[1].total).map(([a])=>a).slice(0,8);
   destroyChart('chart-osc-area');
   const oscAreaCanvas=document.getElementById('chart-osc-area');
-  const oscAreaH=Math.max(areaLabels.length*28,300);
+  const oscAreaH=Math.max(areaLabels.length*50,300);
   oscAreaCanvas.style.height=oscAreaH+'px';
   oscAreaCanvas.parentElement.style.height='auto';
   const oscAreaOpts=baseChartOptions();
