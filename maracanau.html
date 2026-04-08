@@ -697,7 +697,7 @@ body{background:#fff}
         <div class="chart-box"><canvas id="chart-visao-epob" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Renda per capita por bairro (IBGE Censo, 2022)</h3><p class="panel-sub">Renda per capita em R$</p></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Rendimento do responsável per capita por bairro (IBGE Censo, 2022)</h3><p class="panel-sub">Rendimento do responsável per capita em R$</p></div></div>
         <div class="chart-box"><canvas id="chart-visao-rendapc" class="chart tall"></canvas></div>
       </div>
     </div>
@@ -772,7 +772,7 @@ body{background:#fff}
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Analfabetismo, 15+ anos (IBGE, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-anal" class="chart tall"></canvas></div></div>
     </div>
     <div class="grid two" style="margin-top:22px">
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Renda per capita (IBGE Censo, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-rendapc" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rendimento do responsável per capita (IBGE Censo, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-rendapc" class="chart tall"></canvas></div></div>
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Rendimento médio do responsável (IBGE Censo, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-vuln-renda" class="chart tall"></canvas></div></div>
     </div>
     <div class="grid two" style="margin-top:22px">
@@ -1200,7 +1200,7 @@ const INDICATORS={
   emp:{label:'Empresas formais (dez/2024)',fmt:'int',higher:'alto'},
   osc:{label:'OSCs ativas (IPEA, 2024)',fmt:'int',higher:'alto'},
   renda:{label:'Rendimento médio do responsável (IBGE Censo, 2022)',fmt:'money',higher:'bom'},
-  rendaPC:{label:'Renda per capita (IBGE Censo, 2022)',fmt:'money',higher:'bom'},
+  rendaPC:{label:'Rendimento do responsável per capita (IBGE Censo, 2022)',fmt:'money',higher:'bom'},
 };
 
 function createMap(containerId){
@@ -1259,7 +1259,7 @@ function paintMap(containerId,indicatorKey,colorSet){
       const popupHTML=`<div class="popup-card"><h4>${d.b}</h4><div class="popup-grid">
         <div class="popup-stat"><strong>${fmt(d.pop,'int')}</strong><span>População</span></div>
         <div class="popup-stat"><strong>${fmt(d.epob,'pct')}</strong><span>Ext. pobreza</span></div>
-        <div class="popup-stat"><strong>${fmt(d.rendaPC,'money')}</strong><span>Renda per capita</span></div>
+        <div class="popup-stat"><strong>${fmt(d.rendaPC,'money')}</strong><span>Rend. resp. per capita</span></div>
         <div class="popup-stat"><strong>${fmt(d.renda,'money')}</strong><span>Renda responsável</span></div>
         <div class="popup-stat"><strong>${fmt(d.esg,'pct')}</strong><span>Esgoto</span></div>
         <div class="popup-stat"><strong>${fmt(d.cad,'pct')}</strong><span>CadÚnico</span></div>
@@ -1341,7 +1341,7 @@ function initOverview(){
   document.getElementById('overview-kpis').innerHTML=`
     <div class="kpi"><div class="label">População total</div><div class="value">${fmt(totalPop,'int')}</div><div class="sub">${DATA.length} bairros · Censo 2022</div></div>
     <div class="kpi"><div class="label">Empresas ativas</div><div class="value">${fmt(totalEmp,'int')}</div><div class="sub">Receita Federal · dez/2024</div></div>
-    <div class="kpi"><div class="label">Renda per capita</div><div class="value">${fmt(totalRendaPC,'money')}</div><div class="sub">IBGE Censo, 2022</div></div>
+    <div class="kpi"><div class="label">Rendimento resp. per capita</div><div class="value">${fmt(totalRendaPC,'money')}</div><div class="sub">IBGE Censo, 2022</div></div>
     <div class="kpi"><div class="label">Renda do responsável</div><div class="value">${fmt(totalRenda,'money')}</div><div class="sub">IBGE Censo, 2022</div></div>`;
   
   const sel=populateSelect('visao-indicador',['epob','esg','cad','pop','rendaPC','renda','osc','emp','anal']);
@@ -1415,7 +1415,7 @@ function initVuln(){
   makeBar('chart-vuln-epob',byEpob.map(d=>d.b),[{data:byEpob.map(d=>((d.epob||0)*100).toFixed(1)),backgroundColor:byEpob.map(d=>(d.epob||0)>.4?UI.danger:(d.epob||0)>.25?UI.gold:UI.blue),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>ctx.parsed.x+'%'}}}});
   const byAnal=[...DATA].sort((a,b)=>(b.anal||0)-(a.anal||0));
   makeBar('chart-vuln-anal',byAnal.map(d=>d.b),[{data:byAnal.map(d=>((d.anal||0)*100).toFixed(1)),backgroundColor:byAnal.map(d=>(d.anal||0)>.1?UI.danger:(d.anal||0)>.07?UI.gold:UI.teal),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>ctx.parsed.x+'%'}}}});
-  // Renda per capita (Censo 2022)
+  // Rendimento do responsável per capita (Censo 2022)
   const byRendaPC=[...DATA].filter(d=>d.rendaPC!=null).sort((a,b)=>a.rendaPC-b.rendaPC);
   makeBar('chart-vuln-rendapc',byRendaPC.map(d=>d.b),[{data:byRendaPC.map(d=>Math.round(d.rendaPC)),backgroundColor:byRendaPC.map(d=>d.rendaPC<450?UI.danger:d.rendaPC<600?UI.gold:UI.teal),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>'R$ '+Number(ctx.parsed.x).toLocaleString('pt-BR')}}}});
   // Rendimento médio do responsável (Censo 2022)
@@ -2150,7 +2150,7 @@ function initComp(){
     {l:'Famílias em ext. pobreza',v:fmt(synCadEpob,'int'),s:'MDS, 2025'},
     {l:'Ext. pobreza média',v:(synWEpob*100).toFixed(1)+'%',s:'Ponderada por população'},
     {l:'Equip. seg. alimentar',v:fmt(synEsan,'int'),s:'1 para cada '+fmt(Math.round(synPop/Math.max(synEsan,1)),'int')+' hab.'},
-    {l:'Renda per capita',v:'R$ '+fmt(Math.round(synWRendaPC),'int'),s:'IBGE Censo, 2022'}
+    {l:'Rendimento resp. per capita',v:'R$ '+fmt(Math.round(synWRendaPC),'int'),s:'IBGE Censo, 2022'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
 
   // ── Q1: Radar de Inclusão Produtiva ──────────────────────────────────────
@@ -2259,7 +2259,7 @@ function initComp(){
   const consolidadoIndicators=[
     {key:'epob',label:'Extrema pobreza',unit:'%',get:s=>(s.epob||0)*100,thresholds:[20,30],invert:true},
     {key:'cad',label:'Incidência CadÚnico',unit:'%',get:s=>(s.cad||0)*100,thresholds:[50,80],invert:true},
-    {key:'rendaPC',label:'Renda per capita',unit:'R$',get:s=>s.rendaPC||0,thresholds:[600,450],invert:false},
+    {key:'rendaPC',label:'Rendimento resp. per capita',unit:'R$',get:s=>s.rendaPC||0,thresholds:[600,450],invert:false},
     {key:'esg',label:'Cobertura de esgoto',unit:'%',get:s=>(s.esg||0)*100,thresholds:[90,70],invert:false},
     {key:'agua',label:'Cobertura de água',unit:'%',get:s=>(s.agua||0)*100,thresholds:[95,85],invert:false},
     {key:'emp1k',label:'Empresas / 1 mil hab.',unit:'',get:s=>s.emp1k||0,thresholds:[70,40],invert:false},

@@ -2003,7 +2003,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       </div>
       <div class="panel">
         <div class="panel-head">
-          <div><h3 class="panel-title">Renda per capita por bairro (IBGE Censo, 2022)</h3></div>
+          <div><h3 class="panel-title">Rendimento do responsável per capita por bairro (IBGE Censo, 2022)</h3></div>
         </div>
         <div class="chart-box"><canvas id="chart-visao-rendapc" class="chart tall"></canvas></div>
       </div>
@@ -2067,7 +2067,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <div class="section-head">
       <span class="section-kicker">Vulnerabilidade</span>
       <h2 class="section-title">Pobreza e privação</h2>
-      <p class="section-desc">Extrema pobreza (MDS, 2025), rendimento e renda per capita (IBGE Censo, 2022) por bairro nos dois territórios.</p>
+      <p class="section-desc">Extrema pobreza (MDS, 2025), rendimento e rendimento do responsável per capita (IBGE Censo, 2022) por bairro nos dois territórios.</p>
     </div>
     <div class="decision">
       <h3>Análise</h3>
@@ -2116,7 +2116,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     </div>
     <div class="grid two">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Renda per capita (IBGE Censo, 2022)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Rendimento do responsável per capita (IBGE Censo, 2022)</h3></div></div>
         <div class="chart-box"><canvas id="chart-vuln-rendapc" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
@@ -2366,7 +2366,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
                   <ul>
                     <li><strong>Baixa pobreza (MDS, 2025):</strong> 100 − % em extrema pobreza. Eixo invertido para evitar leitura ambígua.</li>
                     <li><strong>Saneamento (IBGE, 2022):</strong> % de domicílios com esgotamento sanitário adequado (IBGE).</li>
-                    <li><strong>Renda per capita (IBGE Censo, 2022):</strong> calculada como (rendimento do responsável × nº responsáveis) / moradores. Normalizada 0–100 pelo melhor valor.</li>
+                    <li><strong>Rendimento do responsável per capita (IBGE Censo, 2022):</strong> calculada como (rendimento do responsável × nº responsáveis) / moradores. Normalizada 0–100 pelo melhor valor.</li>
                     <li><strong>Densidade empresarial (Receita Federal, 2024):</strong> CNPJs ativos por 1.000 hab. (Receita Federal).</li>
                     <li><strong>Sociedade civil (IPEA, 2024):</strong> OSCs ativas por 10.000 hab. (Mapa das OSCs / IPEA).</li>
                     <li><strong>Desenvolvimento humano (IBGE, 2010):</strong> proxy de capacidade humana; em Maracanaú usa-se Literacia como proxy equivalente.</li>
@@ -2481,7 +2481,7 @@ const METRICS = {
   esfc:{label:'Cobertura eSF (CNES, 2024)',fmt:'float1',higher:'bom'},
   esc:{label:'Escolas públicas (Censo Escolar, 2023)',fmt:'int',higher:'alto'},
   renda:{label:'Rendimento médio do responsável (IBGE Censo, 2022)',fmt:'money',higher:'bom'},
-  rendaPC:{label:'Renda per capita (IBGE Censo, 2022)',fmt:'money',higher:'bom'},
+  rendaPC:{label:'Rendimento do responsável per capita (IBGE Censo, 2022)',fmt:'money',higher:'bom'},
   meiShare:{label:'Participação de MEIs (Receita Federal, 2024)',fmt:'pct',higher:'alto'},
   osc:{label:'OSCs totais (IPEA, 2024)',fmt:'int',higher:'alto'},
   oi:{label:'OSCs de inclusão produtiva (IPEA, 2024)',fmt:'int',higher:'alto'},
@@ -2848,7 +2848,7 @@ function buildPopup(d, metric, section='visao'){
     <div class="popup-grid">
       <div class="popup-stat"><strong>${fmt(d.pop,'int')}</strong><span>População</span></div>
       <div class="popup-stat"><strong>${fmt(d.epob, 'pct')}</strong><span>Ext. pobreza</span></div>
-      <div class="popup-stat"><strong>${fmt(d.rendaPC, 'money')}</strong><span>Renda per capita</span></div>
+      <div class="popup-stat"><strong>${fmt(d.rendaPC, 'money')}</strong><span>Rend. resp. per capita</span></div>
       <div class="popup-stat"><strong>${fmt(d.renda, 'money')}</strong><span>Renda responsável</span></div>
       <div class="popup-stat"><strong>${fmt(d.idhm, 'index')}</strong><span>IDHM</span></div>
       <div class="popup-stat"><strong>${fmt(d.esg, 'pct')}</strong><span>Esgoto</span></div>
@@ -3464,7 +3464,7 @@ function refreshOverviewCharts(territory, bairro){
   document.getElementById('overview-kpis').innerHTML = [
     {label:'População total', value:fmt(pop,'int'), sub:`Censo 2022 · ${suffix}`},
     {label:'Empresas ativas', value:fmt(emp,'int'), sub:'Receita Federal · dez/2024'},
-    {label:'Renda per capita', value:fmt(rendaPC,'money'), sub:'IBGE Censo, 2022'},
+    {label:'Rendimento resp. per capita', value:fmt(rendaPC,'money'), sub:'IBGE Censo, 2022'},
     {label:'Renda do responsável', value:fmt(renda,'money'), sub:'IBGE Censo, 2022'}
   ].map(k=>`<div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>`).join('');
 
@@ -3549,7 +3549,7 @@ function initVuln(){
     scales:{x:{min:0, max:1}}
   });
   addTerritoryLegend('chart-vuln-idhm');
-  // Renda per capita (Censo 2022)
+  // Rendimento do responsável per capita (Censo 2022)
   const pcRows=[...DATA].filter(d=>d.rendaPC!=null).sort((a,b)=>a.rendaPC-b.rendaPC);
   makeBar('chart-vuln-rendapc',pcRows.map(d=>d.b),[{data:pcRows.map(d=>Math.round(d.rendaPC)),backgroundColor:pcRows.map(d=>d.t==='Grande Mucuripe'?UI_COLORS.blueSoft:UI_COLORS.teal),borderRadius:6}],{plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'R$ '+Number(ctx.parsed.x).toLocaleString('pt-BR')}}}});
   addTerritoryLegend('chart-vuln-rendapc');
@@ -4022,7 +4022,7 @@ function initComp(){
     },
     {
       key:'rendaPC',
-      label:'Renda per capita (Censo, 2022)',
+      label:'Rendimento do responsável per capita (Censo, 2022)',
       rawKind:'money',
       rawValue:d => d.rendaPC||0,
       normalized:d => {
