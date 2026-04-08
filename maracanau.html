@@ -697,8 +697,8 @@ body{background:#fff}
         <div class="chart-box"><canvas id="chart-visao-epob" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Esgotamento sanitário (IBGE, 2022)</h3><p class="panel-sub">% dos domicílios com rede de esgoto</p></div></div>
-        <div class="chart-box"><canvas id="chart-visao-esg" class="chart tall"></canvas></div>
+        <div class="panel-head"><div><h3 class="panel-title">Renda per capita por bairro (IBGE Censo, 2022)</h3><p class="panel-sub">Renda per capita em R$</p></div></div>
+        <div class="chart-box"><canvas id="chart-visao-rendapc" class="chart tall"></canvas></div>
       </div>
     </div>
   </section>
@@ -1358,36 +1358,33 @@ function initOverview(){
 
   const sorted=[...DATA].sort((a,b)=>(b.epob||0)-(a.epob||0));
   makeBar('chart-visao-epob',sorted.map(d=>d.b),[{data:sorted.map(d=>((d.epob||0)*100).toFixed(1)),backgroundColor:sorted.map(d=>(d.epob||0)>.4?UI.danger:(d.epob||0)>.25?UI.gold:UI.blue),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>ctx.parsed.x+'%'}}}});
-  const sortedE=[...DATA].sort((a,b)=>(a.esg||0)-(b.esg||0));
-  makeBar('chart-visao-esg',sortedE.map(d=>d.b),[{data:sortedE.map(d=>((d.esg||0)*100).toFixed(1)),backgroundColor:sortedE.map(d=>(d.esg||0)<.1?UI.danger:(d.esg||0)<.4?UI.gold:UI.teal),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>ctx.parsed.x+'%'}}}});
+  const sortedRenda=[...DATA].sort((a,b)=>(b.rendaPC||0)-(a.rendaPC||0));
+  makeBar('chart-visao-rendapc',sortedRenda.map(d=>d.b),[{data:sortedRenda.map(d=>Math.round(d.rendaPC||0)),backgroundColor:sortedRenda.map(d=>(d.rendaPC||0)>2000?UI.blue:(d.rendaPC||0)>1000?UI.gold:UI.danger),borderRadius:5}],{plugins:{tooltip:{callbacks:{label:ctx=>'R$ '+Number(ctx.parsed.x).toLocaleString('pt-BR')}}}});
 }
 
 function updateVisaoChart(k){
-  const ind=INDICATORS[k];if(!ind) return;
-  const isPct=ind.fmt==='pct';
-  const ascending=['esg','agua'].includes(k); // lower = pior, mostrar do menor ao maior
-  const data=[...DATA].sort((a,b)=>ascending?(a[k]||0)-(b[k]||0):(b[k]||0)-(a[k]||0));
-  const chart=CHARTS['chart-visao-epob'];
-  if(!chart) return;
-  chart.data.labels=data.map(d=>d.b);
-  if(isPct){
-    chart.data.datasets[0].data=data.map(d=>((d[k]||0)*100).toFixed(1));
-    chart.data.datasets[0].backgroundColor=data.map(d=>{
-      const v=d[k]||0;
-      if(['epob','cad','anal'].includes(k)) return v>.4?UI.danger:v>.25?UI.gold:UI.blue;
-      return v<.1?UI.danger:v<.4?UI.gold:UI.teal;
-    });
-    chart.options.plugins.tooltip={callbacks:{label:ctx=>ctx.parsed.x+'%'}};
-  } else {
-    chart.data.datasets[0].data=data.map(d=>d[k]||0);
-    chart.data.datasets[0].backgroundColor=data.map(()=>UI.blue);
-    chart.options.plugins.tooltip={callbacks:{label:ctx=>ctx.parsed.x.toLocaleString('pt-BR')}};
+  // Only epob and rendapc are shown in the fixed charts at bottom
+  // Other indicators update the map and analysis, but not the fixed charts
+  if(k==='epob'){
+    const ind=INDICATORS[k];
+    const data=[...DATA].sort((a,b)=>(b.epob||0)-(a.epob||0));
+    const chart=CHARTS['chart-visao-epob'];
+    if(chart){
+      chart.data.labels=data.map(d=>d.b);
+      chart.data.datasets[0].data=data.map(d=>((d.epob||0)*100).toFixed(1));
+      chart.data.datasets[0].backgroundColor=data.map(d=>(d.epob||0)>.4?UI.danger:(d.epob||0)>.25?UI.gold:UI.blue);
+      chart.update('none');
+    }
+  } else if(k==='rendapc' || k==='rendaPC'){
+    const data=[...DATA].sort((a,b)=>(b.rendaPC||0)-(a.rendaPC||0));
+    const chart=CHARTS['chart-visao-rendapc'];
+    if(chart){
+      chart.data.labels=data.map(d=>d.b);
+      chart.data.datasets[0].data=data.map(d=>Math.round(d.rendaPC||0));
+      chart.data.datasets[0].backgroundColor=data.map(d=>(d.rendaPC||0)>2000?UI.blue:(d.rendaPC||0)>1000?UI.gold:UI.danger);
+      chart.update('none');
+    }
   }
-  chart.update('none');
-  const titleEl=document.getElementById('chart-visao-title');
-  const subEl=document.getElementById('chart-visao-sub');
-  if(titleEl) titleEl.textContent=ind.label;
-  if(subEl) subEl.textContent=isPct?'% por bairro, ordenado pelo valor':ind.label+' por bairro';
 }
 
 function initDemo(){
