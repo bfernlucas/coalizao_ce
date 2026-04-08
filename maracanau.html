@@ -1260,9 +1260,11 @@ function paintMap(containerId,indicatorKey,colorSet){
         <div class="popup-stat"><strong>${fmt(d.pop,'int')}</strong><span>População</span></div>
         <div class="popup-stat"><strong>${fmt(d.epob,'pct')}</strong><span>Ext. pobreza</span></div>
         <div class="popup-stat"><strong>${fmt(d.rendaPC,'money')}</strong><span>Renda per capita</span></div>
+        <div class="popup-stat"><strong>${fmt(d.renda,'money')}</strong><span>Renda responsável</span></div>
         <div class="popup-stat"><strong>${fmt(d.esg,'pct')}</strong><span>Esgoto</span></div>
-        <div class="popup-stat"><strong>${fmt(d.emp,'int')}</strong><span>Empresas</span></div>
         <div class="popup-stat"><strong>${fmt(d.cad,'pct')}</strong><span>CadÚnico</span></div>
+        <div class="popup-stat"><strong>${fmt(d.emp,'int')}</strong><span>Empresas</span></div>
+        <div class="popup-stat"><strong>${fmt(d.osc,'int')}</strong><span>OSCs</span></div>
       </div></div>`;
       layer.bindPopup(popupHTML,{maxWidth:340});
       layer.on('mouseover',function(){this.setStyle({fillOpacity:.95})});
