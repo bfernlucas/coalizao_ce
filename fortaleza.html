@@ -1862,6 +1862,51 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .table-filter-bar input:focus,.table-filter-bar select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
 .table-count{font-size:11px;color:var(--muted);white-space:nowrap;align-self:center}
 .tag,.chip{background:var(--brand-5);border-color:var(--brand-4);color:var(--brand)}
+.mge-map-wrap{position:relative}
+.map-filter-overlay{
+  position:absolute;top:10px;left:10px;right:10px;z-index:900;
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:8px 12px;
+  box-shadow:0 2px 16px rgba(0,0,0,.14);
+  pointer-events:all;
+}
+.map-filter-overlay input[type="search"]{
+  appearance:none;
+  padding:6px 10px;
+  border:1px solid var(--line);border-radius:4px;
+  font:inherit;font-size:12px;
+  color:var(--text);background-color:#fff;
+  cursor:text;
+}
+.map-filter-overlay input[type="search"]:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
+.map-filter-overlay select{
+  appearance:none;
+  padding:6px 26px 6px 10px;
+  border:1px solid var(--line);border-radius:4px;
+  font:inherit;font-size:12px;font-weight:600;
+  color:var(--text);background-color:#fff;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%235C6E7E' d='M5 7L0.67 2h8.66z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:calc(100% - 8px) 50%;
+  cursor:pointer;flex:1;min-width:130px;max-width:200px;
+}
+.map-filter-overlay select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
+.map-filter-overlay select.active-filter{border-color:var(--brand);background-color:#EFF6FF;color:var(--brand)}
+.mge-clear-btn{
+  padding:6px 12px;border:1px solid #DBEAFE;border-radius:4px;
+  background:#EFF6FF;color:var(--brand);font:inherit;font-size:12px;font-weight:700;
+  cursor:pointer;white-space:nowrap;
+}
+.mge-clear-btn:hover{background:#BFDBFE}
+.mge-filter-badge{
+  padding:4px 10px;border-radius:4px;
+  background:var(--brand);color:#fff;font-size:11px;font-weight:700;
+  white-space:nowrap;
+}
 </style>
 </head>
 <body>
@@ -2215,7 +2260,9 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <h2 class="section-title">Organizações da Sociedade Civil</h2>
       <p class="section-desc">OSCs ativas: distribuição espacial, áreas de atuação e presença por bairro (IPEA, 2024).</p>
     </div>
-    <div class="kpi-grid four" id="kpi-osc"></div>
+
+    <!-- KPI row -->
+    <div class="kpi-grid six" id="kpi-osc" style="padding-bottom:20px"></div>
 
     <!-- Map + sidebar -->
     <div class="panel" style="margin-bottom:20px">
@@ -2224,22 +2271,22 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <span class="table-count" id="osc-map-count"></span>
       </div>
       <div class="map-analytics-layout" style="padding:0 24px 4px">
-        <div class="map-frame">
-          <div class="map-overlay-controls" style="position:absolute;top:10px;left:10px;right:10px;z-index:1000;display:flex;flex-wrap:wrap;gap:6px;align-items:center">
-            <input type="search" id="osc-search" placeholder="Buscar por nome…" style="flex:1;min-width:140px;max-width:220px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px;background:#fff">
-            <select id="osc-bairro-filter" style="appearance:none;padding:6px 26px 6px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%236a7f91%22 stroke-width=%221.5%22 fill=%22none%22/></svg>') no-repeat right 8px center;flex:1;min-width:120px;max-width:180px" title="Filtrar por bairro">
+        <div class="mge-map-wrap">
+          <div class="map-box split" id="map-osc" style="min-height:520px"></div>
+          <div class="map-filter-overlay" id="osc-filter-overlay">
+            <input type="search" id="osc-search" placeholder="Buscar por nome…" style="flex:1;min-width:140px;max-width:220px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px">
+            <select id="osc-bairro-filter" title="Filtrar por bairro">
               <option value="">Todos os bairros</option>
             </select>
-            <select id="osc-territorio-filter" style="appearance:none;padding:6px 26px 6px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%236a7f91%22 stroke-width=%221.5%22 fill=%22none%22/></svg>') no-repeat right 8px center;flex:1;min-width:130px;max-width:200px" title="Filtrar por território">
+            <select id="osc-territorio-filter" title="Filtrar por território">
               <option value="">Todos os territórios</option>
             </select>
-            <select id="osc-area-filter" style="appearance:none;padding:6px 26px 6px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%236a7f91%22 stroke-width=%221.5%22 fill=%22none%22/></svg>') no-repeat right 8px center;flex:1;min-width:130px;max-width:200px" title="Filtrar por área">
+            <select id="osc-area-filter" title="Filtrar por área de atuação">
               <option value="">Todas as áreas</option>
             </select>
-            <button id="osc-clear-filters" style="display:none;padding:4px 10px;border:1px solid var(--line);border-radius:4px;font-size:11px;cursor:pointer;background:#fff;color:var(--text)">✕ Limpar</button>
-            <span id="osc-filter-count" style="display:none;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:var(--brand);color:#fff"></span>
+            <button class="mge-clear-btn" id="osc-clear-filters" title="Limpar filtros" style="display:none">✕ Limpar</button>
+            <span class="mge-filter-badge" id="osc-filter-count" style="display:none"></span>
           </div>
-          <div id="map-osc" class="map-box split" style="min-height:520px"></div>
         </div>
         <div class="analysis-side">
           <div class="analysis-card" style="flex:1;display:flex;flex-direction:column;max-height:520px">
@@ -2252,15 +2299,9 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     </div>
 
     <!-- Charts row -->
-    <div class="grid two">
-      <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro (IPEA, 2024)</h3><p class="panel-sub">OSCs ativas geolocalizadas por bairro · ordenado pelo volume</p></div></div>
-        <div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs (IPEA, 2024)</h3><p class="panel-sub">8 principais áreas · empilhado por território</p></div></div>
-        <div class="chart-box"><canvas id="chart-osc-setor" class="chart"></canvas></div>
-      </div>
+    <div class="grid two" style="margin-bottom:0">
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Presença institucional por bairro (IPEA, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-total" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Áreas de atuação das OSCs (IPEA, 2024)</h3></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart"></canvas></div></div>
     </div>
   </section>
 
@@ -3635,8 +3676,8 @@ function initOsc(){
     });
   });
   const areaLabels=Object.entries(areaCounts).filter(([a])=>a!=='Sem classificação').sort((a,b)=>b[1].total-a[1].total).map(([a])=>a).slice(0,8);
-  destroyChart('chart-osc-setor');
-  CHARTS['chart-osc-setor']=new Chart(document.getElementById('chart-osc-setor'),{
+  destroyChart('chart-osc-area');
+  CHARTS['chart-osc-area']=new Chart(document.getElementById('chart-osc-area'),{
     type:'bar',
     data:{
       labels:areaLabels.map(a=>OSC_AREA_SHORT_LABELS[a]||a),
