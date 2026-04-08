@@ -3641,8 +3641,8 @@ function initOsc(){
     data:{
       labels:areaLabels.map(a=>OSC_AREA_SHORT_LABELS[a]||a),
       datasets:[
-        {label:'Grande Mucuripe',data:areaLabels.map(a=>areaCounts[a]['Grande Mucuripe']||0),backgroundColor:areaLabels.map(a=>{const c=OSC_CATEGORY_COLORS[a]||'#999';return c+'CC';}),borderRadius:5},
-        {label:'Grande Bom Jardim',data:areaLabels.map(a=>areaCounts[a]['Grande Bom Jardim']||0),backgroundColor:areaLabels.map(a=>OSC_CATEGORY_COLORS[a]||'#999'),borderRadius:5}
+        {label:'Grande Mucuripe',data:areaLabels.map(a=>areaCounts[a]['Grande Mucuripe']||0),backgroundColor:'#6DAFEF',borderRadius:5},
+        {label:'Grande Bom Jardim',data:areaLabels.map(a=>areaCounts[a]['Grande Bom Jardim']||0),backgroundColor:'#0B4FA8',borderRadius:5}
       ]
     },
     options:baseChartOptions()
