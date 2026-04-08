@@ -4293,6 +4293,20 @@ function initFavelasMap(mun, bairrosGeo){
     return '';
   }
 
+  // Compute territory geographic centers for proximity fallback
+  const terrCenters={};
+  for(const [t,bs] of Object.entries(TERRITORY_BAIRROS)){
+    const tFeats=bairrosGeo?bairrosGeo.features.filter(f=>bs.includes(f.properties.nome)):[];
+    if(tFeats.length){
+      let cx=0,cy=0,n=0;
+      tFeats.forEach(f=>{
+        const cs=f.geometry.type==='MultiPolygon'?f.geometry.coordinates[0][0]:f.geometry.coordinates[0];
+        cs.forEach(c=>{cx+=c[0];cy+=c[1];n++});
+      });
+      terrCenters[t]=[cy/n,cx/n];
+    }
+  }
+
   // Enrich features
   const enriched=features.map(f=>{
     const [lat,lng]=getCentroid(f);
@@ -4300,7 +4314,15 @@ function initFavelasMap(mun, bairrosGeo){
     const bData=DATA.find(d=>d.b===bairro);
     let territory=bData?bData.t:'';
     if(!territory&&bairro){for(const [t,bs] of Object.entries(TERRITORY_BAIRROS)){if(bs.includes(bairro)){territory=t;break;}}}
-    if(!territory) territory='Grande Mucuripe';
+    if(!territory){
+      // Assign to nearest territory by geographic proximity
+      let minD=Infinity,nearest='';
+      for(const [t,center] of Object.entries(terrCenters)){
+        const d=Math.pow(lat-center[0],2)+Math.pow(lng-center[1],2);
+        if(d<minD){minD=d;nearest=t;}
+      }
+      territory=nearest||'Grande Mucuripe';
+    }
     const tColor=TERR_COLORS[territory]||'#0B4FA8';
     return {feat:f, bairro, territory, tColor, bData, lat, lng};
   });
