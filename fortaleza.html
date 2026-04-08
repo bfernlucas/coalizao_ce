@@ -3653,12 +3653,24 @@ function initOsc(){
   const allAreas=[...new Set(OSC_POINTS.flatMap(p=>p.areas||[]))].filter(a=>a&&a!=='Sem classificação');
   const totalBairros=[...new Set(OSC_POINTS.map(p=>p.b))].length;
   const totalMatriz=OSC_POINTS.filter(p=>p.tipo==='Matriz').length;
+
+  // Top area by count
+  const areaCounts={};
+  OSC_POINTS.forEach(p=>{(p.areas||[]).forEach(a=>{areaCounts[a]=(areaCounts[a]||0)+1;})});
+  const topArea=Object.entries(areaCounts).filter(([a])=>a!=='Sem classificação').sort((a,b)=>b[1]-a[1])[0];
+
+  // OSCs by territory
+  const oscByTerritory={};
+  OSC_POINTS.forEach(p=>{const t=p.t||'—';oscByTerritory[t]=(oscByTerritory[t]||0)+1;});
+
   const kpiEl=document.getElementById('kpi-osc');
   if(kpiEl) kpiEl.innerHTML=[
     {l:'OSCs ativas geolocalizadas',v:fmt(totalOsc,'int'),s:'Base IPEA 2024'},
-    {l:'Áreas de atuação distintas',v:fmt(allAreas.length,'int'),s:'Categorias temáticas'},
-    {l:'Bairros com presença',v:fmt(totalBairros,'int'),s:'Dos 13 bairros analisados'},
-    {l:'Matrizes',v:fmt(totalMatriz,'int'),s:`${(totalMatriz/totalOsc*100).toFixed(0)}% do total`}
+    {l:'Bairros cobertos',v:fmt(totalBairros,'int'),s:'Com presença de OSCs'},
+    {l:'Área predominante',v:OSC_AREA_SHORT_LABELS[topArea?topArea[0]:'—']||topArea?topArea[0]:'—',s:`${topArea?topArea[1]:0} entidades (${topArea?Math.round(topArea[1]/totalOsc*100):0}%)`},
+    {l:'Matrizes (sedes)',v:fmt(totalMatriz,'int'),s:`${(totalMatriz/totalOsc*100).toFixed(0)}% do total`},
+    {l:'Grande Mucuripe',v:fmt(oscByTerritory['Grande Mucuripe']||0,'int'),s:'OSCs no território'},
+    {l:'Grande Bom Jardim',v:fmt(oscByTerritory['Grande Bom Jardim']||0,'int'),s:'OSCs no território'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
 
   // Charts
@@ -4199,6 +4211,22 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 activateTab('visao');
 
 const TERRITORY_BAIRROS={'Grande Mucuripe':['Mucuripe','Cais do Porto','Vicente Pinzon','Vicente Pinzón','Papicu','Varjota','De Lourdes','Praia Futuro I','Praia Futuro II','Praia do Futuro I','Praia do Futuro II','Meireles','Aldeota','Cocó','Dionísio Torres','Cidade 2000','Edson Queiroz','Engenheiro Luciano Cavalcante','Guararapes','Salinas','Sabiaguaba','Manuel Dias Branco','Joaquim Távora','Aerolândia','Alto da Balança','Jardim das Oliveiras','Praia de Iracema','Tauape','Dias Macedo','Cidade dos Funcionários','Cambeba','Sapiranga / Coité','Parque Manibura','José de Alencar','Lagoa Redonda','Coaçu','Curió','Messejana','Paupina','Ancuri','Pedras','Jangurussu','Passaré','Barroso','Cajazeiras','Parque Iracema','Parque Dois Irmãos','Serrinha','Itaperi','Dendê','Parque Santa Maria'],'Grande Bom Jardim':['Bom Jardim','Siqueira','Canindezinho','Granja Portugal','Granja Lisboa']};
+// Territory to bairros mapping (handles name variants and comprehensive coverage)
+const TERRITORY_BAIRROS = {
+  'Grande Mucuripe': [
+    'Mucuripe','Cais do Porto','Vicente Pinzon','Vicente Pinzón',
+    'Papicu','Varjota','De Lourdes','Praia Futuro I','Praia Futuro II',
+    'Praia do Futuro I','Praia do Futuro II','Meireles','Aldeota','Cocó',
+    'Dionísio Torres','Cidade 2000','Edson Queiroz','Engenheiro Luciano Cavalcante',
+    'Guararapes','Salinas','Sabiaguaba','Manuel Dias Branco','Joaquim Távora',
+    'Aerolândia','Alto da Balança','Jardim das Oliveiras','Praia de Iracema',
+    'Tauape','Dias Macedo'
+  ],
+  'Grande Bom Jardim': [
+    'Bom Jardim','Siqueira','Canindezinho','Granja Portugal','Granja Lisboa'
+  ]
+};
+
 function initFavelasMap(mun, bairrosGeo){
   const mapId='map-favelas-'+mun;
   const listId='favelas-list-'+mun;
