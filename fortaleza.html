@@ -2312,6 +2312,20 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       </div>
       <div class="table-wrap"><table id="table-cnae"></table></div>
     </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-head">
+        <div><h3 class="panel-title">Lista completa de empresas médias e grandes (dez/2024)</h3><p class="panel-sub">Todos os estabelecimentos de porte "Demais" com dados de capital social</p></div>
+        <span class="table-count" id="mge-table-count"></span>
+      </div>
+      <div class="table-filter-bar">
+        <input type="search" id="mge-table-search" placeholder="Buscar empresa…" autocomplete="off">
+        <select id="mge-table-bairro"><option value="">Todos os bairros</option></select>
+        <select id="mge-table-terr"><option value="">Todos os territórios</option></select>
+        <select id="mge-table-tipo"><option value="">Todos os tipos</option><option value="M">Matrizes</option><option value="F">Filiais</option></select>
+      </div>
+      <div class="table-wrap"><table id="table-mge-list"></table></div>
+    </div>
   </section>
 
   <section id="section-osc" class="section">
@@ -2458,12 +2472,8 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <h2 class="section-title">Bairros em perspectiva</h2>
       <p class="section-desc">Comparativo direto entre os dois territórios em dimensões sociais, econômicas e de infraestrutura.</p>
     </div>
-    <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:10px">
-      <span style="font-size:20px;flex-shrink:0">&#9888;</span>
-      <div><strong style="color:#92400E;font-size:13px">Seção em construção</strong><p style="margin:4px 0 0;font-size:12px;color:#78350F;line-height:1.5">Esta aba está sendo revisada e atualizada. As informações apresentadas aqui são preliminares e não devem ser consideradas para tomada de decisão.</p></div>
-    </div>
-    <div class="decision">
-      <h3>Análise</h3>
+    <div class=”decision”>
+      <h3>Análise Estratégica</h3>
       <p>Se a prioridade for impacto social em escala e maior adicionalidade, o Grande Bom Jardim tende a oferecer o caso mais claro. Se a prioridade for ativar redes, capacidade econômica e pilotos com maior chance de rápida articulação, o Grande Mucuripe oferece melhor ponto de entrada. A melhor leitura estratégica não é escolher um único território “vencedor”, mas reconhecer que os dois territórios respondem a lógicas distintas de intervenção.</p>
     </div>
     <div class="comparison-grid">
@@ -2510,6 +2520,29 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <div class="panel" style="margin-top:20px">
       <div class="panel-head"><div><h3 class="panel-title">Ranking completo por bairro</h3><p class="panel-sub">Todos os 13 bairros com indicadores-chave. Clique nos cabeçalhos para ordenar.</p></div></div>
       <div class="table-wrap"><table id="table-comp-bairros"></table></div>
+    </div>
+
+    <!-- Convergência com os Eixos da Coalizão -->
+    <div style="margin:32px 0 18px"><span class="section-kicker">Eixos Estratégicos</span></div>
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Convergência com os eixos da Coalizão</h3><p class="panel-sub">Elementos do território que dialogam com Inclusão Produtiva e Insegurança Alimentar.</p></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 24px 16px">
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brand);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--brand-4)">Eixo 1 — Inclusão Produtiva</div>
+          <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);padding:0" id="kpi-fort-ip"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#DC2626;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #FECACA">Eixo 2 — Insegurança Alimentar</div>
+          <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);padding:0" id="kpi-fort-ia"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicadores consolidados por território -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Indicadores consolidados por território</h3><p class="panel-sub">Padrões transversais identificados nos dois territórios — métricas estruturantes para a Coalizão.</p></div></div>
+      <div class="table-wrap"><table id="table-fort-consolidado"></table></div>
+      <div id="fort-consolidado-insights" style="padding:4px 24px 20px"></div>
     </div>
   </section>
 
@@ -3980,6 +4013,56 @@ function initEcon(){
   renderCnaeTable();
   econSearchEl.addEventListener('input', renderCnaeTable);
   econTerrEl.addEventListener('change', renderCnaeTable);
+
+  // --- Full MGE company list ---
+  const mgeListBairro=document.getElementById('mge-table-bairro');
+  const mgeListTerr=document.getElementById('mge-table-terr');
+  bairrosBubble.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;mgeListBairro.appendChild(o)});
+  ['Grande Mucuripe','Grande Bom Jardim'].forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;mgeListTerr.appendChild(o)});
+  let mgeListSort={key:5,desc:true};
+  function renderMGEListTable(){
+    const search=document.getElementById('mge-table-search').value.toLowerCase();
+    const bairro=mgeListBairro.value;
+    const terr=mgeListTerr.value;
+    const tipo=document.getElementById('mge-table-tipo').value;
+    let rows=MGE_BUBBLES.map(r=>({lat:r[0],lng:r[1],cap:r[2],setor:r[3],bairro:r[4],nome:r[5],tipo:r[6],terr:MGE_TERRITORY_MAP[r[4]]||'—'}));
+    if(search) rows=rows.filter(r=>r.nome.toLowerCase().includes(search)||r.setor.toLowerCase().includes(search));
+    if(bairro) rows=rows.filter(r=>r.bairro===bairro);
+    if(terr) rows=rows.filter(r=>r.terr===terr);
+    if(tipo) rows=rows.filter(r=>r.tipo===tipo);
+    const sortKeys=['nome','setor','bairro','terr','cap','tipo'];
+    const sk=sortKeys[mgeListSort.key]||'cap';
+    rows.sort((a,b)=>{
+      const va=a[sk],vb=b[sk];
+      if(typeof va==='number'&&typeof vb==='number') return mgeListSort.desc?vb-va:va-vb;
+      return mgeListSort.desc?String(vb).localeCompare(String(va),'pt'):String(va).localeCompare(String(vb),'pt');
+    });
+    document.getElementById('mge-table-count').textContent=rows.length+' empresas';
+    const tbl=document.getElementById('table-mge-list');
+    const headers=['Empresa','Setor','Bairro','Território','Capital Social','Tipo'];
+    tbl.innerHTML=`<thead><tr>${headers.map((h,i)=>`<th class="sortable" data-mge-col="${i}">${h}<span class="sort-icon">${mgeListSort.key===i?(mgeListSort.desc?' ↓':' ↑'):' ↕'}</span></th>`).join('')}</tr></thead>
+    <tbody>${rows.map((r,i)=>`<tr>
+      <td><strong>${r.nome}</strong></td>
+      <td>${r.setor}</td>
+      <td>${r.bairro}</td>
+      <td>${r.terr}</td>
+      <td data-sort-value="${r.cap}" style="text-align:right">${fmtCap(r.cap)}</td>
+      <td><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;background:${r.tipo==='M'?'#EFF6FF':'#FEF3C7'};color:${r.tipo==='M'?'#0B4FA8':'#92400E'}">${r.tipo==='M'?'Matriz':'Filial'}</span></td>
+    </tr>`).join('')}</tbody>`;
+  }
+  renderMGEListTable();
+  document.getElementById('mge-table-search').addEventListener('input',renderMGEListTable);
+  mgeListBairro.addEventListener('change',renderMGEListTable);
+  mgeListTerr.addEventListener('change',renderMGEListTable);
+  document.getElementById('mge-table-tipo').addEventListener('change',renderMGEListTable);
+  document.getElementById('table-mge-list').addEventListener('click',e=>{
+    const th=e.target.closest('th[data-mge-col]');
+    if(!th) return;
+    const col=parseInt(th.dataset.mgeCol);
+    if(mgeListSort.key===col) mgeListSort.desc=!mgeListSort.desc;
+    else{mgeListSort.key=col;mgeListSort.desc=true;}
+    renderMGEListTable();
+  });
 }
 
 
