@@ -2812,6 +2812,7 @@ function initComp(){
     });
     html+='</tbody>';
     tblCons.innerHTML=html;
+    try{enableTableSorting(tblCons);}catch(e){}
   }
   // Consolidated insights
   const consInsEl=document.getElementById('consolidado-insights');
@@ -2903,6 +2904,59 @@ function initComp(){
         </div>
       </div>`;
     }).join('');
+  }
+
+  // ── Standardized 6-dimension radar (same as Fortaleza) ─────────────
+  const dimRegions=REGION_ORDER.filter(r=>RS[r]&&RS[r].pop>0);
+  const dimColors=['#7C3AED','#A855F7','#C084FC','#e74c3c','#f39c12','#3498db'];
+  const bestRPC=Math.max(...dimRegions.map(r=>RS[r].rendaPC||0))||1;
+  const bestEmp1k=Math.max(...dimRegions.map(r=>RS[r].emp1k||0))||1;
+  const bestOsc10k=Math.max(...dimRegions.map(r=>RS[r].osc10k||0))||1;
+  const dimPadAxes=[
+    {key:'prot',label:'Baixa pobreza',raw:r=>(1-(RS[r].epob||0))*100,norm:r=>(1-(RS[r].epob||0))*100},
+    {key:'san',label:'Saneamento',raw:r=>(RS[r].esg||0)*100,norm:r=>(RS[r].esg||0)*100},
+    {key:'rpc',label:'Rendimento PC',raw:r=>RS[r].rendaPC||0,norm:r=>((RS[r].rendaPC||0)/bestRPC)*100},
+    {key:'econ',label:'Dens. empresarial',raw:r=>RS[r].emp1k||0,norm:r=>((RS[r].emp1k||0)/bestEmp1k)*100},
+    {key:'soc',label:'Sociedade civil',raw:r=>RS[r].osc10k||0,norm:r=>((RS[r].osc10k||0)/bestOsc10k)*100},
+    {key:'lit',label:'Literacia',raw:r=>(1-(RS[r].anal||0))*100,norm:r=>(1-(RS[r].anal||0))*100}
+  ];
+  const dimCanvas=document.getElementById('chart-dim-padrao');
+  if(dimCanvas){
+    destroyChart('chart-dim-padrao');
+    CHARTS['chart-dim-padrao']=new Chart(dimCanvas,{
+      type:'radar',
+      data:{
+        labels:dimPadAxes.map(a=>a.label),
+        datasets:dimRegions.map((r,i)=>({
+          label:r,
+          data:dimPadAxes.map(a=>a.norm(r)),
+          borderColor:dimColors[i%dimColors.length],
+          backgroundColor:dimColors[i%dimColors.length]+'22',
+          pointBackgroundColor:dimColors[i%dimColors.length],
+          pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:4,pointHoverRadius:6,borderWidth:2.5
+        }))
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{
+          legend:{labels:{font:{family:'Inter',size:11,weight:'600'},color:'#5C6E7E',usePointStyle:true,pointStyle:'circle',boxWidth:8,boxHeight:8,padding:14}},
+          tooltip:{callbacks:{
+            label(ctx){return `${ctx.dataset.label}: ${ctx.parsed.r.toFixed(1)} pts`;},
+            afterLabel(ctx){const ax=dimPadAxes[ctx.dataIndex];const r=dimRegions[ctx.datasetIndex];const rv=ax.raw(r);return ax.key==='rpc'?`Valor: R$ ${rv.toFixed(0)}`:`Valor: ${rv.toFixed(1)}${ax.key!=='econ'&&ax.key!=='soc'?'%':''}`;}
+          }}
+        },
+        scales:{r:{min:0,max:100,angleLines:{color:'#e6edf3'},grid:{color:'#e6edf3'},pointLabels:{color:'#1f3f5a',font:{family:'Inter',size:11,weight:'700'}},ticks:{backdropColor:'transparent',color:'#5C6E7E',font:{family:'Inter',size:10},stepSize:20,showLabelBackdrop:false}}}
+      }
+    });
+  }
+  const dimValuesEl=document.getElementById('dim-padrao-values');
+  if(dimValuesEl){
+    dimValuesEl.innerHTML=dimPadAxes.map(ax=>`
+      <div style="background:#f8fbfd;border:1px solid #e8eff5;border-radius:12px;padding:12px 14px">
+        <div style="font-size:11px;font-weight:700;color:#5C6E7E;margin-bottom:6px">${ax.label}</div>
+        ${dimRegions.map((r,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:12px"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:${dimColors[i%dimColors.length]}"></span>${r}</span><strong>${ax.key==='rpc'?'R$ '+ax.raw(r).toFixed(0):ax.raw(r).toFixed(1)+(ax.key!=='econ'&&ax.key!=='soc'?'%':'')}</strong></div>`).join('')}
+      </div>
+    `).join('');
   }
 
   // ═════════════════════════════════════════════════════════════════════════
@@ -3001,6 +3055,7 @@ function initComp(){
     </tr>`;
   }).join('')}</tbody>`;
   document.getElementById('table-region').innerHTML=thead+tbody;
+  try{enableTableSorting(document.getElementById('table-region'));}catch(e){}
 
   // ── Dimensões — variáveis percentuais diretas ──────────────────────────
   const dimAxes=[

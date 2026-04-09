@@ -4893,6 +4893,7 @@ function initComp(){
   document.getElementById('table-comp').innerHTML = `
     <thead><tr><th>Indicador</th><th>Grande Mucuripe</th><th>Grande Bom Jardim</th><th>Unidade</th></tr></thead>
     <tbody>${rows.map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</tbody>`;
+  try{enableTableSorting(document.getElementById('table-comp'));}catch(e){}
 
   // Ranking bairros
   const oscAgg = getOscAggregateRows('Todos','Todos','Todos','Todos');
