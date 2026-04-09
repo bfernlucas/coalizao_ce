@@ -2334,9 +2334,19 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <h2 class="section-title">Organizações da Sociedade Civil</h2>
       <p class="section-desc">OSCs ativas: distribuição espacial, áreas de atuação e presença por bairro (IPEA, 2024).</p>
     </div>
+    <div class="decision">
+      <h3>Análise</h3>
+      <p>O Grande Mucuripe apresenta maior densidade de OSCs por habitante, enquanto o Grande Bom Jardim concentra organizações de assistência social e defesa de direitos — áreas diretamente alinhadas aos eixos da Coalizão. A rede de afinidade revela clusters temáticos que podem ser ativados como pontos de articulação para ações coordenadas de segurança alimentar e inclusão produtiva.</p>
+    </div>
 
     <!-- KPI row -->
     <div class="kpi-grid six" id="kpi-osc" style="padding-bottom:20px"></div>
+
+    <!-- Distribution charts -->
+    <div class="grid two" style="margin-bottom:20px">
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">OSCs por área de atuação</h3><p class="panel-sub">Distribuição por classificação temática · IPEA, 2024</p></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">OSCs por bairro</h3><p class="panel-sub">Quantidade de organizações por bairro · IPEA, 2024</p></div></div><div class="chart-box"><canvas id="chart-osc-bairro" class="chart tall"></canvas></div></div>
+    </div>
 
     <!-- Map + sidebar -->
     <div class="panel" style="margin-bottom:20px">
@@ -4091,6 +4101,17 @@ function initOsc(){
     {l:'Grande Mucuripe',v:fmt(oscByTerritory['Grande Mucuripe']||0,'int'),s:'OSCs no território'},
     {l:'Grande Bom Jardim',v:fmt(oscByTerritory['Grande Bom Jardim']||0,'int'),s:'OSCs no território'}
   ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
+
+  // --- OSC distribution charts ---
+  const oscAreaChart={};
+  OSC_POINTS.forEach(p=>{(p.areas||[]).forEach(a=>{if(a&&a!=='Sem classificação')oscAreaChart[a]=(oscAreaChart[a]||0)+1;})});
+  const oscAreaSorted=Object.entries(oscAreaChart).sort((a,b)=>b[1]-a[1]);
+  makeBar('chart-osc-area',oscAreaSorted.map(a=>OSC_AREA_SHORT_LABELS[a[0]]||a[0]),[{data:oscAreaSorted.map(a=>a[1]),backgroundColor:UI_COLORS.blue,borderRadius:5}],{plugins:{legend:{display:false}}});
+  const oscBairroChart={};
+  OSC_POINTS.forEach(p=>{oscBairroChart[p.b]=(oscBairroChart[p.b]||0)+1;});
+  const oscBairroSorted=Object.entries(oscBairroChart).sort((a,b)=>b[1]-a[1]);
+  makeBar('chart-osc-bairro',oscBairroSorted.map(a=>a[0]),[{data:oscBairroSorted.map(a=>a[1]),backgroundColor:oscBairroSorted.map(a=>{const t=OSC_POINTS.find(p=>p.b===a[0]);return t&&t.t==='Grande Mucuripe'?UI_COLORS.territoryGM:UI_COLORS.territoryGBJ;}),borderRadius:5}],{plugins:{legend:{display:false}}});
+  addTerritoryLegend('chart-osc-bairro');
 
   // --- Populate filters ---
   const selBairro=document.getElementById('osc-bairro-filter');

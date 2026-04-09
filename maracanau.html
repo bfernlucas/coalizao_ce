@@ -981,9 +981,19 @@ body{background:#fff}
       <h2 class="section-title">Organizações da Sociedade Civil</h2>
       <p class="section-desc">413 OSCs ativas: distribuição espacial, áreas de atuação e presença por bairro (IPEA, 2024).</p>
     </div>
+    <div class="decision">
+      <h3>Análise</h3>
+      <p>Pajuçara e Jereissati concentram o maior número de OSCs. A predominância de entidades religiosas (acima de 40%) é característica de municípios periféricos da RMF. A rede de afinidade com a CEASA Mais Nutrição revela conexões temáticas fortes em assistência social e saúde, indicando potencial para articulação com o eixo de insegurança alimentar da Coalizão.</p>
+    </div>
 
     <!-- KPI row -->
     <div class="kpi-grid six" id="kpi-osc" style="padding-bottom:20px"></div>
+
+    <!-- Distribution charts -->
+    <div class="grid two" style="margin-bottom:20px">
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">OSCs por área de atuação</h3><p class="panel-sub">Distribuição por classificação temática · IPEA, 2024</p></div></div><div class="chart-box"><canvas id="chart-osc-area" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">OSCs por bairro</h3><p class="panel-sub">Quantidade de organizações por bairro · IPEA, 2024</p></div></div><div class="chart-box"><canvas id="chart-osc-bairro" class="chart tall"></canvas></div></div>
+    </div>
 
     <!-- Map + sidebar -->
     <div class="panel" style="margin-bottom:20px">
@@ -1965,7 +1975,17 @@ function initOsc(){
     <div class="kpi"><div class="label">Áreas de atuação</div><div class="value">${Object.keys(areaCounts).length}</div><div class="sub">categorias distintas</div></div>
   `;
 
-  // Charts removed — now using network visualization instead
+  // --- OSC distribution charts ---
+  const oscAreaChart={};
+  OSCS.forEach(o=>{if(o.a&&o.a!=='Sem classificação')oscAreaChart[o.a]=(oscAreaChart[o.a]||0)+1;});
+  const oscAreaSorted=Object.entries(oscAreaChart).sort((a,b)=>b[1]-a[1]);
+  makeBar('chart-osc-area',oscAreaSorted.map(a=>AREA_LABELS[a[0]]||a[0]),[{data:oscAreaSorted.map(a=>a[1]),backgroundColor:UI.blue,borderRadius:5}],{plugins:{legend:{display:false}}});
+  const oscBairroChart={};
+  OSCS.forEach(o=>{oscBairroChart[o.bairro]=(oscBairroChart[o.bairro]||0)+1;});
+  const oscBairroSorted=Object.entries(oscBairroChart).sort((a,b)=>b[1]-a[1]);
+  makeBar('chart-osc-bairro',oscBairroSorted.map(a=>a[0]),[{data:oscBairroSorted.map(a=>a[1]),backgroundColor:oscBairroSorted.map(a=>{const reg=REGION_MAP[a[0]]||'';return REGION_COLORS[reg]||'#888';}),borderRadius:5}],{plugins:{legend:{display:false}}});
+  // Add region legend below bairro chart
+  (function(){const c=document.getElementById('chart-osc-bairro');if(!c)return;const wrap=c.parentElement;const lg=document.createElement('div');lg.style.cssText='display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px;';REGION_ORDER.forEach(r=>{lg.innerHTML+=`<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;"><span style="width:10px;height:10px;border-radius:50%;background:${REGION_COLORS[r]}"></span>${r}</span>`;});wrap.appendChild(lg);})();
 
   // --- Populate filters ---
   const selBairro=document.getElementById('osc-bairro-filter');
