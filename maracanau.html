@@ -657,25 +657,17 @@ body{background:#fff}
 .tab-btn.active{color:var(--brand);border-bottom-color:var(--gold)}
 .tab-btn:hover{color:var(--brand)}
 .section-kicker{background:var(--brand-5);border-color:var(--brand-4);color:var(--brand)}
-.decision{
-  background:#F4F7FB;
-  border:1px solid #D8E0E8;
-  border-left:3px solid #7C3AED;
-  border-radius:0;
-  box-shadow:none;
-  padding:14px 18px;
-  margin:0 0 20px;
-}
+.decision{background:#F4F7FB;border:1px solid #D8E0E8;border-left:3px solid var(--brand);border-radius:0;box-shadow:none;padding:14px 18px;margin:0 0 20px}
 .decision::before{display:none}
-.decision h3{color:#7C3AED;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.decision h3{color:var(--brand);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
 .decision p{font-size:13px;line-height:1.6;color:#3B4C5C}
-.panel{border-color:#D8E0E8;box-shadow:none;border-radius:4px}
+.panel{border-color:#D8E0E8;box-shadow:none;border-radius:4px;background:#fff}
 .panel-title{color:#111;font-size:13px;font-weight:700}
 .panel-sub{font-size:11px;color:#5C6E7E}
-.analysis-kicker{background:var(--brand-5);color:var(--brand);font-size:10px;border-radius:3px}
+.analysis-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:var(--brand-5);color:var(--brand);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:none}
 .tab-btn.active{background:transparent}
-.brand-title{font-weight:700;font-size:13px;color:#111}
-.brand-sub{font-size:11px;color:#5C6E7E}
+.brand-title{font-weight:700;font-size:13px;color:#fff!important}
+.brand-sub{font-size:11px;color:rgba(255,255,255,.65)!important}
 </style>
 </head>
 <body>
@@ -685,7 +677,7 @@ body{background:#fff}
       <div class="brand-title">Coalizão CE</div>
       <div class="brand-sub">Diagnóstico Territorial · Maracanaú</div>
     </div>
-    <a href="index.html" style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:3px;color:#fff;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;transition:.15s" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">&#8592; Municípios</a>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:4px;color:#fff;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;transition:.15s" onmouseover="this.style.background='rgba(255,255,255,.22)'" onmouseout="this.style.background='rgba(255,255,255,.14)'">&#8592; Municípios</a>
   </div>
 </header>
 <nav class="tabs"><div class="tabs-inner">
@@ -706,7 +698,7 @@ body{background:#fff}
     </div>
     <div class="decision">
       <h3>Leitura territorial</h3>
-      <p>Forte heterogeneidade interna: Jereissati e Distrito Industrial concentram atividade econômica e infraestrutura; periferias como Parque Santa Maria e Alto Alegre combinam extrema pobreza com deficit de esgoto e ausência de OSCs. Esgoto é o principal gargalo municipal.</p>
+      <p>Forte heterogeneidade interna: Jereissati e Distrito Industrial concentram atividade econômica e infraestrutura; periferias como Parque Santa Maria e Alto Alegre combinam extrema pobreza com déficit de esgoto e ausência de OSCs. Esgoto é o principal gargalo municipal.</p>
     </div>
     <div class="kpi-grid four" id="overview-kpis"></div>
     <div class="panel">
@@ -780,7 +772,7 @@ body{background:#fff}
     </div>
     <div class="grid two" style="margin-top:22px">
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">População por bairro (IBGE, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-demo-pop" class="chart tall"></canvas></div></div>
-      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Densidade demográfica (hab/km²)</h3></div></div><div class="chart-box"><canvas id="chart-demo-dens" class="chart tall"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Densidade demográfica (IBGE, 2022)</h3></div></div><div class="chart-box"><canvas id="chart-demo-dens" class="chart tall"></canvas></div></div>
     </div>
   </section>
 
@@ -970,7 +962,7 @@ body{background:#fff}
     <div class="section-head">
       <span class="section-kicker">Sociedade civil</span>
       <h2 class="section-title">Organizações da Sociedade Civil</h2>
-      <p class="section-desc">413 OSCs ativas: distribuição espacial, áreas de atuação e presença por bairro.</p>
+      <p class="section-desc">413 OSCs ativas: distribuição espacial, áreas de atuação e presença por bairro (IPEA, 2024).</p>
     </div>
 
     <!-- KPI row -->
