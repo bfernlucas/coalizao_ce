@@ -4951,6 +4951,91 @@ function initComp(){
       }).join('')}</tbody>`;
     try{ enableTableSorting(bairroTbl); }catch(e){}
   }
+
+  // ── Coalition Axes KPIs ────────────────────────────────────────────
+  const synPop=DATA.reduce((s,d)=>s+(d.pop||0),0);
+  const synMEI=DATA.reduce((s,d)=>s+(d.mei||0),0);
+  const synEmp=DATA.reduce((s,d)=>s+(d.emp||0),0);
+  const synCoops=DATA.reduce((s,d)=>s+(d.coops||0),0);
+  const synOSC=DATA.reduce((s,d)=>s+(d.osc||0),0);
+  const synCadEpob=DATA.reduce((s,d)=>s+(d.cadEpobFam||0),0);
+  const synWEpob=DATA.reduce((s,d)=>s+(d.epob||0)*(d.pop||0),0)/synPop;
+  const synWRenda=DATA.reduce((s,d)=>s+(d.renda||0)*(d.pop||0),0)/synPop;
+
+  const ipEl=document.getElementById('kpi-fort-ip');
+  if(ipEl) ipEl.innerHTML=[
+    {l:'MEIs ativos',v:synMEI.toLocaleString('pt-BR'),s:synEmp>0?((synMEI/synEmp*100).toFixed(0)+'% do total de empresas'):''},
+    {l:'Cooperativas',v:synCoops.toLocaleString('pt-BR'),s:'Cooperativas formais ativas'},
+    {l:'OSCs',v:synOSC.toLocaleString('pt-BR'),s:'Organizações da sociedade civil'},
+    {l:'Empresas/1 mil hab.',v:(synEmp/synPop*1000).toFixed(1),s:'Densidade empresarial'}
+  ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
+
+  const iaEl=document.getElementById('kpi-fort-ia');
+  if(iaEl) iaEl.innerHTML=[
+    {l:'Famílias em ext. pobreza',v:synCadEpob.toLocaleString('pt-BR'),s:'CadÚnico, 2025'},
+    {l:'Ext. pobreza média',v:(synWEpob*100).toFixed(1)+'%',s:'Ponderada por população'},
+    {l:'Renda responsável',v:'R$ '+synWRenda.toFixed(0),s:'Média ponderada'},
+    {l:'Bairros com favelas',v:(gmFav+gbjFav).toLocaleString('pt-BR'),s:'Aglomerados subnormais'}
+  ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
+
+  // ── Consolidated indicators heatmap ──────────────────────────────
+  const consEl=document.getElementById('table-fort-consolidado');
+  if(consEl){
+    const indicators=[
+      {label:'Extrema pobreza (%)',key:'epob',fmt:'pct',inv:true},
+      {label:'Incidência CadÚnico (%)',key:'cad',fmt:'pct',inv:true},
+      {label:'Rendimento per capita (R$)',key:'rendaPC',fmt:'money',inv:false},
+      {label:'Cobertura esgoto (%)',key:'esg',fmt:'pct',inv:false},
+      {label:'Empresas / 1.000 hab.',key:'emp1k',fmt:'float1',inv:false},
+      {label:'OSCs / 10.000 hab.',key:'osc10k',fmt:'float1',inv:false},
+      {label:'Analfabetismo 15+ (%)',key:'anal',fmt:'pct',inv:true},
+      {label:'IDHM',key:'idhm',fmt:'index',inv:false}
+    ];
+    const terrs=['Grande Mucuripe','Grande Bom Jardim'];
+    const tData={};
+    terrs.forEach(t=>{
+      const bd=DATA.filter(d=>d.t===t);
+      const tp=bd.reduce((s,d)=>s+(d.pop||0),0);
+      const wm=k=>{const v=bd.filter(d=>d[k]!=null);if(!v.length)return null;const wp=v.reduce((s,d)=>s+(d.pop||0),0);return v.reduce((s,d)=>s+d[k]*(d.pop||0),0)/(wp||1)};
+      const sm=k=>bd.reduce((s,d)=>s+(d[k]||0),0);
+      tData[t]={epob:wm('epob'),cad:wm('cad'),rendaPC:wm('rendaPC'),esg:wm('esg'),emp1k:tp>0?sm('emp')/tp*1000:0,osc10k:tp>0?sm('osc')/tp*10000:0,anal:wm('anal'),idhm:wm('idhm')};
+    });
+    function heatColor(val,inv,allVals){
+      const sorted=[...allVals].filter(v=>v!=null).sort((a,b)=>a-b);
+      if(sorted.length<2) return '';
+      const rank=sorted.indexOf(val);
+      const isGood=inv?(rank===0):(rank===sorted.length-1);
+      const isBad=inv?(rank===sorted.length-1):(rank===0);
+      if(isGood) return 'background:#E8F5E9;color:#1B5E20';
+      if(isBad) return 'background:#FFEBEE;color:#B71C1C';
+      return '';
+    }
+    let pattern=(ind)=>{
+      const vals=terrs.map(t=>tData[t][ind.key]).filter(v=>v!=null);
+      if(vals.length<2) return 'Dados insuficientes';
+      const diff=Math.abs(vals[0]-vals[1]);
+      const avg=(vals[0]+vals[1])/2;
+      if(avg===0) return 'Variável';
+      const relDiff=diff/Math.abs(avg);
+      if(relDiff<0.15) return 'Padrão uniforme';
+      if(relDiff<0.4) return 'Atenção parcial';
+      return 'Crítico transversal';
+    };
+    consEl.innerHTML=`<thead><tr><th>Indicador</th>${terrs.map(t=>`<th>${t}</th>`).join('')}<th>Padrão</th></tr></thead>
+    <tbody>${indicators.map(ind=>{
+      const vals=terrs.map(t=>tData[t][ind.key]);
+      return`<tr><td><strong>${ind.label}</strong></td>${vals.map(v=>{
+        const style=heatColor(v,ind.inv,vals);
+        return`<td style="${style};text-align:right">${fmt(v,ind.fmt)}</td>`;
+      }).join('')}<td style="font-size:11px;font-weight:600">${pattern(ind)}</td></tr>`;
+    }).join('')}</tbody>`;
+    try{enableTableSorting(consEl);}catch(e){}
+  }
+
+  const insightsEl=document.getElementById('fort-consolidado-insights');
+  if(insightsEl){
+    insightsEl.innerHTML=`<div class="note-box" style="margin-top:8px"><strong>Leitura:</strong> Células verdes indicam a posição relativa mais favorável entre os territórios; vermelhas indicam maior vulnerabilidade ou déficit. O padrão "Crítico transversal" indica desigualdade significativa entre os territórios, sugerindo atenção prioritária da Coalizão.</div>`;
+  }
 }
 
 function initTab(tab){
