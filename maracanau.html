@@ -955,6 +955,20 @@ body{background:#fff}
       </div>
       <div class="table-wrap"><table id="table-econ"></table></div>
     </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-head">
+        <div><h3 class="panel-title">Lista completa de empresas M/G (dez/2024)</h3><p class="panel-sub">Todas as empresas de porte "Demais" · ordenável por qualquer coluna</p></div>
+        <span class="table-count" id="mge-table-count"></span>
+      </div>
+      <div class="table-filter-bar">
+        <input type="search" id="mge-table-search" placeholder="Buscar empresa…" autocomplete="off">
+        <select id="mge-table-regiao"><option value="">Todas as regiões</option></select>
+        <select id="mge-table-setor"><option value="">Todos os setores</option></select>
+        <select id="mge-table-tipo"><option value="">Matriz e Filial</option><option value="M">Somente Matrizes</option><option value="F">Somente Filiais</option></select>
+      </div>
+      <div class="table-wrap" style="max-height:600px"><table id="table-mge-list"></table></div>
+    </div>
   </section>
 
   <!-- IMPACTO SOCIAL -->
@@ -1092,6 +1106,32 @@ body{background:#fff}
         <div class="network-legend" id="network-legend"></div>
       </div>
     </div>
+
+    <!-- OSC por área e por bairro -->
+    <div class="grid two" style="margin-top:20px">
+      <div class="panel">
+        <div class="panel-head"><div><h3 class="panel-title">OSCs por área de atuação (IPEA, 2024)</h3><p class="panel-sub">Distribuição das organizações por classificação temática</p></div></div>
+        <div class="chart-box"><canvas id="chart-osc-area" class="chart tall"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3 class="panel-title">OSCs por bairro (IPEA, 2024)</h3><p class="panel-sub">Quantidade de organizações ativas por bairro</p></div></div>
+        <div class="chart-box"><canvas id="chart-osc-bairro" class="chart tall"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Tabela completa de OSCs -->
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head">
+        <div><h3 class="panel-title">Lista completa de OSCs (IPEA, 2024)</h3><p class="panel-sub">Todas as organizações geolocalizadas · ordenável por qualquer coluna</p></div>
+        <span class="table-count" id="osc-table-count"></span>
+      </div>
+      <div class="table-filter-bar">
+        <input type="search" id="osc-table-search" placeholder="Buscar organização…" autocomplete="off">
+        <select id="osc-table-regiao"><option value="">Todas as regiões</option></select>
+        <select id="osc-table-area"><option value="">Todas as áreas</option></select>
+      </div>
+      <div class="table-wrap" style="max-height:600px"><table id="table-osc-list"></table></div>
+    </div>
   </section>
 
   <!-- SÍNTESE -->
@@ -1100,10 +1140,6 @@ body{background:#fff}
       <span class="section-kicker">Síntese Estratégica</span>
       <h2 class="section-title">Oportunidades para a Coalizão</h2>
       <p class="section-desc">Diagnóstico cruzado dos eixos de <strong>Inclusão Produtiva</strong> e <strong>Insegurança Alimentar</strong> nos territórios de Maracanaú, identificando convergências, padrões consolidados e potencial de adicionalidade.</p>
-    </div>
-    <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:10px">
-      <span style="font-size:20px;flex-shrink:0">&#9888;</span>
-      <div><strong style="color:#92400E;font-size:13px">Seção em construção</strong><p style="margin:4px 0 0;font-size:12px;color:#78350F;line-height:1.5">Esta aba está sendo revisada e atualizada. As informações apresentadas aqui são preliminares e não devem ser consideradas para tomada de decisão.</p></div>
     </div>
 
     <!-- ═══ Q1: Convergência com os Eixos ═══ -->
@@ -1847,6 +1883,80 @@ function initEcon(){
   renderEconTable();
   document.getElementById('econ-table-search').addEventListener('input',renderEconTable);
   econRegSel.addEventListener('change',renderEconTable);
+
+  // Populate MGE table filters
+  const mgeRegSel = document.getElementById('mge-table-regiao');
+  const mgeSetSel = document.getElementById('mge-table-setor');
+  if(mgeRegSel && mgeRegSel.options.length <= 1){
+    Object.keys(REGION_COLORS).forEach(r => { const o=document.createElement('option'); o.value=r; o.textContent=r; mgeRegSel.appendChild(o); });
+  }
+  if(mgeSetSel && mgeSetSel.options.length <= 1){
+    const setores = [...new Set(MGE_BUBBLES.map(r=>r[3]))].sort();
+    setores.forEach(s => { const o=document.createElement('option'); o.value=s; o.textContent=s; mgeSetSel.appendChild(o); });
+  }
+  renderMGETable();
+  ['mge-table-search','mge-table-regiao','mge-table-setor','mge-table-tipo'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.addEventListener(el.tagName==='INPUT'?'input':'change', renderMGETable);
+  });
+}
+
+// Full MGE company list table
+let mgeTableSort = 'cap', mgeTableDir = -1;
+function renderMGETable() {
+  const q = (document.getElementById('mge-table-search').value || '').toLowerCase().trim();
+  const rf = document.getElementById('mge-table-regiao').value;
+  const sf = document.getElementById('mge-table-setor').value;
+  const tf = document.getElementById('mge-table-tipo').value;
+
+  let rows = [...MGE_BUBBLES];
+  if(q) rows = rows.filter(r => r[5].toLowerCase().includes(q) || r[4].toLowerCase().includes(q));
+  if(rf) rows = rows.filter(r => (REGION_MAP[r[4]]||'') === rf);
+  if(sf) rows = rows.filter(r => r[3] === sf);
+  if(tf) rows = rows.filter(r => r[6] === tf);
+
+  const sortIdx = {nome:5, cap:2, setor:3, bairro:4, tipo:6}[mgeTableSort] || 2;
+  rows.sort((a,b) => {
+    const av = typeof a[sortIdx] === 'string' ? a[sortIdx].toLowerCase() : a[sortIdx];
+    const bv = typeof b[sortIdx] === 'string' ? b[sortIdx].toLowerCase() : b[sortIdx];
+    if(typeof av === 'number' && typeof bv === 'number') return mgeTableDir === -1 ? bv - av : av - bv;
+    return mgeTableDir === -1 ? String(bv).localeCompare(String(av),'pt') : String(av).localeCompare(String(bv),'pt');
+  });
+
+  const countEl = document.getElementById('mge-table-count');
+  if(countEl) countEl.textContent = rows.length + ' de ' + MGE_BUBBLES.length + ' empresas';
+
+  const cols = [
+    {k:'nome',label:'Empresa'},
+    {k:'cap',label:'Capital Social'},
+    {k:'setor',label:'Setor'},
+    {k:'bairro',label:'Bairro'},
+    {k:'tipo',label:'Tipo'}
+  ];
+
+  const tbl = document.getElementById('table-mge-list');
+  tbl.innerHTML = `<thead><tr>${cols.map(c =>
+    `<th class="sortable${mgeTableSort===c.k?' sort-'+(mgeTableDir===1?'asc':'desc'):''}" data-mge-col="${c.k}">${c.label}<span class="sort-icon">${mgeTableSort===c.k?(mgeTableDir===1?'↑':'↓'):'↕'}</span></th>`
+  ).join('')}</tr></thead><tbody>${rows.slice(0,200).map((r,i) => {
+    const reg = REGION_MAP[r[4]] || '';
+    const regCol = REGION_COLORS[reg] || '#999';
+    return `<tr>
+      <td style="font-weight:600;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[5]}">${r[5]}</td>
+      <td data-sort-value="${r[2]}" style="white-space:nowrap">${fmtCap(r[2])}</td>
+      <td><span class="sector-tag">${r[3]}</span></td>
+      <td><span class="region-dot" style="background:${regCol}"></span> ${r[4]}</td>
+      <td><span class="tipo-badge ${r[6]==='M'?'tipo-m':'tipo-f'}">${r[6]==='M'?'Matriz':'Filial'}</span></td>
+    </tr>`;
+  }).join('')}${rows.length>200?`<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
+
+  document.querySelectorAll('#table-mge-list th.sortable').forEach(th => {
+    th.onclick = () => {
+      const col = th.dataset.mgeCol;
+      if(mgeTableSort === col) mgeTableDir *= -1;
+      else { mgeTableSort = col; mgeTableDir = -1; }
+      renderMGETable();
+    };
+  });
 }
 
 function initOsc(){
@@ -2084,6 +2194,88 @@ function initOsc(){
   });
 
   setTimeout(()=>{if(MAPS['map-osc']&&MAPS['map-osc'].map)MAPS['map-osc'].map.invalidateSize();},200);
+
+  // ── OSC charts: por área e por bairro ──
+  const areaCountsChart={};
+  OSCS.forEach(o=>{if(o.a&&o.a!=='Sem classificação')areaCountsChart[o.a]=(areaCountsChart[o.a]||0)+1;});
+  const areaEntries=Object.entries(areaCountsChart).sort((a,b)=>b[1]-a[1]);
+  if(areaEntries.length){
+    destroyChart('chart-osc-area');
+    const cArea=document.getElementById('chart-osc-area');
+    if(cArea){
+      const h=Math.max(areaEntries.length*28,200);
+      cArea.style.height=h+'px';
+      cArea.parentElement.style.height='auto';
+      CHARTS['chart-osc-area']=new Chart(cArea,{type:'bar',data:{labels:areaEntries.map(e=>e[0].length>40?e[0].slice(0,40)+'…':e[0]),datasets:[{data:areaEntries.map(e=>e[1]),backgroundColor:'rgba(124,58,237,.7)',borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+' OSCs'}}},scales:{x:{grid:{display:false}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+    }
+  }
+  const bairroCountsChart={};
+  OSCS.forEach(o=>{bairroCountsChart[o.bairro]=(bairroCountsChart[o.bairro]||0)+1;});
+  const bairroEntries=Object.entries(bairroCountsChart).sort((a,b)=>b[1]-a[1]).slice(0,25);
+  if(bairroEntries.length){
+    destroyChart('chart-osc-bairro');
+    const cBairro=document.getElementById('chart-osc-bairro');
+    if(cBairro){
+      const h=Math.max(bairroEntries.length*28,200);
+      cBairro.style.height=h+'px';
+      cBairro.parentElement.style.height='auto';
+      CHARTS['chart-osc-bairro']=new Chart(cBairro,{type:'bar',data:{labels:bairroEntries.map(e=>e[0]),datasets:[{data:bairroEntries.map(e=>e[1]),backgroundColor:bairroEntries.map(e=>{const r=REGION_MAP[e[0]]||'';return REGION_COLORS[r]||'rgba(124,58,237,.5)';}),borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+' OSCs'}}},scales:{x:{grid:{display:false}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+    }
+  }
+
+  // ── Tabela completa de OSCs ──
+  let oscTableSort='nome',oscTableDir=1;
+  function renderOscTable(){
+    const q=(document.getElementById('osc-table-search').value||'').toLowerCase().trim();
+    const rf=document.getElementById('osc-table-regiao').value;
+    const af=document.getElementById('osc-table-area').value;
+    let rows=[...OSCS];
+    if(q) rows=rows.filter(r=>(r.n||'').toLowerCase().includes(q)||(r.bairro||'').toLowerCase().includes(q));
+    if(rf) rows=rows.filter(r=>(REGION_MAP[r.bairro]||'')===rf);
+    if(af) rows=rows.filter(r=>r.a===af);
+    rows.sort((a,b)=>{
+      let av,bv;
+      if(oscTableSort==='nome'){av=(a.n||'').toLowerCase();bv=(b.n||'').toLowerCase();}
+      else if(oscTableSort==='bairro'){av=(a.bairro||'').toLowerCase();bv=(b.bairro||'').toLowerCase();}
+      else if(oscTableSort==='area'){av=(a.a||'');bv=(b.a||'');}
+      else{av=a[oscTableSort]||0;bv=b[oscTableSort]||0;}
+      if(typeof av==='number'&&typeof bv==='number') return oscTableDir===-1?bv-av:av-bv;
+      return oscTableDir===-1?String(bv).localeCompare(String(av),'pt'):String(av).localeCompare(String(bv),'pt');
+    });
+    const countEl=document.getElementById('osc-table-count');
+    if(countEl) countEl.textContent=rows.length+' de '+OSCS.length+' organizações';
+    const cols=[{k:'nome',label:'Organização'},{k:'bairro',label:'Bairro'},{k:'area',label:'Área de atuação'}];
+    const tbl=document.getElementById('table-osc-list');
+    if(!tbl) return;
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}<th class="no-sort" style="min-width:90px">Região</th></tr></thead><tbody>${rows.slice(0,200).map(r=>{
+      const reg=REGION_MAP[r.bairro]||'';
+      const rCol=REGION_COLORS[reg]||'#999';
+      return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.n||''}">${r.n||'—'}</td><td>${r.bairro||'—'}</td><td><span class="tag" style="margin:1px 2px">${r.a||'—'}</span></td><td><span class="region-dot" style="background:${rCol};margin-right:4px"></span>${reg||'—'}</td></tr>`;
+    }).join('')}${rows.length>200?`<tr><td colspan="4" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} organizações.</td></tr>`:''}</tbody>`;
+    document.querySelectorAll('#table-osc-list th.sortable').forEach(th=>{
+      th.onclick=()=>{
+        const col=th.dataset.oscCol;
+        if(oscTableSort===col) oscTableDir*=-1;
+        else{oscTableSort=col;oscTableDir=1;}
+        renderOscTable();
+      };
+    });
+  }
+  // Populate filters
+  const oscTableRegSel=document.getElementById('osc-table-regiao');
+  if(oscTableRegSel&&oscTableRegSel.options.length<=1){
+    Object.keys(REGION_COLORS).forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;oscTableRegSel.appendChild(o);});
+  }
+  const oscTableAreaSel=document.getElementById('osc-table-area');
+  if(oscTableAreaSel&&oscTableAreaSel.options.length<=1){
+    const areas=[...new Set(OSCS.map(o=>o.a))].filter(Boolean).sort();
+    areas.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;oscTableAreaSel.appendChild(o);});
+  }
+  renderOscTable();
+  ['osc-table-search','osc-table-regiao','osc-table-area'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener(el.tagName==='INPUT'?'input':'change',renderOscTable);
+  });
 }
 
 /* ── Rede de afinidade — CEASA Mais Nutrição ──────────────────────── */
@@ -3181,7 +3373,7 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que já possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-mge-top' || tbl.id === 'table-econ') return;
+    if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
@@ -3228,7 +3420,7 @@ document.addEventListener('click', e => {
   if(th.classList.contains('no-sort')) return;
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return; // handled by custom logic
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-mge-top' || tbl.id === 'table-econ') return;
+  if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;

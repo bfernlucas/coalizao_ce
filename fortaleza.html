@@ -1942,6 +1942,11 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .cap-legend-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-right:4px}
 .cap-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
 .cap-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,.5)}
+.tipo-badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.04em}
+.tipo-m{background:#e0f2e9;color:#0B4FA8}
+.tipo-f{background:#fef3cd;color:#7c5c00}
+.sector-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:600;background:#EEF4FF;color:#0B4FA8;white-space:nowrap}
+.region-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -2312,6 +2317,19 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       </div>
       <div class="table-wrap"><table id="table-cnae"></table></div>
     </div>
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-head">
+        <div><h3 class="panel-title">Lista completa de empresas M/G (dez/2024)</h3><p class="panel-sub">Todas as empresas de porte "Demais" · ordenável por qualquer coluna</p></div>
+        <span class="table-count" id="mge-table-count"></span>
+      </div>
+      <div class="table-filter-bar">
+        <input type="search" id="mge-table-search" placeholder="Buscar empresa…" autocomplete="off">
+        <select id="mge-table-terr"><option value="">Todos os territórios</option><option value="Grande Bom Jardim">Grande Bom Jardim</option><option value="Grande Mucuripe">Grande Mucuripe</option></select>
+        <select id="mge-table-setor"><option value="">Todos os setores</option></select>
+        <select id="mge-table-tipo"><option value="">Matriz e Filial</option><option value="M">Somente Matrizes</option><option value="F">Somente Filiais</option></select>
+      </div>
+      <div class="table-wrap" style="max-height:600px"><table id="table-mge-list"></table></div>
+    </div>
   </section>
 
   <section id="section-osc" class="section">
@@ -2450,65 +2468,162 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="network-legend" id="network-legend"></div>
       </div>
     </div>
+
+    <!-- OSC por área e por bairro -->
+    <div class="grid two" style="margin-top:20px">
+      <div class="panel">
+        <div class="panel-head"><div><h3 class="panel-title">OSCs por área de atuação (IPEA, 2024)</h3><p class="panel-sub">Distribuição das organizações por classificação temática</p></div></div>
+        <div class="chart-box"><canvas id="chart-osc-area" class="chart tall"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3 class="panel-title">OSCs por bairro (IPEA, 2024)</h3><p class="panel-sub">Quantidade de organizações ativas por bairro</p></div></div>
+        <div class="chart-box"><canvas id="chart-osc-bairro" class="chart tall"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Tabela completa de OSCs -->
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head">
+        <div><h3 class="panel-title">Lista completa de OSCs (IPEA, 2024)</h3><p class="panel-sub">Todas as organizações geolocalizadas · ordenável por qualquer coluna</p></div>
+        <span class="table-count" id="osc-table-count"></span>
+      </div>
+      <div class="table-filter-bar">
+        <input type="search" id="osc-table-search" placeholder="Buscar organização…" autocomplete="off">
+        <select id="osc-table-terr"><option value="">Todos os territórios</option><option value="Grande Bom Jardim">Grande Bom Jardim</option><option value="Grande Mucuripe">Grande Mucuripe</option></select>
+        <select id="osc-table-area"><option value="">Todas as áreas</option></select>
+      </div>
+      <div class="table-wrap" style="max-height:600px"><table id="table-osc-list"></table></div>
+    </div>
   </section>
 
   <section id="section-comp" class="section">
     <div class="section-head">
-      <span class="section-kicker">Comparativo</span>
-      <h2 class="section-title">Bairros em perspectiva</h2>
-      <p class="section-desc">Comparativo direto entre os dois territórios em dimensões sociais, econômicas e de infraestrutura.</p>
+      <span class="section-kicker">Síntese Estratégica</span>
+      <h2 class="section-title">Oportunidades para a Coalizão</h2>
+      <p class="section-desc">Diagnóstico cruzado dos eixos de <strong>Inclusão Produtiva</strong> e <strong>Insegurança Alimentar</strong> nos territórios de Fortaleza, identificando convergências, padrões consolidados e potencial de adicionalidade.</p>
     </div>
-    <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:10px">
-      <span style="font-size:20px;flex-shrink:0">&#9888;</span>
-      <div><strong style="color:#92400E;font-size:13px">Seção em construção</strong><p style="margin:4px 0 0;font-size:12px;color:#78350F;line-height:1.5">Esta aba está sendo revisada e atualizada. As informações apresentadas aqui são preliminares e não devem ser consideradas para tomada de decisão.</p></div>
-    </div>
-    <div class="decision">
-      <h3>Análise</h3>
-      <p>Se a prioridade for impacto social em escala e maior adicionalidade, o Grande Bom Jardim tende a oferecer o caso mais claro. Se a prioridade for ativar redes, capacidade econômica e pilotos com maior chance de rápida articulação, o Grande Mucuripe oferece melhor ponto de entrada. A melhor leitura estratégica não é escolher um único território “vencedor”, mas reconhecer que os dois territórios respondem a lógicas distintas de intervenção.</p>
-    </div>
-    <div class="comparison-grid">
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="title-with-info">
-              <div>
-                <h3 class="panel-title">Dimensões por território</h3>
-                <p class="panel-sub">Valores maiores indicam posição relativa mais favorável em cada eixo.</p>
-              </div>
-              <details class="info-popover">
-                <summary aria-label="Como as dimensões do radar foram mensuradas">i</summary>
-                <div class="info-balloon">
-                  <strong>Como este radar foi mensurado</strong>
-                  Seis dimensões padronizadas, todas em leitura positiva (maior = condição relativa mais favorável). Mesmo conjunto usado no painel de Maracanaú, permitindo comparação entre municípios.
-                  <ul>
-                    <li><strong>Baixa pobreza (MDS, 2025):</strong> 100 − % em extrema pobreza. Eixo invertido para evitar leitura ambígua.</li>
-                    <li><strong>Saneamento (IBGE, 2022):</strong> % de domicílios com esgotamento sanitário adequado (IBGE).</li>
-                    <li><strong>Rendimento do responsável per capita (IBGE Censo, 2022):</strong> calculada como (rendimento do responsável × nº responsáveis) / moradores. Normalizada 0–100 pelo melhor valor.</li>
-                    <li><strong>Densidade empresarial (Receita Federal, 2024):</strong> CNPJs ativos por 1.000 hab. (Receita Federal).</li>
-                    <li><strong>Sociedade civil (IPEA, 2024):</strong> OSCs ativas por 10.000 hab. (Mapa das OSCs / IPEA).</li>
-                    <li><strong>Desenvolvimento humano (IBGE, 2010):</strong> proxy de capacidade humana; em Maracanaú usa-se Literacia como proxy equivalente.</li>
-                  </ul>
-                  <strong>Leitura:</strong> o bloco abaixo do radar mostra os valores brutos. O tooltip exibe o valor padronizado (0–100) e o valor original. Observar que eixos %/renda são normalizados pelo melhor valor do conjunto comparado.
-                </div>
-              </details>
-            </div>
-          </div>
+
+    <!-- Q1: Convergência com os Eixos -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Convergência com os eixos da Coalizão</h3><p class="panel-sub">Elementos do território que dialogam com Inclusão Produtiva e Insegurança Alimentar.</p></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 24px 16px">
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brand);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--brand-4)">Eixo 1 — Inclusão Produtiva</div>
+          <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);padding:0" id="kpi-eixo-ip"></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
-          <div>
-        <div class="radar-note"><strong>Como ler:</strong> o polígono maior indica posição relativa mais favorável no conjunto comparado. O eixo social foi invertido para <em>baixa pobreza extrema</em>, evitando que vulnerabilidade apareça como “vantagem” visual.</div>
-        <div class="chart-box"><canvas id="chart-comp-radar" class="chart" style="height:380px"></canvas></div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#DC2626;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #FECACA">Eixo 2 — Insegurança Alimentar</div>
+          <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);padding:0" id="kpi-eixo-ia"></div>
+        </div>
+      </div>
+      <!-- Two radars side by side -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 24px 24px">
+        <div style="position:relative">
+          <div class="title-with-info" style="margin-bottom:12px">
+            <div style="font-size:13px;font-weight:700;color:var(--brand)">Inclusão Produtiva por território</div>
+            <details class="info-popover">
+              <summary aria-label="Variáveis do radar de Inclusão Produtiva">i</summary>
+              <div class="info-balloon">
+                <strong>Variáveis — Inclusão Produtiva</strong>
+                Todas em escala per capita para comparação entre territórios. Quanto mais expandido o polígono, maior a capacidade de inclusão produtiva.
+                <ul>
+                  <li><strong>Empresas / 1 mil hab.:</strong> CNPJs ativos com sede no território. Receita Federal, 2024.</li>
+                  <li><strong>MEIs / 1 mil hab.:</strong> microempreendedores individuais. Receita Federal, 2024.</li>
+                  <li><strong>Cooperativas / 10 mil hab.:</strong> cooperativas ativas. Receita Federal, 2024.</li>
+                  <li><strong>OSCs / 10 mil hab.:</strong> organizações da sociedade civil. IPEA, 2024.</li>
+                  <li><strong>Neg. impacto / 10 mil hab.:</strong> negócios de impacto social. Receita Federal, 2024.</li>
+                </ul>
+              </div>
+            </details>
           </div>
-          <div class="radar-values" id="radar-values" style="display:flex;flex-direction:column;gap:16px;padding-top:8px"></div>
+          <div style="position:relative;height:400px"><canvas id="chart-radar-ip"></canvas></div>
+        </div>
+        <div style="position:relative">
+          <div class="title-with-info" style="margin-bottom:12px">
+            <div style="font-size:13px;font-weight:700;color:#DC2626">Vulnerabilidade Alimentar por território</div>
+            <details class="info-popover">
+              <summary aria-label="Variáveis do radar de Vulnerabilidade Alimentar">i</summary>
+              <div class="info-balloon">
+                <strong>Variáveis — Vulnerabilidade Alimentar</strong>
+                Todos os eixos em percentual (0–100%). Quanto mais expandido o polígono, <strong>mais vulnerável</strong> o território.
+                <ul>
+                  <li><strong>Extrema pobreza (%):</strong> famílias com renda ≤ R$218/mês. MDS, 2025.</li>
+                  <li><strong>Chefia feminina (%):</strong> domicílios chefiados por mulheres. IBGE, 2022.</li>
+                  <li><strong>Proporção infantil (%):</strong> crianças 0–9 como % da população. IBGE, 2022.</li>
+                  <li><strong>CadÚnico (%):</strong> famílias registradas no CadÚnico / total de domicílios. MDS, 2025.</li>
+                  <li><strong>Déficit de esgoto (%):</strong> domicílios sem esgotamento sanitário. IBGE, 2022.</li>
+                  <li><strong>Analfabetismo (%):</strong> taxa de analfabetismo. IBGE, 2022.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+          <div style="position:relative;height:400px"><canvas id="chart-radar-sa"></canvas></div>
         </div>
       </div>
     </div>
-    <div class="panel" style="margin-top:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Territórios lado a lado</h3><p class="panel-sub">Principais métricas agregadas para comparação entre os dois territórios.</p></div></div>
-      <div class="table-wrap"><table id="table-comp"></table></div>
+
+    <!-- Q2: Indicadores consolidados -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><div><h3 class="panel-title">Indicadores consolidados por território</h3><p class="panel-sub">Principais métricas agregadas para comparação entre os dois territórios.</p></div></div>
+      <div class="table-wrap"><table id="table-consolidado"></table></div>
     </div>
-    <div class="panel" style="margin-top:20px">
-      <div class="panel-head"><div><h3 class="panel-title">Ranking completo por bairro</h3><p class="panel-sub">Todos os 13 bairros com indicadores-chave. Clique nos cabeçalhos para ordenar.</p></div></div>
+
+    <!-- Q3: Dimensões por território (existing radar) -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head">
+        <div>
+          <div class="title-with-info">
+            <div>
+              <h3 class="panel-title">Dimensões por território</h3>
+              <p class="panel-sub">Valores maiores indicam posição relativa mais favorável em cada eixo.</p>
+            </div>
+            <details class="info-popover">
+              <summary aria-label="Como as dimensões do radar foram mensuradas">i</summary>
+              <div class="info-balloon">
+                <strong>Como este radar foi mensurado</strong>
+                Seis dimensões padronizadas, todas em leitura positiva (maior = condição relativa mais favorável).
+                <ul>
+                  <li><strong>Baixa pobreza (MDS, 2025):</strong> 100 − % em extrema pobreza.</li>
+                  <li><strong>Saneamento (IBGE, 2022):</strong> % com esgotamento sanitário adequado.</li>
+                  <li><strong>Rendimento per capita (Censo, 2022):</strong> normalizado 0–100.</li>
+                  <li><strong>Densidade empresarial (Receita Federal, 2024):</strong> CNPJs / 1.000 hab.</li>
+                  <li><strong>Sociedade civil (IPEA, 2024):</strong> OSCs / 10.000 hab.</li>
+                  <li><strong>Desenvolvimento humano (IBGE, 2010):</strong> IDHM como proxy.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;padding:0 24px">
+        <div>
+          <div class="radar-note"><strong>Como ler:</strong> o polígono maior indica posição relativa mais favorável. O eixo social foi invertido para <em>baixa pobreza extrema</em>.</div>
+          <div class="chart-box"><canvas id="chart-comp-radar" class="chart" style="height:380px"></canvas></div>
+        </div>
+        <div class="radar-values" id="radar-values" style="display:flex;flex-direction:column;gap:16px;padding-top:8px"></div>
+      </div>
+    </div>
+
+    <!-- Q4: Ranking completo por bairro -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head">
+        <div><h3 class="panel-title">Ranking completo por bairro</h3><p class="panel-sub">Todos os 13 bairros com indicadores-chave. Clique nos cabeçalhos para ordenar do maior para o menor.</p></div>
+        <div class="filters">
+          <select id="comp-sort">
+            <option value="pop">Ordenar por: População</option>
+            <option value="idhm">IDHM</option>
+            <option value="epob">Extrema pobreza (%)</option>
+            <option value="rendaPC">Renda per capita (R$)</option>
+            <option value="renda">Renda do responsável (R$)</option>
+            <option value="esg">Esgoto (%)</option>
+            <option value="cad">CadÚnico (%)</option>
+            <option value="emp">Empresas</option>
+            <option value="meiShare">% MEI</option>
+            <option value="osc">OSCs</option>
+            <option value="ibeu">IBEU</option>
+          </select>
+        </div>
+      </div>
       <div class="table-wrap"><table id="table-comp-bairros"></table></div>
     </div>
   </section>
@@ -3980,6 +4095,57 @@ function initEcon(){
   renderCnaeTable();
   econSearchEl.addEventListener('input', renderCnaeTable);
   econTerrEl.addEventListener('change', renderCnaeTable);
+
+  // ── Lista completa de empresas M/G ──
+  let mgeTableSort='cap', mgeTableDir=-1;
+  function renderMGETable(){
+    const q=(document.getElementById('mge-table-search').value||'').toLowerCase().trim();
+    const tf=document.getElementById('mge-table-terr').value;
+    const sf=document.getElementById('mge-table-setor').value;
+    const tp=document.getElementById('mge-table-tipo').value;
+    let rows=[...MGE_BUBBLES];
+    if(q) rows=rows.filter(r=>r[5].toLowerCase().includes(q)||r[4].toLowerCase().includes(q)||r[3].toLowerCase().includes(q));
+    if(tf) rows=rows.filter(r=>(MGE_TERRITORY_MAP[r[4]]||'')=== tf);
+    if(sf) rows=rows.filter(r=>r[3]===sf);
+    if(tp) rows=rows.filter(r=>r[6]===tp);
+    const sortIdx={nome:5,cap:2,setor:3,bairro:4,tipo:6}[mgeTableSort]||2;
+    rows.sort((a,b)=>{
+      const av=typeof a[sortIdx]==='string'?a[sortIdx].toLowerCase():a[sortIdx];
+      const bv=typeof b[sortIdx]==='string'?b[sortIdx].toLowerCase():b[sortIdx];
+      if(typeof av==='number'&&typeof bv==='number') return mgeTableDir===-1?bv-av:av-bv;
+      return mgeTableDir===-1?String(bv).localeCompare(String(av),'pt'):String(av).localeCompare(String(bv),'pt');
+    });
+    const countEl=document.getElementById('mge-table-count');
+    if(countEl) countEl.textContent=rows.length+' de '+MGE_BUBBLES.length+' empresas';
+    const cols=[{k:'nome',label:'Empresa'},{k:'cap',label:'Capital Social'},{k:'setor',label:'Setor'},{k:'bairro',label:'Bairro'},{k:'tipo',label:'Tipo'}];
+    const tbl=document.getElementById('table-mge-list');
+    if(!tbl) return;
+    const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${mgeTableSort===c.k?' sort-'+(mgeTableDir===1?'asc':'desc'):''}" data-mge-col="${c.k}">${c.label}<span class="sort-icon">${mgeTableSort===c.k?(mgeTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}</tr></thead><tbody>${rows.slice(0,200).map(r=>{
+      const terr=MGE_TERRITORY_MAP[r[4]]||'';
+      const tCol=terrColors[terr]||'#999';
+      return `<tr><td style="font-weight:600;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[5]}">${r[5]}</td><td data-sort-value="${r[2]}" style="white-space:nowrap">${fmtCap(r[2])}</td><td><span class="sector-tag">${r[3]}</span></td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r[4]}</td><td><span class="tipo-badge ${r[6]==='M'?'tipo-m':'tipo-f'}">${r[6]==='M'?'Matriz':'Filial'}</span></td></tr>`;
+    }).join('')}${rows.length>200?`<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
+    document.querySelectorAll('#table-mge-list th.sortable').forEach(th=>{
+      th.onclick=()=>{
+        const col=th.dataset.mgeCol;
+        if(mgeTableSort===col) mgeTableDir*=-1;
+        else{mgeTableSort=col;mgeTableDir=-1;}
+        renderMGETable();
+      };
+    });
+  }
+  // Populate MGE table filters
+  const mgeSetSel=document.getElementById('mge-table-setor');
+  if(mgeSetSel&&mgeSetSel.options.length<=1){
+    const setores=[...new Set(MGE_BUBBLES.map(r=>r[3]))].sort();
+    setores.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;mgeSetSel.appendChild(o);});
+  }
+  renderMGETable();
+  ['mge-table-search','mge-table-terr','mge-table-setor','mge-table-tipo'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener(el.tagName==='INPUT'?'input':'change',renderMGETable);
+  });
 }
 
 
@@ -4230,6 +4396,86 @@ function initOsc(){
   });
 
   setTimeout(()=>{if(MAPS['map-osc']&&MAPS['map-osc'].map)MAPS['map-osc'].map.invalidateSize();},200);
+
+  // ── OSC charts: por área e por bairro ──
+  const areaCounts={};
+  OSC_POINTS.forEach(p=>{(p.areas||[]).forEach(a=>{if(a&&a!=='Sem classificação')areaCounts[a]=(areaCounts[a]||0)+1;})});
+  const areaEntries=Object.entries(areaCounts).sort((a,b)=>b[1]-a[1]);
+  if(areaEntries.length){
+    destroyChart('chart-osc-area');
+    const cArea=document.getElementById('chart-osc-area');
+    if(cArea){
+      const h=Math.max(areaEntries.length*28,200);
+      cArea.style.height=h+'px';
+      cArea.parentElement.style.height='auto';
+      CHARTS['chart-osc-area']=new Chart(cArea,{type:'bar',data:{labels:areaEntries.map(e=>e[0].length>40?e[0].slice(0,40)+'…':e[0]),datasets:[{data:areaEntries.map(e=>e[1]),backgroundColor:'rgba(11,79,168,.7)',borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+' OSCs'}}},scales:{x:{grid:{display:false}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+    }
+  }
+  const bairroCounts={};
+  OSC_POINTS.forEach(p=>{bairroCounts[p.b]=(bairroCounts[p.b]||0)+1;});
+  const bairroEntries=Object.entries(bairroCounts).sort((a,b)=>b[1]-a[1]);
+  if(bairroEntries.length){
+    destroyChart('chart-osc-bairro');
+    const cBairro=document.getElementById('chart-osc-bairro');
+    if(cBairro){
+      const h=Math.max(bairroEntries.length*28,200);
+      cBairro.style.height=h+'px';
+      cBairro.parentElement.style.height='auto';
+      const terrMap={};
+      OSC_POINTS.forEach(p=>{if(!terrMap[p.b])terrMap[p.b]=p.t;});
+      CHARTS['chart-osc-bairro']=new Chart(cBairro,{type:'bar',data:{labels:bairroEntries.map(e=>e[0]),datasets:[{data:bairroEntries.map(e=>e[1]),backgroundColor:bairroEntries.map(e=>terrMap[e[0]]==='Grande Mucuripe'?'rgba(11,79,168,.7)':'rgba(44,123,181,.7)'),borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+' OSCs'}}},scales:{x:{grid:{display:false}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+    }
+  }
+
+  // ── Tabela completa de OSCs ──
+  let oscTableSort='nome',oscTableDir=1;
+  function renderOscTable(){
+    const q=(document.getElementById('osc-table-search').value||'').toLowerCase().trim();
+    const tf=document.getElementById('osc-table-terr').value;
+    const af=document.getElementById('osc-table-area').value;
+    let rows=[...OSC_POINTS];
+    if(q) rows=rows.filter(r=>(r.nome||'').toLowerCase().includes(q)||(r.b||'').toLowerCase().includes(q));
+    if(tf) rows=rows.filter(r=>r.t===tf);
+    if(af) rows=rows.filter(r=>(r.areas||[]).includes(af));
+    rows.sort((a,b)=>{
+      let av,bv;
+      if(oscTableSort==='nome'){av=(a.nome||'').toLowerCase();bv=(b.nome||'').toLowerCase();}
+      else if(oscTableSort==='bairro'){av=(a.b||'').toLowerCase();bv=(b.b||'').toLowerCase();}
+      else if(oscTableSort==='area'){av=(a.areas||[])[0]||'';bv=(b.areas||[])[0]||'';}
+      else{av=a[oscTableSort]||0;bv=b[oscTableSort]||0;}
+      if(typeof av==='number'&&typeof bv==='number') return oscTableDir===-1?bv-av:av-bv;
+      return oscTableDir===-1?String(bv).localeCompare(String(av),'pt'):String(av).localeCompare(String(bv),'pt');
+    });
+    const countEl=document.getElementById('osc-table-count');
+    if(countEl) countEl.textContent=rows.length+' de '+OSC_POINTS.length+' organizações';
+    const cols=[{k:'nome',label:'Organização'},{k:'bairro',label:'Bairro'},{k:'area',label:'Área de atuação'}];
+    const tbl=document.getElementById('table-osc-list');
+    if(!tbl) return;
+    const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th><th class="no-sort">Território</th>`.slice(0,-30)).join('')}<th class="no-sort" style="min-width:90px">Território</th></tr></thead><tbody>${rows.slice(0,200).map(r=>{
+      const tCol=terrColors[r.t]||'#999';
+      return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.nome||''}">${r.nome||'—'}</td><td>${r.b||'—'}</td><td>${(r.areas||[]).filter(a=>a!=='Sem classificação').map(a=>`<span class="tag" style="margin:1px 2px">${a.length>30?a.slice(0,30)+'…':a}</span>`).join(' ')||'—'}</td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r.t||'—'}</td></tr>`;
+    }).join('')}${rows.length>200?`<tr><td colspan="4" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} organizações.</td></tr>`:''}</tbody>`;
+    document.querySelectorAll('#table-osc-list th.sortable').forEach(th=>{
+      th.onclick=()=>{
+        const col=th.dataset.oscCol;
+        if(oscTableSort===col) oscTableDir*=-1;
+        else{oscTableSort=col;oscTableDir=1;}
+        renderOscTable();
+      };
+    });
+  }
+  // Populate area filter for table
+  const oscTableAreaSel=document.getElementById('osc-table-area');
+  if(oscTableAreaSel&&oscTableAreaSel.options.length<=1){
+    const areas=[...new Set(OSC_POINTS.flatMap(p=>p.areas||[]))].filter(a=>a&&a!=='Sem classificação').sort();
+    areas.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;oscTableAreaSel.appendChild(o);});
+  }
+  renderOscTable();
+  ['osc-table-search','osc-table-terr','osc-table-area'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener(el.tagName==='INPUT'?'input':'change',renderOscTable);
+  });
 }
 
 function initNetworkFort(){
@@ -4608,8 +4854,114 @@ function initNetworkFort(){
 function initComp(){
   const gm = TERR_STATS.find(d => d.t === 'Grande Mucuripe');
   const gbj = TERR_STATS.find(d => d.t === 'Grande Bom Jardim');
-  // Empresas por 1.000 hab (derivado)
-  [gm,gbj].forEach(d => { d.emp1k = (d.emp!=null && d.pop) ? (d.emp/d.pop*1000) : null; });
+  // Campos derivados de DATA que não estão em TERR_STATS
+  [gm,gbj].forEach(d => {
+    const rows = DATA.filter(r => r.t === d.t);
+    d.emp1k = (d.emp!=null && d.pop) ? (d.emp/d.pop*1000) : null;
+    const wAnal = rows.filter(r=>r.anal!=null);
+    d.anal = wAnal.length ? wAnal.reduce((s,r)=>s+r.anal,0)/wAnal.length : null;
+    const wAgua = rows.filter(r=>r.agua!=null);
+    d.agua = wAgua.length ? wAgua.reduce((s,r)=>s+r.agua,0)/wAgua.length : null;
+    d.mei = rows.reduce((s,r) => s + (r.mei||0), 0);
+  });
+
+  // ═══ Q1: KPIs de Inclusão Produtiva e Insegurança Alimentar ═══
+  const sumField = (key) => DATA.reduce((s,d) => s + (d[key]||0), 0);
+  const kpiIpEl = document.getElementById('kpi-eixo-ip');
+  if(kpiIpEl){
+    kpiIpEl.innerHTML = [
+      {l:'Empresas ativas',v:fmt(sumField('emp'),'int'),s:'Receita Federal, 2024'},
+      {l:'MEIs',v:fmt(sumField('mei'),'int'),s:fmt(sumField('mei')/sumField('emp')*100,'float1')+'% do total'},
+      {l:'Cooperativas',v:fmt(sumField('coops'),'int'),s:'Nos 13 bairros'},
+      {l:'Neg. impacto social',v:fmt(sumField('negImpacto'),'int'),s:'Nos 13 bairros'}
+    ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
+  }
+  const kpiIaEl = document.getElementById('kpi-eixo-ia');
+  if(kpiIaEl){
+    kpiIaEl.innerHTML = [
+      {l:'Famílias ext. pobreza',v:fmt(sumField('cadEpobFam'),'int'),s:'MDS / CadÚnico, 2025'},
+      {l:'Pop. 0-9 anos',v:fmt(sumField('pop09'),'int'),s:'Faixa mais vulnerável à desnutrição'},
+      {l:'CRAS',v:fmt(sumField('cras'),'int'),s:'Nos 13 bairros'},
+      {l:'Feiras de alimentos',v:fmt(sumField('feiras'),'int'),s:'Nos 13 bairros'}
+    ].map(k=>`<div class="kpi"><div class="label">${k.l}</div><div class="value">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
+  }
+
+  // ═══ Q1: Radars de IP e SA por território ═══
+  function makeCoalRadar(canvasId, axesDef, palette){
+    const territories = ['Grande Mucuripe','Grande Bom Jardim'];
+    const labels = axesDef.map(a=>a.label);
+    const datasets = territories.map(t => {
+      const tData = DATA.filter(d=>d.t===t);
+      const pop = tData.reduce((s,d)=>s+(d.pop||0),0);
+      return {
+        label: t,
+        data: axesDef.map(a => a.calc(tData, pop)),
+        borderColor: palette[t].border,
+        backgroundColor: palette[t].bg,
+        pointBackgroundColor: palette[t].border,
+        pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:4,borderWidth:2.5
+      };
+    });
+    const allVals = datasets.flatMap(ds=>ds.data);
+    const maxVal = Math.ceil(Math.max(...allVals)/10)*10 || 100;
+    destroyChart(canvasId);
+    const el = document.getElementById(canvasId);
+    if(!el) return;
+    CHARTS[canvasId] = new Chart(el, {
+      type:'radar',
+      data:{labels,datasets},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'top',labels:{font:{size:11,weight:'600'},usePointStyle:true,pointStyle:'circle',boxWidth:8,padding:12}}},
+        scales:{r:{beginAtZero:true,suggestedMax:maxVal,angleLines:{color:'#e6edf3'},grid:{color:'#e6edf3'},pointLabels:{font:{size:10,weight:'600'},color:'#5C6E7E'},ticks:{stepSize:Math.max(10,Math.round(maxVal/5)),backdropColor:'transparent',font:{size:9},color:'#999'}}}
+      }
+    });
+  }
+  const radarPalette = {
+    'Grande Mucuripe':{border:'#0B4FA8',bg:'rgba(11,79,168,.18)'},
+    'Grande Bom Jardim':{border:'#2C7BB5',bg:'rgba(44,123,181,.18)'}
+  };
+  const ipAxes = [
+    {label:'Empresas / 1k hab', calc:(rows,pop) => pop?rows.reduce((s,d)=>s+(d.emp||0),0)/pop*1000:0},
+    {label:'MEIs / 1k hab', calc:(rows,pop) => pop?rows.reduce((s,d)=>s+(d.mei||0),0)/pop*1000:0},
+    {label:'Cooperativas / 10k hab', calc:(rows,pop) => pop?rows.reduce((s,d)=>s+(d.coops||0),0)/pop*10000:0},
+    {label:'OSCs / 10k hab', calc:(rows,pop) => pop?rows.reduce((s,d)=>s+(d.osc||0),0)/pop*10000:0},
+    {label:'Neg. impacto / 10k hab', calc:(rows,pop) => pop?rows.reduce((s,d)=>s+(d.negImpacto||0),0)/pop*10000:0}
+  ];
+  makeCoalRadar('chart-radar-ip', ipAxes, radarPalette);
+
+  const saAxes = [
+    {label:'Extrema pobreza (%)', calc:(rows) => {const w=rows.filter(d=>d.epob!=null);return w.length?w.reduce((s,d)=>s+d.epob*100,0)/w.length:0;}},
+    {label:'Chefia feminina (%)', calc:(rows) => {const w=rows.filter(d=>d.mulh!=null);return w.length?w.reduce((s,d)=>s+d.mulh*100,0)/w.length:0;}},
+    {label:'Proporção infantil (%)', calc:(rows) => {const pop=rows.reduce((s,d)=>s+(d.pop||0),0);const p09=rows.reduce((s,d)=>s+(d.pop09||0),0);return pop?p09/pop*100:0;}},
+    {label:'CadÚnico (%)', calc:(rows) => {const w=rows.filter(d=>d.cad!=null);return w.length?w.reduce((s,d)=>s+d.cad*100,0)/w.length:0;}},
+    {label:'Déficit de esgoto (%)', calc:(rows) => {const w=rows.filter(d=>d.esg!=null);return w.length?w.reduce((s,d)=>s+(1-d.esg)*100,0)/w.length:0;}},
+    {label:'Analfabetismo (%)', calc:(rows) => {const w=rows.filter(d=>d.anal!=null);return w.length?w.reduce((s,d)=>s+d.anal*100,0)/w.length:0;}}
+  ];
+  makeCoalRadar('chart-radar-sa', saAxes, radarPalette);
+
+  // ═══ Q2: Tabela consolidada ═══
+  const tblCons = document.getElementById('table-consolidado');
+  if(tblCons){
+    const fmtI = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR');
+    const fmtP = n => (n==null||isNaN(n))?'—':(Number(n)*100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+    const fmtM = n => (n==null||isNaN(n))?'—':'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});
+    const consRows = [
+      ['População', fmtI(gm.pop), fmtI(gbj.pop), 'IBGE, 2022'],
+      ['Extrema pobreza', fmtP(gm.epob), fmtP(gbj.epob), 'MDS, 2025'],
+      ['CadÚnico', fmtP(gm.cad), fmtP(gbj.cad), 'MDS, 2025'],
+      ['Analfabetismo', fmtP(gm.anal), fmtP(gbj.anal), 'IBGE, 2022'],
+      ['Esgotamento sanitário', fmtP(gm.esg), fmtP(gbj.esg), 'IBGE, 2022'],
+      ['Abastecimento de água', fmtP(gm.agua), fmtP(gbj.agua), 'IBGE, 2022'],
+      ['Renda per capita', fmtM(gm.rendaPC), fmtM(gbj.rendaPC), 'IBGE, 2022'],
+      ['Renda do responsável', fmtM(gm.renda), fmtM(gbj.renda), 'IBGE, 2022'],
+      ['Empresas', fmtI(gm.emp), fmtI(gbj.emp), 'Receita Federal, 2024'],
+      ['MEIs', fmtI(gm.mei), fmtI(gbj.mei), 'Receita Federal, 2024'],
+      ['OSCs', fmtI(gm.osc), fmtI(gbj.osc), 'IPEA, 2024'],
+      ['IDHM', (gm.idhm||0).toFixed(3), (gbj.idhm||0).toFixed(3), 'IBGE, 2010']
+    ];
+    tblCons.innerHTML = `<thead><tr><th>Indicador</th><th>Grande Mucuripe</th><th>Grande Bom Jardim</th><th>Fonte</th></tr></thead><tbody>${consRows.map(r=>`<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="small">${r[3]}</td></tr>`).join('')}</tbody>`;
+  }
   // 6 dimensões padronizadas — mesmo conjunto usado em Maracanaú (com proxies onde necessário)
   const radarAxes = [
     {
@@ -4868,6 +5220,30 @@ function initComp(){
       }).join('')}</tbody>`;
     try{ enableTableSorting(bairroTbl); }catch(e){}
   }
+
+  // Handler for comp-sort dropdown
+  const compSortSel = document.getElementById('comp-sort');
+  if(compSortSel && bairroTbl){
+    compSortSel.addEventListener('change', () => {
+      const key = compSortSel.value;
+      // Column indices: 0=Bairro,1=Território,2=Pop,3=IDHM,4=Ext.pobreza,5=RendaPC,6=Renda resp,7=Esgoto,8=CadÚnico,9=Empresas,10=%MEI,11=OSCs,12=IBEU
+      const keyIdx = {pop:2,idhm:3,epob:4,rendaPC:5,renda:6,esg:7,cad:8,emp:9,meiShare:10,osc:11,ibeu:12};
+      const idx = keyIdx[key];
+      if(idx != null){
+        const th = bairroTbl.querySelector(`thead tr`).cells[idx];
+        if(th){
+          // Reset all header states, then trigger desc sort
+          bairroTbl.querySelectorAll('thead th').forEach(h => {
+            h.classList.remove('sort-asc','sort-desc');
+            const ic = h.querySelector('.sort-icon'); if(ic) ic.textContent = ' ↕';
+          });
+          th.classList.add('sort-desc');
+          const icon = th.querySelector('.sort-icon'); if(icon) icon.textContent = ' ↓';
+          sortTableByColumn(bairroTbl, idx, th);
+        }
+      }
+    });
+  }
 }
 
 function initTab(tab){
@@ -5047,12 +5423,13 @@ function initFavelasMap(mun, bairrosGeo){
 /* ── Ordenação global de tabelas (1º clique = maior para menor) ─── */
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
-    if(tbl.dataset.sortableInit === '1') return;
-    tbl.dataset.sortableInit = '1';
+    // Tabelas que possuem lógica própria de ordenação (re-render completo)
+    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
-      th.classList.add('sortable');
+      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
+      if(!th.classList.contains('sortable')) th.classList.add('sortable');
       if(!th.querySelector('.sort-icon')){
         const ic = document.createElement('span');
         ic.className = 'sort-icon';
@@ -5069,7 +5446,7 @@ function sortTableByColumn(tbl, idx, th){
   const next = curr === 'desc' ? 'asc' : 'desc';
   tbl.querySelectorAll('thead th').forEach(h => {
     h.classList.remove('sort-asc','sort-desc');
-    const ic = h.querySelector('.sort-icon'); if(ic) ic.textContent = ' ↕';
+    const ic = h.querySelector('.sort-icon'); if(ic && !h.dataset.col && !h.dataset.econCol) ic.textContent = ' ↕';
   });
   th.classList.add(next === 'desc' ? 'sort-desc' : 'sort-asc');
   const icon = th.querySelector('.sort-icon'); if(icon) icon.textContent = next === 'desc' ? ' ↓' : ' ↑';
@@ -5092,7 +5469,9 @@ document.addEventListener('click', e => {
   const th = e.target.closest('thead th');
   if(!th) return;
   if(th.classList.contains('no-sort')) return;
+  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
+  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;
