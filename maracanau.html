@@ -1329,7 +1329,7 @@ function fmt(v,kind){
 }
 function destroyChart(id){if(CHARTS[id]){CHARTS[id].destroy();delete CHARTS[id]}}
 function baseOpts(h){return{indexAxis:h?'y':'x',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#14324a',titleFont:{family:'Inter',size:12,weight:'700'},bodyFont:{family:'Inter',size:12},cornerRadius:10,padding:10}},scales:{x:{grid:{color:'#edf2f6'},ticks:{font:{family:'Inter',size:10},color:'#7a8d9f'}},y:{grid:{color:'#edf2f6'},ticks:{font:{family:'Inter',size:10},color:'#7a8d9f'}}}}}
-function makeBar(id,labels,datasets,extra){destroyChart(id);const canvas=document.getElementById(id);const barH=Math.max(labels.length*28,300);canvas.style.height=barH+'px';canvas.parentElement.style.height='auto';const o=baseOpts(true);if(extra?.plugins)o.plugins={...o.plugins,...extra.plugins};CHARTS[id]=new Chart(canvas,{type:'bar',data:{labels,datasets},options:o})}
+function makeBar(id,labels,datasets,extra){destroyChart(id);const canvas=document.getElementById(id);const barH=Math.max(labels.length*28,300);canvas.style.height=barH+'px';canvas.parentElement.style.height='auto';const o=baseOpts(true);o.scales=o.scales||{};o.scales.y=o.scales.y||{};o.scales.y.ticks={...(o.scales.y.ticks||{}),autoSkip:false,maxTicksLimit:labels.length};if(extra?.plugins)o.plugins={...o.plugins,...extra.plugins};CHARTS[id]=new Chart(canvas,{type:'bar',data:{labels,datasets},options:o})}
 
 const CHOROPLETH_COLORS=['#F3E8FF','#DDD6FE','#C084FC','#A855F7','#7C3AED','#5B21B6'];
 const VULN_COLORS=['#F3E8FF','#DDD6FE','#C084FC','#A855F7','#7C3AED','#4C1D95'];
@@ -2206,7 +2206,7 @@ function initOsc(){
       const h=Math.max(areaEntries.length*28,200);
       cArea.style.height=h+'px';
       cArea.parentElement.style.height='auto';
-      CHARTS['chart-osc-area']=new Chart(cArea,{type:'bar',data:{labels:areaEntries.map(e=>e[0].length>40?e[0].slice(0,40)+'…':e[0]),datasets:[{data:areaEntries.map(e=>e[1]),backgroundColor:'rgba(124,58,237,.7)',borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+' OSCs'}}},scales:{x:{grid:{display:false}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+      CHARTS['chart-osc-area']=new Chart(cArea,{type:'bar',data:{labels:areaEntries.map(e=>e[0].length>40?e[0].slice(0,40)+'…':e[0]),datasets:[{data:areaEntries.map(e=>e[1]),backgroundColor:'rgba(124,58,237,.7)',borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+' OSCs'}}},scales:{x:{grid:{display:false}},y:{grid:{display:false},ticks:{font:{size:11},autoSkip:false,maxTicksLimit:areaEntries.length}}}}});
     }
   }
   const bairroCountsChart={};
@@ -2219,7 +2219,7 @@ function initOsc(){
       const h=Math.max(bairroEntries.length*28,200);
       cBairro.style.height=h+'px';
       cBairro.parentElement.style.height='auto';
-      CHARTS['chart-osc-bairro']=new Chart(cBairro,{type:'bar',data:{labels:bairroEntries.map(e=>e[0]),datasets:[{data:bairroEntries.map(e=>e[1]),backgroundColor:bairroEntries.map(e=>{const r=REGION_MAP[e[0]]||'';return REGION_COLORS[r]||'rgba(124,58,237,.5)';}),borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+' OSCs'}}},scales:{x:{grid:{display:false}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+      CHARTS['chart-osc-bairro']=new Chart(cBairro,{type:'bar',data:{labels:bairroEntries.map(e=>e[0]),datasets:[{data:bairroEntries.map(e=>e[1]),backgroundColor:bairroEntries.map(e=>{const r=REGION_MAP[e[0]]||'';return REGION_COLORS[r]||'rgba(124,58,237,.5)';}),borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+' OSCs'}}},scales:{x:{grid:{display:false}},y:{grid:{display:false},ticks:{font:{size:11},autoSkip:false,maxTicksLimit:bairroEntries.length}}}}});
     }
   }
 
@@ -2973,7 +2973,7 @@ function initComp(){
         },
         scales:{
           x:{min:0,max:100,ticks:{color:'#61778a',font:{size:10}},grid:{color:'#edf2f6',drawTicks:false},border:{display:false}},
-          y:{ticks:{color:'#1B2D3E',font:{size:11,weight:'600'}},grid:{display:false},border:{display:false}}
+          y:{ticks:{color:'#1B2D3E',font:{size:11,weight:'600'},autoSkip:false,maxTicksLimit:adicLabels.length},grid:{display:false},border:{display:false}}
         }
       }
     });
