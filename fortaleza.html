@@ -488,8 +488,6 @@ button,select,input,textarea{font:inherit}
 }
 .chart-box{
   padding:0 20px 12px;
-  max-height:500px;
-  overflow-y:auto;
 }
 .chart{
   height:260px;
@@ -3359,6 +3357,7 @@ function createMap(section){
     pane:'labels',
     attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
   }).addTo(map);
+  L.control.zoom({position:'bottomleft'}).addTo(map);
 
   const fillGeo = L.geoJSON(GEOJSON, {
     pane:'fills',
@@ -3887,8 +3886,9 @@ function initEcon(){
   }
   if(!MAPS['map-mge']){
     MAPS['map-mge']={};
-    const m=L.map('map-mge',{zoomControl:true,scrollWheelZoom:true});
+    const m=L.map('map-mge',{zoomControl:false,scrollWheelZoom:true});
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM · CARTO',maxZoom:18}).addTo(m);
+    L.control.zoom({position:'bottomleft'}).addTo(m);
     MAPS['map-mge'].map=m;
     MAPS['map-mge'].geo=L.geoJSON(GEOJSON,{
       style:function(f){
@@ -4199,8 +4199,9 @@ function initOsc(){
   // Map
   if(!MAPS['map-osc']){
     MAPS['map-osc']={};
-    const m=L.map('map-osc',{zoomControl:true,scrollWheelZoom:true});
+    const m=L.map('map-osc',{zoomControl:false,scrollWheelZoom:true});
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM · CARTO',maxZoom:18}).addTo(m);
+    L.control.zoom({position:'bottomleft'}).addTo(m);
     MAPS['map-osc'].map=m;
 
     // GeoJSON choropleth by OSC density
@@ -5278,8 +5279,9 @@ function initFavelasMap(mun, bairrosGeo){
   const features=FAVELAS_DATA.features.filter(f=>f.properties.nm_mun===munName);
   const el=document.getElementById(mapId);
   if(!el||el._leaflet_id) return;
-  const m=L.map(mapId,{scrollWheelZoom:true,zoomControl:true});
+  const m=L.map(mapId,{scrollWheelZoom:true,zoomControl:false});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM · CARTO',maxZoom:19}).addTo(m);
+  L.control.zoom({position:'bottomleft'}).addTo(m);
 
   // Territory colors for Fortaleza
   const TERR_COLORS={'Grande Mucuripe':UI_COLORS.blueSoft||'#93C5FD','Grande Bom Jardim':UI_COLORS.teal||'#2DD4BF'};

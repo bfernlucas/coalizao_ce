@@ -77,7 +77,7 @@ button,select,input,textarea{font:inherit}
 .kpi .label{text-transform:uppercase;letter-spacing:.05em;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px}
 .kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
 .kpi .sub{margin-top:6px;font-size:12px;color:var(--muted)}
-.chart-box{padding:6px 24px 26px;max-height:500px;overflow-y:auto}.chart{height:300px}.chart.tall{height:auto}
+.chart-box{padding:6px 24px 26px}.chart{height:300px}.chart.tall{height:auto}
 .footer{padding:16px 0;margin-top:80px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6}
 .footer-credit{margin-top:8px;font-size:12px;color:var(--muted)}
 .map-analytics-layout{display:grid;grid-template-columns:1.15fr minmax(340px,.85fr);gap:24px;padding:0 24px 4px;align-items:stretch}
@@ -1392,6 +1392,7 @@ function createMap(containerId){
     subdomains:'abcd',maxZoom:20,pane:'labels',
     attribution:'&copy; OpenStreetMap contributors &copy; CARTO'
   }).addTo(map);
+  L.control.zoom({position:'bottomleft'}).addTo(map);
   MAPS[containerId]={map,layer:null};
   return map;
 }
@@ -1676,8 +1677,9 @@ function initEcon(){
   }
   if(!MAPS['map-mge']){
     MAPS['map-mge']={};
-    const m=L.map('map-mge',{zoomControl:true,scrollWheelZoom:true});
+    const m=L.map('map-mge',{zoomControl:false,scrollWheelZoom:true});
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM · CARTO',maxZoom:18}).addTo(m);
+    L.control.zoom({position:'bottomleft'}).addTo(m);
     MAPS['map-mge'].map=m;
     MAPS['map-mge'].geo=L.geoJSON(GEO,{
       style:function(f){
@@ -2007,8 +2009,9 @@ function initOsc(){
   // Map
   if(!MAPS['map-osc']){
     MAPS['map-osc']={};
-    const m=L.map('map-osc',{zoomControl:true,scrollWheelZoom:true});
+    const m=L.map('map-osc',{zoomControl:false,scrollWheelZoom:true});
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM · CARTO',maxZoom:18}).addTo(m);
+    L.control.zoom({position:'bottomleft'}).addTo(m);
     MAPS['map-osc'].map=m;
 
     // GeoJSON choropleth by OSC density
@@ -3248,8 +3251,9 @@ function initFavelasMap(mun, bairrosGeo){
   const features=FAVELAS_DATA.features.filter(f=>f.properties.nm_mun===munName);
   const el=document.getElementById(mapId);
   if(!el||el._leaflet_id) return;
-  const m=L.map(mapId,{scrollWheelZoom:true,zoomControl:true});
+  const m=L.map(mapId,{scrollWheelZoom:true,zoomControl:false});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM · CARTO',maxZoom:19}).addTo(m);
+  L.control.zoom({position:'bottomleft'}).addTo(m);
 
   // Bairro base layer
   const bairroLookup={};
