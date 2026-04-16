@@ -507,7 +507,8 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .net-tooltip{position:absolute;pointer-events:none;background:rgba(20,50,74,.96);color:#fff;padding:10px 14px;border-radius:10px;font-size:11px;line-height:1.5;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:999;opacity:0;transition:opacity .15s}
 .net-tooltip strong{display:block;font-size:13px;margin-bottom:4px}
 .net-tooltip .net-tag{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:.04em;margin-top:4px}
-.net-info-card{position:absolute;top:16px;right:16px;width:320px;max-width:calc(100% - 32px);background:#fff;border:1px solid var(--line-2);border-radius:12px;box-shadow:0 14px 40px rgba(20,50,74,.22);padding:18px 20px 16px;font-size:12px;line-height:1.5;color:var(--navy);z-index:10;display:none;max-height:calc(100% - 32px);overflow:hidden;animation:netCardIn .18s ease-out}
+.net-info-card{position:absolute;top:56px;right:16px;width:320px;max-width:calc(100% - 32px);background:#fff;border:1px solid var(--line-2);border-radius:12px;box-shadow:0 14px 40px rgba(20,50,74,.22);padding:18px 20px 16px;font-size:12px;line-height:1.5;color:var(--navy);z-index:11;display:none;max-height:calc(100% - 72px);overflow:hidden;animation:netCardIn .18s ease-out}
+.net-fullscreen .net-info-card{top:72px;right:56px;max-height:calc(100% - 88px)}
 .net-info-card .net-card-body{max-height:calc(100vh - 220px);overflow-y:auto;margin:-4px -6px -4px -4px;padding:4px 6px 4px 4px}
 @keyframes netCardIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 .net-info-card .net-card-accent{position:absolute;top:0;left:0;right:0;height:4px;border-radius:12px 12px 0 0}
