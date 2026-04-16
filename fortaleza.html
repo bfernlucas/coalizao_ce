@@ -1960,6 +1960,101 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .tipo-f{background:#fef3cd;color:#7c5c00}
 .sector-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:600;background:#EEF4FF;color:#0B4FA8;white-space:nowrap}
 .region-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+
+/* ── Adicionalidade tab ── */
+.adic-intro{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin:0 0 20px}
+.adic-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:20px 24px 24px}
+.adic-pillar{position:relative;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,#fff 0%,#fbfcfe 100%);display:flex;flex-direction:column;gap:8px}
+.adic-pillar::before{content:"";position:absolute;top:0;left:18px;right:18px;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+.adic-pillar .num{font-size:11px;font-weight:800;color:var(--brand);letter-spacing:.08em;text-transform:uppercase}
+.adic-pillar .name{font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.01em;line-height:1.25}
+.adic-pillar .desc{font-size:12.5px;color:var(--muted);line-height:1.6}
+
+.matrix-wrap{padding:0 24px 24px;overflow-x:auto}
+.matrix{border-collapse:separate;border-spacing:0;width:100%;min-width:640px}
+.matrix thead th{position:sticky;top:0;background:#F4F6F9;color:var(--muted);font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:12px 10px;text-align:center;border-bottom:2px solid var(--line);vertical-align:middle;line-height:1.35}
+.matrix thead th:first-child{text-align:left;padding-left:14px}
+.matrix tbody td{padding:12px 10px;border-bottom:1px solid var(--line-2);text-align:center;font-size:12px;vertical-align:middle}
+.matrix tbody td:first-child{text-align:left;padding-left:14px;font-weight:700;color:var(--navy);font-size:13px}
+.matrix tbody tr:hover td{background:rgba(11,79,168,.04)}
+
+.adic-regions{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding:0 24px 24px}
+.adic-region-card{position:relative;border:1px solid var(--line);border-radius:14px;padding:18px 22px 18px;background:#fff;display:flex;flex-direction:column;gap:14px}
+.adic-region-card::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:0 3px 3px 0;background:var(--region-c,var(--brand))}
+.adic-region-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.adic-region-head h4{margin:0;font-size:18px;font-weight:800;color:var(--navy);letter-spacing:-.01em}
+.adic-region-tipo{font-size:10.5px;font-weight:800;color:var(--brand);letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;background:var(--brand-5);border:1px solid var(--brand-4);border-radius:999px}
+.adic-region-card p{margin:0;font-size:13px;line-height:1.7;color:var(--text)}
+.adic-region-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding-top:12px;border-top:1px dashed var(--line-2)}
+.adic-region-stats .s{display:flex;flex-direction:column;gap:2px}
+.adic-region-stats .s b{font-size:15px;color:var(--navy);font-weight:800;letter-spacing:-.02em}
+.adic-region-stats .s span{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.adic-region-foot{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted)}
+.adic-region-foot strong{color:var(--navy);font-weight:700}
+
+.strategy-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:0 24px 24px}
+.strategy-item{position:relative;padding:20px 22px 18px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#fff 0%,#fbfcfe 100%);display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.strategy-item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--strategy-c,var(--brand))}
+.strategy-item .s-kicker{font-size:10.5px;font-weight:800;color:var(--strategy-c,var(--brand));letter-spacing:.08em;text-transform:uppercase}
+.strategy-item h4{margin:0;font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.01em;line-height:1.25}
+.strategy-item p{margin:0;font-size:13px;line-height:1.7;color:var(--text)}
+.strategy-item .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.strategy-item .tags span{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--brand-5);color:var(--brand);letter-spacing:.02em;border:1px solid var(--brand-4)}
+.strategy-item .s-meta{display:flex;gap:20px;font-size:11px;color:var(--muted);border-top:1px dashed var(--line-2);padding-top:10px;margin-top:4px}
+.strategy-item .s-meta div{display:flex;flex-direction:column;gap:1px}
+.strategy-item .s-meta strong{color:var(--navy);font-weight:800;font-size:16px;letter-spacing:-.02em}
+
+.partners-table{width:100%;border-collapse:separate;border-spacing:0;min-width:560px}
+.partners-table th,.partners-table td{padding:12px 14px;border-bottom:1px solid var(--line-2);font-size:12px;text-align:center;vertical-align:middle}
+.partners-table thead th{background:#F4F6F9;color:var(--muted);font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--line);line-height:1.4;position:sticky;top:0}
+.partners-table thead th:first-child{text-align:left;padding-left:16px}
+.partners-table tbody td:first-child{text-align:left;padding-left:16px;font-weight:700;color:var(--navy);font-size:13px}
+.partners-table tbody td:first-child .p-scope{display:block;font-size:10.5px;font-weight:500;color:var(--muted);margin-top:2px;text-transform:none;letter-spacing:0}
+.fit{display:inline-block;width:16px;height:16px;border-radius:50%;vertical-align:middle}
+.fit.f3{background:var(--brand)}
+.fit.f2{background:var(--brand-3)}
+.fit.f1{background:#DBEAFE}
+.fit.f0{background:#EDF2F6;border:1px solid var(--line-2)}
+.fit-legend{display:flex;gap:16px;padding:8px 24px 18px;font-size:11px;color:var(--muted);flex-wrap:wrap;align-items:center}
+.fit-legend .item{display:inline-flex;align-items:center;gap:6px}
+
+.insight-callout{background:linear-gradient(180deg,#f7faff 0%,#eef5ff 100%);border:1px solid var(--brand-4);border-radius:14px;padding:18px 22px;margin:0 0 20px;display:flex;gap:16px;align-items:flex-start}
+.insight-callout .tag{flex-shrink:0;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);background:#fff;padding:5px 10px;border:1px solid var(--brand-4);border-radius:999px}
+.insight-callout p{margin:0;font-size:13.5px;line-height:1.7;color:var(--text)}
+
+.panel:has(.info-icon){overflow:visible}
+.info-icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;color:var(--brand);cursor:help;vertical-align:middle;margin-left:6px;position:relative;opacity:.55;transition:opacity .2s}
+.info-icon:hover,.info-icon:focus-within{opacity:1}
+.info-icon svg{display:block}
+.info-icon .info-tip{position:absolute;top:calc(100% + 10px);left:-6px;width:min(420px,74vw);padding:16px 18px;background:#0B2B44;color:#E6ECF2;border-radius:10px;font-size:12px;line-height:1.65;font-weight:400;text-transform:none;letter-spacing:0;text-align:left;opacity:0;pointer-events:none;transition:opacity .18s;z-index:60;box-shadow:0 14px 32px rgba(0,0,0,.22)}
+.info-icon .info-tip::before{content:"";position:absolute;bottom:100%;left:16px;border:7px solid transparent;border-bottom-color:#0B2B44}
+.info-icon .info-tip strong{color:#fff;font-weight:700}
+.info-icon .info-tip b{color:#93C5FD;font-weight:600}
+.info-icon:hover .info-tip,.info-icon:focus-within .info-tip{opacity:1;pointer-events:auto}
+.panel-title-row{display:flex;align-items:center;gap:2px;margin:0;font-size:14px;font-weight:700;color:var(--navy)}
+
+.matrix.heatmap{min-width:640px;border-collapse:separate;border-spacing:0}
+.matrix.heatmap thead th{background:#FAFBFD;font-size:10px;padding:14px 8px;letter-spacing:.07em;border-bottom:1px solid var(--line-2)}
+.matrix.heatmap tbody td{padding:8px 4px;border-bottom:1px solid #F0F3F7;background:transparent;vertical-align:middle}
+.matrix.heatmap tbody tr:last-child td{border-bottom:0}
+.matrix.heatmap tbody td:first-child{padding:14px 16px;font-size:13px;font-weight:700;color:var(--navy);text-align:left;border-right:1px solid #F0F3F7}
+.matrix.heatmap tbody tr:hover td:first-child{background:#F5F9FF}
+.matrix.heatmap .cell{padding:6px 6px}
+.matrix.heatmap .cell > span{display:flex;align-items:center;justify-content:center;min-height:44px;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:8px;padding:8px 10px;transition:all .18s}
+.matrix.heatmap .cell.alto > span{background:#DCFCE7;color:#14532D}
+.matrix.heatmap .cell.medio > span{background:#FEF9C3;color:#854D0E}
+.matrix.heatmap .cell.baixo > span{background:#FEE2E2;color:#7F1D1D}
+.matrix.heatmap tbody tr:hover .cell.alto > span{background:#BBF7D0}
+.matrix.heatmap tbody tr:hover .cell.medio > span{background:#FEF08A}
+.matrix.heatmap tbody tr:hover .cell.baixo > span{background:#FECACA}
+
+@media(max-width:820px){
+  .adic-intro{grid-template-columns:1fr}
+  .adic-pillars{grid-template-columns:1fr}
+  .adic-regions{grid-template-columns:1fr}
+  .strategy-list{grid-template-columns:1fr}
+  .adic-region-stats{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
@@ -1982,6 +2077,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <button class="tab-btn" data-tab="econ">Economia</button>
     <button class="tab-btn" data-tab="osc">Sociedade Civil</button>
     <button class="tab-btn" data-tab="comp">Síntese</button>
+    <button class="tab-btn" data-tab="adic">Adicionalidade</button>
   </div>
 </nav>
 
@@ -2571,6 +2667,264 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         </div>
         <div id="synth-reading" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:560px;padding-right:4px"></div>
       </div>
+    </div>
+  </section>
+
+  <section id="section-adic" class="section">
+    <div class="section-head">
+      <span class="section-kicker">Adicionalidade Territorial</span>
+      <h2 class="section-title">Onde a Coalizão faz diferença em Fortaleza</h2>
+      <p class="section-desc">Fortaleza concentra 13 bairros da Coalizão em dois territórios muito distintos. A pergunta desta aba é direta: em qual deles a chegada articulada da Coalizão produz ganho que não aconteceria de outra forma? A resposta cruza extrema pobreza, renda, rede institucional e o tipo de vácuo que cada território carrega.</p>
+    </div>
+
+    <div class="insight-callout">
+      <span class="tag">Chave analítica</span>
+      <p>Adicionalidade em Fortaleza tem duas gramáticas. No <strong>Grande Bom Jardim</strong>, a pobreza é ampla, homogênea e a rede institucional é magra frente ao volume: qualquer articulação sistêmica gera ganho de escala. No <strong>Grande Mucuripe</strong>, 827 OSCs já operam em 8 bairros heterogêneos; adicionalidade vem de <strong>articular o que existe</strong>, não de chegar mais. Territórios onde necessidade, viabilidade institucional e vácuo de articulação coincidem com o perfil dos parceiros.</p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title">O que entendemos por adicionalidade</h3>
+          <p class="panel-sub">Três dimensões tiradas do Policy Brief; a priorização precisa equilibrá-las.</p>
+        </div>
+      </div>
+      <div class="adic-pillars">
+        <div class="adic-pillar">
+          <span class="num">01 · Diagnóstico</span>
+          <span class="name">Necessidade relativa</span>
+          <span class="desc">Combinação de extrema pobreza, déficit de renda e fragilidade de saneamento. Não só a incidência: o volume populacional afetado e a homogeneidade do território.</span>
+        </div>
+        <div class="adic-pillar">
+          <span class="num">02 · Operação</span>
+          <span class="name">Viabilidade institucional</span>
+          <span class="desc">Presença mínima de CRAS, OSCs e MGEs que permita ancorar ação coletiva. Sem base, a operação é cara; com saturação, há pouco a adicionar.</span>
+        </div>
+        <div class="adic-pillar">
+          <span class="num">03 · Estratégia</span>
+          <span class="name">Vácuo de articulação</span>
+          <span class="desc">Territórios onde falta coordenação entre proteção social, inclusão produtiva e setor privado, mesmo quando há atores isolados atuando.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title-row">
+            <span class="panel-title">Matriz de adicionalidade por território</span>
+            <span class="info-icon" tabindex="0" aria-label="Como a matriz foi construída">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span class="info-tip">
+                <strong>Como ler esta matriz.</strong> Cada critério recebe uma nota qualitativa (Alto, Médio, Baixo) a partir do cruzamento dos indicadores agregados da aba Síntese: CadÚnico, extrema pobreza, OSCs, MGEs, MEIs, CRAS, renda e cobertura de esgoto. As notas são relativas entre os dois territórios da Coalizão em Fortaleza, não valores absolutos.<br><br>
+                <b>Potencial de impacto</b> combina volume populacional e incidência de vulnerabilidade.<br>
+                <b>Densidade de atores e parcerias</b> olha para a rede local (OSCs, MGEs, CRAS).<br>
+                <b>Riscos político-institucionais</b> pesam sobreposição com atores já instalados e disputa por território.<br>
+                <b>Alinhamento com competências</b> vê o encaixe com o perfil dos parceiros da Coalizão.<br>
+                <b>Adicionalidade da Coalizão</b> é a leitura síntese: o que muda quando a Coalizão chega.
+              </span>
+            </span>
+          </h3>
+          <p class="panel-sub">Cinco critérios qualitativos ancorados nos indicadores agregados. Notas relativas entre os dois territórios de atuação em Fortaleza.</p>
+        </div>
+      </div>
+      <div class="matrix-wrap">
+        <table class="matrix heatmap">
+          <thead>
+            <tr>
+              <th>Território</th>
+              <th>Potencial<br>de impacto</th>
+              <th>Densidade de<br>atores e parcerias</th>
+              <th>Riscos político-<br>institucionais</th>
+              <th>Alinhamento com<br>competências</th>
+              <th>Adicionalidade<br>da Coalizão</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="region-label"><span class="region-dot" style="background:#1E40AF"></span>Grande Bom Jardim</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell alto"><span>Baixo risco</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+            </tr>
+            <tr>
+              <td><span class="region-label"><span class="region-dot" style="background:#0B4FA8"></span>Grande Mucuripe</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="fit-legend" style="border-top:1px dashed var(--line-2);margin-top:0">
+        <span class="item"><span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:#DCFCE7;border:1px solid #BBF7D0"></span> Alto · condição favorável</span>
+        <span class="item"><span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:#FEF9C3;border:1px solid #FEF08A"></span> Médio · parcialmente presente</span>
+        <span class="item"><span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:#FEE2E2;border:1px solid #FECACA"></span> Baixo · condição limitante</span>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title-row">
+            <span class="panel-title">Leitura por território</span>
+            <span class="info-icon" tabindex="0" aria-label="Como a leitura foi construída">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span class="info-tip">
+                <strong>Como a leitura foi construída.</strong> Cada card cruza os três pilares da matriz (necessidade relativa, viabilidade institucional e vácuo de articulação) com os eixos do Policy Brief: proteção social, inclusão produtiva e engajamento empresarial.<br><br>
+                A tipologia de atuação ao lado do nome do território é uma leitura qualitativa da frente que faz mais sentido ali, dado o perfil da Coalizão e a base local. Os indicadores em destaque vêm da aba Síntese: extrema pobreza no CadÚnico, número de OSCs, MGEs e cobertura de CRAS.
+              </span>
+            </span>
+          </h3>
+          <p class="panel-sub">Síntese narrativa e tipologia de atuação sugerida, a partir dos dados agregados e dos eixos do Policy Brief.</p>
+        </div>
+      </div>
+      <div class="adic-regions">
+
+        <div class="adic-region-card" style="--region-c:#1E40AF">
+          <div class="adic-region-head">
+            <h4>Grande Bom Jardim</h4>
+            <span class="adic-region-tipo">Adicionalidade por escala</span>
+          </div>
+          <p>Cinco bairros homogêneos (Bom Jardim, Granja Lisboa, Canindezinho, Granja Portugal e Siqueira) formam o território mais vulnerável da Coalizão em Fortaleza: 42,4% em extrema pobreza, mais da metade da população inscrita no CadÚnico e renda média de R$ 1.408. A rede é magra frente ao volume, só 3 CRAS e 315 OSCs para 216 mil habitantes. Pobreza ampla com base institucional modesta: qualquer articulação sistêmica produz ganho de escala imediato.</p>
+          <div class="adic-region-stats">
+            <div class="s"><b>42,4%</b><span>Extrema pobreza</span></div>
+            <div class="s"><b>315</b><span>OSCs</span></div>
+            <div class="s"><b>478</b><span>MGEs</span></div>
+            <div class="s"><b>3</b><span>CRAS</span></div>
+          </div>
+          <div class="adic-region-foot"><strong>Prioridade:</strong> proteção social, segurança alimentar e inclusão produtiva com chegada territorializada via CRAS e OSCs de base.</div>
+        </div>
+
+        <div class="adic-region-card" style="--region-c:#0B4FA8">
+          <div class="adic-region-head">
+            <h4>Grande Mucuripe</h4>
+            <span class="adic-region-tipo">Adicionalidade focal</span>
+          </div>
+          <p>Oito bairros de perfil heterogêneo (Meireles, Varjota, Mucuripe, Vicente Pinzon, Cais do Porto, Praia de Iracema, Aldeota e Cocó) concentram 827 OSCs, 2.308 MGEs, 5 CRAS e renda média de R$ 3.887. A pobreza existe, é 23,7% em média, mas convive com forte presença institucional e zonas de alta renda. Território saturado de atores; adicionalidade vem de articular o ecossistema existente e conectar bairros periféricos (Vicente Pinzon, Cais do Porto) à rede da Aldeota e Meireles.</p>
+          <div class="adic-region-stats">
+            <div class="s"><b>23,7%</b><span>Extrema pobreza</span></div>
+            <div class="s"><b>827</b><span>OSCs</span></div>
+            <div class="s"><b>2.308</b><span>MGEs</span></div>
+            <div class="s"><b>5</b><span>CRAS</span></div>
+          </div>
+          <div class="adic-region-foot"><strong>Prioridade:</strong> articulação do ecossistema local, ponte entre empresas e bairros vulneráveis internos ao território.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title">Estratégia de atuação por território</h3>
+          <p class="panel-sub">Dois modos de operar distintos, refletindo o que cada território pede. A Coalizão não chega da mesma forma nos dois.</p>
+        </div>
+      </div>
+      <div class="strategy-list">
+
+        <div class="strategy-item" style="--strategy-c:#1E40AF">
+          <span class="s-kicker">Estratégia · escala</span>
+          <h4>Grande Bom Jardim · chegada sistêmica</h4>
+          <p>Pobreza é ampla e relativamente homogênea entre os cinco bairros. A rede institucional, ainda que existente, não dá conta do volume. Isso muda o cálculo: a Coalizão não precisa escolher o bairro certo, precisa <strong>chegar de forma coordenada</strong>. Proteção social via CRAS, articulação das 315 OSCs locais e inclusão produtiva voltada para microempreendedores podem rodar em paralelo, com ganhos que se somam no mesmo território. O risco aqui é fragmentar: entrar por uma frente isolada reduz adicionalidade justamente onde ela poderia ser máxima.</p>
+          <div class="tags"><span>Proteção social</span><span>Segurança alimentar</span><span>Inclusão produtiva</span><span>Ampliação de CRAS</span></div>
+          <div class="s-meta">
+            <div><strong>216.366</strong><span>habitantes</span></div>
+            <div><strong>5</strong><span>bairros</span></div>
+            <div><strong>R$ 1.408</strong><span>renda média</span></div>
+            <div><strong>43,4%</strong><span>cobertura esgoto</span></div>
+          </div>
+        </div>
+
+        <div class="strategy-item" style="--strategy-c:#0B4FA8">
+          <span class="s-kicker">Estratégia · foco</span>
+          <h4>Grande Mucuripe · articular o existente</h4>
+          <p>Oito bairros com perfis opostos dividindo o mesmo território, da Aldeota a Vicente Pinzon e Cais do Porto. A adicionalidade da Coalizão não vem de chegar mais, já há 827 OSCs em operação. Vem de <strong>conectar o que está desconectado</strong>: empresas da orla com os bairros de pesca, OSCs consolidadas com coletivos comunitários, capital privado com iniciativas locais. O Mucuripe é laboratório ideal para o eixo de engajamento empresarial do Policy Brief, usando a densidade econômica da zona como ponte.</p>
+          <div class="tags"><span>Engajamento empresarial</span><span>Articulação OSC</span><span>Ponte intraterritorial</span><span>Empregabilidade</span></div>
+          <div class="s-meta">
+            <div><strong>129.134</strong><span>habitantes</span></div>
+            <div><strong>8</strong><span>bairros</span></div>
+            <div><strong>R$ 3.887</strong><span>renda média</span></div>
+            <div><strong>77,8%</strong><span>cobertura esgoto</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title-row">
+            <span class="panel-title">Competências dos parceiros × territórios</span>
+            <span class="info-icon" tabindex="0" aria-label="Como a matriz de fit foi construída">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span class="info-tip">
+                <strong>Como ler o fit.</strong> A matriz cruza o perfil de atuação de cada parceiro com a frente dominante em cada território (segurança alimentar, inclusão produtiva, articulação comunitária, engajamento empresarial). Fit alto sugere liderança no território; médio, atuação de apoio; baixo, presença pontual; sem fit, desprioritizar.<br><br>
+                <b>Pacto Contra a Fome</b> — segurança alimentar e articulação nacional. Faz mais diferença onde extrema pobreza e déficit alimentar pesam, ou seja, no Grande Bom Jardim.<br>
+                <b>Movimento BemMaior</b> — mobilização cidadã e engajamento comunitário. Funciona onde há OSCs ativas e massa de base, ideal para o Grande Mucuripe.<br>
+                <b>Astor Capital</b> — capital social e investimento estruturante. Faz sentido onde há tecido econômico e empresas a destravar, com peso no Mucuripe.<br>
+                <b>Instituto Localiza</b> — capacitação profissional e empregabilidade. Roda melhor onde há demanda de inclusão produtiva e rede de empresas próxima, os dois territórios comportam, com leitura diferente.<br>
+                <b>Somos Um</b> — articulação comunitária e base territorial. Encaixa bem no Grande Bom Jardim, onde a base comunitária precisa ser mobilizada.
+              </span>
+            </span>
+          </h3>
+          <p class="panel-sub">Leitura de fit entre o perfil de cada parceiro da Coalizão e as necessidades por território, com sugestão de alocação preferencial.</p>
+        </div>
+      </div>
+      <div class="matrix-wrap">
+        <table class="partners-table">
+          <thead>
+            <tr>
+              <th>Parceiro</th>
+              <th>Grande<br>Bom Jardim</th>
+              <th>Grande<br>Mucuripe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pacto Contra a Fome<span class="p-scope">Segurança alimentar · articulação nacional</span></td>
+              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td><span class="fit f1" title="Baixa prioridade"></span></td>
+            </tr>
+            <tr>
+              <td>Movimento BemMaior<span class="p-scope">Mobilização cidadã · engajamento comunitário</span></td>
+              <td><span class="fit f2" title="Fit médio"></span></td>
+              <td><span class="fit f3" title="Fit alto"></span></td>
+            </tr>
+            <tr>
+              <td>Astor Capital<span class="p-scope">Capital social · investimento estruturante</span></td>
+              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td><span class="fit f3" title="Fit alto"></span></td>
+            </tr>
+            <tr>
+              <td>Instituto Localiza<span class="p-scope">Capacitação profissional · empregabilidade</span></td>
+              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td><span class="fit f2" title="Fit médio"></span></td>
+            </tr>
+            <tr>
+              <td>Somos Um<span class="p-scope">Articulação comunitária · base territorial</span></td>
+              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td><span class="fit f2" title="Fit médio"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="fit-legend">
+        <span class="item"><span class="fit f3"></span> Fit alto — liderar no território</span>
+        <span class="item"><span class="fit f2"></span> Fit médio — apoiar esforço conjunto</span>
+        <span class="item"><span class="fit f1"></span> Fit baixo — presença pontual</span>
+        <span class="item"><span class="fit f0"></span> Sem fit — desprioritizar</span>
+      </div>
+    </div>
+
+    <div class="insight-callout" style="margin-top:20px">
+      <span class="tag">Síntese</span>
+      <p>A leitura de adicionalidade em Fortaleza sugere <strong>Grande Bom Jardim como território-alvo prioritário</strong>, onde a chegada coordenada da Coalizão muda a curva de acesso a proteção social e inclusão produtiva. O <strong>Grande Mucuripe opera como laboratório de articulação empresarial</strong>, aproveitando a densidade de OSCs e empresas para testar a ponte entre capital privado e bairros vulneráveis internos ao território. Dois modos distintos de criar valor, no mesmo município.</p>
     </div>
   </section>
 
