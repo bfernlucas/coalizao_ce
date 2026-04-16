@@ -507,17 +507,20 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .net-tooltip{position:absolute;pointer-events:none;background:rgba(20,50,74,.96);color:#fff;padding:10px 14px;border-radius:10px;font-size:11px;line-height:1.5;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:999;opacity:0;transition:opacity .15s}
 .net-tooltip strong{display:block;font-size:13px;margin-bottom:4px}
 .net-tooltip .net-tag{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:.04em;margin-top:4px}
-.net-info-card{position:absolute;top:12px;right:12px;width:300px;max-width:calc(100% - 24px);background:#fff;border:1px solid var(--line-2);border-radius:10px;box-shadow:0 12px 32px rgba(20,50,74,.18);padding:14px 16px;font-size:12px;line-height:1.5;color:var(--navy);z-index:10;display:none;max-height:calc(100% - 24px);overflow-y:auto}
-.net-info-card h4{margin:0 0 4px;font-size:14px;font-weight:700;color:var(--navy);padding-right:22px;line-height:1.3}
-.net-info-card .net-card-sub{font-size:11px;color:var(--muted);margin-bottom:10px;font-style:italic}
-.net-info-card .net-card-close{position:absolute;top:8px;right:10px;background:none;border:none;cursor:pointer;font-size:20px;line-height:1;color:#9aabba;padding:2px 6px}
-.net-info-card .net-card-close:hover{color:var(--navy)}
-.net-info-card .net-card-tags{margin-bottom:4px}
-.net-info-card .net-card-tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;color:#fff;margin:2px 3px 2px 0;letter-spacing:.02em}
-.net-info-card .net-card-row{display:flex;gap:10px;margin:6px 0;font-size:11px;align-items:baseline}
-.net-info-card .net-card-row .lbl{color:var(--muted);font-weight:700;min-width:74px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em;font-size:9.5px}
-.net-info-card .net-card-row .val{color:var(--navy);flex:1;word-break:break-word}
-.net-info-card .net-card-desc{font-size:11.5px;color:#4a5b6c;line-height:1.55;margin-top:10px;padding-top:10px;border-top:1px solid #eef2f6}
+.net-info-card{position:absolute;top:16px;right:16px;width:320px;max-width:calc(100% - 32px);background:#fff;border:1px solid var(--line-2);border-radius:12px;box-shadow:0 14px 40px rgba(20,50,74,.22);padding:18px 20px 16px;font-size:12px;line-height:1.5;color:var(--navy);z-index:10;display:none;max-height:calc(100% - 32px);overflow:hidden;animation:netCardIn .18s ease-out}
+.net-info-card .net-card-body{max-height:calc(100vh - 220px);overflow-y:auto;margin:-4px -6px -4px -4px;padding:4px 6px 4px 4px}
+@keyframes netCardIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.net-info-card .net-card-accent{position:absolute;top:0;left:0;right:0;height:4px;border-radius:12px 12px 0 0}
+.net-info-card h4{margin:0 0 4px;font-size:14.5px;font-weight:700;color:var(--navy);padding-right:30px;line-height:1.3;word-break:break-word}
+.net-info-card .net-card-sub{font-size:11px;color:var(--muted);margin-bottom:10px;font-style:italic;padding-right:30px;line-height:1.4}
+.net-info-card .net-card-close{position:absolute;top:10px;right:12px;background:#f3f5f8;border:none;cursor:pointer;font-size:16px;line-height:1;color:#6b7a89;padding:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;transition:background .15s,color .15s}
+.net-info-card .net-card-close:hover{background:#e3e8ee;color:var(--navy)}
+.net-info-card .net-card-tags{margin:8px 0 10px}
+.net-info-card .net-card-tag{display:inline-block;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;color:#fff;margin:2px 4px 2px 0;letter-spacing:.02em}
+.net-info-card .net-card-row{display:flex;gap:10px;margin:7px 0;font-size:11px;align-items:baseline}
+.net-info-card .net-card-row .lbl{color:var(--muted);font-weight:700;min-width:78px;flex-shrink:0;text-transform:uppercase;letter-spacing:.05em;font-size:9.5px}
+.net-info-card .net-card-row .val{color:var(--navy);flex:1;word-break:break-word;line-height:1.45}
+.net-info-card .net-card-desc{font-size:11.5px;color:#4a5b6c;line-height:1.6;margin-top:12px;padding-top:12px;border-top:1px solid #eef2f6}
 .net-expand-btn{position:absolute;top:10px;right:10px;z-index:10;width:32px;height:32px;border:1px solid var(--line-2);border-radius:6px;background:#fff;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:14px;line-height:1}
 .net-expand-btn:hover{border-color:var(--brand);color:var(--brand);background:#f8fafb}
 .net-fullscreen{position:fixed!important;inset:0!important;z-index:99990!important;min-height:100vh!important;max-height:100vh!important;border-radius:0!important;border:none!important;background:#fff!important;flex:none!important}
@@ -2413,31 +2416,33 @@ function initNetwork(){
   function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function buildInfoCard(d){
     const areaLabel=AREA_LABELS[d.area]||d.area||'—';
-    const color=d.isAnchor?'#E63946':(AREA_COLORS[d.area]||'#888');
-    let html=`<button class="net-card-close" type="button" aria-label="Fechar">×</button>`;
+    const color=d.isAnchor?'#E63946':(AREA_COLORS[d.area]||'#64748b');
+    const mainName=d.name||'Organização sem nome';
+    const subName=d.isAnchor?'Organização Âncora'
+                            :((d.fantasia&&d.fantasia!==d.name)?d.fantasia:null);
+    let body=`<h4>${escHtml(mainName)}</h4>`;
+    if(subName) body+=`<div class="net-card-sub">${escHtml(subName)}</div>`;
     if(d.isAnchor){
-      html+=`<h4>${escHtml(d.name)}</h4>`;
-      html+=`<div class="net-card-sub">Organização Âncora</div>`;
-      html+=`<div class="net-card-tags"><span class="net-card-tag" style="background:${color}">Âncora</span>`;
-      if(d.focus) html+=d.focus.map(f=>`<span class="net-card-tag" style="background:${AREA_COLORS[f]||'#888'}">${escHtml(AREA_LABELS[f]||f)}</span>`).join('');
-      html+=`</div>`;
-      html+=`<div class="net-card-row"><div class="lbl">Região</div><div class="val">${escHtml(d.region||'—')}</div></div>`;
-      html+=`<div class="net-card-row"><div class="lbl">Bairro</div><div class="val">${escHtml(d.bairro||'—')}</div></div>`;
-      if(d.related&&d.related.length) html+=`<div class="net-card-row"><div class="lbl">Áreas afins</div><div class="val">${d.related.map(r=>escHtml(AREA_LABELS[r]||r)).join(', ')}</div></div>`;
-      if(d.desc) html+=`<div class="net-card-desc">${escHtml(d.desc)}</div>`;
+      body+=`<div class="net-card-tags"><span class="net-card-tag" style="background:${color}">Âncora</span>`;
+      if(d.focus) body+=d.focus.map(f=>`<span class="net-card-tag" style="background:${AREA_COLORS[f]||'#888'}">${escHtml(AREA_LABELS[f]||f)}</span>`).join('');
+      body+=`</div>`;
+      body+=`<div class="net-card-row"><div class="lbl">Região</div><div class="val">${escHtml(d.region||'—')}</div></div>`;
+      body+=`<div class="net-card-row"><div class="lbl">Bairro</div><div class="val">${escHtml(d.bairro||'—')}</div></div>`;
+      if(d.related&&d.related.length) body+=`<div class="net-card-row"><div class="lbl">Áreas afins</div><div class="val">${d.related.map(r=>escHtml(AREA_LABELS[r]||r)).join(', ')}</div></div>`;
+      if(d.desc) body+=`<div class="net-card-desc">${escHtml(d.desc)}</div>`;
     }else{
-      html+=`<h4>${escHtml(d.name||'—')}</h4>`;
-      if(d.fantasia&&d.fantasia!==d.name) html+=`<div class="net-card-sub">${escHtml(d.fantasia)}</div>`;
-      html+=`<div class="net-card-tags"><span class="net-card-tag" style="background:${color}">${escHtml(areaLabel)}</span></div>`;
-      html+=`<div class="net-card-row"><div class="lbl">Região</div><div class="val">${escHtml(d.region||'—')}</div></div>`;
-      html+=`<div class="net-card-row"><div class="lbl">Bairro</div><div class="val">${escHtml(d.bairro||'—')}</div></div>`;
-      if(d.end) html+=`<div class="net-card-row"><div class="lbl">Endereço</div><div class="val" style="font-size:10.5px">${escHtml(d.end)}</div></div>`;
-      if(d.fund) html+=`<div class="net-card-row"><div class="lbl">Fundação</div><div class="val">${escHtml(d.fund)}</div></div>`;
+      body+=`<div class="net-card-tags"><span class="net-card-tag" style="background:${color}">${escHtml(areaLabel)}</span></div>`;
+      body+=`<div class="net-card-row"><div class="lbl">Região</div><div class="val">${escHtml(d.region||'—')}</div></div>`;
+      body+=`<div class="net-card-row"><div class="lbl">Bairro</div><div class="val">${escHtml(d.bairro||'—')}</div></div>`;
+      if(d.end) body+=`<div class="net-card-row"><div class="lbl">Endereço</div><div class="val" style="font-size:10.5px">${escHtml(d.end)}</div></div>`;
+      if(d.fund) body+=`<div class="net-card-row"><div class="lbl">Fundação</div><div class="val">${escHtml(d.fund)}</div></div>`;
       const afinidade=d.thematic>=3?'Alta afinidade temática':d.thematic>=1?'Afinidade temática média':'Afinidade geográfica';
-      html+=`<div class="net-card-row"><div class="lbl">Vínculo</div><div class="val"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#E63946;margin-right:6px;vertical-align:middle"></span>CEASA · score ${d.score}</div></div>`;
-      html+=`<div class="net-card-row"><div class="lbl">Afinidade</div><div class="val">${afinidade}</div></div>`;
+      body+=`<div class="net-card-row"><div class="lbl">Vínculo</div><div class="val"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#E63946;margin-right:6px;vertical-align:middle"></span>CEASA · score ${d.score}</div></div>`;
+      body+=`<div class="net-card-row"><div class="lbl">Afinidade</div><div class="val">${afinidade}</div></div>`;
     }
-    return html;
+    return `<div class="net-card-accent" style="background:${color}"></div>`+
+           `<button class="net-card-close" type="button" aria-label="Fechar">×</button>`+
+           `<div class="net-card-body">${body}</div>`;
   }
   function showInfoCard(d){
     infoCard.html(buildInfoCard(d)).style('display','block');
