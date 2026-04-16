@@ -868,25 +868,25 @@ tbody tr:hover{background:#f8fbff}
   flex:0 0 8px;
 }
 
-/* Visual refinement v3 */
+/* Visual refinement v3 — aligned to Coalizão CE brand identity */
 :root{
-  --bg:#f5f8fb;
+  --bg:#F4F6F9;
   --panel:#ffffff;
-  --panel-2:#f8fbfd;
-  --text:#1f3f5a;
-  --muted:#61778a;
-  --line:#dde6ee;
-  --line-2:#edf2f6;
-  --brand:#0f5f92;
-  --brand-2:#2c7bb5;
-  --brand-3:#7aa8c8;
-  --brand-4:#dbe8f2;
-  --brand-5:#f2f7fb;
-  --navy:#14324a;
-  --teal:#2d7f77;
-  --gold:#b2873d;
-  --green:#2C7BB5;
-  --danger:#b53a32;
+  --panel-2:#F8FAFB;
+  --text:#0B2B44;
+  --muted:#5C6E7E;
+  --line:#D8E0E8;
+  --line-2:#E8EDF2;
+  --brand:#0B4FA8;
+  --brand-2:#1A6EC2;
+  --brand-3:#5B96D4;
+  --brand-4:#C8D9F5;
+  --brand-5:#EEF4FF;
+  --navy:#0B2B44;
+  --teal:#1A6EC2;
+  --gold:#C8952A;
+  --green:#1A6EC2;
+  --danger:#B53A2F;
   --shadow:0 14px 34px rgba(16,42,67,.06);
   --shadow-soft:0 6px 18px rgba(16,42,67,.04);
   --radius:20px;
@@ -2566,9 +2566,37 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <div class="panel" style="margin-bottom:20px">
       <div class="panel-head"><div><h3 class="panel-title">Indicadores consolidados por território</h3><p class="panel-sub">Principais métricas agregadas para comparação entre os dois territórios.</p></div></div>
       <div class="table-wrap"><table id="table-consolidado"></table></div>
+      <div id="consolidado-insights" style="padding:4px 24px 20px"></div>
     </div>
 
-    <!-- Q3: Dimensões por território (existing radar) -->
+    <!-- Q3: Potencial de Adicionalidade -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head">
+        <div class="title-with-info">
+          <div>
+            <h3 class="panel-title">Potencial de adicionalidade da Coalizão</h3>
+            <p class="panel-sub">Territórios onde a combinação de alta vulnerabilidade e baixa cobertura cria maior espaço para impacto.</p>
+          </div>
+          <details class="info-popover">
+            <summary aria-label="Como o índice de adicionalidade foi calculado">i</summary>
+            <div class="info-balloon">
+              <strong>Como o índice de adicionalidade foi calculado</strong>
+              O índice de adicionalidade mede o <em>espaço para impacto</em> da Coalizão em cada território. Ele combina dois fatores:
+              <ul>
+                <li><strong>Vulnerabilidade alimentar (0–100):</strong> composto de extrema pobreza, chefia feminina, proporção infantil, CadÚnico, déficit de esgoto e analfabetismo.</li>
+                <li><strong>Capacidade de inclusão produtiva (0–100):</strong> composto de densidade empresarial, MEIs, cooperativas, OSCs e negócios de impacto social per capita.</li>
+              </ul>
+              <strong>Fórmula:</strong> Adicionalidade = Vulnerabilidade × (100 − Capacidade) / 100.<br>
+              Territórios com <strong>alta vulnerabilidade</strong> e <strong>baixa capacidade instalada</strong> recebem pontuação mais alta — são os territórios onde a atuação da Coalizão pode gerar maior impacto adicional, pois há demanda significativa e poucas estruturas existentes para atendê-la.
+            </div>
+          </details>
+        </div>
+      </div>
+      <div class="chart-box"><canvas id="chart-adicionalidade" class="chart tall"></canvas></div>
+      <div id="adicionalidade-ranking" style="padding:0 24px 20px"></div>
+    </div>
+
+    <!-- Q4: Dimensões por território (existing radar) -->
     <div class="panel" style="margin-bottom:20px">
       <div class="panel-head">
         <div>
@@ -4962,6 +4990,129 @@ function initComp(){
     ];
     tblCons.innerHTML = `<thead><tr><th>Indicador</th><th>Grande Mucuripe</th><th>Grande Bom Jardim</th><th>Fonte</th></tr></thead><tbody>${consRows.map(r=>`<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="small">${r[3]}</td></tr>`).join('')}</tbody>`;
   }
+
+  // Insight abaixo da tabela consolidada
+  const consInsEl=document.getElementById('consolidado-insights');
+  if(consInsEl){
+    const moreVuln=(gm.epob||0)>(gbj.epob||0)?'Grande Mucuripe':'Grande Bom Jardim';
+    const lessVuln=moreVuln==='Grande Mucuripe'?'Grande Bom Jardim':'Grande Mucuripe';
+    const popGbj=gbj.pop||0, popGm=gm.pop||0;
+    const moreScale=popGbj>popGm?'Grande Bom Jardim':'Grande Mucuripe';
+    consInsEl.innerHTML=`<div style="background:#EEF4FF;border:1px solid #C8D9F5;border-radius:6px;padding:14px 18px"><p style="font-weight:700;font-size:13px;color:#0B2B44;margin:0 0 6px">Leitura cruzada</p><p style="font-size:12px;color:#3B4C5C;margin:0;line-height:1.6">${moreScale} apresenta maior escala populacional, enquanto ${moreVuln} concentra os maiores índices relativos de vulnerabilidade em alguns recortes. A comparação territorial mostra que as duas frentes da Coalizão atuam em ecossistemas complementares: ${lessVuln} reúne maior densidade de capacidade instalada e ${moreVuln} carrega maior pressão por equipamentos de proteção social.</p></div>`;
+  }
+
+  // ── Q3: Potencial de Adicionalidade ─────────────────────────────────
+  // Normaliza escalas [0-100] dos radares IP e IA calculando o índice
+  // por território. O gap = vulnerabilidade × (100 - capacidade) / 100.
+  function _sumT(t,k){return DATA.filter(d=>d.t===t).reduce((s,d)=>s+(d[k]||0),0);}
+  function _meanT(t,k,pctScale){
+    const rows=DATA.filter(d=>d.t===t && d[k]!=null);
+    if(!rows.length) return 0;
+    const v=rows.reduce((s,d)=>s+d[k],0)/rows.length;
+    return pctScale?v*100:v;
+  }
+  function _popT(t){return _sumT(t,'pop')||1;}
+  function _ipScore(t){
+    const pop=_popT(t);
+    const empK=_sumT(t,'emp')/pop*1000;
+    const meiK=_sumT(t,'mei')/pop*1000;
+    const coopK=_sumT(t,'coops')/pop*10000;
+    const oscK=_sumT(t,'osc')/pop*10000;
+    const niK=_sumT(t,'negImpacto')/pop*10000;
+    // Normaliza cada eixo pelo máximo entre os dois territórios
+    const terrs=['Grande Mucuripe','Grande Bom Jardim'];
+    const all=terrs.map(tt=>{
+      const p=_popT(tt);
+      return{
+        emp:_sumT(tt,'emp')/p*1000,
+        mei:_sumT(tt,'mei')/p*1000,
+        coop:_sumT(tt,'coops')/p*10000,
+        osc:_sumT(tt,'osc')/p*10000,
+        ni:_sumT(tt,'negImpacto')/p*10000
+      };
+    });
+    const mx={emp:Math.max(...all.map(a=>a.emp))||1,mei:Math.max(...all.map(a=>a.mei))||1,coop:Math.max(...all.map(a=>a.coop))||1,osc:Math.max(...all.map(a=>a.osc))||1,ni:Math.max(...all.map(a=>a.ni))||1};
+    const parts=[empK/mx.emp,meiK/mx.mei,coopK/mx.coop,oscK/mx.osc,niK/mx.ni];
+    return Math.round(parts.reduce((s,v)=>s+v,0)/parts.length*100);
+  }
+  function _iaScore(t){
+    // Média dos eixos de vulnerabilidade (em %)
+    const parts=[
+      _meanT(t,'epob',true),
+      _meanT(t,'mulh',true),
+      (function(){const pop=_popT(t);const p09=_sumT(t,'pop09');return pop?p09/pop*100:0;})(),
+      _meanT(t,'cad',true),
+      100-_meanT(t,'esg',true),
+      _meanT(t,'anal',true)
+    ];
+    // Normaliza cada eixo pelo máximo entre os dois territórios
+    const terrs=['Grande Mucuripe','Grande Bom Jardim'];
+    const all=terrs.map(tt=>[
+      _meanT(tt,'epob',true),
+      _meanT(tt,'mulh',true),
+      (function(){const pop=_popT(tt);const p09=_sumT(tt,'pop09');return pop?p09/pop*100:0;})(),
+      _meanT(tt,'cad',true),
+      100-_meanT(tt,'esg',true),
+      _meanT(tt,'anal',true)
+    ]);
+    const mx=parts.map((_,i)=>Math.max(...all.map(a=>a[i]))||1);
+    const norm=parts.map((v,i)=>v/mx[i]);
+    return Math.round(norm.reduce((s,v)=>s+v,0)/norm.length*100);
+  }
+  const TERRS_FOR_ADIC=['Grande Mucuripe','Grande Bom Jardim'];
+  const adicPalette={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
+  const adicRaw=TERRS_FOR_ADIC.map(t=>{const vuln=_iaScore(t),cap=_ipScore(t);return{t,vuln,cap,gap:Math.round(vuln*(100-cap)/100)};});
+  const adicSorted=[...adicRaw].sort((a,b)=>b.gap-a.gap);
+  destroyChart('chart-adicionalidade');
+  const adicCanvas=document.getElementById('chart-adicionalidade');
+  if(adicCanvas){
+    const adicH=Math.max(adicSorted.length*70,200);
+    adicCanvas.style.height=adicH+'px';
+    adicCanvas.parentElement.style.height='auto';
+    CHARTS['chart-adicionalidade']=new Chart(adicCanvas,{
+      type:'bar',
+      data:{
+        labels:adicSorted.map(g=>g.t),
+        datasets:[{label:'Índice de adicionalidade',data:adicSorted.map(g=>g.gap),backgroundColor:adicSorted.map(g=>adicPalette[g.t]||'#0B4FA8'),borderWidth:0,borderRadius:5}]
+      },
+      options:{
+        indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:6,right:12,bottom:0,left:0}},
+        plugins:{
+          legend:{display:false},
+          tooltip:{backgroundColor:'rgba(11,43,68,.92)',titleFont:{size:12,weight:'700'},bodyFont:{size:12},cornerRadius:6,padding:10,
+            callbacks:{afterLabel:function(ctx){const g=adicSorted[ctx.dataIndex];return 'Vulnerabilidade: '+g.vuln+' | Capacidade: '+g.cap;}}}
+        },
+        scales:{x:{min:0,max:100,ticks:{color:'#5C6E7E',font:{size:10}},grid:{color:'#E8EDF2',drawTicks:false},border:{display:false}},y:{ticks:{color:'#0B2B44',font:{size:12,weight:'600'}},grid:{display:false},border:{display:false}}}
+      }
+    });
+  }
+  const rankAdicEl=document.getElementById('adicionalidade-ranking');
+  if(rankAdicEl){
+    rankAdicEl.innerHTML=adicSorted.map((g,i)=>{
+      const col=adicPalette[g.t]||'#0B4FA8';
+      const medal=i===0?'Maior potencial':'Potencial relativo';
+      const medalBg=i===0?'#EEF4FF':'#F4F6F9';
+      const medalCol=i===0?'#0B4FA8':'#6B7280';
+      const t=TERR_STATS.find(x=>x.t===g.t)||{};
+      const pop=t.pop||_popT(g.t);
+      const emp=_sumT(g.t,'emp');
+      const osc=_sumT(g.t,'osc');
+      const epob=_meanT(g.t,'epob',true);
+      return `<div style="display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:12px 16px;border:1px solid #D8E0E8;border-radius:6px;margin-bottom:8px;background:${medalBg}">
+        <div style="font-size:22px;font-weight:800;color:${col}">${i+1}</div>
+        <div>
+          <div style="font-weight:700;font-size:13px;color:#0B2B44;display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:${col};display:inline-block"></span>${g.t}</div>
+          <div style="font-size:11px;color:#5C6E7E;margin-top:2px">${Number(pop).toLocaleString('pt-BR')} hab. · Ext. pob. ${epob.toFixed(1)}% · ${Number(emp).toLocaleString('pt-BR')} empresas · ${Number(osc).toLocaleString('pt-BR')} OSCs</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;font-weight:700;color:${medalCol};text-transform:uppercase;letter-spacing:.04em">${medal}</div>
+          <div style="font-size:20px;font-weight:800;color:${col}">${g.gap}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
   // 6 dimensões padronizadas — mesmo conjunto usado em Maracanaú (com proxies onde necessário)
   const radarAxes = [
     {
@@ -5430,6 +5581,7 @@ function enableTableSorting(root){
       if(th.classList.contains('no-sort')) return;
       if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
       if(!th.classList.contains('sortable')) th.classList.add('sortable');
+      if(!th.title) th.title='Clique para ordenar do maior para o menor';
       if(!th.querySelector('.sort-icon')){
         const ic = document.createElement('span');
         ic.className = 'sort-icon';
