@@ -507,6 +507,17 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .net-tooltip{position:absolute;pointer-events:none;background:rgba(20,50,74,.96);color:#fff;padding:10px 14px;border-radius:10px;font-size:11px;line-height:1.5;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:999;opacity:0;transition:opacity .15s}
 .net-tooltip strong{display:block;font-size:13px;margin-bottom:4px}
 .net-tooltip .net-tag{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:.04em;margin-top:4px}
+.net-info-card{position:absolute;top:12px;right:12px;width:300px;max-width:calc(100% - 24px);background:#fff;border:1px solid var(--line-2);border-radius:10px;box-shadow:0 12px 32px rgba(20,50,74,.18);padding:14px 16px;font-size:12px;line-height:1.5;color:var(--navy);z-index:10;display:none;max-height:calc(100% - 24px);overflow-y:auto}
+.net-info-card h4{margin:0 0 4px;font-size:14px;font-weight:700;color:var(--navy);padding-right:22px;line-height:1.3}
+.net-info-card .net-card-sub{font-size:11px;color:var(--muted);margin-bottom:10px;font-style:italic}
+.net-info-card .net-card-close{position:absolute;top:8px;right:10px;background:none;border:none;cursor:pointer;font-size:20px;line-height:1;color:#9aabba;padding:2px 6px}
+.net-info-card .net-card-close:hover{color:var(--navy)}
+.net-info-card .net-card-tags{margin-bottom:4px}
+.net-info-card .net-card-tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;color:#fff;margin:2px 3px 2px 0;letter-spacing:.02em}
+.net-info-card .net-card-row{display:flex;gap:10px;margin:6px 0;font-size:11px;align-items:baseline}
+.net-info-card .net-card-row .lbl{color:var(--muted);font-weight:700;min-width:74px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em;font-size:9.5px}
+.net-info-card .net-card-row .val{color:var(--navy);flex:1;word-break:break-word}
+.net-info-card .net-card-desc{font-size:11.5px;color:#4a5b6c;line-height:1.55;margin-top:10px;padding-top:10px;border-top:1px solid #eef2f6}
 .net-expand-btn{position:absolute;top:10px;right:10px;z-index:10;width:32px;height:32px;border:1px solid var(--line-2);border-radius:6px;background:#fff;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:14px;line-height:1}
 .net-expand-btn:hover{border-color:var(--brand);color:var(--brand);background:#f8fafb}
 .net-fullscreen{position:fixed!important;inset:0!important;z-index:99990!important;min-height:100vh!important;max-height:100vh!important;border-radius:0!important;border:none!important;background:#fff!important;flex:none!important}
@@ -2290,8 +2301,10 @@ function initNetwork(){
   const CEASA_NEIGHBORS=['Pajuçara','Distrito Industrial do Ceará','Jardim Bandeirante',
     'Arronches','Jardim Paraíso','Boa Esperança','Parque Progresso','Parque Tropical','Alto da Bonança'];
 
-  const anchor={id:'ceasa',name:'CEASA Mais Nutrição',area:'Assistencia social',
-    bairro:CEASA_BAIRRO,region:CEASA_REGION,isAnchor:true};
+  const anchor={id:'ceasa',name:'CEASA Mais Nutrição',shortName:'CEASA',area:'Assistencia social',
+    bairro:CEASA_BAIRRO,region:CEASA_REGION,isAnchor:true,
+    focus:FOCUS_AREAS,related:RELATED_AREAS,
+    desc:'Programa da Central de Abastecimento do Ceará (CEASA/CE) voltado à segurança alimentar e combate ao desperdício. Recupera alimentos excedentes e os distribui via OSCs a famílias em situação de vulnerabilidade no entorno de Pajuçara e região, conectando produção, distribuição e assistência social.'};
 
   const scored=OSCS.map((o,i)=>{
     let thematic=0,geographic=0;
@@ -2305,6 +2318,7 @@ function initNetwork(){
   }).filter(o=>o.score>=2);
 
   const nodes=[anchor,...scored.map(o=>({id:'osc-'+o.idx,name:o.n,shortName:o.f||o.n.slice(0,28),
+    fantasia:o.f,end:o.end,fund:o.fund,
     area:o.a,bairro:o.bairro,region:o.region,score:o.score,thematic:o.thematic,geographic:o.geographic}))];
 
   const edges=[];
@@ -2392,8 +2406,45 @@ function initNetwork(){
     .attr('viewBox',`0 0 ${W} ${H}`)
     .style('border-radius','8px');
   const tooltip=d3.select(container).append('div').attr('class','net-tooltip');
+  const infoCard=d3.select(container).append('div').attr('class','net-info-card');
   const g=svg.append('g');
   svg.call(d3.zoom().scaleExtent([0.3,5]).on('zoom',e=>g.attr('transform',e.transform)));
+
+  function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function buildInfoCard(d){
+    const areaLabel=AREA_LABELS[d.area]||d.area||'—';
+    const color=d.isAnchor?'#E63946':(AREA_COLORS[d.area]||'#888');
+    let html=`<button class="net-card-close" type="button" aria-label="Fechar">×</button>`;
+    if(d.isAnchor){
+      html+=`<h4>${escHtml(d.name)}</h4>`;
+      html+=`<div class="net-card-sub">Organização Âncora</div>`;
+      html+=`<div class="net-card-tags"><span class="net-card-tag" style="background:${color}">Âncora</span>`;
+      if(d.focus) html+=d.focus.map(f=>`<span class="net-card-tag" style="background:${AREA_COLORS[f]||'#888'}">${escHtml(AREA_LABELS[f]||f)}</span>`).join('');
+      html+=`</div>`;
+      html+=`<div class="net-card-row"><div class="lbl">Região</div><div class="val">${escHtml(d.region||'—')}</div></div>`;
+      html+=`<div class="net-card-row"><div class="lbl">Bairro</div><div class="val">${escHtml(d.bairro||'—')}</div></div>`;
+      if(d.related&&d.related.length) html+=`<div class="net-card-row"><div class="lbl">Áreas afins</div><div class="val">${d.related.map(r=>escHtml(AREA_LABELS[r]||r)).join(', ')}</div></div>`;
+      if(d.desc) html+=`<div class="net-card-desc">${escHtml(d.desc)}</div>`;
+    }else{
+      html+=`<h4>${escHtml(d.name||'—')}</h4>`;
+      if(d.fantasia&&d.fantasia!==d.name) html+=`<div class="net-card-sub">${escHtml(d.fantasia)}</div>`;
+      html+=`<div class="net-card-tags"><span class="net-card-tag" style="background:${color}">${escHtml(areaLabel)}</span></div>`;
+      html+=`<div class="net-card-row"><div class="lbl">Região</div><div class="val">${escHtml(d.region||'—')}</div></div>`;
+      html+=`<div class="net-card-row"><div class="lbl">Bairro</div><div class="val">${escHtml(d.bairro||'—')}</div></div>`;
+      if(d.end) html+=`<div class="net-card-row"><div class="lbl">Endereço</div><div class="val" style="font-size:10.5px">${escHtml(d.end)}</div></div>`;
+      if(d.fund) html+=`<div class="net-card-row"><div class="lbl">Fundação</div><div class="val">${escHtml(d.fund)}</div></div>`;
+      const afinidade=d.thematic>=3?'Alta afinidade temática':d.thematic>=1?'Afinidade temática média':'Afinidade geográfica';
+      html+=`<div class="net-card-row"><div class="lbl">Vínculo</div><div class="val"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#E63946;margin-right:6px;vertical-align:middle"></span>CEASA · score ${d.score}</div></div>`;
+      html+=`<div class="net-card-row"><div class="lbl">Afinidade</div><div class="val">${afinidade}</div></div>`;
+    }
+    return html;
+  }
+  function showInfoCard(d){
+    infoCard.html(buildInfoCard(d)).style('display','block');
+    const btn=infoCard.node().querySelector('.net-card-close');
+    if(btn) btn.addEventListener('click',ev=>{ev.stopPropagation();infoCard.style('display','none');});
+  }
+  infoCard.on('click',ev=>ev.stopPropagation());
 
   const sim=d3.forceSimulation(nodes)
     .force('link',d3.forceLink(edges).id(d=>d.id).distance(d=>d.strength==='peer'?80:d.value>=5?130:180).strength(d=>d.strength==='peer'?0.2:d.value>=5?0.4:0.12))
@@ -2458,7 +2509,13 @@ function initNetwork(){
     link.transition().duration(200).attr('stroke-opacity',1);
     nodeG.transition().duration(200).style('opacity',1);
     tooltip.style('opacity',0);
+  }).on('click',function(e,d){
+    e.stopPropagation();
+    showInfoCard(d);
   });
+
+  // Clicking on empty graph area closes the card
+  svg.on('click',()=>{infoCard.style('display','none');});
 
   sim.on('tick',()=>{
     link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
