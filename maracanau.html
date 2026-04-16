@@ -751,6 +751,34 @@ body{background:#fff}
 .insight-callout .tag{flex-shrink:0;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);background:#fff;padding:5px 10px;border:1px solid var(--brand-4);border-radius:999px}
 .insight-callout p{margin:0;font-size:13.5px;line-height:1.7;color:var(--text)}
 
+/* Info icon + tooltip */
+.panel:has(.info-icon){overflow:visible}
+.info-icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;color:var(--brand);cursor:help;vertical-align:middle;margin-left:6px;position:relative;opacity:.55;transition:opacity .2s}
+.info-icon:hover,.info-icon:focus-within{opacity:1}
+.info-icon svg{display:block}
+.info-icon .info-tip{position:absolute;top:calc(100% + 10px);left:-6px;width:min(400px,74vw);padding:16px 18px;background:#0B2B44;color:#E6ECF2;border-radius:10px;font-size:12px;line-height:1.65;font-weight:400;text-transform:none;letter-spacing:0;text-align:left;opacity:0;pointer-events:none;transition:opacity .18s;z-index:60;box-shadow:0 14px 32px rgba(0,0,0,.22)}
+.info-icon .info-tip::before{content:"";position:absolute;bottom:100%;left:16px;border:7px solid transparent;border-bottom-color:#0B2B44}
+.info-icon .info-tip strong{color:#fff;font-weight:700}
+.info-icon .info-tip b{color:#C7A8FF;font-weight:600}
+.info-icon:hover .info-tip,.info-icon:focus-within .info-tip{opacity:1;pointer-events:auto}
+.panel-title-row{display:flex;align-items:center;gap:2px;margin:0;font-size:14px;font-weight:700;color:var(--navy)}
+
+/* Matrix redesign: heatmap */
+.matrix.heatmap{min-width:820px;border-collapse:separate;border-spacing:0}
+.matrix.heatmap thead th{background:#FAFBFD;font-size:10px;padding:14px 8px;letter-spacing:.07em;border-bottom:1px solid var(--line-2)}
+.matrix.heatmap tbody td{padding:8px 4px;border-bottom:1px solid #F0F3F7;background:transparent;vertical-align:middle}
+.matrix.heatmap tbody tr:last-child td{border-bottom:0}
+.matrix.heatmap tbody td:first-child{padding:12px 16px;font-size:13px;font-weight:700;color:var(--navy);text-align:left;border-right:1px solid #F0F3F7}
+.matrix.heatmap tbody tr:hover td:first-child{background:#FBFAFF}
+.matrix.heatmap .cell{padding:6px 6px}
+.matrix.heatmap .cell > span{display:flex;align-items:center;justify-content:center;min-height:42px;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:8px;padding:8px 10px;transition:all .18s}
+.matrix.heatmap .cell.alto > span{background:#DCFCE7;color:#14532D}
+.matrix.heatmap .cell.medio > span{background:#FEF9C3;color:#854D0E}
+.matrix.heatmap .cell.baixo > span{background:#FEE2E2;color:#7F1D1D}
+.matrix.heatmap tbody tr:hover .cell.alto > span{background:#BBF7D0}
+.matrix.heatmap tbody tr:hover .cell.medio > span{background:#FEF08A}
+.matrix.heatmap tbody tr:hover .cell.baixo > span{background:#FECACA}
+
 @media(max-width:820px){
   .adic-intro{grid-template-columns:1fr}
   .adic-pillars{grid-template-columns:1fr}
@@ -1298,12 +1326,12 @@ body{background:#fff}
     <div class="section-head">
       <span class="section-kicker">Adicionalidade Territorial</span>
       <h2 class="section-title">Onde a Coalizão faz diferença</h2>
-      <p class="section-desc">Leitura crítica das seis regiões de Maracanaú a partir da pergunta central do Policy Brief: em que territórios a presença articulada da Coalizão produz ganho que não aconteceria de outra forma? Triangula insegurança alimentar, inclusão produtiva e densidade institucional.</p>
+      <p class="section-desc">Uma pergunta guia esta aba: em quais regiões de Maracanaú a chegada articulada da Coalizão produz ganho que não aconteceria de outra forma? A resposta mistura insegurança alimentar, inclusão produtiva e base institucional local.</p>
     </div>
 
     <div class="insight-callout">
       <span class="tag">Chave analítica</span>
-      <p>Adicionalidade não se confunde com necessidade absoluta. Territórios com indicadores ruins podem já estar saturados de programas ou, no extremo oposto, ser inviáveis de operar. A Coalizão cria valor onde <strong>necessidade, viabilidade institucional e vácuo de articulação</strong> coincidem, e onde proteção social, renda e engajamento empresarial podem convergir em um mesmo esforço.</p>
+      <p>Adicionalidade não é sinônimo de necessidade absoluta. Um território com indicadores ruins pode já estar saturado de programas, ou ser inviável de operar. A Coalizão cria valor quando <strong>necessidade, viabilidade institucional e vácuo de articulação</strong> coincidem no mesmo lugar, e quando proteção social, renda e engajamento empresarial podem se somar em um só esforço.</p>
     </div>
 
     <!-- 1 — Três pilares -->
@@ -1311,7 +1339,7 @@ body{background:#fff}
       <div class="panel-head">
         <div>
           <h3 class="panel-title">O que entendemos por adicionalidade</h3>
-          <p class="panel-sub">Três dimensões derivadas do Policy Brief da Coalizão · a decisão de priorização deve equilibrá-las.</p>
+          <p class="panel-sub">Três dimensões tiradas do Policy Brief; a priorização precisa equilibrá-las.</p>
         </div>
       </div>
       <div class="adic-pillars">
@@ -1337,12 +1365,25 @@ body{background:#fff}
     <div class="panel" style="margin-top:20px">
       <div class="panel-head">
         <div>
-          <h3 class="panel-title">Matriz de adicionalidade por região</h3>
-          <p class="panel-sub">Cinco critérios qualitativos ancorados nos indicadores agregados · ratings relativos entre as seis regiões de Maracanaú.</p>
+          <h3 class="panel-title-row">
+            <span class="panel-title">Matriz de adicionalidade por região</span>
+            <span class="info-icon" tabindex="0" aria-label="Como a matriz foi construída">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span class="info-tip">
+                <strong>Como ler esta matriz.</strong> Cada critério recebe uma nota qualitativa (Alto, Médio, Baixo) a partir do cruzamento dos indicadores agregados da aba Síntese: CadÚnico, extrema pobreza, OSCs, MEIs, CRAS, renda e presença do Distrito Industrial. As notas são relativas entre as seis regiões de Maracanaú, não valores absolutos.<br><br>
+                <b>Potencial de impacto</b> combina volume populacional e incidência de vulnerabilidade.<br>
+                <b>Densidade de atores e parcerias</b> olha para a rede local (OSCs, MEIs, CRAS).<br>
+                <b>Riscos político-institucionais</b> pesam conflitos territoriais e histórico de rupturas de operação.<br>
+                <b>Alinhamento com competências</b> vê o encaixe com o perfil dos parceiros da Coalizão.<br>
+                <b>Adicionalidade da Coalizão</b> é a leitura síntese: o que muda quando a Coalizão chega.
+              </span>
+            </span>
+          </h3>
+          <p class="panel-sub">Cinco critérios qualitativos ancorados nos indicadores agregados. Notas relativas entre as seis regiões de Maracanaú.</p>
         </div>
       </div>
       <div class="matrix-wrap">
-        <table class="matrix">
+        <table class="matrix heatmap">
           <thead>
             <tr>
               <th>Região</th>
@@ -1356,59 +1397,59 @@ body{background:#fff}
           <tbody>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#7C3AED"></span>Extremo Norte</span></td>
-              <td><span class="rate alto">Alto</span></td>
-              <td><span class="rate baixo">Baixo</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate alto">Alto</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell baixo"><span>Baixo</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell alto"><span>Alto</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#2563EB"></span>Zona Norte</span></td>
-              <td><span class="rate alto">Alto</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate alto">Alto</span></td>
-              <td><span class="rate alto">Alto</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell alto"><span>Alto</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#0891B2"></span>Centro e Jereissati</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate alto">Alto</span></td>
-              <td><span class="rate alto">Baixo risco</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate baixo">Baixo</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell alto"><span>Baixo risco</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell baixo"><span>Baixo</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#059669"></span>Zona Leste</span></td>
-              <td><span class="rate alto">Alto</span></td>
-              <td><span class="rate alto">Alto</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate alto">Alto</span></td>
-              <td><span class="rate medio">Médio</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell medio"><span>Médio</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#D97706"></span>Zona Oeste</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate baixo">Baixo</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate alto">Alto</span></td>
-              <td><span class="rate alto">Alto</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell baixo"><span>Baixo</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell alto"><span>Alto</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#DC2626"></span>Zona Sul</span></td>
-              <td><span class="rate medio">Médio</span></td>
-              <td><span class="rate baixo">Baixo</span></td>
-              <td><span class="rate baixo">Alto risco</span></td>
-              <td><span class="rate baixo">Baixo</span></td>
-              <td><span class="rate medio">Médio</span></td>
+              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell baixo"><span>Baixo</span></td>
+              <td class="cell baixo"><span>Alto risco</span></td>
+              <td class="cell baixo"><span>Baixo</span></td>
+              <td class="cell medio"><span>Médio</span></td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="fit-legend" style="border-top:1px dashed var(--line-2);margin-top:0">
-        <span class="item"><span class="rate alto" style="min-width:auto;padding:3px 8px;font-size:9.5px">Alto</span> condição favorável</span>
-        <span class="item"><span class="rate medio" style="min-width:auto;padding:3px 8px;font-size:9.5px">Médio</span> parcialmente presente</span>
-        <span class="item"><span class="rate baixo" style="min-width:auto;padding:3px 8px;font-size:9.5px">Baixo</span> condição limitante</span>
+        <span class="item"><span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:#DCFCE7;border:1px solid #BBF7D0"></span> Alto · condição favorável</span>
+        <span class="item"><span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:#FEF9C3;border:1px solid #FEF08A"></span> Médio · parcialmente presente</span>
+        <span class="item"><span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:#FEE2E2;border:1px solid #FECACA"></span> Baixo · condição limitante</span>
       </div>
     </div>
 
@@ -1416,7 +1457,16 @@ body{background:#fff}
     <div class="panel" style="margin-top:20px">
       <div class="panel-head">
         <div>
-          <h3 class="panel-title">Leitura por região</h3>
+          <h3 class="panel-title-row">
+            <span class="panel-title">Leitura por região</span>
+            <span class="info-icon" tabindex="0" aria-label="Como a leitura foi construída">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span class="info-tip">
+                <strong>Como a leitura foi construída.</strong> Cada card cruza os três pilares da matriz (necessidade relativa, viabilidade institucional e vácuo de articulação) com os eixos do Policy Brief: proteção social, inclusão produtiva e engajamento empresarial.<br><br>
+                A tipologia de atuação ao lado do nome da região é uma leitura qualitativa da frente que faz mais sentido ali, dado o perfil da Coalizão e a base local. Os indicadores em destaque vêm da aba Síntese: extrema pobreza no CadÚnico, número de OSCs e MEIs e cobertura de CRAS.
+              </span>
+            </span>
+          </h3>
           <p class="panel-sub">Síntese narrativa e tipologia de atuação sugerida, a partir dos dados agregados e dos eixos do Policy Brief.</p>
         </div>
       </div>
@@ -1442,7 +1492,7 @@ body{background:#fff}
             <h4>Zona Norte</h4>
             <span class="adic-region-tipo">Escala + base institucional</span>
           </div>
-          <p>Volume populacional relevante (39 mil), alta incidência de pobreza (35,4%) e, ao mesmo tempo, base institucional razoável — três CRAS e 55 OSCs. É o território onde a Coalizão combina maior número de famílias impactadas com menor custo marginal de operação: a articulação ganha escala.</p>
+          <p>Volume populacional relevante (39 mil) e alta incidência de pobreza (35,4%), mas com base institucional razoável: três CRAS e 55 OSCs. É onde a Coalizão combina o maior número de famílias impactadas com o menor custo marginal de operação. A articulação ganha escala.</p>
           <div class="adic-region-stats">
             <div class="s"><b>35,4%</b><span>Extrema pobreza</span></div>
             <div class="s"><b>55</b><span>OSCs</span></div>
@@ -1457,7 +1507,7 @@ body{background:#fff}
             <h4>Centro e Jereissati</h4>
             <span class="adic-region-tipo">Hub de articulação</span>
           </div>
-          <p>Maior densidade econômica do município — 139 OSCs, 4 mil MEIs, três CRAS — e incidência de pobreza relativamente menor (27,1%). Alto grau de saturação: muitos atores já operam. Adicionalidade baixa como território-alvo, mas alta como hub logístico e institucional para articular ações nas demais regiões.</p>
+          <p>Maior densidade econômica do município (139 OSCs, 4 mil MEIs, três CRAS) e incidência de pobreza relativamente menor (27,1%). O grau de saturação é alto: muitos atores já operam aqui. Adicionalidade baixa como território-alvo, mas alta como hub logístico e institucional para articular ações nas demais regiões.</p>
           <div class="adic-region-stats">
             <div class="s"><b>27,1%</b><span>Extrema pobreza</span></div>
             <div class="s"><b>139</b><span>OSCs</span></div>
@@ -1487,7 +1537,7 @@ body{background:#fff}
             <h4>Zona Oeste</h4>
             <span class="adic-region-tipo">Inclusão produtiva</span>
           </div>
-          <p>Maior renda per capita (R$ 1.950) combinada a pobreza ainda alta (30,7%), densidade muito baixa de OSCs (41) e MEIs (1.244), e isolamento em relação ao núcleo urbano. É o território com maior espaço para inclusão produtiva — pequenos negócios e capacitação encontram base desocupada. Vácuo de articulação é, aqui, oportunidade.</p>
+          <p>Maior renda per capita (R$ 1.950) convivendo com pobreza ainda alta (30,7%), densidade muito baixa de OSCs (41) e MEIs (1.244) e isolamento em relação ao núcleo urbano. É o território com maior espaço para inclusão produtiva: pequenos negócios e capacitação chegam num terreno desocupado. O vácuo de articulação vira oportunidade.</p>
           <div class="adic-region-stats">
             <div class="s"><b>30,7%</b><span>Extrema pobreza</span></div>
             <div class="s"><b>41</b><span>OSCs</span></div>
@@ -1502,7 +1552,7 @@ body{background:#fff}
             <h4>Zona Sul</h4>
             <span class="adic-region-tipo">Atenção seletiva</span>
           </div>
-          <p>Menor volume populacional (20 mil), extrema pobreza de 20,2% e densidade institucional muito baixa — 20 OSCs, 435 MEIs. Território periférico com baixa tração política e custo operacional elevado. Adicionalidade é média: a necessidade existe, mas a viabilidade de uma operação sustentável depende de parcerias específicas, não de chegada generalista.</p>
+          <p>Menor volume populacional (20 mil), extrema pobreza de 20,2% e densidade institucional muito baixa: 20 OSCs e 435 MEIs. Território periférico, com baixa tração política e custo operacional elevado. A adicionalidade é média. A necessidade existe, mas sustentar uma operação aqui depende de parcerias específicas, não de chegada generalista.</p>
           <div class="adic-region-stats">
             <div class="s"><b>20,2%</b><span>Extrema pobreza</span></div>
             <div class="s"><b>20</b><span>OSCs</span></div>
@@ -1529,10 +1579,10 @@ body{background:#fff}
           <div class="priority-rank">01</div>
           <div class="priority-body">
             <h4>Zona Oeste · Inclusão produtiva com vácuo de articulação</h4>
-            <p>Renda relativamente mais alta mas densidade institucional muito baixa — cenário típico em que a chegada coordenada da Coalizão muda a curva. Inclusão produtiva encontra base desocupada; articulação empresarial preenche função ausente. Adicionalidade máxima por ausência de saturação.</p>
+            <p>Renda relativamente mais alta, mas densidade institucional muito baixa. É o tipo de cenário em que a chegada coordenada da Coalizão muda a curva. A inclusão produtiva encontra base desocupada; a articulação empresarial preenche uma função que hoje ninguém cumpre. Adicionalidade máxima por ausência de saturação.</p>
             <div class="tags"><span>Microcrédito</span><span>Capacitação</span><span>Vínculo com Distrito Industrial</span></div>
           </div>
-          <div class="priority-meta"><strong>35,7k</strong>habitantes<br>4 bairros</div>
+          <div class="priority-meta"><strong>35.700</strong>habitantes<br>4 bairros</div>
         </div>
 
         <div class="priority-item">
@@ -1542,7 +1592,7 @@ body{background:#fff}
             <p>Maior urgência absoluta do município. Déficit de infraestrutura, único CRAS e extrema pobreza perto de 40% tornam qualquer entrada articulada de alto impacto imediato. Demanda parceiros com capilaridade rural e logística alimentar; em troca, o retorno por real investido tende a ser o maior do município.</p>
             <div class="tags"><span>Segurança alimentar</span><span>Cadastro único</span><span>Ampliação de CRAS</span></div>
           </div>
-          <div class="priority-meta"><strong>21,9k</strong>habitantes<br>6 bairros</div>
+          <div class="priority-meta"><strong>21.900</strong>habitantes<br>6 bairros</div>
         </div>
 
         <div class="priority-item">
@@ -1552,7 +1602,7 @@ body{background:#fff}
             <p>Combina volume populacional com base institucional. A Coalizão não chega em um vácuo, mas consegue escalar rapidamente graças aos três CRAS e 55 OSCs existentes. Território ideal para testar o modelo integrado proteção + inclusão produtiva com custo marginal menor e aprendizado replicável.</p>
             <div class="tags"><span>Escalabilidade</span><span>Articulação OSC</span><span>Inclusão produtiva</span></div>
           </div>
-          <div class="priority-meta"><strong>39,1k</strong>habitantes<br>8 bairros</div>
+          <div class="priority-meta"><strong>39.100</strong>habitantes<br>8 bairros</div>
         </div>
 
       </div>
@@ -1562,7 +1612,20 @@ body{background:#fff}
     <div class="panel" style="margin-top:20px">
       <div class="panel-head">
         <div>
-          <h3 class="panel-title">Competências dos parceiros × territórios</h3>
+          <h3 class="panel-title-row">
+            <span class="panel-title">Competências dos parceiros × territórios</span>
+            <span class="info-icon" tabindex="0" aria-label="Como a matriz de fit foi construída">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span class="info-tip">
+                <strong>Como ler o fit.</strong> A matriz cruza o perfil de atuação de cada parceiro com a frente dominante em cada região (segurança alimentar, inclusão produtiva, articulação comunitária, engajamento empresarial). Fit alto sugere liderança no território; médio, atuação de apoio; baixo, presença pontual; sem fit, desprioritizar.<br><br>
+                <b>Pacto Contra a Fome</b> — segurança alimentar e articulação nacional. Encaixa onde a extrema pobreza e o déficit alimentar pesam mais (Extremo Norte, Zona Norte).<br>
+                <b>Movimento BemMaior</b> — mobilização cidadã e engajamento comunitário. Funciona onde há OSCs ativas e demanda de base (Zona Norte, Zona Leste, Centro e Jereissati).<br>
+                <b>Astor Capital</b> — capital social e investimento estruturante. Faz sentido onde há tecido econômico e presença empresarial a destravar (Zona Leste, Centro e Jereissati).<br>
+                <b>Instituto Localiza</b> — capacitação profissional e empregabilidade. Roda melhor onde há demanda de inclusão produtiva e massa de trabalhadores (Zona Norte, Zona Leste, Zona Oeste).<br>
+                <b>Somos Um</b> — articulação comunitária e base territorial. Opera em territórios periféricos com rede comunitária, mesmo dispersa (Extremo Norte, Zona Sul).
+              </span>
+            </span>
+          </h3>
           <p class="panel-sub">Leitura de fit entre o perfil de cada parceiro da Coalizão e as necessidades por região, com sugestão de alocação preferencial.</p>
         </div>
       </div>
