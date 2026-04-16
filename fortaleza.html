@@ -4941,15 +4941,15 @@ function initComp(){
     const layer = L.geoJSON(GEOJSON, {
       style: feat => {
         const nome = feat.properties.nome;
-        const terr = feat.properties.territorio;
-        const coal = feat.properties.is_coalizao && dataBairros.has(nome);
+        const coal = dataBairros.has(nome);
         if(!coal) return {fillColor:'#F3F4F6', fillOpacity:0.35, color:'#D1D5DB', weight:.5};
+        const terr = feat.properties.territorio || groupOf(nome);
         return {fillColor:GROUP_COLORS[terr]||'#888', fillOpacity:0.7, color:'#fff', weight:1.2};
       },
       onEachFeature: (feat, lyr) => {
         const nome = feat.properties.nome;
-        if(!feat.properties.is_coalizao || !dataBairros.has(nome)) return;
-        const terr = feat.properties.territorio;
+        if(!dataBairros.has(nome)) return;
+        const terr = feat.properties.territorio || groupOf(nome);
         const row = DATA.find(d=>d.b===nome);
         const pop = row ? row.pop : 0;
         lyr.bindTooltip(`<div style="font-size:11px"><strong>${nome}</strong><br><span style="color:${GROUP_COLORS[terr]||'#888'};font-weight:700">${terr||'—'}</span><br>Pop: ${fmt(pop,'int')}</div>`, {sticky:true, direction:'top', opacity:.92});
@@ -4960,7 +4960,7 @@ function initComp(){
 
     // Fit to coalizão bounds only
     try{
-      const coalFeats = GEOJSON.features.filter(f=>f.properties.is_coalizao && dataBairros.has(f.properties.nome));
+      const coalFeats = GEOJSON.features.filter(f=>dataBairros.has(f.properties.nome));
       const coalLayer = L.geoJSON({type:'FeatureCollection', features:coalFeats});
       map.fitBounds(coalLayer.getBounds(), {padding:[20,20]});
     }catch(e){ try{ map.fitBounds(layer.getBounds()); }catch(e2){} }
