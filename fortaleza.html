@@ -4435,12 +4435,12 @@ function initOsc(){
     const tf=document.getElementById('osc-table-terr').value;
     const af=document.getElementById('osc-table-area').value;
     let rows=[...OSC_POINTS];
-    if(q) rows=rows.filter(r=>(r.nome||'').toLowerCase().includes(q)||(r.b||'').toLowerCase().includes(q));
+    if(q) rows=rows.filter(r=>(r.n||'').toLowerCase().includes(q)||(r.rf||'').toLowerCase().includes(q)||(r.b||'').toLowerCase().includes(q));
     if(tf) rows=rows.filter(r=>r.t===tf);
     if(af) rows=rows.filter(r=>(r.areas||[]).includes(af));
     rows.sort((a,b)=>{
       let av,bv;
-      if(oscTableSort==='nome'){av=(a.nome||'').toLowerCase();bv=(b.nome||'').toLowerCase();}
+      if(oscTableSort==='nome'){av=(a.n||'').toLowerCase();bv=(b.n||'').toLowerCase();}
       else if(oscTableSort==='bairro'){av=(a.b||'').toLowerCase();bv=(b.b||'').toLowerCase();}
       else if(oscTableSort==='area'){av=(a.areas||[])[0]||'';bv=(b.areas||[])[0]||'';}
       else{av=a[oscTableSort]||0;bv=b[oscTableSort]||0;}
@@ -4455,7 +4455,8 @@ function initOsc(){
     const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
     tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th><th class="no-sort">Território</th>`.slice(0,-30)).join('')}<th class="no-sort" style="min-width:90px">Território</th></tr></thead><tbody>${rows.slice(0,200).map(r=>{
       const tCol=terrColors[r.t]||'#999';
-      return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.nome||''}">${r.nome||'—'}</td><td>${r.b||'—'}</td><td>${(r.areas||[]).filter(a=>a!=='Sem classificação').map(a=>`<span class="tag" style="margin:1px 2px">${a.length>30?a.slice(0,30)+'…':a}</span>`).join(' ')||'—'}</td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r.t||'—'}</td></tr>`;
+      const nomeTitle=[r.n,r.rf].filter(Boolean).join(' · ');
+      return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${nomeTitle}">${r.n||r.rf||'—'}</td><td>${r.b||'—'}</td><td>${(r.areas||[]).filter(a=>a!=='Sem classificação').map(a=>`<span class="tag" style="margin:1px 2px">${a.length>30?a.slice(0,30)+'…':a}</span>`).join(' ')||'—'}</td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r.t||'—'}</td></tr>`;
     }).join('')}${rows.length>200?`<tr><td colspan="4" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} organizações.</td></tr>`:''}</tbody>`;
     document.querySelectorAll('#table-osc-list th.sortable').forEach(th=>{
       th.onclick=()=>{
