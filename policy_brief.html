@@ -28,6 +28,7 @@ body{
   font-family:'Inter',system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;
   line-height:1.7;
+  overflow-x:hidden;
 }
 
 /* Topbar */
@@ -127,15 +128,61 @@ p{
   line-height:1.75;
 }
 .lead{font-size:16px;color:var(--text)}
-.image-block{margin:48px 0 4px}
-.image-block img{
-  display:block;width:100%;height:auto;
-  border-radius:8px;
+.image-block{
+  position:relative;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(100vw - 48px, 1100px);
+  margin:80px 0 16px;
 }
+.image-block .image-wrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:14px;
+  aspect-ratio:16 / 9;
+  background:linear-gradient(135deg,#f4f7fb,#e8eef4);
+  box-shadow:
+    0 30px 60px -20px rgba(15,30,60,.25),
+    0 0 0 1px rgba(15,30,60,.05);
+}
+.image-block img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform 1.2s cubic-bezier(.2,.6,.2,1);
+}
+.image-block:hover img{transform:scale(1.035)}
 .caption{
-  margin-top:8px;
-  font-size:11px;color:var(--muted);
-  letter-spacing:.02em;
+  margin:14px auto 0;
+  max-width:760px;
+  padding:0 24px;
+  font-size:10.5px;
+  color:var(--muted);
+  text-align:right;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  font-weight:600;
+}
+.pull-quote{
+  margin:32px auto 0;
+  max-width:620px;
+  padding:0 24px;
+  font-size:20px;
+  font-weight:500;
+  line-height:1.45;
+  color:var(--text);
+  text-align:center;
+  letter-spacing:-.015em;
+}
+.pull-quote::before{
+  content:"";
+  display:block;
+  width:40px;
+  height:2px;
+  background:var(--accent);
+  margin:0 auto 20px;
+  border-radius:2px;
 }
 .takeaways{
   padding-left:20px;margin:0;
@@ -167,6 +214,18 @@ p{
   .footer{flex-direction:column;gap:8px;text-align:center;padding:24px 20px}
   p,.takeaways li{font-size:14.5px}
   .insight{font-size:15px}
+  .image-block{
+    width:100%;
+    left:0;
+    transform:none;
+    margin:52px 0 12px;
+  }
+  .image-block .image-wrap{
+    border-radius:10px;
+    aspect-ratio:4 / 3;
+  }
+  .pull-quote{font-size:17px;padding:0 16px}
+  .caption{padding:0 16px;text-align:left}
 }
 </style>
 </head>
@@ -200,8 +259,11 @@ p{
     </section>
 
     <figure class="image-block">
-      <img src="rafael-oliveira-c8AUezbHsBQ-unsplash.jpg" alt="Paisagem urbana e comunitária">
-      <figcaption class="caption">Crédito da imagem: rafael-oliveira-c8AUezbHsBQ-unsplash</figcaption>
+      <div class="image-wrap">
+        <img src="rafael-oliveira-c8AUezbHsBQ-unsplash.jpg" alt="Paisagem urbana e comunitária">
+      </div>
+      <figcaption class="caption">Foto · Rafael Oliveira / Unsplash</figcaption>
+      <p class="pull-quote">Insegurança alimentar e baixa inclusão produtiva costumam surgir juntas porque têm raízes parecidas.</p>
     </figure>
 
     <section class="section">
@@ -215,8 +277,11 @@ p{
     </section>
 
     <figure class="image-block">
-      <img src="thamara-maura-_5ryusbKLtM-unsplash.jpg" alt="Cena cotidiana em espaço urbano">
-      <figcaption class="caption">Crédito da imagem: thamara-maura-_5ryusbKLtM-unsplash</figcaption>
+      <div class="image-wrap">
+        <img src="thamara-maura-_5ryusbKLtM-unsplash.jpg" alt="Cena cotidiana em espaço urbano">
+      </div>
+      <figcaption class="caption">Foto · Thamara Maura / Unsplash</figcaption>
+      <p class="pull-quote">Inclusão produtiva sustentável depende, sobretudo, de acesso estável à demanda.</p>
     </figure>
 
     <section class="section">
@@ -239,8 +304,11 @@ p{
     </section>
 
     <figure class="image-block">
-      <img src="clicia-weyne-OAYvoNGN2yI-unsplash.jpg" alt="Comunidade e território">
-      <figcaption class="caption">Crédito da imagem: clicia-weyne-OAYvoNGN2yI-unsplash</figcaption>
+      <div class="image-wrap">
+        <img src="clicia-weyne-OAYvoNGN2yI-unsplash.jpg" alt="Comunidade e território">
+      </div>
+      <figcaption class="caption">Foto · Clicia Weyne / Unsplash</figcaption>
+      <p class="pull-quote">Grandes investimentos não distribuem benefícios sozinhos — precisam ser conectados ao território.</p>
     </figure>
 
     <section class="section">
@@ -254,8 +322,11 @@ p{
     </section>
 
     <figure class="image-block">
-      <img src="megan-thomas-xMh_ww8HN_Q-unsplash.jpg" alt="Trabalho e atividade produtiva">
-      <figcaption class="caption">Crédito da imagem: megan-thomas-xMh_ww8HN_Q-unsplash</figcaption>
+      <div class="image-wrap">
+        <img src="megan-thomas-xMh_ww8HN_Q-unsplash.jpg" alt="Trabalho e atividade produtiva">
+      </div>
+      <figcaption class="caption">Foto · Megan Thomas / Unsplash</figcaption>
+      <p class="pull-quote">Coordenar é o maior ganho possível: articular interesses, reduzir assimetrias e alinhar incentivos entre setor público, empresas e organizações locais.</p>
     </figure>
 
     <section class="section references">
