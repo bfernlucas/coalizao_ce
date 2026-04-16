@@ -168,40 +168,16 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
 }
 .source-tag:hover{background:#fff;border-color:#9CA3AF;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 
-/* ── Brief Card ── */
-.brief-card{
-  display:flex;flex-direction:column;gap:12px;
-  background:#fff;text-decoration:none;color:#111;
-  padding:20px 24px;border:1px solid #E5E7EB;border-radius:10px;
-  transition:all .24s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 1px 3px rgba(0,0,0,.06);
-  margin-bottom:28px;
-  border-left:3px solid #059669;
+/* ── Brief Link ── */
+.brief-link{
+  display:inline-block;padding:10px 16px;
+  background:#fff;border:1px solid #059669;border-radius:6px;
+  color:#059669;text-decoration:none;
+  font-size:13px;font-weight:600;
+  margin-bottom:24px;transition:all .2s;
 }
-.brief-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 16px 32px rgba(0,0,0,.14);
-  border-color:#D1D5DB;
-}
-.brief-header{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:4px;
-}
-.brief-badge{
-  display:inline-block;
-  font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:#059669;background:transparent;
-  padding:0;
-}
-.brief-arrow{
-  font-size:18px;color:#059669;transition:transform .15s;flex-shrink:0;
-}
-.brief-card:hover .brief-arrow{transform:translateX(3px)}
-.brief-title{
-  margin:0;font-size:18px;font-weight:700;color:#111;
-  letter-spacing:-.01em;line-height:1.35;
-}
-.brief-desc{
-  margin:0;font-size:13px;color:#5C6E7E;line-height:1.6;
+.brief-link:hover{
+  background:#059669;color:#fff;
 }
 
 /* ── Animations ── */
@@ -251,18 +227,9 @@ body{background:#fff;color:#111;display:flex;flex-direction:column;min-height:10
 
 <main class="content">
 
-  <div class="label">Publicações e análises</div>
+  <a href="policy_brief.html" class="brief-link">Acesse o Policy Brief →</a>
 
-  <a href="policy_brief.html" class="brief-card">
-    <div class="brief-header">
-      <div class="brief-badge">Policy Brief</div>
-      <span class="brief-arrow">→</span>
-    </div>
-    <h3 class="brief-title">Acesse o Policy Brief sobre Insegurança Alimentar e Inclusão Produtiva</h3>
-    <p class="brief-desc">Síntese de evidências e implicações para coordenação territorial na Região Metropolitana de Fortaleza.</p>
-  </a>
-
-  <div class="label" style="margin-top:36px">Municípios disponíveis</div>
+  <div class="label">Municípios disponíveis</div>
 
   <div class="cards">
 
