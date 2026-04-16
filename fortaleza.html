@@ -2052,7 +2052,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     </div>
     <div class="decision">
       <h3>Análise</h3>
-      <p>O Grande Bom Jardim tem maior escala populacional e vulnerabilidade mais contínua entre bairros. O Grande Mucuripe é menor em população, mas apresenta densidades relevantes e contrastes internos muito maiores, exigindo leitura intraurbana mais fina.</p>
+      <p>O Grande Bom Jardim tem maior escala populacional e vulnerabilidade mais contínua entre bairros. O Grande Mucuripe é menor em população, mas tem densidades relevantes e contrastes internos muito maiores. Exige uma leitura bairro a bairro mais atenta.</p>
     </div>
     <div class="panel">
       <div class="panel-head">
@@ -2105,7 +2105,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     </div>
     <div class="decision">
       <h3>Análise</h3>
-      <p>O Grande Bom Jardim se destaca como frente de urgência social mais clara e mais homogênea, sobretudo em extrema pobreza, baixa renda e dependência do CadÚnico. No Grande Mucuripe, a vulnerabilidade é mais localizada: Vicente Pinzon, Cais do Porto e Praia do Futuro II formam bolsões críticos dentro de um território que também abriga bairros com renda e desenvolvimento elevados. Isso reforça a necessidade de focalização territorial fina no Grande Mucuripe e de intervenção em escala no Grande Bom Jardim.</p>
+      <p>No Grande Bom Jardim, a urgência social é mais ampla e mais homogênea, sobretudo em extrema pobreza, baixa renda e dependência do CadÚnico. No Grande Mucuripe, a vulnerabilidade é pontual: Vicente Pinzon, Cais do Porto e Praia do Futuro II formam bolsões críticos dentro de um território que também abriga bairros com renda e desenvolvimento elevados. São dois cenários distintos: no Mucuripe, focalização fina bairro a bairro; no Bom Jardim, intervenção em escala.</p>
     </div>
     <div class="panel">
       <div class="panel-head">
@@ -2246,7 +2246,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     </div>
     <div class="decision">
       <h3>Análise</h3>
-      <p>O Grande Mucuripe reúne maior densidade econômica e forte capacidade de tração em bairros específicos, especialmente Papicu, Mucuripe e Varjota. O Grande Bom Jardim apresenta maior peso relativo de microempreendimentos e MEIs, o que sugere um ecossistema menos denso, mas potencialmente mais aderente a estratégias de fortalecimento de pequenos negócios, formalização e circuitos econômicos de bairro.</p>
+      <p>O Grande Mucuripe reúne a maior densidade econômica, concentrada em Papicu, Mucuripe e Varjota. O Grande Bom Jardim tem peso relativo maior de microempreendimentos e MEIs: um ecossistema menos denso, mas mais aderente a estratégias de fortalecimento de pequenos negócios, formalização e circuitos econômicos de bairro.</p>
     </div>
 
     <!-- KPIs MGE -->
@@ -2535,7 +2535,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Indicadores consolidados por território</h3>
-          <p class="panel-sub">Totais somados e médias ponderadas por população — uma linha por território.</p>
+          <p class="panel-sub">Totais somados e médias ponderadas por população, uma linha por território.</p>
         </div>
       </div>
       <div class="table-wrap" style="padding:0 24px 20px">
@@ -2561,7 +2561,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Perfil de vulnerabilidades por território</h3>
-          <p class="panel-sub">Radar com indicadores percentuais de maior heterogeneidade entre territórios — valores agregados ponderados por população. Ao lado, leitura sintética.</p>
+          <p class="panel-sub">Radar com indicadores percentuais de maior heterogeneidade entre territórios, ponderados por população. Ao lado, uma leitura sintética.</p>
         </div>
       </div>
       <div class="map-analytics-layout" style="align-items:start;padding:0 24px 24px">
@@ -3618,8 +3618,8 @@ function sortRows(key, descending=true, includeNull=false){
 }
 
 const TERR_DESC = {
-  'Grande Mucuripe': 'Maior heterogeneidade interna, melhor base econômica média e densidade institucional mais alta. Indicado para estratégias focalizadas por bairro e maior articulação entre vulnerabilidade e oportunidade.',
-  'Grande Bom Jardim': 'Maior escala populacional, pobreza mais contínua e forte aderência aos eixos de inclusão produtiva e segurança alimentar. Indicado para atuação com foco em escala e adicionalidade social.'
+  'Grande Mucuripe': 'Maior heterogeneidade interna, melhor base econômica média e densidade institucional mais alta. Pede estratégias focalizadas por bairro, ligando bolsões de vulnerabilidade às oportunidades existentes no entorno.',
+  'Grande Bom Jardim': 'Maior escala populacional, pobreza mais contínua e ligação direta com os eixos de inclusão produtiva e segurança alimentar. Pede atuação em escala, com foco em adicionalidade social.'
 };
 
 function buildTerrCard(name, rows){
