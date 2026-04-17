@@ -669,7 +669,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 
 /* ── Identidade Coalizão CE ──────────────────────── */
 body{background:#fff}
-.tab-btn.active{color:var(--brand);border-bottom-color:var(--gold)}
+.tab-btn.active{color:var(--brand);border-bottom-color:var(--brand)}
 .tab-btn:hover{color:var(--brand)}
 .section-kicker{background:var(--brand-5);border-color:var(--brand-4);color:var(--brand)}
 .decision{background:#F4F7FB;border:1px solid #D8E0E8;border-left:3px solid var(--brand);border-radius:0;box-shadow:none;padding:14px 18px;margin:0 0 20px}
@@ -1315,6 +1315,10 @@ body{background:#fff}
         <div style="background:#fff;border:1px solid var(--line-2);border-radius:10px;padding:16px 12px 20px">
           <div style="position:relative;height:440px"><canvas id="chart-synth-radar"></canvas></div>
           <div id="synth-radar-legend" style="display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line-2);font-size:11px"></div>
+          <div style="margin-top:12px;padding:12px 16px;background:#F4F6F9;border:1px solid var(--line-2);border-radius:6px;font-size:11px;line-height:1.65;color:var(--muted)">
+            <strong style="color:var(--navy);font-size:12px;display:block;margin-bottom:6px">Como ler o radar</strong>
+            O gráfico compara as seis regiões de Maracanaú em seis dimensões de vulnerabilidade. Valores mais altos indicam maior fragilidade. <strong style="background:none;color:var(--navy)">Extrema pobreza</strong> e <strong style="background:none;color:var(--navy)">CadÚnico</strong> medem a incidência de pobreza monetária (MDS, 2025). <strong style="background:none;color:var(--navy)">Analfabetismo</strong> reflete o déficit educacional de adultos (IBGE, 2022). <strong style="background:none;color:var(--navy)">Déficit de esgoto</strong> mede a parcela de domicílios sem rede coletora (1 − cobertura). <strong style="background:none;color:var(--navy)">Pop. não-branca</strong> e <strong style="background:none;color:var(--navy)">Chefia feminina</strong> são marcadores sociodemográficos de vulnerabilidade estrutural. Quanto maior a área do polígono, mais vulnerável é a região.
+          </div>
         </div>
         <div id="synth-reading" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:560px;padding-right:4px"></div>
       </div>
