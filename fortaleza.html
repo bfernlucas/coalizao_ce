@@ -1806,34 +1806,6 @@ tbody tr:hover{background:#EEF4FF}
 }
 
 
-/* ── Identidade Coalizão CE ──────────────────────── */
-body{background:#fff}
-.brand-title{font-size:14px!important;font-weight:700!important;color:#fff!important;letter-spacing:-.01em!important}
-.brand-sub{font-size:11px!important;color:rgba(255,255,255,.65)!important;margin-top:1px!important}
-.tab-btn.active{color:var(--brand);border-bottom-color:var(--gold)}
-.tab-btn:hover{color:var(--brand)}
-.section-kicker{background:var(--brand-5);border-color:var(--brand-4);color:var(--brand)}
-.decision{
-  background:#F4F6F9;
-  border:1px solid #E8EDF2;
-  border-left:3px solid #0B4FA8;
-  border-radius:4px;
-  box-shadow:none;
-  padding:16px 18px;
-  margin:0 0 20px;
-}
-.decision::before{display:none}
-.decision h3{color:#0B4FA8;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-.decision p{font-size:13px;line-height:1.65;color:#3B4C5C}
-.kpi .sub{margin-top:6px;font-size:12px;color:#7F91A3}
-.panel{border-color:#E8EDF2;box-shadow:none;border-radius:4px}
-.panel-title{color:#0B2B44;font-size:13px;font-weight:700}
-.panel-sub{font-size:11px;color:#5C6E7E}
-.analysis-kicker{background:var(--brand-5);color:var(--brand);font-size:10px;border-radius:3px}
-.tab-btn.active{background:transparent}
-.brand-title{font-weight:700;font-size:13px}
-.brand-sub{font-size:11px}
-
 /* ── Identidade Coalizão CE (azul institucional) ─────────────── */
 :root{
   --brand:#0B4FA8;
@@ -2357,6 +2329,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="mge-map-wrap">
           <div class="map-box split" id="map-mge" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="mge-filter-overlay">
+            <input type="search" id="mge-map-search" placeholder="Buscar empresa…" autocomplete="off" style="flex:2;min-width:160px">
             <select id="mge-bairro-filter" title="Filtrar por bairro">
               <option value="">Todos os bairros</option>
             </select>
@@ -2653,11 +2626,15 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     </div>
 
     <!-- 4 — Radar + síntese por território -->
-    <div class="panel" style="margin-top:20px">
+    <div class="decision" style="margin-top:20px">
+      <h3>Como ler o radar</h3>
+      <p>Cada eixo representa um indicador de vulnerabilidade ou perfil socioeconômico, normalizado como proporção (0 a 1) e ponderado pela população dos bairros. Quanto maior a área, mais concentrado o perfil naquela dimensão. <strong>Extrema pobreza</strong> e <strong>CadÚnico</strong> medem a incidência de pobreza e cobertura de programas sociais. <strong>Déficit de esgoto</strong> e <strong>Déficit de renda</strong> captam carências infraestruturais e econômicas. <strong>Informalidade (MEI)</strong> mostra a proporção de microempreendedores individuais sobre o total de empresas — valores altos indicam economia predominantemente informal. <strong>Pop. não-branca</strong> e <strong>Chefia feminina</strong> completam o perfil demográfico e de gênero.</p>
+    </div>
+    <div class="panel" style="margin-top:12px">
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Perfil de vulnerabilidades por território</h3>
-          <p class="panel-sub">Radar com indicadores percentuais de maior heterogeneidade entre territórios, ponderados por população. Ao lado, uma leitura sintética.</p>
+          <p class="panel-sub">Radar com 8 indicadores ponderados por população. Ao lado, uma leitura sintética de cada território.</p>
         </div>
       </div>
       <div class="map-analytics-layout" style="align-items:start;padding:0 24px 24px">
@@ -3576,7 +3553,7 @@ function setupOscFilterInteractions(){
         checks.forEach(input => input.checked = false);
       }
       if(key === 'osc-area'){
-        syncOscFilterControls(document.getElementById('osc-territorio').value, document.getElementById('osc-bairro').value);
+        syncOscFilterControls(document.getElementById('osc-territorio-filter').value, document.getElementById('osc-bairro-filter').value);
       }
       updateMap('osc');
       return;
@@ -3592,7 +3569,7 @@ function setupOscFilterInteractions(){
     if(!input) return;
     const key = input.dataset.filterKey;
     if(key === 'osc-area'){
-      syncOscFilterControls(document.getElementById('osc-territorio').value, document.getElementById('osc-bairro').value);
+      syncOscFilterControls(document.getElementById('osc-territorio-filter').value, document.getElementById('osc-bairro-filter').value);
     }else{
       const state = getOscFilterState();
       const summary = getOscFilterSummary(state);
@@ -3728,7 +3705,7 @@ function createMap(section){
   });
   document.getElementById(`${section}-bairro`).addEventListener('change', () => {
     if(section === 'osc'){
-      syncOscFilterControls(document.getElementById('osc-territorio').value, document.getElementById('osc-bairro').value);
+      syncOscFilterControls(document.getElementById('osc-territorio-filter').value, document.getElementById('osc-bairro-filter').value);
     }
     updateMap(section);
     if(section === 'visao'){
@@ -3745,9 +3722,16 @@ function createMap(section){
 }
 
 function updateMap(section){
-  const territory = document.getElementById(`${section}-territorio`).value;
-  const bairro = document.getElementById(`${section}-bairro`).value;
-  const metric = document.getElementById(`${section}-indicador`).value;
+  let territory, bairro, metric;
+  if(section === 'osc'){
+    territory = (document.getElementById('osc-territorio-filter')||{}).value || 'Todos';
+    bairro = (document.getElementById('osc-bairro-filter')||{}).value || 'Todos';
+    metric = 'osc';
+  } else {
+    territory = document.getElementById(`${section}-territorio`).value;
+    bairro = document.getElementById(`${section}-bairro`).value;
+    metric = document.getElementById(`${section}-indicador`).value;
+  }
   const state = MAPS[section];
   const oscFilters = section === 'osc' ? getOscFilterState() : null;
   const allRows = section === 'osc'
@@ -3926,7 +3910,7 @@ function baseChartOptions() {
   };
 }
 function destroyChart(id){
-  if(CHARTS[id]) CHARTS[id].destroy();
+  if(CHARTS[id]){CHARTS[id].destroy();delete CHARTS[id];}
 }
 function makeBar(id, labels, datasets, extra={}){
   destroyChart(id);
@@ -4170,6 +4154,7 @@ function initEcon(){
   const selSetorMge=document.getElementById('mge-setor-filter');
   const selTerrMge=document.getElementById('mge-terr-filter');
   const selTipoMge=document.getElementById('mge-tipo-filter');
+  const mgeMapSearch=document.getElementById('mge-map-search');
   const bairrosBubble=[...new Set(MGE_BUBBLES.map(r=>r[4]))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
   bairrosBubble.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;selBairroMge.appendChild(o)});
   const setores=[...new Set(MGE_BUBBLES.map(r=>r[3]))].sort();
@@ -4234,11 +4219,13 @@ function initEcon(){
     const sf=selSetorMge.value;
     const tf=selTerrMge.value;
     const tp=selTipoMge.value;
+    const sq=(mgeMapSearch.value||'').toLowerCase();
     let filtered=[...MGE_BUBBLES];
     if(bf) filtered=filtered.filter(r=>r[4]===bf);
     if(sf) filtered=filtered.filter(r=>r[3]===sf);
     if(tf) filtered=filtered.filter(r=>(MGE_TERRITORY_MAP[r[4]]||'')===tf);
     if(tp) filtered=filtered.filter(r=>r[6]===tp);
+    if(sq) filtered=filtered.filter(r=>r[5].toLowerCase().includes(sq));
     return filtered.sort((a,b)=>b[2]-a[2]);
   }
 
@@ -4310,8 +4297,8 @@ function initEcon(){
   });
 
   function updateFilterUI(){
-    const bf=selBairroMge.value,sf=selSetorMge.value,tf=selTerrMge.value,tp=selTipoMge.value;
-    const active=[bf,sf,tf,tp].filter(Boolean).length;
+    const bf=selBairroMge.value,sf=selSetorMge.value,tf=selTerrMge.value,tp=selTipoMge.value,sq=mgeMapSearch.value;
+    const active=[bf,sf,tf,tp,sq].filter(Boolean).length;
     const clearBtn=document.getElementById('mge-clear-filters');
     const badge=document.getElementById('mge-filter-count');
     clearBtn.style.display=active?'':'none';
@@ -4321,6 +4308,7 @@ function initEcon(){
     selSetorMge.classList.toggle('active-filter',!!sf);
     selTerrMge.classList.toggle('active-filter',!!tf);
     selTipoMge.classList.toggle('active-filter',!!tp);
+    mgeMapSearch.classList.toggle('active-filter',!!sq);
     renderMGEMap();
   }
   renderMGEMap();
@@ -4328,8 +4316,9 @@ function initEcon(){
   selSetorMge.addEventListener('change',updateFilterUI);
   selTerrMge.addEventListener('change',updateFilterUI);
   selTipoMge.addEventListener('change',updateFilterUI);
+  mgeMapSearch.addEventListener('input',updateFilterUI);
   document.getElementById('mge-clear-filters').addEventListener('click',()=>{
-    selBairroMge.value='';selSetorMge.value='';selTerrMge.value='';selTipoMge.value='';
+    selBairroMge.value='';selSetorMge.value='';selTerrMge.value='';selTipoMge.value='';mgeMapSearch.value='';
     updateFilterUI();
   });
 
@@ -4519,7 +4508,7 @@ function initOsc(){
         const d=LOOKUP[canonical(nome)]||null;
         const terr=d?d.t:'—';
         const terrCol=terr==='Grande Mucuripe'?UI_COLORS.territoryGM:UI_COLORS.territoryGBJ;
-        layer.bindPopup(`<div style="font-family:var(--font);padding:10px"><h4 style="margin:0 0 4px;font-size:14px;font-weight:700;color:#0B2B44">${nome}</h4><div style="font-size:10px;font-weight:700;color:${terrCol};margin-bottom:6px">${terr}</div><div style="font-size:18px;font-weight:700;color:#0B4FA8">${n} OSCs</div><div style="font-size:11px;color:#6B7280">Pop. ${d?fmt(d.pop,'int'):'—'}</div></div>`,{maxWidth:300});
+        layer.bindPopup(`<div class="mge-popup"><h4>${nome}</h4><div style="font-size:10px;font-weight:700;color:${terrCol};margin-bottom:6px">${terr}</div><div class="mge-cap">${n} OSCs</div><div class="mge-meta">Pop. ${d?fmt(d.pop,'int'):'—'}</div></div>`,{maxWidth:300});
         layer.on('mouseover',function(){this.setStyle({weight:2.5,fillOpacity:.7})});
         layer.on('mouseout',function(){MAPS['map-osc'].geo.resetStyle(this)});
       }
@@ -4554,22 +4543,14 @@ function initOsc(){
         })
       });
       mk._oscData=p;
-      mk.bindPopup(`<div style="font-family:var(--font);max-width:320px">
-        <div style="background:#0B2B44;color:#fff;padding:12px 14px;border-radius:6px 6px 0 0">
-          <div style="font-size:10px;font-weight:700;letter-spacing:.05em;opacity:.7;margin-bottom:4px">OSC ativa</div>
-          <div style="font-size:13px;font-weight:700;line-height:1.3">${p.n}</div>
-          ${p.rf?'<div style="font-size:11px;opacity:.8;margin-top:2px">'+p.rf+'</div>':''}
-          <div style="font-size:10px;font-weight:700;color:${terrCol==='#0B4FA8'?'#93C5FD':'#7DD3FC'};margin-top:6px">${p.b} · ${terr}</div>
-        </div>
-        <div style="padding:10px 14px;font-size:12px;line-height:1.6;color:#374151">
-          <div style="display:flex;gap:8px;margin-bottom:8px">
-            <div style="flex:1;background:#f3f6fb;border-radius:4px;padding:6px 8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#0B4FA8">${(p.areas||[]).length}</div><div style="font-size:9px;color:#6B7280">Frentes</div></div>
-            <div style="flex:1;background:#f3f6fb;border-radius:4px;padding:6px 8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#0B4FA8">${p.tipo||'—'}</div><div style="font-size:9px;color:#6B7280">Tipo</div></div>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:2px;margin-bottom:6px">${areaChips}</div>
-          <div style="font-size:10px;color:#9CA3AF;border-top:1px solid #E5E7EB;padding-top:6px;margin-top:4px">${p.addr||''}</div>
-        </div>
-      </div>`,{maxWidth:340,className:'osc-popup-clean'});
+      mk.bindPopup(`<div class="mge-popup">
+        <h4>${p.n}</h4>
+        ${p.rf?'<div style="font-size:11px;color:#5C6E7E;margin-bottom:4px">'+p.rf+'</div>':''}
+        <div style="font-size:10px;font-weight:700;color:${terrCol};margin-bottom:6px">${terr} · ${p.b}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:2px;margin:6px 0">${areaChips}</div>
+        ${p.tipo?'<div style="font-size:11px;color:#5C6E7E;margin-top:4px">Tipo: <strong>'+p.tipo+'</strong></div>':''}
+        <div style="font-size:10px;color:#999;margin-top:4px;border-top:1px solid #eee;padding-top:4px">${p.addr||''}</div>
+      </div>`,{maxWidth:340});
       cluster.addLayer(mk);
     });
 
@@ -4609,22 +4590,14 @@ function initOsc(){
           iconSize:[10,10],iconAnchor:[5,5]
         })
       });
-      mk.bindPopup(`<div style="font-family:var(--font);max-width:320px">
-        <div style="background:#0B2B44;color:#fff;padding:12px 14px;border-radius:6px 6px 0 0">
-          <div style="font-size:10px;font-weight:700;letter-spacing:.05em;opacity:.7;margin-bottom:4px">OSC ativa</div>
-          <div style="font-size:13px;font-weight:700;line-height:1.3">${p.n}</div>
-          ${p.rf?'<div style="font-size:11px;opacity:.8;margin-top:2px">'+p.rf+'</div>':''}
-          <div style="font-size:10px;font-weight:700;color:${terrCol==='#0B4FA8'?'#93C5FD':'#7DD3FC'};margin-top:6px">${p.b} · ${terr}</div>
-        </div>
-        <div style="padding:10px 14px;font-size:12px;line-height:1.6;color:#374151">
-          <div style="display:flex;gap:8px;margin-bottom:8px">
-            <div style="flex:1;background:#f3f6fb;border-radius:4px;padding:6px 8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#0B4FA8">${(p.areas||[]).length}</div><div style="font-size:9px;color:#6B7280">Frentes</div></div>
-            <div style="flex:1;background:#f3f6fb;border-radius:4px;padding:6px 8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#0B4FA8">${p.tipo||'—'}</div><div style="font-size:9px;color:#6B7280">Tipo</div></div>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:2px;margin-bottom:6px">${areaChips}</div>
-          <div style="font-size:10px;color:#9CA3AF;border-top:1px solid #E5E7EB;padding-top:6px;margin-top:4px">${p.addr||''}</div>
-        </div>
-      </div>`,{maxWidth:340,className:'osc-popup-clean'});
+      mk.bindPopup(`<div class="mge-popup">
+        <h4>${p.n}</h4>
+        ${p.rf?'<div style="font-size:11px;color:#5C6E7E;margin-bottom:4px">'+p.rf+'</div>':''}
+        <div style="font-size:10px;font-weight:700;color:${terrCol};margin-bottom:6px">${terr} · ${p.b}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:2px;margin:6px 0">${areaChips}</div>
+        ${p.tipo?'<div style="font-size:11px;color:#5C6E7E;margin-top:4px">Tipo: <strong>'+p.tipo+'</strong></div>':''}
+        <div style="font-size:10px;color:#999;margin-top:4px;border-top:1px solid #eee;padding-top:4px">${p.addr||''}</div>
+      </div>`,{maxWidth:340});
       cl.addLayer(mk);
     });
 
@@ -5223,23 +5196,26 @@ function initComp(){
   };
 
   const TABLE_INDS = [
-    {key:'pop',     label:'População',        fmt:'int',   agg:'sum',   higher:null},
-    {key:'epob',    label:'Ext. pobreza',     fmt:'pct',   agg:'wmean', higher:'ruim'},
-    {key:'cad',     label:'CadÚnico',         fmt:'pct',   agg:'wmean', higher:'ruim'},
-    {key:'anal',    label:'Analfabetismo',    fmt:'pct',   agg:'wmean', higher:'ruim'},
-    {key:'esg',     label:'Rede de esgoto',   fmt:'pct',   agg:'wmean', higher:'bom'},
-    {key:'rendaPC', label:'Renda PC',         fmt:'money', agg:'wmean', higher:'bom'},
-    {key:'emp',     label:'Empresas',         fmt:'int',   agg:'sum',   higher:'bom'},
-    {key:'osc',     label:'OSCs',             fmt:'int',   agg:'sum',   higher:'bom'}
+    {key:'pop',      label:'População',        fmt:'int',   agg:'sum',   higher:null},
+    {key:'epob',     label:'Ext. pobreza',     fmt:'pct',   agg:'wmean', higher:'ruim'},
+    {key:'cad',      label:'CadÚnico',         fmt:'pct',   agg:'wmean', higher:'ruim'},
+    {key:'anal',     label:'Analfabetismo',    fmt:'pct',   agg:'wmean', higher:'ruim'},
+    {key:'esg',      label:'Rede de esgoto',   fmt:'pct',   agg:'wmean', higher:'bom'},
+    {key:'rendaPC',  label:'Renda PC',         fmt:'money', agg:'wmean', higher:'bom'},
+    {key:'meiShare', label:'% MEI',            fmt:'pct',   agg:'wmean', higher:null},
+    {key:'emp',      label:'Empresas',         fmt:'int',   agg:'sum',   higher:'bom'},
+    {key:'osc',      label:'OSCs',             fmt:'int',   agg:'sum',   higher:'bom'}
   ];
 
   const RADAR_INDS = [
-    {key:'epob', label:'Extrema pobreza',      transform:v=>v},
-    {key:'cad',  label:'CadÚnico',             transform:v=>v},
-    {key:'anal', label:'Analfabetismo',        transform:v=>v},
-    {key:'esg',  label:'Déficit de esgoto',    transform:v=>1-(v||0)},
-    {key:'raca', label:'Pop. não-branca',      transform:v=>v},
-    {key:'mulh', label:'Chefia feminina',      transform:v=>v}
+    {key:'epob',    label:'Extrema pobreza',    transform:v=>v},
+    {key:'cad',     label:'CadÚnico',           transform:v=>v},
+    {key:'anal',    label:'Analfabetismo',       transform:v=>v},
+    {key:'esg',     label:'Déficit de esgoto',   transform:v=>1-(v||0)},
+    {key:'rendaPC', label:'Déficit de renda',    transform:v=>Math.max(0,1-(v||0)/3000)},
+    {key:'meiShare',label:'Informalidade (MEI)', transform:v=>v||0},
+    {key:'raca',    label:'Pop. não-branca',     transform:v=>v},
+    {key:'mulh',    label:'Chefia feminina',     transform:v=>v}
   ];
 
   // ─── Agregadores ───────────────────────────────────────────────────────────
@@ -5707,7 +5683,7 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list') return;
+    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
@@ -5754,7 +5730,7 @@ document.addEventListener('click', e => {
   if(th.classList.contains('no-sort')) return;
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list') return;
+  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;
