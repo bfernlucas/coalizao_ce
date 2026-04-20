@@ -599,12 +599,12 @@ tbody tr:hover{background:#f8fbff}
 .info-balloon li{margin:4px 0}
 
 /* Network graph */
-.network-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:14px 0 0;font-size:11px}
-.network-legend .net-leg{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:8px;background:#f8fafb;transition:all .15s}
-.network-legend .net-leg:hover{background:#eef3f8}
-.network-legend .net-leg .net-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.network-legend .net-leg .net-leg-name{font-weight:500;color:var(--text);font-size:10px;line-height:1.3}
-.network-legend .net-leg .net-leg-count{margin-left:auto;font-size:10px;font-weight:700;color:var(--navy);flex-shrink:0}
+.network-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:14px 0 0;font-size:11px}
+.network-legend .net-leg{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:#f8fafb;border:1px solid var(--line-2);transition:all .15s}
+.network-legend .net-leg:hover{background:#eef3f8;border-color:var(--line)}
+.network-legend .net-leg .net-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.network-legend .net-leg .net-leg-name{font-weight:600;color:var(--text);font-size:11px;line-height:1.3}
+.network-legend .net-leg .net-leg-count{margin-left:auto;font-size:11px;font-weight:700;color:var(--navy);flex-shrink:0}
 .net-degree-bar{position:absolute;top:10px;left:10px;display:flex;gap:4px;z-index:10;flex-wrap:wrap;align-items:center}
 .net-anchor-sel{padding:4px 8px;border:1px solid var(--line-2);border-radius:6px;background:#fff;color:var(--navy);font-size:10px;font-weight:600;cursor:pointer;line-height:1.2;max-width:200px}
 .net-deg-btn{padding:5px 10px;border:1px solid var(--line-2);border-radius:6px;background:#fff;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;transition:all .15s;line-height:1;white-space:nowrap}
@@ -637,11 +637,11 @@ tbody tr:hover{background:#f8fbff}
 .net-fs-header{display:none;position:absolute;top:0;left:0;right:0;padding:12px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-2);z-index:11;justify-content:space-between;align-items:center;gap:12px}
 .net-fs-legend{display:none;position:absolute;bottom:0;left:0;right:0;padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid var(--line-2);z-index:11}
 .net-fullscreen .net-fs-header{display:flex}
-.net-fullscreen .net-fs-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;font-size:10px}
-.net-fullscreen .net-fs-legend .net-leg{display:flex;align-items:center;gap:5px;padding:5px 8px;border-radius:6px;background:rgba(248,250,251,.8);cursor:pointer;transition:opacity .15s}
-.net-fullscreen .net-fs-legend .net-leg .net-leg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.net-fullscreen .net-fs-legend .net-leg .net-leg-name{font-weight:500;color:var(--text);font-size:9.5px}
-.net-fullscreen .net-fs-legend .net-leg .net-leg-count{margin-left:auto;font-size:9.5px;font-weight:700;color:var(--navy)}
+.net-fullscreen .net-fs-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;font-size:10px}
+.net-fullscreen .net-fs-legend .net-leg{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:6px;background:rgba(248,250,251,.8);border:1px solid rgba(221,230,238,.5);cursor:pointer;transition:opacity .15s}
+.net-fullscreen .net-fs-legend .net-leg .net-leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.net-fullscreen .net-fs-legend .net-leg .net-leg-name{font-weight:600;color:var(--text);font-size:10px}
+.net-fullscreen .net-fs-legend .net-leg .net-leg-count{margin-left:auto;font-size:10px;font-weight:700;color:var(--navy)}
 .net-fullscreen .net-degree-bar{top:60px;left:16px}
 .net-fullscreen .net-expand-btn{top:14px;right:16px}
 .net-fs-backdrop{display:none;position:fixed;inset:0;background:rgba(15,39,64,.5);z-index:99989}
@@ -2069,8 +2069,18 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 
     <!-- 4 — Radar + síntese por território -->
     <div class="decision" style="margin-top:20px">
-      <h3>Como ler o radar</h3>
-      <p>Cada eixo representa um indicador de vulnerabilidade ou perfil socioeconômico, normalizado como proporção (0 a 1) e ponderado pela população dos bairros. Quanto maior a área, mais concentrado o perfil naquela dimensão. <strong>Extrema pobreza</strong> e <strong>CadÚnico</strong> medem a incidência de pobreza e cobertura de programas sociais. <strong>Analfabetismo</strong> capta a taxa de pessoas com 15+ anos sem alfabetização. <strong>Déficit de esgoto</strong> e <strong>Déficit de renda</strong> captam carências infraestruturais e econômicas. <strong>Informalidade (MEI)</strong> mostra a proporção de microempreendedores individuais sobre o total de empresas — valores altos indicam economia predominantemente informal. <strong>Pop. não-branca</strong> e <strong>Chefia feminina</strong> completam o perfil demográfico e de gênero.</p>
+      <h3>Como ler o radar — 8 eixos</h3>
+      <p>Cada eixo representa um indicador de vulnerabilidade ou perfil socioeconômico, normalizado como proporção (0 a 1) e ponderado pela população dos bairros. Quanto maior a área, mais concentrado o perfil naquela dimensão.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px 20px;margin-top:12px;font-size:13px;line-height:1.7;color:var(--text)">
+        <div><strong>1. Extrema pobreza</strong> — % da população em extrema pobreza (CadÚnico). Mede a incidência de pobreza severa.</div>
+        <div><strong>2. CadÚnico</strong> — % da população inscrita no Cadastro Único. Indica cobertura de programas sociais.</div>
+        <div><strong>3. Analfabetismo</strong> — taxa de analfabetismo entre maiores de 15 anos. Capta deficit educacional.</div>
+        <div><strong>4. Déficit de esgoto</strong> — proporção da população sem rede de esgoto. Carência infraestrutural.</div>
+        <div><strong>5. Déficit de renda</strong> — inversão da renda per capita (quanto menor a renda, maior o valor). Carência econômica.</div>
+        <div><strong>6. Informalidade (MEI)</strong> — proporção de MEIs sobre o total de empresas. Valores altos indicam economia predominantemente informal.</div>
+        <div><strong>7. Pop. não-branca</strong> — % da população que se declara parda, preta ou indígena. Perfil demográfico-racial.</div>
+        <div><strong>8. Chefia feminina</strong> — % dos domicílios com responsável mulher. Perfil de gênero e estrutura familiar.</div>
+      </div>
     </div>
     <div class="panel" style="margin-top:12px">
       <div class="panel-head">
@@ -2966,69 +2976,6 @@ function renderMapAnalysis(section, territory, bairro, metric, rows){
   `).join('');
 }
 
-function setupOscFilterInteractions(){
-  if(window.__oscFilterInteractionsBound) return;
-  window.__oscFilterInteractionsBound = true;
-
-  document.addEventListener('click', event => {
-    const toggle = event.target.closest('[data-filter-toggle]');
-    const action = event.target.closest('[data-filter-action]');
-    const insidePopover = event.target.closest('.filter-popover');
-
-    if(toggle){
-      const popover = toggle.closest('.filter-popover');
-      document.querySelectorAll('.filter-popover.open').forEach(el => {
-        if(el !== popover) el.classList.remove('open');
-      });
-      popover?.classList.toggle('open');
-      return;
-    }
-
-    if(action){
-      const key = action.dataset.filterKey;
-      const panel = document.getElementById(`${key}-panel`);
-      if(!panel) return;
-      const checks = [...panel.querySelectorAll('input[type="checkbox"]')];
-      if(action.dataset.filterAction === 'all'){
-        checks.forEach(input => input.checked = true);
-      }else{
-        checks.forEach(input => input.checked = false);
-      }
-      if(key === 'osc-area'){
-        syncOscFilterControls(document.getElementById('osc-territorio-filter').value, document.getElementById('osc-bairro-filter').value);
-      }
-      updateMap('osc');
-      return;
-    }
-
-    if(!insidePopover){
-      document.querySelectorAll('.filter-popover.open').forEach(el => el.classList.remove('open'));
-    }
-  });
-
-  document.addEventListener('change', event => {
-    const input = event.target.closest('.filter-option-input');
-    if(!input) return;
-    const key = input.dataset.filterKey;
-    if(key === 'osc-area'){
-      syncOscFilterControls(document.getElementById('osc-territorio-filter').value, document.getElementById('osc-bairro-filter').value);
-    }else{
-      const state = getOscFilterState();
-      const summary = getOscFilterSummary(state);
-      const btn = document.getElementById(`${key}-btn`);
-      if(btn){
-        btn.textContent = key === 'osc-subarea' ? summary.subareaLabel : summary.areaLabel;
-      }
-    }
-    updateMap('osc');
-  });
-
-  document.addEventListener('keydown', event => {
-    if(event.key === 'Escape'){
-      document.querySelectorAll('.filter-popover.open').forEach(el => el.classList.remove('open'));
-    }
-  });
-}
 
 function createMap(section){
   const cfg = MAP_CONFIG[section];
@@ -3158,9 +3105,6 @@ function createMap(section){
   });
   document.getElementById(`${section}-indicador`).addEventListener('change', () => updateMap(section));
 
-  if(section === 'osc'){
-    setupOscFilterInteractions();
-  }
 }
 
 function updateMap(section){
@@ -4773,7 +4717,7 @@ function initComp(){
   // ─── 3) Tabela: indicadores consolidados por território ────────────────────
   function renderRegionTable(){
     const tbl = document.getElementById('synth-region-table');
-    const headers = `<tr><th style="text-align:left">Território</th>${TABLE_INDS.map(i=>`<th>${i.label}</th>`).join('')}</tr>`;
+    const headers = `<tr><th class="sortable" style="text-align:left">Território<span class="sort-icon"> ↕</span></th>${TABLE_INDS.map(i=>`<th class="sortable">${i.label}<span class="sort-icon"> ↕</span></th>`).join('')}</tr>`;
     const body = GROUPS.map(g=>{
       const gd = groupAgg[g];
       const col = GROUP_COLORS[g] || '#888';
@@ -4782,7 +4726,7 @@ function initComp(){
         ${TABLE_INDS.map(i=>`<td>${fmt(gd.values[i.key], i.fmt)}</td>`).join('')}
       </tr>`;
     }).join('');
-    const muniRow = `<tr style="background:#F3F6FA;font-weight:700">
+    const muniRow = `<tr class="no-sort" style="background:#F3F6FA;font-weight:700">
       <td style="text-align:left">Total acompanhado</td>
       ${TABLE_INDS.map(i=>`<td>${fmt(muni.values[i.key], i.fmt)}</td>`).join('')}
     </tr>`;
@@ -4795,8 +4739,9 @@ function initComp(){
     const tbl = document.getElementById('synth-bairro-table');
     const hdrCols = [{key:'b',label:'Bairro',fmt:null,align:'left'},{key:'t',label:'Território',fmt:null,align:'left'}]
                     .concat(TABLE_INDS.map(i=>({key:i.key,label:i.label,fmt:i.fmt,align:'right'})));
-    const arrow = k => sortKey===k ? (sortDir===-1?' ↓':' ↑') : '';
-    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
+    const arrow = k => sortKey===k ? (sortDir===-1?'↓':'↑') : '↕';
+    const sortCls = k => sortKey===k ? (sortDir===-1?' sort-desc':' sort-asc') : '';
+    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable${sortCls(c.key)}" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}<span class="sort-icon">${arrow(c.key)}</span></th>`).join('')+'</tr>';
     const rows = DATA.slice();
     rows.sort((a,b)=>{
       const va=a[sortKey], vb=b[sortKey];
@@ -4876,7 +4821,7 @@ function initComp(){
           r:{
             min:0, max:100,
             ticks:{display:false, stepSize:25},
-            pointLabels:{font:{family:'Inter', size:10.5, weight:'600'}, color:'#1B2D3E'},
+            pointLabels:{font:{family:'Inter', size:11.5, weight:'700'}, color:'#1B2D3E', padding:8},
             angleLines:{color:'#E5EAF0'},
             grid:{color:'#EEF2F6'}
           }
@@ -5129,7 +5074,7 @@ function enableTableSorting(root){
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
-      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
+      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined || th.dataset.mgeCol !== undefined || th.dataset.oscCol !== undefined || th.dataset.k !== undefined) return;
       if(!th.classList.contains('sortable')) th.classList.add('sortable');
       if(!th.querySelector('.sort-icon')){
         const ic = document.createElement('span');
@@ -5170,7 +5115,7 @@ document.addEventListener('click', e => {
   const th = e.target.closest('thead th');
   if(!th) return;
   if(th.classList.contains('no-sort')) return;
-  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
+  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined || th.dataset.mgeCol !== undefined || th.dataset.oscCol !== undefined || th.dataset.k !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
   if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table') return;
   const ths = Array.from(th.parentElement.cells);
