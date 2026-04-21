@@ -1795,7 +1795,7 @@ tbody tr:hover{background:#EEF4FF}
 
 /* Responsive tweaks */
 @media(max-width:1100px){
-  .tabs{top:56px}
+  .tabs{top:57px}
   .grid.hero,.grid.two,.grid.three,.grid.four{grid-template-columns:1fr}
   .map-analytics-layout{grid-template-columns:1fr}
   .comparison-grid{grid-template-columns:1fr}
@@ -1833,7 +1833,7 @@ body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,
 .decision::before{display:none}
 .decision h3{color:var(--brand);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
 .decision p{font-size:13px;line-height:1.6;color:#3B4C5C}
-.panel{border-color:#D8E0E8;box-shadow:none;border-radius:4px;background:#fff}
+.panel{border-color:#D8E0E8;box-shadow:none;border-radius:var(--radius);background:#fff}
 .panel-title{color:#111;font-size:13px;font-weight:700}
 .panel-sub{font-size:11px;color:#5C6E7E}
 .analysis-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#eef5fb;color:var(--brand);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:none}
@@ -2374,7 +2374,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Empresas médias e grandes por bairro (dez/2024)</h3><p class="panel-sub">Quantidade de estabelecimentos porte "Demais"</p></div></div><div class="chart-box"><canvas id="chart-mge-bairro" class="chart tall"></canvas></div></div>
     </div>
 
-    <div class="grid two">
+    <div class="grid two" style="margin-top:18px">
       <div class="panel">
         <div class="panel-head"><div><h3 class="panel-title">Volume empresarial por bairro (dez/2024)</h3><p class="panel-sub">Todos os portes</p></div></div>
         <div class="chart-box"><canvas id="chart-econ-emp" class="chart tall"></canvas></div>
@@ -2628,7 +2628,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <!-- 4 — Radar + síntese por território -->
     <div class="decision" style="margin-top:20px">
       <h3>Como ler o radar</h3>
-      <p>Cada eixo representa um indicador de vulnerabilidade ou perfil socioeconômico, normalizado como proporção (0 a 1) e ponderado pela população dos bairros. Quanto maior a área, mais concentrado o perfil naquela dimensão. <strong>Extrema pobreza</strong> e <strong>CadÚnico</strong> medem a incidência de pobreza e cobertura de programas sociais. <strong>Déficit de esgoto</strong> e <strong>Déficit de renda</strong> captam carências infraestruturais e econômicas. <strong>Informalidade (MEI)</strong> mostra a proporção de microempreendedores individuais sobre o total de empresas — valores altos indicam economia predominantemente informal. <strong>Pop. não-branca</strong> e <strong>Chefia feminina</strong> completam o perfil demográfico e de gênero.</p>
+      <p>Cada eixo representa um indicador de vulnerabilidade ou perfil socioeconômico, normalizado como proporção (0 a 1) e ponderado pela população dos bairros. Quanto maior a área, mais concentrado o perfil naquela dimensão. <strong>Extrema pobreza</strong> e <strong>CadÚnico</strong> medem a incidência de pobreza e cobertura de programas sociais. <strong>Déficit de esgoto</strong> e <strong>Déficit de renda</strong> captam carências infraestruturais e econômicas. <strong>Informalidade (MEI)</strong> mostra a proporção de microempreendedores individuais sobre o total de empresas — valores altos indicam economia predominantemente informal. <strong>Pop. não-branca</strong> e <strong>Chefia feminina</strong> completam o perfil demográfico e de gênero. Regiões com áreas de radar mais amplas apresentam perfis de vulnerabilidade mais acentuados, enquanto regiões com áreas menores indicam condições socioeconômicas relativamente melhores. Use o radar para identificar as dimensões prioritárias de cada território.</p>
     </div>
     <div class="panel" style="margin-top:12px">
       <div class="panel-head">
@@ -2644,6 +2644,18 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         </div>
         <div id="synth-reading" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:560px;padding-right:4px"></div>
       </div>
+      <div class="note-box" style="margin:0 24px 20px;font-size:11px;color:var(--muted);line-height:1.6">
+        <strong style="color:var(--navy);font-size:11px">Nota metodológica.</strong> Os indicadores do radar são normalizados como proporção (0 a 1) e ponderados pela população de cada bairro para agregar por território. Indicadores de déficit (esgoto, renda) são invertidos para que todos os eixos apontem na mesma direção: maior = mais vulnerável. O eixo de renda usa como teto R$ 3.000/mês per capita; o de informalidade usa a razão MEI/total de empresas. Fonte: Censo 2022, CadÚnico/MDS 2024, Receita Federal dez/2024.
+      </div>
+    </div>
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title">Destaques da síntese</h3>
+          <p class="panel-sub">Principais achados comparando os dois territórios</p>
+        </div>
+      </div>
+      <div id="synth-highlights" style="padding:0 24px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px"></div>
     </div>
   </section>
 
@@ -2720,19 +2732,19 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
           <tbody>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#1E40AF"></span>Grande Bom Jardim</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell alto"><span>Baixo risco</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Baixo risco</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#0B4FA8"></span>Grande Mucuripe</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
             </tr>
           </tbody>
         </table>
@@ -2865,28 +2877,28 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
           <tbody>
             <tr>
               <td>Pacto Contra a Fome<span class="p-scope">Segurança alimentar · articulação nacional</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f1" title="Baixa prioridade"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa prioridade"></span></td>
             </tr>
             <tr>
               <td>Movimento BemMaior<span class="p-scope">Mobilização cidadã · engajamento comunitário</span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
             </tr>
             <tr>
               <td>Astor Capital<span class="p-scope">Capital social · investimento estruturante</span></td>
-              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
             </tr>
             <tr>
               <td>Instituto Localiza<span class="p-scope">Capacitação profissional · empregabilidade</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
             </tr>
             <tr>
               <td>Somos Um<span class="p-scope">Articulação comunitária · base territorial</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
             </tr>
           </tbody>
         </table>
@@ -4361,7 +4373,7 @@ function initEcon(){
       ${colHeaders.map(h=>`<th class="sortable${econSortKey===h.k?' sort-'+(econSortDir===1?'asc':'desc'):''}" data-econ-col="${h.k}">${h.label}<span class="sort-icon">${econSortKey===h.k?(econSortDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}
       <th>Território</th><th>Principal CNAE</th>
     </tr></thead><tbody>${rows.map(d=>{
-      const terrCol=d.t==='Grande Mucuripe'?UI_COLORS.territoryGM||'#0B4FA8':UI_COLORS.territoryGBJ||'#059669';
+      const terrCol=d.t==='Grande Mucuripe'?UI_COLORS.territoryGM||'#0B4FA8':UI_COLORS.territoryGBJ||'#1E40AF';
       const meiHigh=d.meiShare!=null&&d.meiShare>.8;
       const meiMed=d.meiShare!=null&&d.meiShare>.6&&d.meiShare<=.8;
       return `<tr${meiHigh?' class="mei-high"':''}>
@@ -4414,11 +4426,11 @@ function initEcon(){
     const tbl=document.getElementById('table-mge-list');
     if(!tbl) return;
     const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
-    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${mgeTableSort===c.k?' sort-'+(mgeTableDir===1?'asc':'desc'):''}" data-mge-col="${c.k}">${c.label}<span class="sort-icon">${mgeTableSort===c.k?(mgeTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}</tr></thead><tbody>${rows.slice(0,200).map(r=>{
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${mgeTableSort===c.k?' sort-'+(mgeTableDir===1?'asc':'desc'):''}" data-mge-col="${c.k}">${c.label}<span class="sort-icon">${mgeTableSort===c.k?(mgeTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}</tr></thead><tbody>${rows.slice(0,500).map(r=>{
       const terr=MGE_TERRITORY_MAP[r[4]]||'';
       const tCol=terrColors[terr]||'#999';
       return `<tr><td style="font-weight:600;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[5]}">${r[5]}</td><td data-sort-value="${r[2]}" style="white-space:nowrap">${fmtCap(r[2])}</td><td><span class="sector-tag">${r[3]}</span></td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r[4]}</td><td><span class="tipo-badge ${r[6]==='M'?'tipo-m':'tipo-f'}">${r[6]==='M'?'Matriz':'Filial'}</span></td></tr>`;
-    }).join('')}${rows.length>200?`<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
+    }).join('')}${rows.length>500?`<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 500 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
     document.querySelectorAll('#table-mge-list th.sortable').forEach(th=>{
       th.onclick=()=>{
         const col=th.dataset.mgeCol;
@@ -4730,11 +4742,11 @@ function initOsc(){
     const tbl=document.getElementById('table-osc-list');
     if(!tbl) return;
     const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
-    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th><th class="no-sort">Território</th>`.slice(0,-30)).join('')}<th class="no-sort" style="min-width:90px">Território</th></tr></thead><tbody>${rows.slice(0,200).map(r=>{
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th><th class="no-sort">Território</th>`.slice(0,-30)).join('')}<th class="no-sort" style="min-width:90px">Território</th></tr></thead><tbody>${rows.map(r=>{
       const tCol=terrColors[r.t]||'#999';
       const nomeTitle=[r.n,r.rf].filter(Boolean).join(' · ');
       return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${nomeTitle}">${r.n||r.rf||'—'}</td><td>${r.b||'—'}</td><td>${(r.areas||[]).filter(a=>a!=='Sem classificação').map(a=>`<span class="tag" style="margin:1px 2px">${a.length>30?a.slice(0,30)+'…':a}</span>`).join(' ')||'—'}</td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r.t||'—'}</td></tr>`;
-    }).join('')}${rows.length>200?`<tr><td colspan="4" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} organizações.</td></tr>`:''}</tbody>`;
+    }).join('')}</tbody>`;
     document.querySelectorAll('#table-osc-list th.sortable').forEach(th=>{
       th.onclick=()=>{
         const col=th.dataset.oscCol;
@@ -5497,6 +5509,89 @@ function initComp(){
     }).join('');
   }
 
+  // ─── 7) Destaques da síntese ────────────────────────────────────────────────
+  function renderHighlights(){
+    const el = document.getElementById('synth-highlights');
+    if(!el) return;
+    const gbj = groupAgg['Grande Bom Jardim'];
+    const gmu = groupAgg['Grande Mucuripe'];
+    if(!gbj||!gmu) return;
+
+    const cards = [];
+
+    // 1. Extrema pobreza
+    const epGBJ = (gbj.values.epob||0)*100;
+    const epGMU = (gmu.values.epob||0)*100;
+    const epHigher = epGBJ > epGMU ? 'Grande Bom Jardim' : 'Grande Mucuripe';
+    const epDiff = Math.abs(epGBJ - epGMU);
+    cards.push({
+      title:'Extrema pobreza',
+      value: fmt(Math.max(epGBJ,epGMU)/100,'pct'),
+      desc:`${epHigher} tem a maior incidência de extrema pobreza, ${epDiff.toFixed(1)} p.p. acima do outro território.`
+    });
+
+    // 2. Infraestrutura (esgoto)
+    const esgGBJ = (gbj.values.esg||0)*100;
+    const esgGMU = (gmu.values.esg||0)*100;
+    const esgBetter = esgGBJ > esgGMU ? 'Grande Bom Jardim' : 'Grande Mucuripe';
+    const esgDiff = Math.abs(esgGBJ - esgGMU);
+    cards.push({
+      title:'Cobertura de esgoto',
+      value: fmt(Math.max(esgGBJ,esgGMU)/100,'pct'),
+      desc:`${esgBetter} tem melhor cobertura de rede de esgoto, ${esgDiff.toFixed(1)} p.p. acima do outro território.`
+    });
+
+    // 3. OSCs per capita
+    const oscGBJ = (gbj.values.osc||0);
+    const oscGMU = (gmu.values.osc||0);
+    const oscPcGBJ = gbj.pop ? (oscGBJ/gbj.pop*10000) : 0;
+    const oscPcGMU = gmu.pop ? (oscGMU/gmu.pop*10000) : 0;
+    const oscMore = oscPcGBJ > oscPcGMU ? 'Grande Bom Jardim' : 'Grande Mucuripe';
+    cards.push({
+      title:'OSCs por 10 mil hab.',
+      value: Math.max(oscPcGBJ,oscPcGMU).toFixed(1),
+      desc:`${oscMore} concentra mais organizações por habitante (${Math.max(oscPcGBJ,oscPcGMU).toFixed(1)} vs ${Math.min(oscPcGBJ,oscPcGMU).toFixed(1)} por 10 mil hab.).`
+    });
+
+    // 4. MEI share
+    const meiGBJ = (gbj.values.meiShare||0)*100;
+    const meiGMU = (gmu.values.meiShare||0)*100;
+    const meiHigher = meiGBJ > meiGMU ? 'Grande Bom Jardim' : 'Grande Mucuripe';
+    cards.push({
+      title:'Participação de MEIs',
+      value: fmt(Math.max(meiGBJ,meiGMU)/100,'pct'),
+      desc:`${meiHigher} tem maior proporção de MEIs sobre o total de empresas, sinalizando economia mais informal.`
+    });
+
+    // 5. Income gap
+    const rGBJ = gbj.values.rendaPC||0;
+    const rGMU = gmu.values.rendaPC||0;
+    const rRicher = rGBJ > rGMU ? 'Grande Bom Jardim' : 'Grande Mucuripe';
+    const rGap = rGMU && rGBJ ? Math.abs(rGMU - rGBJ) : 0;
+    cards.push({
+      title:'Gap de renda per capita',
+      value: 'R$ '+rGap.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}),
+      desc:`${rRicher} tem renda per capita mais alta. A diferença entre os dois territórios é de R$ ${rGap.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})}.`
+    });
+
+    // 6. Analfabetismo
+    const anGBJ = (gbj.values.anal||0)*100;
+    const anGMU = (gmu.values.anal||0)*100;
+    const anHigher = anGBJ > anGMU ? 'Grande Bom Jardim' : 'Grande Mucuripe';
+    const anDiff = Math.abs(anGBJ - anGMU);
+    cards.push({
+      title:'Analfabetismo',
+      value: fmt(Math.max(anGBJ,anGMU)/100,'pct'),
+      desc:`${anHigher} apresenta taxa de analfabetismo ${anDiff.toFixed(1)} p.p. superior à do outro território.`
+    });
+
+    el.innerHTML = cards.map(c=>`<div style="background:#F4F6F9;border:1px solid var(--line);border-radius:var(--radius);padding:16px">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">${c.title}</div>
+      <div style="font-size:20px;font-weight:800;color:var(--navy);margin-bottom:6px">${c.value}</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.5">${c.desc}</div>
+    </div>`).join('');
+  }
+
   // ─── Execução ──────────────────────────────────────────────────────────────
   renderDivisionMap();
   renderGroupCards();
@@ -5504,6 +5599,7 @@ function initComp(){
   renderBairroTable();
   renderRadar();
   renderReading();
+  renderHighlights();
 }
 function initTab(tab){
   if(INITED.has(tab)) return;
