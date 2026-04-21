@@ -1475,7 +1475,7 @@ body{
 
 /* Tab navigation */
 .tabs{
-  top:56px;
+  top:57px;
   background:#FFFFFF;
   border-bottom:2px solid var(--line);
   box-shadow:none;
@@ -3065,6 +3065,7 @@ const LOOKUP = {};
 DATA.forEach(d => { d.rendaPC=d.renda&&d.resp&&d.morDom?Math.round(d.renda*d.resp/d.morDom*100)/100:null; LOOKUP[canonical(d.b)] = d; });
 
 
+
 const OSC_CATEGORY_COLORS = {
   'Assistência social':'#b54841',
   'Associações patronais e profissionais':'#2f7ea1',
@@ -4236,7 +4237,7 @@ function initEcon(){
     filtered.forEach(r=>{
       const [lat,lng,cap,setor,bairro,nome,tipo]=r;
       const terr=MGE_TERRITORY_MAP[bairro]||'—';
-      const terrCol=terr==='Grande Mucuripe'?UI_COLORS.territoryGM||'#0B4FA8':UI_COLORS.territoryGBJ||'#059669';
+      const terrCol=terr==='Grande Mucuripe'?UI_COLORS.territoryGM||'#0B4FA8':UI_COLORS.territoryGBJ||'#1E40AF';
       const dotColor=mgeColor(cap);
       const mk=L.marker([lat,lng],{
         icon:L.divIcon({
@@ -4270,7 +4271,7 @@ function initEcon(){
     const listEl=document.getElementById('mge-top-list');
     listEl.innerHTML=shown.map((r,i)=>{
       const terr=MGE_TERRITORY_MAP[r[4]]||'';
-      const terrCol=terr==='Grande Mucuripe'?UI_COLORS.territoryGM||'#0B4FA8':UI_COLORS.territoryGBJ||'#059669';
+      const terrCol=terr==='Grande Mucuripe'?UI_COLORS.territoryGM||'#0B4FA8':UI_COLORS.territoryGBJ||'#1E40AF';
       return `<div style="padding:5px 0;border-bottom:1px solid var(--line-2)">
         <div style="display:flex;gap:6px;align-items:center">
           <span style="font-weight:600;color:var(--muted);font-size:10px;min-width:18px">${i+1}</span>
