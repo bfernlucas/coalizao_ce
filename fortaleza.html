@@ -1421,8 +1421,6 @@ tbody tr:hover{background:#f4f8fc}
    World Bank–inspired design system override
    Clean, structured, professional data presentation
    ====================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
-
 :root{
   --bg:#F4F6F9;
   --panel:#FFFFFF;
@@ -1853,18 +1851,6 @@ body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,
 .legend-scale span:nth-child(5){background:#0B4FA8}
 .legend-scale span:nth-child(6){background:#0B2B44}
 .filters select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.12)}
-table{border-collapse:collapse}
-th,td{padding:10px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--line)}
-th{background:#F4F6F9;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);white-space:nowrap}
-tbody tr{background:#fff}tbody tr:nth-child(even){background:#F9FAFB}tbody tr:hover{background:var(--brand-5)}
-th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
-th.sortable:hover{color:var(--brand)}
-th.sortable .sort-icon{font-size:10px;color:var(--muted);opacity:.45;margin-left:4px}
-th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
-.table-filter-bar{padding:12px 0;border-bottom:1px solid var(--line);display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:transparent}
-.table-filter-bar input,.table-filter-bar select{padding:8px 12px;border:1px solid var(--line);border-radius:6px;font:inherit;font-size:13px;font-weight:500;background:#fff;color:var(--text);flex:1;min-width:140px}
-.table-filter-bar input:focus,.table-filter-bar select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
-.table-count{font-size:11px;color:var(--muted);white-space:nowrap;align-self:center}
 .tag,.chip{background:var(--brand-5);border-color:var(--brand-4);color:var(--brand)}
 .kpi-grid.six{grid-template-columns:repeat(6,1fr)}
 @media(max-width:1100px){.kpi-grid.six{grid-template-columns:repeat(3,1fr)}}
@@ -1891,6 +1877,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
   cursor:text;
 }
 .map-filter-overlay input[type="search"]:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
+.map-filter-overlay input[type="search"].active-filter{border-color:var(--brand);background-color:#EFF6FF;color:var(--brand)}
 .map-filter-overlay select{
   appearance:none;
   padding:6px 26px 6px 10px;
@@ -2027,6 +2014,107 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
   .strategy-list{grid-template-columns:1fr}
   .adic-region-stats{grid-template-columns:repeat(2,1fr)}
 }
+/* ======================================================
+   World Bank–inspired design system override
+   Clean, structured, professional data presentation
+   ====================================================== */
+:root{
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 3px 10px rgba(11,79,168,.07);
+  --shadow-soft:0 1px 2px rgba(0,0,0,.04),0 2px 6px rgba(11,79,168,.04);
+  --radius:6px;
+}
+body{
+  font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  background:#F4F6F9;color:var(--text);
+}
+.topbar{
+  background:#0B2B44!important;
+  border-bottom:3px solid #0B4FA8;
+  padding:0 28px;height:54px;
+  display:flex;align-items:center;box-shadow:none;
+}
+.topbar-inner{max-width:1400px;width:100%;height:100%;display:flex;align-items:center;justify-content:space-between}
+.brand-title{font-size:14px;font-weight:700;letter-spacing:-.01em;color:#fff!important}
+.brand-sub{font-size:11px;color:rgba(255,255,255,.65)!important;margin-top:1px;line-height:1.4}
+.badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:4px;padding:4px 10px;font-size:11px;font-weight:600}
+.header-badges{gap:7px}
+.tabs{top:56px;background:#FFFFFF;border-bottom:2px solid var(--line);box-shadow:none;backdrop-filter:none}
+.tabs-inner{padding:0 24px;gap:0}
+.tab-btn{padding:13px 18px 11px;font-size:13px;font-weight:600;letter-spacing:0;border-bottom:3px solid transparent;color:var(--muted)}
+.tab-btn:hover{color:var(--brand);background:transparent}
+.tab-btn.active{color:var(--brand);border-bottom-color:var(--brand);background:transparent}
+.container{max-width:1400px;padding:28px 24px 48px}
+.section-head{margin-bottom:22px}
+.section-kicker{padding:4px 10px;background:#EFF6FF;border:1px solid #BFDBFE;color:var(--brand);border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.06em}
+.section-title{margin:10px 0 8px;font-size:28px;line-height:1.18;letter-spacing:-.02em;font-weight:700;color:var(--navy)}
+.section-desc{max-width:900px;font-size:14px;color:var(--muted);line-height:1.65}
+.decision{position:relative;background:#F4F7FB;border:1px solid #D8E0E8;border-left:3px solid var(--brand);border-radius:0;padding:14px 18px;margin:0 0 20px;box-shadow:none}
+.decision::before{display:none}
+.decision h3{margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin-bottom:5px}
+.decision p{font-size:13px;line-height:1.6;color:#3B4C5C;margin:0}
+.grid{gap:16px}
+.panel{background:#FFFFFF;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.panel-head{padding:14px 20px 12px;border-bottom:1px solid var(--line);align-items:center;background:transparent}
+.panel-title{font-size:13px;font-weight:700;color:#111;margin:0}
+.panel-sub{font-size:11px;color:#5C6E7E;margin-top:2px}
+.filters{gap:10px}
+.filters select{appearance:none;min-width:160px;font-size:13px;font-weight:600;border:1px solid var(--line);color:var(--text);border-radius:4px;padding:8px 34px 8px 11px;background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%235C6E7E' d='M5 7L0.67 2h8.66z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:calc(100% - 10px) 50%;box-shadow:none}
+.filters select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.12)}
+.map-box{margin:0 20px;height:440px;border-radius:4px;border:1px solid var(--line);background:#EBF0F5;box-shadow:none}
+.map-box.split{height:440px;margin:0}
+.map-analytics-layout{gap:16px;padding:12px 20px 4px}
+.map-footer{padding:12px 20px 20px;gap:16px}
+.analysis-card{background:#FFFFFF;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:none;min-height:auto}
+.analysis-kicker{padding:4px 8px;font-size:10px;font-weight:700;background:#EFF6FF;border-radius:3px;color:var(--brand);border:none;letter-spacing:.07em}
+.analysis-title{font-size:18px;font-weight:700;color:var(--navy);margin:10px 0 8px;letter-spacing:-.01em}
+.analysis-text{font-size:13px;line-height:1.7;color:var(--text)}
+.analysis-stat{background:#F4F6F9;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;box-shadow:none}
+.analysis-stat-label{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;line-height:1.4}
+.analysis-stat-value{font-size:20px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+.analysis-stat-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+.legend-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0}
+.legend-scale{border-radius:3px;height:12px;border:1px solid var(--line)}
+.legend-labels{font-size:10px;color:var(--muted)}
+.note-box{background:#F8FAFB;border:1px solid var(--line-2);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--muted);line-height:1.6}
+.kpi-grid{padding:12px 20px 20px;gap:12px}
+.kpi{background:#fff;border:1px solid #D8E0E8;border-top:none;border-radius:0;padding:14px 16px;box-shadow:none}
+.kpi .label{font-size:10px;font-weight:700;color:#5C6E7E;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.kpi .value{font-size:22px;font-weight:800;color:#111;letter-spacing:-.02em}
+.kpi .sub{font-size:11px;color:#7F91A3;margin-top:3px;line-height:1.4}
+.chart-box{padding:12px 20px 20px}
+.chart{height:260px}
+.table-wrap{padding:0;overflow:auto;max-height:550px}
+.table-wrap thead th{position:sticky;top:0;z-index:10}
+table{border-collapse:collapse;width:100%}
+th,td{padding:10px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--line)}
+th{background:#F4F6F9;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);white-space:nowrap}
+tbody tr{background:#fff}
+tbody tr:nth-child(even){background:#F9FAFB}
+tbody tr:hover{background:#EFF6FF}
+th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+th.sortable:hover{color:var(--brand)}
+th.sortable .sort-icon{font-size:10px;color:var(--muted);opacity:.4;margin-left:3px}
+th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
+.table-filter-bar{padding:8px 20px;border-bottom:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:#f8fafb}
+.table-filter-bar input,.table-filter-bar select{padding:7px 11px;border:1px solid var(--line);border-radius:4px;font:inherit;font-size:12px;background:#fff;color:var(--text);flex:1;min-width:140px}
+.table-filter-bar input:focus,.table-filter-bar select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
+.table-count{font-size:11px;color:var(--muted);white-space:nowrap;align-self:center}
+.tag{border-radius:3px;padding:3px 8px;background:#EFF6FF;border:none;color:var(--brand);font-size:11px;font-weight:600}
+.territory-card{margin:0;border-radius:var(--radius);padding:18px;background:var(--brand);color:#fff}
+.territory-card.alt{background:var(--teal)}
+.territory-card h4{margin:0 0 8px;font-size:16px;font-weight:700}
+.territory-card p{margin:0;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85)}
+.territory-card .mini div{border-radius:4px}
+.map-overlay-controls{border-radius:6px;background:rgba(255,255,255,.97);border:1px solid rgba(200,217,245,.9);box-shadow:0 4px 16px rgba(0,0,0,.1);padding:10px;backdrop-filter:none}
+.map-overlay-badge{border-radius:4px;background:#EFF6FF;color:var(--brand);padding:5px 8px;font-size:10px;font-weight:700;letter-spacing:.07em;border:none}
+.leaflet-popup-content-wrapper{border-radius:6px;box-shadow:0 4px 20px rgba(0,0,0,.15);border:1px solid var(--line);overflow:hidden}
+.leaflet-popup-tip{background:#fff}
+.leaflet-container{background:#EBF0F5}
+.leaflet-control-attribution{background:rgba(255,255,255,.92)!important;border-radius:3px!important;padding:3px 7px!important;font-size:10px!important;color:var(--muted)!important;box-shadow:none;backdrop-filter:none}
+/* ── Identidade Coalizão CE ──────────────────────── */
+body{background:#fff}
+.tab-btn.active{border-bottom-color:var(--gold)}
+.kpi{padding:18px;border:1px solid #e8eff5;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);box-shadow:0 8px 20px rgba(16,42,67,.04)}
 </style>
 </head>
 <body>
@@ -2628,7 +2716,8 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
     <!-- 4 — Radar + síntese por território -->
     <div class="decision" style="margin-top:20px">
       <h3>Como ler o radar</h3>
-      <p>Cada eixo representa um indicador de vulnerabilidade ou perfil socioeconômico, normalizado como proporção (0 a 1) e ponderado pela população dos bairros. Quanto maior a área, mais concentrado o perfil naquela dimensão. <strong>Extrema pobreza</strong> e <strong>CadÚnico</strong> medem a incidência de pobreza e cobertura de programas sociais. <strong>Déficit de esgoto</strong> e <strong>Déficit de renda</strong> captam carências infraestruturais e econômicas. <strong>Informalidade (MEI)</strong> mostra a proporção de microempreendedores individuais sobre o total de empresas — valores altos indicam economia predominantemente informal. <strong>Pop. não-branca</strong> e <strong>Chefia feminina</strong> completam o perfil demográfico e de gênero.</p>
+      <p>O gráfico radar permite comparar os dois territórios da Coalizão em Fortaleza em <strong>8 dimensões</strong>. Cada eixo é normalizado de 0 a 1 e ponderado pela população dos bairros. <strong>Quanto maior a área coberta, maior a vulnerabilidade</strong> naquele eixo.</p>
+      <p style="margin-top:8px;font-size:12px;line-height:1.7;color:#5C6E7E"><strong>Extrema pobreza:</strong> % dos domicílios em extrema pobreza (MDS, 2025). <strong>CadÚnico:</strong> % de famílias inscritas no CadÚnico em relação ao total de domicílios. <strong>Analfabetismo:</strong> taxa de analfabetismo 15+ (IBGE, 2022). <strong>Déficit de esgoto:</strong> inversão da cobertura de rede de esgoto — quanto maior, pior. <strong>Déficit de renda:</strong> distância do rendimento per capita em relação ao limiar de R$ 3.000 — quanto maior, mais pobre. <strong>Informalidade (MEI):</strong> % de empresas que são MEIs — valores altos indicam economia predominantemente informal. <strong>Pop. não-branca:</strong> % da população não-branca (IBGE, 2022). <strong>Chefia feminina:</strong> % de domicílios com responsável mulher (IBGE, 2022).</p>
     </div>
     <div class="panel" style="margin-top:12px">
       <div class="panel-head">
@@ -3377,6 +3466,7 @@ function buildPopup(d, metric, section='visao'){
 
 function fillSelect(selectId, options, selected, allLabel='Todos'){
   const el = document.getElementById(selectId);
+  if(!el) return;
   el.innerHTML = options.map(o => `<option value="${o}" ${o===selected?'selected':''}>${o === 'Todos' ? allLabel : o}</option>`).join('');
 }
 
@@ -3695,7 +3785,10 @@ function createMap(section){
   applyLegendPalette(section);
   updateMap(section);
 
-  document.getElementById(`${section}-territorio`).addEventListener('change', e => {
+  const elTerr = document.getElementById(`${section}-territorio`);
+  const elBairro = document.getElementById(`${section}-bairro`);
+  const elIndic = document.getElementById(`${section}-indicador`);
+  if(elTerr) elTerr.addEventListener('change', e => {
     fillSelect(`${section}-bairro`, getBairros(e.target.value), 'Todos', 'Todos os bairros');
     if(section === 'osc'){
       syncOscFilterControls(e.target.value, 'Todos');
@@ -3703,18 +3796,20 @@ function createMap(section){
     updateMap(section);
     if(section === 'visao') refreshOverviewCharts(e.target.value, 'Todos');
   });
-  document.getElementById(`${section}-bairro`).addEventListener('change', () => {
+  if(elBairro) elBairro.addEventListener('change', () => {
     if(section === 'osc'){
-      syncOscFilterControls(document.getElementById('osc-territorio-filter').value, document.getElementById('osc-bairro-filter').value);
+      const oscTerr = document.getElementById('osc-territorio-filter');
+      const oscBairro = document.getElementById('osc-bairro-filter');
+      syncOscFilterControls(oscTerr?oscTerr.value:'', oscBairro?oscBairro.value:'');
     }
     updateMap(section);
     if(section === 'visao'){
-      const t = document.getElementById('visao-territorio').value;
-      const b = document.getElementById('visao-bairro').value;
-      refreshOverviewCharts(t, b);
+      const t = document.getElementById('visao-territorio');
+      const b = document.getElementById('visao-bairro');
+      refreshOverviewCharts(t?t.value:'Todos', b?b.value:'Todos');
     }
   });
-  document.getElementById(`${section}-indicador`).addEventListener('change', () => updateMap(section));
+  if(elIndic) elIndic.addEventListener('change', () => updateMap(section));
 
   if(section === 'osc'){
     setupOscFilterInteractions();
@@ -4521,10 +4616,10 @@ function initOsc(){
       showCoverageOnHover:false,
       iconCreateFunction:function(cluster){
         const count=cluster.getChildCount();
-        let size=36,bg='#93C5FD',text='#0B4FA8';
-        if(count>=50){size=48;bg='#0B4FA8';text='#fff';}
-        else if(count>=15){size=42;bg='#4f7b98';text='#fff';}
-        return L.divIcon({html:`<div style="width:${size}px;height:${size}px;border-radius:50%;background:${bg};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${text};border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.25)">${count}</div>`,className:'',iconSize:[size,size],iconAnchor:[size/2,size/2]});
+        let cls='mge-cluster-sm';
+        if(count>=50) cls='mge-cluster-lg';
+        else if(count>=15) cls='mge-cluster-md';
+        return L.divIcon({html:'<div class="mge-cluster '+cls+'">'+count+'</div>',className:'',iconSize:[52,52],iconAnchor:[26,26]});
       }
     }).addTo(m);
     const cluster=MAPS['map-osc'].clusterLayer;
@@ -4628,12 +4723,12 @@ function initOsc(){
         <div style="display:flex;gap:6px;align-items:center">
           <span style="font-weight:600;color:var(--muted);font-size:10px;min-width:18px">${i+1}</span>
           <span style="width:8px;height:8px;border-radius:50%;background:${areaCol};flex-shrink:0"></span>
-          <span style="flex:1;font-size:11px;font-weight:500;color:#0B2B44;line-height:1.3">${p.n}</span>
+          <span style="flex:1;font-size:11px;font-weight:500;color:var(--navy);line-height:1.3">${p.rf||p.n}</span>
         </div>
         <div style="padding-left:32px;margin-top:2px;display:flex;gap:4px;flex-wrap:wrap;align-items:center">
           <span style="width:6px;height:6px;border-radius:50%;background:${terrCol};display:inline-block;flex-shrink:0"></span>
           <span style="font-size:10px;color:var(--muted)">${p.b} · ${p.t}</span>
-          <span style="font-size:9px;padding:1px 5px;border-radius:3px;background:#f3f6fb;color:#4f7b98">${OSC_AREA_SHORT_LABELS[primaryArea]||primaryArea}</span>
+          <span class="sector-tag" style="font-size:9px;padding:1px 5px">${OSC_AREA_SHORT_LABELS[primaryArea]||primaryArea}</span>
         </div>
       </div>`;
     }).join('')+(oscListVisible<filtered.length?`<div style="text-align:center;padding:10px;font-size:11px;color:var(--muted)">Exibindo ${oscListVisible} de ${filtered.length} — role para ver mais ↓</div>`:'');
@@ -4654,10 +4749,14 @@ function initOsc(){
     const bf=selBairro.value,tf=selTerr.value,af=selArea.value;
     const sf=(document.getElementById('osc-search').value||'').toLowerCase();
     const active=[bf,tf,af,sf].filter(Boolean).length;
-    document.getElementById('osc-clear-filters').style.display=active?'':'none';
+    const clearBtn=document.getElementById('osc-clear-filters');
     const badge=document.getElementById('osc-filter-count');
+    clearBtn.style.display=active?'':'none';
     badge.style.display=active?'':'none';
     if(active) badge.textContent=`${active} filtro${active>1?'s':''}`;
+    selBairro.classList.toggle('active-filter',!!bf);
+    selTerr.classList.toggle('active-filter',!!tf);
+    selArea.classList.toggle('active-filter',!!af);
     renderOscMap();
   }
 
@@ -5329,10 +5428,22 @@ function initComp(){
   }
 
   // ─── 3) Tabela: indicadores consolidados por território ────────────────────
+  let regSortKey = null, regSortDir = -1;
   function renderRegionTable(){
     const tbl = document.getElementById('synth-region-table');
-    const headers = `<tr><th style="text-align:left">Território</th>${TABLE_INDS.map(i=>`<th>${i.label}</th>`).join('')}</tr>`;
-    const body = GROUPS.map(g=>{
+    const arrow = k => regSortKey===k ? (regSortDir===-1?' ↓':' ↑') : '';
+    const allCols = [{key:'_name',label:'Território'}].concat(TABLE_INDS.map(i=>({key:i.key,label:i.label})));
+    const headers = `<tr>${allCols.map(c=>`<th class="sortable" data-k="${c.key}" style="${c.key==='_name'?'text-align:left':''};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')}</tr>`;
+    let sortedGroups = GROUPS.slice();
+    if(regSortKey && regSortKey !== '_name'){
+      sortedGroups.sort((a,b)=>{
+        const va = groupAgg[a].values[regSortKey]||0, vb = groupAgg[b].values[regSortKey]||0;
+        return regSortDir===-1 ? vb-va : va-vb;
+      });
+    } else if(regSortKey === '_name'){
+      sortedGroups.sort((a,b)=> regSortDir===1 ? a.localeCompare(b,'pt') : b.localeCompare(a,'pt'));
+    }
+    const body = sortedGroups.map(g=>{
       const gd = groupAgg[g];
       const col = GROUP_COLORS[g] || '#888';
       return `<tr>
@@ -5340,11 +5451,18 @@ function initComp(){
         ${TABLE_INDS.map(i=>`<td>${fmt(gd.values[i.key], i.fmt)}</td>`).join('')}
       </tr>`;
     }).join('');
-    const muniRow = `<tr style="background:#F3F6FA;font-weight:700">
+    const muniRow = `<tr class="no-sort" style="background:#F3F6FA;font-weight:700">
       <td style="text-align:left">Total acompanhado</td>
       ${TABLE_INDS.map(i=>`<td>${fmt(muni.values[i.key], i.fmt)}</td>`).join('')}
     </tr>`;
     tbl.innerHTML = `<thead>${headers}</thead><tbody>${body}${muniRow}</tbody>`;
+    tbl.querySelectorAll('th.sortable').forEach(th=>{
+      th.onclick = () => {
+        const k = th.dataset.k;
+        if(regSortKey===k) regSortDir = -regSortDir; else { regSortKey=k; regSortDir = k==='_name'?1:-1; }
+        renderRegionTable();
+      };
+    });
   }
 
   // ─── 4) Tabela: comparativo por bairro (sortable) ──────────────────────────
@@ -5683,7 +5801,7 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table') return;
+    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-region-table') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
@@ -5730,7 +5848,7 @@ document.addEventListener('click', e => {
   if(th.classList.contains('no-sort')) return;
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table') return;
+  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-region-table') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;
@@ -5741,3 +5859,5 @@ document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', (
 setTimeout(enableTableSorting, 600);
 setTimeout(enableTableSorting, 1800);
 </script>
+</body>
+</html>
