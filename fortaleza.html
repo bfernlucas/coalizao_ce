@@ -36,7 +36,7 @@
   --green:#059669;
   --danger:#b54841;
   --shadow:0 10px 30px rgba(12,46,78,.08);
-  --radius:18px;
+  --radius:6px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -238,7 +238,7 @@ button,select,input,textarea{font:inherit}
 .map-box{
   height:460px;
   margin:10px 20px 0;
-  border-radius:18px;
+  border-radius:var(--radius);
   border:1px solid rgba(207,220,233,.95);
   overflow:hidden;
   background:linear-gradient(180deg,#eef2f5 0%, #e6ebf0 100%);
@@ -312,12 +312,12 @@ button,select,input,textarea{font:inherit}
   gap:14px;
 }
 .analysis-card{
-  background:linear-gradient(180deg,#ffffff 0%, #f7fafc 100%);
+  background:#FFFFFF;
   border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px 18px 16px;
-  min-height:220px;
-  box-shadow:0 10px 24px rgba(16,39,64,.06);
+  border-radius:var(--radius);
+  padding:16px 18px;
+  min-height:auto;
+  box-shadow:none;
 }
 .analysis-kicker{
   display:inline-flex;
@@ -454,7 +454,7 @@ button,select,input,textarea{font:inherit}
 }
 .territory-card{
   margin:0 20px 14px;
-  border-radius:18px;
+  border-radius:var(--radius);
   padding:18px 18px 16px;
   color:#fff;
   background:#0B4FA8;
@@ -752,9 +752,9 @@ tbody tr:hover{background:#f8fbff}
 .leaflet-control-attribution a{color:#3c6f9e!important}
 
 .leaflet-popup-content-wrapper{
-  border-radius:20px;
-  box-shadow:0 18px 38px rgba(15,39,64,.20);
-  border:1px solid rgba(214,224,234,.9);
+  border-radius:var(--radius);
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  border:1px solid var(--line);
   overflow:hidden;
 }
 .leaflet-popup-tip{
@@ -902,7 +902,7 @@ tbody tr:hover{background:#f8fbff}
   --danger:#b53a32;
   --shadow:0 14px 34px rgba(16,42,67,.06);
   --shadow-soft:0 6px 18px rgba(16,42,67,.04);
-  --radius:20px;
+  --radius:6px;
 }
 body{
   background:linear-gradient(180deg,#f7f9fc 0%, #f3f6fa 56%, #edf2f6 100%);
@@ -961,9 +961,9 @@ body{
   background:linear-gradient(180deg,#ffffff 0%, #fbfdff 100%);
   border:1px solid var(--line);
   border-left:1px solid var(--line);
-  border-radius:20px;
-  padding:20px 22px 20px;
-  box-shadow:var(--shadow-soft);
+  border-radius:var(--radius);
+  padding:14px 18px;
+  box-shadow:none;
 }
 .decision::before{
   content:'';
@@ -972,7 +972,7 @@ body{
   right:0;
   top:0;
   height:4px;
-  border-radius:20px 20px 0 0;
+  border-radius:var(--radius) var(--radius) 0 0;
   background:linear-gradient(90deg,var(--brand), #76a8cb);
 }
 .decision h3{
@@ -1048,10 +1048,10 @@ body{
 }
 .analysis-side{gap:16px}
 .analysis-card{
-  border-radius:20px;
-  padding:20px 20px 18px;
-  background:linear-gradient(180deg,#ffffff 0%, #f9fbfd 100%);
-  box-shadow:0 10px 24px rgba(16,42,67,.05);
+  border-radius:var(--radius);
+  padding:16px 18px;
+  background:#FFFFFF;
+  box-shadow:none;
 }
 .analysis-kicker{
   padding:6px 10px;
@@ -1071,10 +1071,10 @@ body{
 }
 .analysis-stats{gap:14px}
 .analysis-stat{
-  border-radius:18px;
-  padding:16px 16px 14px;
-  background:linear-gradient(180deg,#ffffff 0%, #f8fbfd 100%);
-  box-shadow:0 6px 18px rgba(16,42,67,.04);
+  border-radius:var(--radius);
+  padding:12px 14px;
+  background:#F4F6F9;
+  box-shadow:none;
 }
 .analysis-stat-label{
   font-size:11px;
@@ -1110,10 +1110,11 @@ body{
   padding:0 24px 24px;
 }
 .kpi{
-  padding:18px 18px 16px;
-  border-radius:18px;
-  border:1px solid #e8eff5;
-  box-shadow:0 8px 20px rgba(16,42,67,.04);
+  padding:14px 16px;
+  border-radius:0;
+  border:1px solid #D8E0E8;
+  border-top:none;
+  box-shadow:none;
 }
 .kpi .label{
   text-transform:uppercase;
@@ -1128,9 +1129,9 @@ body{
 .kpi .sub{font-size:12px}
 .territory-card{
   margin:0 24px 14px;
-  border-radius:20px;
-  padding:20px 20px 18px;
-  box-shadow:var(--shadow-soft);
+  border-radius:var(--radius);
+  padding:16px 18px;
+  box-shadow:none;
   background:#2f6e9f;
 }
 .territory-card.alt{background:#5e8f79}
@@ -1227,7 +1228,7 @@ tbody tr:hover{background:#f4f8fc}
 }
 .leaflet-container{background:linear-gradient(180deg,#eef2f5 0%, #e7edf2 100%)}
 .leaflet-control-attribution{font-size:10px!important}
-.leaflet-popup-content-wrapper{border-radius:18px}
+.leaflet-popup-content-wrapper{border-radius:var(--radius)}
 .popup-title{
   font-size:15px;
   color:var(--navy);
@@ -1608,10 +1609,9 @@ body{
 
 /* Analysis cards (right of map) */
 .analysis-card{
-  border-radius:20px;padding:20px;
-  background:linear-gradient(180deg,#ffffff 0%,#f9fbfd 100%);
-  border:1px solid var(--line);box-shadow:0 10px 24px rgba(16,42,67,.05);
-  min-height:220px;
+  background:#FFFFFF;border:1px solid var(--line);
+  border-radius:var(--radius);padding:16px 18px;
+  box-shadow:none;min-height:auto;
 }
 .analysis-kicker{
   display:inline-flex;align-items:center;gap:8px;
@@ -1626,13 +1626,12 @@ body{
 .analysis-text{margin:0;color:var(--text);font-size:13px;line-height:1.8}
 .analysis-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .analysis-stat{
-  border-radius:18px;padding:16px;
-  background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);
-  border:1px solid var(--line-2);box-shadow:0 6px 18px rgba(16,42,67,.04);
+  background:#F4F6F9;border:1px solid var(--line);
+  border-radius:var(--radius);padding:12px 14px;box-shadow:none;
 }
-.analysis-stat-label{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;line-height:1.4}
-.analysis-stat-value{font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
-.analysis-stat-sub{margin-top:6px;color:var(--muted);font-size:11px;line-height:1.5}
+.analysis-stat-label{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;line-height:1.4}
+.analysis-stat-value{font-size:20px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+.analysis-stat-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
 
 /* Legend */
 .legend-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0}
@@ -1658,16 +1657,16 @@ body{
 .kpi-grid{padding:0 24px 24px;gap:16px}
 .kpi-grid.four{grid-template-columns:repeat(4,1fr)}
 .kpi{
-  padding:18px;border:1px solid #e8eff5;border-radius:18px;
-  background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);
-  box-shadow:0 8px 20px rgba(16,42,67,.04);
+  background:#fff;border:1px solid #D8E0E8;
+  border-top:none;border-radius:0;
+  padding:14px 16px;box-shadow:none;
 }
 .kpi .label{
-  text-transform:uppercase;letter-spacing:.05em;font-size:11px;
-  font-weight:700;color:var(--muted);margin-bottom:8px;
+  font-size:10px;font-weight:700;color:#5C6E7E;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;
 }
-.kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
-.kpi .sub{margin-top:6px;font-size:12px;color:var(--muted)}
+.kpi .value{font-size:22px;font-weight:800;color:#111;letter-spacing:-.02em}
+.kpi .sub{font-size:11px;color:#7F91A3;margin-top:3px;line-height:1.4}
 
 /* Charts */
 .chart-box{padding:12px 20px 20px}
@@ -1838,10 +1837,10 @@ body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,
 .panel-sub{font-size:11px;color:#5C6E7E}
 .analysis-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#eef5fb;color:var(--brand);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:none}
 .analysis-title{margin:14px 0 10px;font-size:22px;line-height:1.15;letter-spacing:-.02em;color:var(--navy)}
-.kpi{padding:18px;border:1px solid #e8eff5;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);box-shadow:0 8px 20px rgba(16,42,67,.04)}
-.kpi .label{text-transform:uppercase;letter-spacing:.05em;font-size:11px;font-weight:700;color:#5C6E7E;margin-bottom:8px}
-.kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
-.kpi .sub{margin-top:6px;font-size:12px;color:#7F91A3}
+.kpi{background:#fff;border:1px solid #D8E0E8;border-top:none;border-radius:0;padding:14px 16px;box-shadow:none}
+.kpi .label{font-size:10px;font-weight:700;color:#5C6E7E;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.kpi .value{font-size:22px;font-weight:800;color:#111;letter-spacing:-.02em}
+.kpi .sub{font-size:11px;color:#7F91A3;margin-top:3px;line-height:1.4}
 .brand-title{font-weight:700;font-size:13px;color:#fff!important}
 .brand-sub{font-size:11px;color:rgba(255,255,255,.65)!important}
 .map-box{border-radius:4px;border:1px solid var(--line);background:#EBF0F5;box-shadow:none}
@@ -2583,6 +2582,11 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
       <span class="section-kicker">Síntese Estratégica</span>
       <h2 class="section-title">Panorama consolidado dos territórios</h2>
       <p class="section-desc">Os 13 bairros da Coalizão agrupados em dois territórios (Grande Bom Jardim e Grande Mucuripe), com indicadores socioeconômicos e de infraestrutura consolidados por território e bairro, mais perfil comparativo em radar para orientar a atuação em Fortaleza.</p>
+    </div>
+
+    <div class="decision">
+      <h3>Metodologia do Radar</h3>
+      <p>O gráfico de radar compara os 2 territórios da Coalizão em Fortaleza em 5 dimensões-chave: extrema pobreza (% CadÚnico), precariedade de renda (% abaixo de 1/2 SM), déficit de esgoto (% sem rede), presença institucional (OSCs por 10 mil hab.) e dinamismo econômico (empresas ativas por 10 mil hab.). Cada eixo é normalizado de 0 a 1 em relação ao máximo observado. Quanto maior a área do polígono, maior o acúmulo de vulnerabilidades naquele território.</p>
     </div>
 
     <!-- 1 — Divisão territorial: mapa + cards -->
@@ -5328,11 +5332,25 @@ function initComp(){
     }).join('');
   }
 
-  // ─── 3) Tabela: indicadores consolidados por território ────────────────────
+  // ─── 3) Tabela: indicadores consolidados por território (sortable) ─────────
+  let regionSortKey = 'pop', regionSortDir = -1;
   function renderRegionTable(){
     const tbl = document.getElementById('synth-region-table');
-    const headers = `<tr><th style="text-align:left">Território</th>${TABLE_INDS.map(i=>`<th>${i.label}</th>`).join('')}</tr>`;
-    const body = GROUPS.map(g=>{
+    const hdrCols = [{key:'name',label:'Território',fmt:null,align:'left'}]
+                    .concat(TABLE_INDS.map(i=>({key:i.key,label:i.label,fmt:i.fmt,align:'right'})));
+    const arrow = k => regionSortKey===k ? (regionSortDir===-1?' ↓':' ↑') : '';
+    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
+    const sorted = GROUPS.slice();
+    sorted.sort((a,b)=>{
+      let va, vb;
+      if(regionSortKey==='name'){ va=a; vb=b; }
+      else { va=groupAgg[a].values[regionSortKey]; vb=groupAgg[b].values[regionSortKey]; }
+      if(va==null && vb==null) return 0;
+      if(va==null) return 1; if(vb==null) return -1;
+      if(typeof va==='number' && typeof vb==='number') return regionSortDir===-1 ? vb-va : va-vb;
+      return regionSortDir===-1 ? String(vb).localeCompare(String(va),'pt') : String(va).localeCompare(String(vb),'pt');
+    });
+    const body = sorted.map(g=>{
       const gd = groupAgg[g];
       const col = GROUP_COLORS[g] || '#888';
       return `<tr>
@@ -5345,6 +5363,13 @@ function initComp(){
       ${TABLE_INDS.map(i=>`<td>${fmt(muni.values[i.key], i.fmt)}</td>`).join('')}
     </tr>`;
     tbl.innerHTML = `<thead>${headers}</thead><tbody>${body}${muniRow}</tbody>`;
+    tbl.querySelectorAll('th.sortable').forEach(th=>{
+      th.onclick = () => {
+        const k = th.dataset.k;
+        if(regionSortKey===k) regionSortDir = -regionSortDir; else { regionSortKey=k; regionSortDir = k==='name'?1:-1; }
+        renderRegionTable();
+      };
+    });
   }
 
   // ─── 4) Tabela: comparativo por bairro (sortable) ──────────────────────────
@@ -5683,7 +5708,7 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table') return;
+    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
@@ -5730,7 +5755,7 @@ document.addEventListener('click', e => {
   if(th.classList.contains('no-sort')) return;
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table') return;
+  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;
@@ -5741,3 +5766,5 @@ document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', (
 setTimeout(enableTableSorting, 600);
 setTimeout(enableTableSorting, 1800);
 </script>
+</body>
+</html>

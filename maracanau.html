@@ -431,6 +431,8 @@ tbody tr:hover{background:#F3E8FF}
   cursor:pointer;flex:1;min-width:130px;max-width:200px;
 }
 .map-filter-overlay select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
+.map-filter-overlay input[type="search"]{flex:1;min-width:140px;max-width:220px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font:inherit;font-size:12px;background:#fff;color:var(--text)}
+.map-filter-overlay input[type="search"]:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
 .map-filter-overlay select.active-filter{border-color:var(--brand);background-color:#F3E8FF;color:var(--brand)}
 .mge-clear-btn{
   padding:6px 12px;border:1px solid #DDD6FE;border-radius:4px;
@@ -452,8 +454,8 @@ tbody tr:hover{background:#F3E8FF}
 .mge-search-wrap{padding:10px 20px 4px}
 .mge-search{width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:4px;font:inherit;font-size:13px;background:#f8fafb;color:var(--text)}
 .mge-search:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
-th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
-th.sortable:hover{color:var(--brand)}
+th.sortable,th.sortable-region{cursor:pointer;user-select:none;white-space:nowrap}
+th.sortable:hover,th.sortable-region:hover{color:var(--brand)}
 th.sortable .sort-icon{font-size:10px;color:var(--muted);opacity:.4;margin-left:3px}
 th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 .tipo-badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.04em}
@@ -1146,7 +1148,7 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
         <div class="mge-map-wrap">
           <div class="map-box split" id="map-osc" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="osc-filter-overlay">
-            <input type="search" id="osc-search" placeholder="Buscar por nome…" style="flex:1;min-width:140px;max-width:220px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px">
+            <input type="search" id="osc-search" placeholder="Buscar por nome…">
             <select id="osc-bairro-filter" title="Filtrar por bairro">
               <option value="">Todos os bairros</option>
             </select>
@@ -1289,12 +1291,16 @@ th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
   </section>
 
   <!-- SÍNTESE -->
-  <!-- SÍNTESE -->
   <section id="section-comp" class="section">
     <div class="section-head">
       <span class="section-kicker">Síntese Estratégica</span>
       <h2 class="section-title">Panorama consolidado do município</h2>
       <p class="section-desc">Agregação dos 44 bairros em 6 regiões homogêneas, com indicadores socioeconômicos e de infraestrutura consolidados por região e bairro, mais perfil comparativo em radar para orientar a atuação da Coalizão em Maracanaú.</p>
+    </div>
+
+    <div class="decision">
+      <h3>Metodologia do Radar</h3>
+      <p>O gráfico de radar compara as 6 regiões de Maracanaú em 5 dimensões-chave: extrema pobreza (% CadÚnico), precariedade de renda (% abaixo de 1/2 SM), déficit de esgoto (% sem rede), presença institucional (OSCs por 10 mil hab.) e dinamismo econômico (empresas ativas por 10 mil hab.). Cada eixo é normalizado de 0 a 1 em relação ao máximo observado entre as regiões. Quanto maior a área do polígono, maior o acúmulo de vulnerabilidades naquela região.</p>
     </div>
 
     <!-- 1 — Divisão regional: mapa + cards -->
@@ -3271,16 +3277,27 @@ function initComp(){
     }).join('');
   }
 
-  // ─── 3) Tabela: indicadores consolidados por região ────────────────────────
+  // ─── 3) Tabela: indicadores consolidados por região (sortable) ──────────────
+  let regionSortKey = 'pop', regionSortDir = -1;
   function renderRegionTable(){
     const tbl = document.getElementById('synth-region-table');
-    const headers = `<tr><th style="text-align:left">${'Região'}</th>${TABLE_INDS.map(i=>`<th>${i.label}</th>`).join('')}</tr>`;
-    const body = GROUPS.map(g=>{
-      const gd = groupAgg[g];
-      const col = GROUP_COLORS[g] || '#888';
+    const hdrCols = [{key:'_reg',label:'Região',fmt:null,align:'left'}]
+                    .concat(TABLE_INDS.map(i=>({key:i.key,label:i.label,fmt:i.fmt,align:'right'})));
+    const arrow = k => regionSortKey===k ? (regionSortDir===-1?' ↓':' ↑') : '';
+    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable-region" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
+    const rows = GROUPS.slice().map(g=>({_reg:g, ...groupAgg[g].values, _col:GROUP_COLORS[g]||'#888'}));
+    rows.sort((a,b)=>{
+      const ka = regionSortKey==='_reg' ? a._reg : a[regionSortKey];
+      const kb = regionSortKey==='_reg' ? b._reg : b[regionSortKey];
+      if(ka==null && kb==null) return 0;
+      if(ka==null) return 1; if(kb==null) return -1;
+      if(typeof ka==='number' && typeof kb==='number') return regionSortDir===-1 ? kb-ka : ka-kb;
+      return regionSortDir===-1 ? String(kb).localeCompare(String(ka),'pt') : String(ka).localeCompare(String(kb),'pt');
+    });
+    const body = rows.map(r=>{
       return `<tr>
-        <td style="text-align:left;font-weight:700"><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:${col}"></span>${g}</span></td>
-        ${TABLE_INDS.map(i=>`<td>${fmt(gd.values[i.key], i.fmt)}</td>`).join('')}
+        <td style="text-align:left;font-weight:700"><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:${r._col}"></span>${r._reg}</span></td>
+        ${TABLE_INDS.map(i=>`<td>${fmt(r[i.key], i.fmt)}</td>`).join('')}
       </tr>`;
     }).join('');
     const muniRow = `<tr style="background:#F3F6FA;font-weight:700">
@@ -3288,6 +3305,13 @@ function initComp(){
       ${TABLE_INDS.map(i=>`<td>${fmt(muni.values[i.key], i.fmt)}</td>`).join('')}
     </tr>`;
     tbl.innerHTML = `<thead>${headers}</thead><tbody>${body}${muniRow}</tbody>`;
+    tbl.querySelectorAll('th.sortable-region').forEach(th=>{
+      th.onclick = () => {
+        const k = th.dataset.k;
+        if(regionSortKey===k) regionSortDir = -regionSortDir; else { regionSortKey=k; regionSortDir = k==='_reg'?1:-1; }
+        renderRegionTable();
+      };
+    });
   }
 
   // ─── 4) Tabela: comparativo por bairro (sortable) ──────────────────────────
@@ -3607,7 +3631,7 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que já possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table') return;
+    if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
@@ -3654,7 +3678,7 @@ document.addEventListener('click', e => {
   if(th.classList.contains('no-sort')) return;
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return; // handled by custom logic
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-bairro-table') return;
+  if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;
@@ -3665,3 +3689,5 @@ document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', (
 setTimeout(enableTableSorting, 600);
 setTimeout(enableTableSorting, 1800);
 </script>
+</body>
+</html>
