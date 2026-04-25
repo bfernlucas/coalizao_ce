@@ -4704,7 +4704,7 @@ function initOsc(){
   }
 
   // ── Tabela completa de OSCs ──
-  let oscTableSort='nome',oscTableDir=1;
+  let oscTableSort='nome',oscTableDir=-1;
   function renderOscTable(){
     const q=(document.getElementById('osc-table-search').value||'').toLowerCase().trim();
     const tf=document.getElementById('osc-table-terr').value;
@@ -4737,7 +4737,7 @@ function initOsc(){
       th.onclick=()=>{
         const col=th.dataset.oscCol;
         if(oscTableSort===col) oscTableDir*=-1;
-        else{oscTableSort=col;oscTableDir=1;}
+        else{oscTableSort=col;oscTableDir=-1;}
         renderOscTable();
       };
     });
