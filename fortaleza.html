@@ -16,33 +16,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
 <style>
 :root{
-  --bg:#f3f6fa;
-  --panel:#ffffff;
-  --panel-2:#f7fafc;
-  --text:#18344c;
-  --muted:#647789;
-  --line:#d6e0ea;
-  --line-2:#e8eef4;
+  --bg:#fff;
+  --panel:#FFFFFF;
+  --panel-2:#F8FAFB;
+  --text:#0B2B44;
+  --muted:#5C6E7E;
+  --line:#D8E0E8;
+  --line-2:#E8EDF2;
   --brand:#0B4FA8;
-  --brand-2:#1565D8;
-  --brand-3:#3B82F6;
-  --brand-4:#93C5FD;
-  --brand-5:#EFF6FF;
-  --territory-gm:#0B4FA8;
-  --territory-gbj:#1E40AF;
-  --navy:#153149;
-  --teal:#3d7b72;
-  --gold:#b38c49;
+  --brand-2:#2C7BB5;
+  --brand-3:#7AA8C8;
+  --brand-4:#C8D9F5;
+  --brand-5:#EEF4FF;
+  --navy:#0B2B44;
+  --teal:#2DD4BF;
+  --gold:#C8952A;
   --green:#059669;
-  --danger:#b54841;
-  --shadow:0 10px 30px rgba(12,46,78,.08);
-  --radius:6px;
+  --danger:#C0392B;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 3px 10px rgba(11,79,168,.07);
+  --shadow-soft:0 1px 2px rgba(0,0,0,.04),0 2px 6px rgba(11,79,168,.04);
+  --radius:4px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0;
-  font-family:Inter, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   background:linear-gradient(180deg,#f4f7fb 0%, #eef2f7 100%);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
@@ -736,7 +735,7 @@ tbody tr:hover{background:#f8fbff}
   color:var(--muted);
 }
 .leaflet-container{
-  font-family:Inter, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   background:linear-gradient(180deg,#eef2f5 0%, #e5eaef 100%);
 }
 .leaflet-control-attribution{
@@ -1401,29 +1400,6 @@ tbody tr:hover{background:#f4f8fc}
    Clean, structured, professional data presentation
    ====================================================== */
 
-:root{
-  --bg:#F4F6F9;
-  --panel:#FFFFFF;
-  --panel-2:#F8FAFB;
-  --text:#0B2B44;
-  --muted:#5C6E7E;
-  --line:#D8E0E8;
-  --line-2:#E8EDF2;
-  --brand:#0B4FA8;
-  --brand-2:#1A6EC2;
-  --brand-3:#5B96D4;
-  --brand-4:#C8D9F5;
-  --brand-5:#EEF4FF;
-  --navy:#0B2B44;
-  --teal:#1A6EC2;
-  --gold:#B07C20;
-  --green:#1A6EC2;
-  --danger:#C0392B;
-  --shadow:0 1px 3px rgba(0,0,0,.06),0 3px 10px rgba(11,79,168,.05);
-  --shadow-soft:0 1px 2px rgba(0,0,0,.04),0 2px 6px rgba(11,79,168,.04);
-  --radius:6px;
-}
-
 body{
   font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   background:#F4F6F9;
@@ -1783,27 +1759,12 @@ tbody tr:hover{background:#EEF4FF}
 
 
 /* ── Identidade Coalizão CE (azul institucional) ─────────────── */
-:root{
-  --brand:#0B4FA8;
-  --brand-2:#2C7BB5;
-  --brand-3:#7AA8C8;
-  --brand-4:#C8D9F5;
-  --brand-5:#EEF4FF;
-  --navy:#0B2B44;
-  --teal:#2DD4BF;
-  --gold:#C8952A;
-  --green:#059669;
-  --text:#0B2B44;
-  --muted:#5C6E7E;
-  --line:#D8E0E8;
-  --line-2:#E8EDF2;
-}
 body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;color:var(--text)}
 .topbar{background:#0B2B44;border-bottom:3px solid #0B4FA8}
 .tabs{background:#fff;border-bottom:2px solid var(--line);box-shadow:none;backdrop-filter:none}
 .tab-btn{color:var(--muted)}
 .tab-btn:hover{color:var(--brand)}
-.tab-btn.active{color:var(--brand);border-bottom-color:var(--gold);background:transparent}
+.tab-btn.active{color:var(--brand);border-bottom-color:var(--brand);background:transparent}
 .section-kicker{background:var(--brand-5);border:1px solid var(--brand-4);color:var(--brand)}
 .decision{background:#F4F7FB;border:1px solid #D8E0E8;border-left:3px solid var(--brand);border-radius:0;box-shadow:none;padding:14px 18px;margin:0 0 20px}
 .decision::before{display:none}
@@ -2039,6 +2000,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
 <main class="container">
   <section id="section-visao" class="section active">
     <div class="section-head">
+      <span class="section-kicker">Visão Geral</span>
       <h1 class="section-title">Visão Geral</h1>
     </div>
     <div class="decision">
@@ -2692,6 +2654,27 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     <div class="decision">
       <h3>Leitura integrada</h3>
       <p>O radar revela padrões complementares entre os dois territórios. O <strong>Grande Bom Jardim</strong> apresenta um polígono mais amplo, concentrando múltiplas fragilidades simultâneas — extrema pobreza elevada, déficit sanitário e alta informalidade econômica — demandando intervenções multisetoriais articuladas. O <strong>Grande Mucuripe</strong> mostra fragilidades mais pontuais, com melhor infraestrutura mas desigualdade interna significativa entre bairros. A comparação cruzada dos eixos indica que o Grande Bom Jardim oferece maior potencial de adicionalidade para a Coalizão: a necessidade é ampla e homogênea, enquanto a base institucional existente é proporcionalmente menor, criando espaço para ganhos de articulação em rede.</p>
+    </div>
+    <div style="margin:24px 0 6px;padding:0 4px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Índice de Priorização Territorial</span>
+        <span style="flex:1;height:1px;background:var(--line-2)"></span>
+      </div>
+    </div>
+    <div class="decision">
+      <h3>Metodologia do IPT</h3>
+      <p>O <strong>Índice de Priorização Territorial (IPT)</strong> combina as 8 dimensões do radar em um score único por território, calculado como a média aritmética dos valores normalizados (0 a 1). Quanto maior o IPT, maior a concentração de vulnerabilidades e, consequentemente, maior a prioridade para intervenção da Coalizão. A classificação segue: <strong>Crítico</strong> (≥ 0,70), <strong>Alto</strong> (≥ 0,50), <strong>Moderado</strong> (≥ 0,30) e <strong>Baixo</strong> (&lt; 0,30). O índice complementa a análise visual do radar com uma métrica direta e comparável.</p>
+    </div>
+    <div class="panel" style="margin-top:12px">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title">Ranking de Priorização por Território</h3>
+          <p class="panel-sub">Territórios ordenados pelo IPT (Índice de Priorização Territorial) · clique no cabeçalho para ordenar.</p>
+        </div>
+      </div>
+      <div class="table-wrap" style="padding:0 24px 20px">
+        <table id="synth-ipt-table" class="comp-table"></table>
+      </div>
     </div>
   </section>
 
@@ -4777,7 +4760,7 @@ function initOsc(){
     const tbl=document.getElementById('table-osc-list');
     if(!tbl) return;
     const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
-    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th><th class="no-sort">Território</th>`.slice(0,-30)).join('')}<th class="no-sort" style="min-width:90px">Território</th></tr></thead><tbody>${rows.slice(0,200).map(r=>{
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}<th class="no-sort" style="min-width:90px">Território</th></tr></thead><tbody>${rows.slice(0,200).map(r=>{
       const tCol=terrColors[r.t]||'#999';
       const nomeTitle=[r.n,r.rf].filter(Boolean).join(' · ');
       return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${nomeTitle}">${r.n||r.rf||'—'}</td><td>${r.b||'—'}</td><td>${(r.areas||[]).filter(a=>a!=='Sem classificação').map(a=>`<span class="tag" style="margin:1px 2px">${a.length>30?a.slice(0,30)+'…':a}</span>`).join(' ')||'—'}</td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r.t||'—'}</td></tr>`;
@@ -5572,6 +5555,56 @@ function initComp(){
   renderBairroTable();
   renderRadar();
   renderReading();
+
+  // ─── IPT: Índice de Priorização Territorial ────────────────────
+  const radarSets = GROUPS.map(g => ({
+    label: g,
+    data: RADAR_INDS.map(ind => groupAgg[g].values['rdr_'+ind.key] || 0)
+  }));
+  const iptData = radarSets.map(s => {
+    const avg = s.data.reduce((a,b)=>a+b,0) / s.data.length;
+    const cls = avg >= 0.70 ? 'Crítico' : avg >= 0.50 ? 'Alto' : avg >= 0.30 ? 'Moderado' : 'Baixo';
+    const clsColor = avg >= 0.70 ? '#7F1D1D' : avg >= 0.50 ? '#854D0E' : avg >= 0.30 ? '#0B4FA8' : '#14532D';
+    const clsBg = avg >= 0.70 ? '#FEE2E2' : avg >= 0.50 ? '#FEF9C3' : avg >= 0.30 ? '#EFF6FF' : '#DCFCE7';
+    return { name: s.label, ipt: avg, cls, clsColor, clsBg, data: s.data };
+  }).sort((a,b) => b.ipt - a.ipt);
+
+  const iptLabels = ['Ext. Pobreza','CadÚnico','Analf.','Déf. Esgoto','Déf. Renda','Inform.','Não-branca','Chef. Fem.'];
+  let iptSortKey = 'ipt', iptSortDir = -1;
+  function renderIptTable(){
+    const sorted = [...iptData].sort((a,b) => {
+      const av = iptSortKey === 'name' ? a.name : (iptSortKey === 'ipt' ? a.ipt : a.data[parseInt(iptSortKey)]);
+      const bv = iptSortKey === 'name' ? b.name : (iptSortKey === 'ipt' ? b.ipt : b.data[parseInt(iptSortKey)]);
+      if(typeof av === 'string') return iptSortDir * av.localeCompare(bv,'pt');
+      return iptSortDir * (av - bv);
+    });
+    const tbl = document.getElementById('synth-ipt-table');
+    if(!tbl) return;
+    const arrow = k => iptSortKey===k ? (iptSortDir===-1?' ↓':' ↑') : '';
+    const thStyle = 'cursor:pointer;user-select:none';
+    tbl.innerHTML = `<thead><tr>
+      <th style="text-align:center;width:40px;${thStyle}" data-ipt-k="ipt">#</th>
+      <th style="text-align:left;${thStyle}" data-ipt-k="name">Território${arrow('name')}</th>
+      <th style="text-align:center;${thStyle}" data-ipt-k="ipt">IPT${arrow('ipt')}</th>
+      <th style="text-align:center;min-width:80px">Classificação</th>
+      ${iptLabels.map((l,i)=>`<th style="text-align:center;font-size:10px;${thStyle}" data-ipt-k="${i}">${l}${arrow(String(i))}</th>`).join('')}
+    </tr></thead><tbody>${sorted.map((r,i) => `<tr>
+      <td style="text-align:center;font-weight:700;color:var(--brand)">${i+1}º</td>
+      <td style="text-align:left;font-weight:700">${r.name}</td>
+      <td style="text-align:center;font-weight:800;font-size:16px">${r.ipt.toFixed(2)}</td>
+      <td style="text-align:center"><span style="display:inline-block;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.04em;background:${r.clsBg};color:${r.clsColor}">${r.cls}</span></td>
+      ${r.data.map(v=>`<td style="text-align:center;font-size:12px">${v.toFixed(2)}</td>`).join('')}
+    </tr>`).join('')}</tbody>`;
+    tbl.querySelectorAll('thead th[data-ipt-k]').forEach(th => {
+      th.onclick = () => {
+        const k = th.dataset.iptK;
+        if(iptSortKey===k) iptSortDir*=-1;
+        else { iptSortKey=k; iptSortDir=-1; }
+        renderIptTable();
+      };
+    });
+  }
+  renderIptTable();
 }
 function initTab(tab){
   if(INITED.has(tab)) return;
@@ -5752,7 +5785,7 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table') return;
+    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
@@ -5799,7 +5832,7 @@ document.addEventListener('click', e => {
   if(th.classList.contains('no-sort')) return;
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table') return;
+  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;
