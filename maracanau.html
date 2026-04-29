@@ -811,6 +811,13 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
 .matrix.heatmap tbody tr:hover .cell.alto > span{background:#BBF7D0}
 .matrix.heatmap tbody tr:hover .cell.medio > span{background:#FEF08A}
 .matrix.heatmap tbody tr:hover .cell.baixo > span{background:#FECACA}
+/* Vulnerability heatmap: alto=red (high vulnerability), baixo=green (low vulnerability) */
+.matrix.heatmap.vuln .cell.vuln-alto > span{background:#FEE2E2;color:#7F1D1D}
+.matrix.heatmap.vuln .cell.vuln-medio > span{background:#FEF9C3;color:#854D0E}
+.matrix.heatmap.vuln .cell.vuln-baixo > span{background:#DCFCE7;color:#14532D}
+.matrix.heatmap.vuln tbody tr:hover .cell.vuln-alto > span{background:#FECACA}
+.matrix.heatmap.vuln tbody tr:hover .cell.vuln-medio > span{background:#FEF08A}
+.matrix.heatmap.vuln tbody tr:hover .cell.vuln-baixo > span{background:#BBF7D0}
 
 @media(max-width:820px){
   .adic-intro{grid-template-columns:1fr}
@@ -1423,6 +1430,28 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
     <div class="decision">
       <h3>Leitura integrada</h3>
       <p>O radar revela padrões distintos de vulnerabilidade entre as regiões. Regiões com polígonos mais amplos concentram múltiplas fragilidades simultâneas — alta extrema pobreza, déficit sanitário e informalidade econômica — demandando intervenções multisetoriais. Regiões com perfis mais contidos apresentam fragilidades pontuais que podem ser endereçadas com ações temáticas focalizadas. A comparação direta entre os eixos permite identificar onde a Coalizão pode gerar maior adicionalidade: territórios onde alta necessidade se cruza com base institucional existente (OSCs ativas) oferecem as melhores condições para articulação em rede.</p>
+    </div>
+
+    <div style="margin:24px 0 6px;padding:0 4px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Matriz de vulnerabilidades</span>
+        <span style="flex:1;height:1px;background:var(--line-2)"></span>
+      </div>
+    </div>
+    <div class="decision">
+      <h3>Como ler a matriz</h3>
+      <p>A matriz cruza as 6 regiões com os 8 indicadores do radar, colorindo cada célula pelo grau de vulnerabilidade relativa entre as regiões. <strong style="color:#7F1D1D">Vermelho</strong> indica maior vulnerabilidade (terço superior), <strong style="color:#854D0E">Amarelo</strong> indica vulnerabilidade intermediária (terço médio) e <strong style="color:#14532D">Verde</strong> indica menor vulnerabilidade (terço inferior). A leitura por linha mostra o perfil de cada região; por coluna, revela qual dimensão é mais crítica no município.</p>
+    </div>
+    <div class="panel" style="margin-top:12px">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title">Matriz de vulnerabilidades por região</h3>
+          <p class="panel-sub">8 indicadores × 6 regiões · cores relativas ao máximo municipal.</p>
+        </div>
+      </div>
+      <div class="matrix-wrap" style="padding:0 24px 20px">
+        <table id="synth-heatmap" class="matrix heatmap vuln"></table>
+      </div>
     </div>
 
     <div style="margin:24px 0 6px;padding:0 4px">
@@ -2462,8 +2491,14 @@ function renderMGETable() {
 
   const sortIdx = {nome:5, cap:2, setor:3, bairro:4, tipo:6}[mgeTableSort] || 2;
   rows.sort((a,b) => {
-    const av = typeof a[sortIdx] === 'string' ? a[sortIdx].toLowerCase() : a[sortIdx];
-    const bv = typeof b[sortIdx] === 'string' ? b[sortIdx].toLowerCase() : b[sortIdx];
+    let av, bv;
+    if(mgeTableSort === 'regiao'){
+      av = (REGION_MAP[a[4]]||'').toLowerCase();
+      bv = (REGION_MAP[b[4]]||'').toLowerCase();
+    } else {
+      av = typeof a[sortIdx] === 'string' ? a[sortIdx].toLowerCase() : a[sortIdx];
+      bv = typeof b[sortIdx] === 'string' ? b[sortIdx].toLowerCase() : b[sortIdx];
+    }
     if(typeof av === 'number' && typeof bv === 'number') return mgeTableDir === -1 ? bv - av : av - bv;
     return mgeTableDir === -1 ? String(bv).localeCompare(String(av),'pt') : String(av).localeCompare(String(bv),'pt');
   });
@@ -2476,6 +2511,7 @@ function renderMGETable() {
     {k:'cap',label:'Capital Social'},
     {k:'setor',label:'Setor'},
     {k:'bairro',label:'Bairro'},
+    {k:'regiao',label:'Região'},
     {k:'tipo',label:'Tipo'}
   ];
 
@@ -2489,10 +2525,11 @@ function renderMGETable() {
       <td style="font-weight:600;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[5]}">${r[5]}</td>
       <td data-sort-value="${r[2]}" style="white-space:nowrap">${fmtCap(r[2])}</td>
       <td><span class="sector-tag">${r[3]}</span></td>
-      <td><span class="region-dot" style="background:${regCol}"></span> ${r[4]}</td>
+      <td>${r[4]}</td>
+      <td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;white-space:nowrap"><span class="region-dot" style="background:${regCol}"></span>${reg}</span></td>
       <td><span class="tipo-badge ${r[6]==='M'?'tipo-m':'tipo-f'}">${r[6]==='M'?'Matriz':'Filial'}</span></td>
     </tr>`;
-  }).join('')}${rows.length>200?`<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
+  }).join('')}${rows.length>200?`<tr><td colspan="6" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
 
   document.querySelectorAll('#table-mge-list th.sortable').forEach(th => {
     th.onclick = () => {
@@ -3553,6 +3590,34 @@ function initComp(){
     }).join('');
   }
 
+  // ─── 6b) Matriz de vulnerabilidades (heatmap) ───────────────────────────────
+  function renderHeatmap(){
+    const tbl = document.getElementById('synth-heatmap');
+    if(!tbl) return;
+    const dims = RADAR_INDS.map(i=>i.label);
+    // Compute normalized values per region (0-1, where 1 = max across regions)
+    const maxPerDim = RADAR_INDS.map(ind=>{
+      return Math.max(...GROUPS.map(g=>groupAgg[g].values['rdr_'+ind.key]||0), 0.001);
+    });
+    let html = '<thead><tr><th style="text-align:left">Região</th>';
+    dims.forEach(d => { html += `<th>${d}</th>`; });
+    html += '</tr></thead><tbody>';
+    GROUPS.forEach(g=>{
+      const col = GROUP_COLORS[g] || '#888';
+      html += `<tr><td style="text-align:left;font-weight:700;color:var(--navy)"><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:${col}"></span>${g}</span></td>`;
+      RADAR_INDS.forEach((ind,i)=>{
+        const v = groupAgg[g].values['rdr_'+ind.key] || 0;
+        const norm = v / maxPerDim[i];
+        const cls = norm >= 0.66 ? 'vuln-alto' : norm >= 0.33 ? 'vuln-medio' : 'vuln-baixo';
+        const pct = (v*100).toFixed(1);
+        html += `<td class="cell ${cls}"><span>${pct}%</span></td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</tbody>';
+    tbl.innerHTML = html;
+  }
+
   // ─── Execução ──────────────────────────────────────────────────────────────
   renderDivisionMap();
   renderGroupCards();
@@ -3560,6 +3625,7 @@ function initComp(){
   renderBairroTable();
   renderRadar();
   renderReading();
+  renderHeatmap();
 
   // ─── IPT: Índice de Priorização Territorial ────────────────────
   const iptData = GROUPS.map(g => {

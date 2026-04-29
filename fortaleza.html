@@ -2657,6 +2657,27 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     </div>
     <div style="margin:24px 0 6px;padding:0 4px">
       <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Matriz de vulnerabilidades</span>
+        <span style="flex:1;height:1px;background:var(--line-2)"></span>
+      </div>
+    </div>
+    <div class="decision">
+      <h3>Como ler a matriz</h3>
+      <p>A matriz cruza os 2 territórios com os 8 indicadores do radar, colorindo cada célula pelo grau de vulnerabilidade relativa. <strong style="color:#14532D">Verde</strong> indica menor vulnerabilidade (terço inferior), <strong style="color:#854D0E">Amarelo</strong> indica vulnerabilidade intermediária (terço médio) e <strong style="color:#7F1D1D">Vermelho</strong> indica maior vulnerabilidade (terço superior). A leitura por linha mostra o perfil de cada território; por coluna, revela qual dimensão é mais contrastante entre eles.</p>
+    </div>
+    <div class="panel" style="margin-top:12px">
+      <div class="panel-head">
+        <div>
+          <h3 class="panel-title">Matriz de vulnerabilidades por território</h3>
+          <p class="panel-sub">8 indicadores × 2 territórios · cores relativas ao máximo observado.</p>
+        </div>
+      </div>
+      <div class="matrix-wrap" style="padding:0 24px 20px">
+        <table id="synth-heatmap" class="matrix heatmap"></table>
+      </div>
+    </div>
+    <div style="margin:24px 0 6px;padding:0 4px">
+      <div style="display:flex;align-items:center;gap:12px">
         <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Índice de Priorização Territorial</span>
         <span style="flex:1;height:1px;background:var(--line-2)"></span>
       </div>
@@ -4431,24 +4452,32 @@ function initEcon(){
     if(tf) rows=rows.filter(r=>(MGE_TERRITORY_MAP[r[4]]||'')=== tf);
     if(sf) rows=rows.filter(r=>r[3]===sf);
     if(tp) rows=rows.filter(r=>r[6]===tp);
-    const sortIdx={nome:5,cap:2,setor:3,bairro:4,tipo:6}[mgeTableSort]||2;
-    rows.sort((a,b)=>{
-      const av=typeof a[sortIdx]==='string'?a[sortIdx].toLowerCase():a[sortIdx];
-      const bv=typeof b[sortIdx]==='string'?b[sortIdx].toLowerCase():b[sortIdx];
-      if(typeof av==='number'&&typeof bv==='number') return mgeTableDir===-1?bv-av:av-bv;
-      return mgeTableDir===-1?String(bv).localeCompare(String(av),'pt'):String(av).localeCompare(String(bv),'pt');
-    });
+    if(mgeTableSort==='terr'){
+      rows.sort((a,b)=>{
+        const at=(MGE_TERRITORY_MAP[a[4]]||'').toLowerCase();
+        const bt=(MGE_TERRITORY_MAP[b[4]]||'').toLowerCase();
+        return mgeTableDir===-1?bt.localeCompare(at,'pt'):at.localeCompare(bt,'pt');
+      });
+    } else {
+      const sortIdx={nome:5,cap:2,setor:3,bairro:4,tipo:6}[mgeTableSort]||2;
+      rows.sort((a,b)=>{
+        const av=typeof a[sortIdx]==='string'?a[sortIdx].toLowerCase():a[sortIdx];
+        const bv=typeof b[sortIdx]==='string'?b[sortIdx].toLowerCase():b[sortIdx];
+        if(typeof av==='number'&&typeof bv==='number') return mgeTableDir===-1?bv-av:av-bv;
+        return mgeTableDir===-1?String(bv).localeCompare(String(av),'pt'):String(av).localeCompare(String(bv),'pt');
+      });
+    }
     const countEl=document.getElementById('mge-table-count');
     if(countEl) countEl.textContent=rows.length+' de '+MGE_BUBBLES.length+' empresas';
-    const cols=[{k:'nome',label:'Empresa'},{k:'cap',label:'Capital Social'},{k:'setor',label:'Setor'},{k:'bairro',label:'Bairro'},{k:'tipo',label:'Tipo'}];
+    const cols=[{k:'nome',label:'Empresa'},{k:'cap',label:'Capital Social'},{k:'setor',label:'Setor'},{k:'bairro',label:'Bairro'},{k:'terr',label:'Território'},{k:'tipo',label:'Tipo'}];
     const tbl=document.getElementById('table-mge-list');
     if(!tbl) return;
     const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
     tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${mgeTableSort===c.k?' sort-'+(mgeTableDir===1?'asc':'desc'):''}" data-mge-col="${c.k}">${c.label}<span class="sort-icon">${mgeTableSort===c.k?(mgeTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}</tr></thead><tbody>${rows.slice(0,200).map(r=>{
       const terr=MGE_TERRITORY_MAP[r[4]]||'';
       const tCol=terrColors[terr]||'#999';
-      return `<tr><td style="font-weight:600;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[5]}">${r[5]}</td><td data-sort-value="${r[2]}" style="white-space:nowrap">${fmtCap(r[2])}</td><td><span class="sector-tag">${r[3]}</span></td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r[4]}</td><td><span class="tipo-badge ${r[6]==='M'?'tipo-m':'tipo-f'}">${r[6]==='M'?'Matriz':'Filial'}</span></td></tr>`;
-    }).join('')}${rows.length>200?`<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
+      return `<tr><td style="font-weight:600;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[5]}">${r[5]}</td><td data-sort-value="${r[2]}" style="white-space:nowrap">${fmtCap(r[2])}</td><td><span class="sector-tag">${r[3]}</span></td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r[4]}</td><td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;white-space:nowrap"><span class="region-dot" style="background:${tCol}"></span>${terr}</span></td><td><span class="tipo-badge ${r[6]==='M'?'tipo-m':'tipo-f'}">${r[6]==='M'?'Matriz':'Filial'}</span></td></tr>`;
+    }).join('')}${rows.length>200?`<tr><td colspan="6" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
     document.querySelectorAll('#table-mge-list th.sortable').forEach(th=>{
       th.onclick=()=>{
         const col=th.dataset.mgeCol;
@@ -5548,6 +5577,31 @@ function initComp(){
     }).join('');
   }
 
+  // ─── 7) Heatmap de vulnerabilidades ─────────────────────────────────────────
+  const synthRadarData = GROUPS.map(g => ({
+    label: g,
+    values: RADAR_INDS.map(ind => groupAgg[g].values['rdr_'+ind.key] || 0)
+  }));
+  function renderHeatmap(){
+    const tbl = document.getElementById('synth-heatmap');
+    if(!tbl || !synthRadarData) return;
+    const dims = ['Ext. Pobreza','CadÚnico','Analfabetismo','Déf. Esgoto','Déf. Renda','Inform. (MEI)','Pop. Não-branca','Chefia Feminina'];
+    let html = '<thead><tr><th style="text-align:left">Território</th>';
+    dims.forEach(d => { html += `<th>${d}</th>`; });
+    html += '</tr></thead><tbody>';
+    synthRadarData.forEach(rd => {
+      html += `<tr><td style="text-align:left;font-weight:700;color:var(--navy)">${rd.label}</td>`;
+      rd.values.forEach(v => {
+        const cls = v >= 0.66 ? 'baixo' : v >= 0.33 ? 'medio' : 'alto';
+        const pct = (v*100).toFixed(0);
+        html += `<td class="cell ${cls}"><span>${pct}%</span></td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</tbody>';
+    tbl.innerHTML = html;
+  }
+
   // ─── Execução ──────────────────────────────────────────────────────────────
   renderDivisionMap();
   renderGroupCards();
@@ -5555,6 +5609,7 @@ function initComp(){
   renderBairroTable();
   renderRadar();
   renderReading();
+  renderHeatmap();
 
   // ─── IPT: Índice de Priorização Territorial ────────────────────
   const radarSets = GROUPS.map(g => ({
@@ -5785,7 +5840,7 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
+    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table' || tbl.id === 'synth-heatmap') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
