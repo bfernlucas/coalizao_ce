@@ -2341,17 +2341,9 @@ function initEcon(){
           iconSize:[10,10],iconAnchor:[5,5]
         })
       });
-      const dtBR=fmtDateBR(dtIni);
-      const ageY=ageYears(dtIni);
-      const cnaeFmt=fmtCnae(cnae);
-      const showRazao=razao&&razao!==nome;
       const detailRows=[
         cnpj?`<div class="row"><b>CNPJ</b>${cnpj}</div>`:'',
-        showRazao?`<div class="row"><b>Razão social</b>${razao}</div>`:'',
-        endereco?`<div class="row"><b>Endereço</b>${endereco}${cep?` · CEP ${cep}`:''}</div>`:'',
-        dtBR?`<div class="row"><b>Data de abertura</b>${dtBR}${ageY!=null?`<span class="age">${ageY} ano${ageY!==1?'s':''}</span>`:''}</div>`:'',
-        cnaeFmt?`<div class="row"><b>CNAE principal</b>${cnaeFmt}</div>`:'',
-        nj?`<div class="row"><b>Natureza jurídica</b>${nj}</div>`:''
+        endereco?`<div class="row"><b>Endereço</b>${endereco}${cep?` · CEP ${cep}`:''}</div>`:''
       ].filter(Boolean).join('');
       mk.bindPopup(`<div class="mge-popup" style="min-width:280px;max-width:340px">
         <h4>${nome}</h4>
@@ -2359,7 +2351,6 @@ function initEcon(){
         <div class="mge-cap">${fmtCap(cap)}</div>
         <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
           <span class="mge-tag">${setor}</span>
-          <span class="mge-tag" style="${tipo==='M'?'background:#e0f2e9;color:#7C3AED':'background:#fef3cd;color:#7c5c00'}">${tipo==='M'?'Matriz':'Filial'}</span>
         </div>
         ${detailRows?`<div class="mge-detail">${detailRows}</div>`:''}
       </div>`,{maxWidth:360});
