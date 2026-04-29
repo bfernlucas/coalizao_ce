@@ -5887,7 +5887,7 @@ document.addEventListener('click', e => {
   if(th.classList.contains('no-sort')) return;
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
+  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table' || tbl.id === 'synth-heatmap') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;

@@ -3827,7 +3827,7 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que já possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
+    if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table' || tbl.id === 'synth-heatmap') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
@@ -3874,7 +3874,7 @@ document.addEventListener('click', e => {
   if(th.classList.contains('no-sort')) return;
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return; // handled by custom logic
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
+  if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table' || tbl.id === 'synth-heatmap') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;
