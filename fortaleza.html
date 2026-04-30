@@ -1627,6 +1627,7 @@ body{
 
 /* Tables */
 .table-wrap{padding:0;overflow:auto}
+.table-wrap thead th{position:sticky;top:0;z-index:10}
 table{border-collapse:collapse;width:100%}
 th,td{padding:10px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--line)}
 th{
@@ -1846,7 +1847,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
   cursor:pointer;flex:1;min-width:130px;max-width:200px;
 }
 .map-filter-overlay select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
-.map-filter-overlay select.active-filter{border-color:var(--brand);background-color:#EFF6FF;color:var(--brand)}
+.map-filter-overlay select.active-filter,.map-filter-overlay input.active-filter{border-color:var(--brand);background-color:#EFF6FF;color:var(--brand)}
 .mge-clear-btn{
   padding:6px 12px;border:1px solid #DBEAFE;border-radius:4px;
   background:#EFF6FF;color:var(--brand);font:inherit;font-size:12px;font-weight:700;
@@ -4732,6 +4733,10 @@ function initOsc(){
     const badge=document.getElementById('osc-filter-count');
     badge.style.display=active?'':'none';
     if(active) badge.textContent=`${active} filtro${active>1?'s':''}`;
+    selBairro.classList.toggle('active-filter',!!bf);
+    selTerr.classList.toggle('active-filter',!!tf);
+    selArea.classList.toggle('active-filter',!!af);
+    document.getElementById('osc-search').classList.toggle('active-filter',!!sf);
     renderOscMap();
   }
 
