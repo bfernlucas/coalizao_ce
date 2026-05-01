@@ -389,7 +389,7 @@ thead th:first-child{border-top-left-radius:0}
 thead th:last-child{border-top-right-radius:0}
 tbody tr{background:#fff}
 tbody tr:nth-child(even){background:#F9FAFB}
-tbody tr:hover{background:#F3E8FF}
+tbody tr:hover{background:var(--brand-5)}
 .rank{font-weight:700;color:var(--brand)}
 
 /* Economic tab enhancements */
@@ -1115,6 +1115,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         <span style="flex:1;height:1px;background:var(--line-2)"></span>
       </div>
     </div>
+    <div class="kpi-grid four" id="kpi-vol-emp"></div>
 
     <div class="decision" style="margin:8px 0 14px">
       <h3>Perfil empresarial geral</h3>
@@ -2216,6 +2217,21 @@ function mgeColor(cap){
 }
 
 function initEcon(){
+  // --- Volume empresarial KPIs ---
+  {
+    const totalEmpresas=DATA.reduce((s,d)=>s+(d.emp||0),0);
+    const totalMEIs=DATA.reduce((s,d)=>s+(d.mei||0),0);
+    const totalMPE=DATA.reduce((s,d)=>s+(d.mpe||0),0);
+    const totalCoops=DATA.reduce((s,d)=>s+(d.coops||0),0);
+    const avgMeiShare=DATA.filter(d=>d.meiShare!=null).reduce((s,d,_,a)=>s+d.meiShare/a.length,0);
+    document.getElementById('kpi-vol-emp').innerHTML=[
+      {label:'Total de empresas',value:totalEmpresas.toLocaleString('pt-BR'),sub:'Todos os portes · dez/2024'},
+      {label:'MEIs',value:totalMEIs.toLocaleString('pt-BR'),sub:(avgMeiShare*100).toFixed(0)+'% do total em média'},
+      {label:'Micro e pequenas',value:totalMPE.toLocaleString('pt-BR'),sub:'MPE ativas · dez/2024'},
+      {label:'Cooperativas',value:totalCoops.toLocaleString('pt-BR'),sub:'Cooperativas ativas · dez/2024'}
+    ].map(k=>`<div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>`).join('');
+  }
+
   // --- Original charts ---
   const withEmp=DATA.filter(d=>d.emp>0).sort((a,b)=>b.emp-a.emp);
   makeBar('chart-econ-emp',withEmp.map(d=>d.b),[{data:withEmp.map(d=>d.emp),backgroundColor:UI.blue,borderRadius:5}]);
@@ -2546,7 +2562,7 @@ function renderMGETable() {
   const tbl = document.getElementById('table-mge-list');
   tbl.innerHTML = `<thead><tr>${cols.map(c =>
     `<th class="sortable${mgeTableSort===c.k?' sort-'+(mgeTableDir===1?'asc':'desc'):''}" data-mge-col="${c.k}">${c.label}<span class="sort-icon">${mgeTableSort===c.k?(mgeTableDir===1?'↑':'↓'):'↕'}</span></th>`
-  ).join('')}</tr></thead><tbody>${rows.slice(0,200).map((r,i) => {
+  ).join('')}</tr></thead><tbody>${rows.slice(0,500).map((r,i) => {
     const reg = REGION_MAP[r[4]] || '';
     const regCol = REGION_COLORS[reg] || '#999';
     return `<tr>
@@ -2557,7 +2573,7 @@ function renderMGETable() {
       <td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;white-space:nowrap"><span class="region-dot" style="background:${regCol}"></span>${reg}</span></td>
       <td><span class="tipo-badge ${r[6]==='M'?'tipo-m':'tipo-f'}">${r[6]==='M'?'Matriz':'Filial'}</span></td>
     </tr>`;
-  }).join('')}${rows.length>200?`<tr><td colspan="6" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
+  }).join('')}${rows.length>500?`<tr><td colspan="6" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 500 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
 
   document.querySelectorAll('#table-mge-list th.sortable').forEach(th => {
     th.onclick = () => {
@@ -2858,11 +2874,11 @@ function initOsc(){
     const cols=[{k:'nome',label:'Organização'},{k:'bairro',label:'Bairro'},{k:'area',label:'Área de atuação'}];
     const tbl=document.getElementById('table-osc-list');
     if(!tbl) return;
-    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}<th class="no-sort" style="min-width:90px">Região</th></tr></thead><tbody>${rows.slice(0,200).map(r=>{
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}<th class="no-sort" style="min-width:90px">Região</th></tr></thead><tbody>${rows.slice(0,500).map(r=>{
       const reg=REGION_MAP[r.bairro]||'';
       const rCol=REGION_COLORS[reg]||'#999';
       return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.n||''}">${r.n||'—'}</td><td>${r.bairro||'—'}</td><td><span class="tag" style="margin:1px 2px">${r.a||'—'}</span></td><td><span class="region-dot" style="background:${rCol};margin-right:4px"></span>${reg||'—'}</td></tr>`;
-    }).join('')}${rows.length>200?`<tr><td colspan="4" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} organizações.</td></tr>`:''}</tbody>`;
+    }).join('')}${rows.length>500?`<tr><td colspan="4" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 500 de ${rows.length} organizações.</td></tr>`:''}</tbody>`;
     document.querySelectorAll('#table-osc-list th.sortable').forEach(th=>{
       th.onclick=()=>{
         const col=th.dataset.oscCol;
@@ -3856,6 +3872,7 @@ function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que já possuem lógica própria de ordenação (re-render completo)
     if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table' || tbl.id === 'synth-heatmap') return;
+    if(tbl.classList.contains('matrix') || tbl.classList.contains('partners-table')) return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
@@ -3903,6 +3920,7 @@ document.addEventListener('click', e => {
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return; // handled by custom logic
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
   if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table' || tbl.id === 'synth-heatmap') return;
+  if(tbl.classList.contains('matrix') || tbl.classList.contains('partners-table')) return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;
