@@ -692,10 +692,10 @@ body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,
 .panel-sub{font-size:11px;color:#5C6E7E}
 .analysis-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:var(--brand-5);color:var(--brand);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:none}
 .analysis-title{margin:14px 0 10px;font-size:22px;line-height:1.15;letter-spacing:-.02em;color:var(--navy)}
-.kpi{padding:18px;border:1px solid #e8eff5;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);box-shadow:0 8px 20px rgba(16,42,67,.04)}
-.kpi .label{text-transform:uppercase;letter-spacing:.05em;font-size:11px;font-weight:700;color:#5C6E7E;margin-bottom:8px}
-.kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
-.kpi .sub{margin-top:6px;font-size:12px;color:#7F91A3}
+.kpi{background:#fff;border:1px solid #D8E0E8;border-top:none;border-radius:0;padding:14px 16px;box-shadow:none}
+.kpi .label{font-size:10px;font-weight:700;color:#5C6E7E;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.kpi .value{font-size:22px;font-weight:800;color:#111;letter-spacing:-.02em}
+.kpi .sub{font-size:11px;color:#7F91A3;margin-top:3px;line-height:1.4}
 .brand-title{font-weight:700;font-size:13px;color:#fff!important}
 .brand-sub{font-size:11px;color:rgba(255,255,255,.65)!important}
 .map-box{border-radius:4px;border:1px solid var(--line);background:#EBF0F5;box-shadow:none}
@@ -1064,6 +1064,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         <div class="mge-map-wrap">
           <div class="map-box split" id="map-mge" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="mge-filter-overlay">
+            <span style="font-size:10px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">Filtros do mapa</span>
             <input type="search" id="mge-map-search" placeholder="Buscar empresa…" autocomplete="off" style="flex:2;min-width:160px">
             <select id="mge-bairro-filter" title="Filtrar por bairro">
               <option value="">Todos os bairros</option>
@@ -1086,7 +1087,8 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         <div class="analysis-side">
           <div class="analysis-card" style="flex:1;display:flex;flex-direction:column;max-height:520px">
             <div class="analysis-kicker">Empresas no filtro</div>
-            <p class="analysis-text" id="mge-analysis-text" style="margin:6px 0 8px;font-size:12px"></p>
+            <p class="analysis-text" id="mge-analysis-text" style="margin:6px 0 4px;font-size:12px"></p>
+            <div id="mge-summary-stats" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px"></div>
             <div id="mge-top-list" style="flex:1;overflow-y:auto;min-height:0"></div>
           </div>
         </div>
@@ -1149,6 +1151,13 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
       <div class="table-wrap"><table id="table-econ"></table></div>
     </div>
 
+    <div style="margin:24px 0 6px;padding:0 4px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Lista completa de empresas M/G</span>
+        <span style="flex:1;height:1px;background:var(--line-2)"></span>
+      </div>
+    </div>
+
     <div class="panel" style="margin-top:18px">
       <div class="panel-head">
         <div><h3 class="panel-title">Lista completa de empresas M/G (dez/2024)</h3><p class="panel-sub">Todas as empresas de porte "Demais" · ordenável por qualquer coluna</p></div>
@@ -1156,6 +1165,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
       </div>
       <div class="table-filter-bar">
         <input type="search" id="mge-table-search" placeholder="Buscar empresa…" autocomplete="off">
+        <select id="mge-table-bairro"><option value="">Todos os bairros</option></select>
         <select id="mge-table-regiao"><option value="">Todas as regiões</option></select>
         <select id="mge-table-setor"><option value="">Todos os setores</option></select>
         <select id="mge-table-tipo"><option value="">Matriz e Filial</option><option value="M">Somente Matrizes</option><option value="F">Somente Filiais</option></select>
@@ -1359,6 +1369,8 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
       <p class="section-desc">Agregação dos 44 bairros em 6 regiões homogêneas, com indicadores socioeconômicos e de infraestrutura consolidados por região e bairro, mais perfil comparativo em radar para orientar a atuação da Coalizão em Maracanaú.</p>
     </div>
 
+    <div id="synth-exec-kpis" class="kpi-grid four" style="margin-bottom:20px"></div>
+
     <div class="decision">
       <h3>Metodologia do Radar</h3>
       <p>O gráfico de radar compara as 6 regiões de Maracanaú em 8 dimensões integradas, agrupadas em três categorias: <strong>Vulnerabilidade social</strong> (extrema pobreza, CadÚnico e analfabetismo), <strong>Infraestrutura e renda</strong> (déficit de esgoto e déficit de renda) e <strong>Perfil socioeconômico</strong> (informalidade/MEI, população não-branca e chefia feminina). Cada eixo é normalizado de 0 a 1 em relação ao máximo observado entre as regiões, permitindo comparação direta. Quanto maior a área do polígono, maior o acúmulo de vulnerabilidades e pressões naquela região. A leitura cruzada das dimensões revela quais regiões concentram múltiplas fragilidades simultaneamente, orientando a priorização territorial da Coalizão.</p>
@@ -1413,7 +1425,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Perfil de vulnerabilidades por região</h3>
-          <p class="panel-sub">Radar com 8 indicadores ponderados por população. Ao lado, uma leitura sintética de cada região.</p>
+          <p class="panel-sub">Oito dimensões normalizadas (0-1) comparam as regiões entre si e contra a média municipal (linha tracejada cinza). Quanto mais próximo da borda, maior a vulnerabilidade. IPT = média aritmética das oito dimensões.</p>
         </div>
       </div>
       <div class="map-analytics-layout" style="align-items:start;padding:0 24px 24px">
@@ -1543,7 +1555,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         </div>
       </div>
       <div class="matrix-wrap">
-        <table class="matrix heatmap">
+        <table id="adic-heatmap" class="matrix heatmap">
           <thead>
             <tr>
               <th>Região</th>
@@ -1557,51 +1569,51 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
           <tbody>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#7C3AED"></span>Extremo Norte</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell baixo"><span>Baixo</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell baixo" data-sort-value="1"><span>Baixo</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#2563EB"></span>Zona Norte</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#0891B2"></span>Centro e Jereissati</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell alto"><span>Baixo risco</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell baixo"><span>Baixo</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Baixo risco</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell baixo" data-sort-value="1"><span>Baixo</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#059669"></span>Zona Leste</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#D97706"></span>Zona Oeste</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell baixo"><span>Baixo</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell baixo" data-sort-value="1"><span>Baixo</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#DC2626"></span>Zona Sul</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell baixo"><span>Baixo</span></td>
-              <td class="cell baixo"><span>Alto risco</span></td>
-              <td class="cell baixo"><span>Baixo</span></td>
-              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell baixo" data-sort-value="1"><span>Baixo</span></td>
+              <td class="cell baixo" data-sort-value="1"><span>Alto risco</span></td>
+              <td class="cell baixo" data-sort-value="1"><span>Baixo</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
             </tr>
           </tbody>
         </table>
@@ -1790,7 +1802,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         </div>
       </div>
       <div class="matrix-wrap">
-        <table class="partners-table">
+        <table id="partners-table" class="partners-table">
           <thead>
             <tr>
               <th>Parceiro</th>
@@ -1805,48 +1817,48 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
           <tbody>
             <tr>
               <td>Pacto Contra a Fome<span class="p-scope">Segurança alimentar · articulação nacional</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f1" title="Baixa adicionalidade"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f1" title="Baixa prioridade"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa adicionalidade"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa prioridade"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
             </tr>
             <tr>
               <td>Movimento BemMaior<span class="p-scope">Mobilização cidadã · engajamento comunitário</span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa viabilidade"></span></td>
             </tr>
             <tr>
               <td>Astor Capital<span class="p-scope">Capital social · investimento estruturante</span></td>
-              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f0" title="Sem fit"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="0"><span class="fit f0" title="Sem fit"></span></td>
             </tr>
             <tr>
               <td>Instituto Localiza<span class="p-scope">Capacitação profissional · empregabilidade</span></td>
-              <td><span class="fit f1" title="Baixa prioridade"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Saturação alta"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa prioridade"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Saturação alta"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa viabilidade"></span></td>
             </tr>
             <tr>
               <td>Somos Um<span class="p-scope">Articulação comunitária · base territorial</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f1" title="Saturação alta"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Saturação alta"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
             </tr>
           </tbody>
         </table>
@@ -2368,6 +2380,25 @@ function initEcon(){
     const bf=selBairro.value,sf=selSetor.value,rf=selRegiao.value,tf=selTipo.value;
     const activeFilters=[bf&&`bairro: ${bf}`,sf&&`setor: ${sf}`,rf&&`região: ${rf}`,tf&&(tf==='M'?'Matrizes':'Filiais')].filter(Boolean);
     document.getElementById('mge-analysis-text').innerHTML=`<strong>${filtered.length.toLocaleString('pt-BR')}</strong> empresa${filtered.length!==1?'s':''} M/G${activeFilters.length?` <span style="color:var(--brand)">(${activeFilters.join(' · ')})</span>`:''} · capital total <strong>${fmtCap(totalCap)}</strong>`;
+    // Summary stats
+    const statsEl=document.getElementById('mge-summary-stats');
+    if(statsEl && filtered.length>0){
+      const setorCount={};filtered.forEach(r=>{setorCount[r[3]]=(setorCount[r[3]]||0)+1;});
+      const topSetor=Object.entries(setorCount).sort((a,b)=>b[1]-a[1])[0];
+      const bairroCount={};filtered.forEach(r=>{bairroCount[r[4]]=(bairroCount[r[4]]||0)+1;});
+      const topBairro=Object.entries(bairroCount).sort((a,b)=>b[1]-a[1])[0];
+      const matrizes=filtered.filter(r=>r[6]==='M').length;
+      const pctMat=filtered.length>0?Math.round(matrizes/filtered.length*100):0;
+      const nBairros=Object.keys(bairroCount).length;
+      const sBox='padding:6px 8px;border-radius:8px;background:#F5F3FF;border:1px solid #EDE9FE';
+      const sLabel='font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block';
+      const sVal='font-size:13px;font-weight:700;color:var(--navy);margin-top:2px;display:block;line-height:1.2';
+      statsEl.innerHTML=`
+        <div style="${sBox}"><span style="${sLabel}">Principal setor</span><span style="${sVal}">${topSetor?topSetor[0]:'—'} <span style="font-size:10px;color:var(--muted);font-weight:500">(${topSetor?topSetor[1]:0})</span></span></div>
+        <div style="${sBox}"><span style="${sLabel}">Principal bairro</span><span style="${sVal}">${topBairro?topBairro[0]:'—'} <span style="font-size:10px;color:var(--muted);font-weight:500">(${topBairro?topBairro[1]:0})</span></span></div>
+        <div style="${sBox}"><span style="${sLabel}">Matrizes</span><span style="${sVal}">${matrizes.toLocaleString('pt-BR')} <span style="font-size:10px;color:var(--muted);font-weight:500">(${pctMat}%)</span></span></div>
+        <div style="${sBox}"><span style="${sLabel}">Bairros distintos</span><span style="${sVal}">${nBairros}</span></div>`;
+    } else if(statsEl) { statsEl.innerHTML=''; }
     const shown=filtered.slice(0,mgeListVisible);
     const listEl=document.getElementById('mge-top-list');
     listEl.innerHTML=shown.map((r,i)=>{
@@ -2489,6 +2520,7 @@ function initEcon(){
   // Populate MGE table filters
   const mgeRegSel = document.getElementById('mge-table-regiao');
   const mgeSetSel = document.getElementById('mge-table-setor');
+  const mgeBairroSel = document.getElementById('mge-table-bairro');
   if(mgeRegSel && mgeRegSel.options.length <= 1){
     Object.keys(REGION_COLORS).forEach(r => { const o=document.createElement('option'); o.value=r; o.textContent=r; mgeRegSel.appendChild(o); });
   }
@@ -2496,8 +2528,12 @@ function initEcon(){
     const setores = [...new Set(MGE_BUBBLES.map(r=>r[3]))].sort();
     setores.forEach(s => { const o=document.createElement('option'); o.value=s; o.textContent=s; mgeSetSel.appendChild(o); });
   }
+  if(mgeBairroSel && mgeBairroSel.options.length <= 1){
+    const bairros = [...new Set(MGE_BUBBLES.map(r=>r[4]))].sort();
+    bairros.forEach(b => { const o=document.createElement('option'); o.value=b; o.textContent=b; mgeBairroSel.appendChild(o); });
+  }
   renderMGETable();
-  ['mge-table-search','mge-table-regiao','mge-table-setor','mge-table-tipo'].forEach(id => {
+  ['mge-table-search','mge-table-bairro','mge-table-regiao','mge-table-setor','mge-table-tipo'].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.addEventListener(el.tagName==='INPUT'?'input':'change', renderMGETable);
   });
@@ -2507,12 +2543,14 @@ function initEcon(){
 let mgeTableSort = 'cap', mgeTableDir = -1;
 function renderMGETable() {
   const q = (document.getElementById('mge-table-search').value || '').toLowerCase().trim();
+  const brf = (document.getElementById('mge-table-bairro')||{}).value || '';
   const rf = document.getElementById('mge-table-regiao').value;
   const sf = document.getElementById('mge-table-setor').value;
   const tf = document.getElementById('mge-table-tipo').value;
 
   let rows = [...MGE_BUBBLES];
   if(q) rows = rows.filter(r => r[5].toLowerCase().includes(q) || r[4].toLowerCase().includes(q));
+  if(brf) rows = rows.filter(r => r[4] === brf);
   if(rf) rows = rows.filter(r => (REGION_MAP[r[4]]||'') === rf);
   if(sf) rows = rows.filter(r => r[3] === sf);
   if(tf) rows = rows.filter(r => r[6] === tf);
@@ -3379,6 +3417,26 @@ function initComp(){
     muni.values['rdr_'+ind.key] = ind.transform(raw);
   });
 
+  // Executive summary KPIs
+  const execEl = document.getElementById('synth-exec-kpis');
+  if(execEl){
+    const totalPop = Object.values(groupAgg).reduce((s,g)=>s+g.pop,0);
+    const worstGroup = GROUPS.slice().sort((a,b)=>{
+      const ia = groupAgg[a].values, ib = groupAgg[b].values;
+      const iptA = RADAR_INDS.reduce((s,ind)=>s+(ia['rdr_'+ind.key]||0),0)/RADAR_INDS.length;
+      const iptB = RADAR_INDS.reduce((s,ind)=>s+(ib['rdr_'+ind.key]||0),0)/RADAR_INDS.length;
+      return iptB - iptA;
+    })[0];
+    const worstIPT = (RADAR_INDS.reduce((s,ind)=>s+(groupAgg[worstGroup].values['rdr_'+ind.key]||0),0)/RADAR_INDS.length*100).toFixed(1);
+    const avgEpob = (muni.values.rdr_epob*100).toFixed(1);
+    execEl.innerHTML = `
+      <div class="kpi"><strong>${(totalPop/1000).toFixed(0)}mil</strong><span>População total</span></div>
+      <div class="kpi"><strong>${GROUPS.length}</strong><span>Regiões</span></div>
+      <div class="kpi"><strong>${worstGroup}</strong><span>Maior vulnerabilidade (IPT ${worstIPT}%)</span></div>
+      <div class="kpi"><strong>${avgEpob}%</strong><span>Extrema pobreza média</span></div>
+    `;
+  }
+
   // ─── 1) Mapa de divisão regional ───────────────────────────────────────────
   function renderDivisionMap(){
     const map = createMap('synth-division-map');
@@ -3508,7 +3566,19 @@ function initComp(){
       return Math.min(1, Math.max(0.1, Math.ceil(maxV*20)/20 + 0.05));
     });
     const labels = RADAR_INDS.map(i=>i.label);
-    const datasets = GROUPS.map(g=>{
+    const muniDataset = {
+      label: 'Média municipal',
+      data: RADAR_INDS.map((ind,i) => ((muni.values['rdr_'+ind.key]||0)/axisMax[i])*100),
+      _raw: RADAR_INDS.map(ind=>muni.values['rdr_'+ind.key]||0),
+      borderColor: '#9CA3AF',
+      backgroundColor: 'transparent',
+      borderWidth: 1.5,
+      borderDash: [6,4],
+      pointRadius: 0,
+      pointHoverRadius: 3,
+      fill: false
+    };
+    const datasets = [muniDataset].concat(GROUPS.map(g=>{
       const col = GROUP_COLORS[g] || '#888';
       return {
         label: g,
@@ -3524,7 +3594,7 @@ function initComp(){
         pointHoverRadius: 5,
         borderWidth: 2
       };
-    });
+    }));
     CHARTS['chart-synth-radar'] = new Chart(canvas, {
       type:'radar',
       data:{labels, datasets},
@@ -3560,9 +3630,12 @@ function initComp(){
 
     // Legenda clicável
     const leg = document.getElementById('synth-radar-legend');
-    leg.innerHTML = GROUPS.map((g,i)=>{
+    leg.innerHTML = `<span data-i="0" class="synth-leg-item" style="cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:6px">
+        <span style="width:10px;height:2px;border-top:2px dashed #9CA3AF;display:inline-block"></span>
+        <span style="font-weight:600;color:var(--navy)">Média municipal</span>
+      </span>` + GROUPS.map((g,i)=>{
       const col = GROUP_COLORS[g] || '#888';
-      return `<span data-i="${i}" class="synth-leg-item" style="cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:6px">
+      return `<span data-i="${i+1}" class="synth-leg-item" style="cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:6px">
         <span style="width:10px;height:10px;border-radius:2px;background:${col};display:inline-block"></span>
         <span style="font-weight:600;color:var(--navy)">${g}</span>
       </span>`;

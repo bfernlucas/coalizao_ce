@@ -1987,8 +1987,8 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
 <header class="topbar">
   <div class="topbar-inner">
     <div>
-      <div class="brand-title" style="color:#fff">Coalizão CE</div>
-      <div class="brand-sub" style="color:rgba(255,255,255,.65)">Diagnóstico Territorial · Fortaleza</div>
+      <div class="brand-title">Coalizão CE</div>
+      <div class="brand-sub">Diagnóstico Territorial · Fortaleza</div>
     </div>
     <a href="index.html" style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:4px;color:#fff;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;transition:.15s" onmouseover="this.style.background='rgba(255,255,255,.22)'" onmouseout="this.style.background='rgba(255,255,255,.14)'">&#8592; Municípios</a>
   </div>
@@ -2291,6 +2291,8 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
         <div class="mge-map-wrap">
           <div class="map-box split" id="map-mge" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="mge-filter-overlay">
+            <span style="font-size:10px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">Filtros do mapa</span>
+            <span style="width:1px;height:16px;background:var(--line-2);flex-shrink:0"></span>
             <input type="search" id="mge-map-search" placeholder="Buscar empresa…" autocomplete="off" style="flex:2;min-width:160px">
             <select id="mge-bairro-filter" title="Filtrar por bairro">
               <option value="">Todos os bairros</option>
@@ -2379,6 +2381,12 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
         </select>
       </div>
       <div class="table-wrap"><table id="table-cnae"></table></div>
+    </div>
+    <div style="margin:28px 0 6px;padding:0 4px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Lista de empresas</span>
+        <span style="flex:1;height:1px;background:var(--line-2)"></span>
+      </div>
     </div>
     <div class="panel" style="margin-top:18px">
       <div class="panel-head">
@@ -2533,6 +2541,10 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
             <span class="analysis-kicker">Organizações âncoras</span>
             <h4 class="analysis-title" style="font-size:16px;margin:10px 0 10px" id="net-anchor-title">4 organizações de referência</h4>
             <div id="net-anchor-cards" style="font-size:12px;color:var(--text);line-height:1.65"></div>
+            <div id="net-stats" class="analysis-right" style="margin-top:12px">
+              <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Estatísticas da rede</div>
+              <div id="net-stats-content" style="font-size:12px;color:var(--text);line-height:1.7"></div>
+            </div>
           </div>
           <div class="analysis-stats" id="network-stats"></div>
         </div>
@@ -2590,6 +2602,8 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
       <p class="section-desc">Os 13 bairros da Coalizão agrupados em dois territórios (Grande Bom Jardim e Grande Mucuripe), com indicadores socioeconômicos e de infraestrutura consolidados por território e bairro, mais perfil comparativo em radar para orientar a atuação em Fortaleza.</p>
     </div>
 
+    <div id="synth-exec-kpis" class="kpi-grid four" style="margin-bottom:20px"></div>
+
     <div class="decision">
       <h3>Metodologia do Radar</h3>
       <p>O gráfico de radar compara os 2 territórios da Coalizão em Fortaleza em 8 dimensões integradas, agrupadas em três categorias: <strong>Vulnerabilidade social</strong> (extrema pobreza, CadÚnico e analfabetismo), <strong>Infraestrutura e renda</strong> (déficit de esgoto e déficit de renda) e <strong>Perfil socioeconômico</strong> (informalidade/MEI, população não-branca e chefia feminina). Cada eixo é normalizado de 0 a 1 em relação ao máximo observado entre os territórios, permitindo comparação direta. Quanto maior a área do polígono, maior o acúmulo de vulnerabilidades e pressões naquele território. A leitura cruzada das dimensões revela quais territórios concentram múltiplas fragilidades simultaneamente, orientando a priorização territorial da Coalizão.</p>
@@ -2644,7 +2658,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
       <div class="panel-head">
         <div>
           <h3 class="panel-title">Perfil de vulnerabilidades por território</h3>
-          <p class="panel-sub">Radar com 8 indicadores ponderados por população. Ao lado, uma leitura sintética de cada território.</p>
+          <p class="panel-sub">Oito dimensões normalizadas (0-1) comparam os territórios entre si e contra a média municipal (linha tracejada cinza). Quanto mais próximo da borda, maior a vulnerabilidade. IPT = média aritmética das oito dimensões.</p>
         </div>
       </div>
       <div class="map-analytics-layout" style="align-items:start;padding:0 24px 24px">
@@ -2768,7 +2782,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
         </div>
       </div>
       <div class="matrix-wrap">
-        <table class="matrix heatmap">
+        <table id="adic-heatmap" class="matrix heatmap">
           <thead>
             <tr>
               <th>Território</th>
@@ -2782,19 +2796,19 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
           <tbody>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#1E40AF"></span>Grande Bom Jardim</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell alto"><span>Baixo risco</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell alto"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Baixo risco</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
             </tr>
             <tr>
               <td><span class="region-label"><span class="region-dot" style="background:#0B4FA8"></span>Grande Mucuripe</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell alto"><span>Alto</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell medio"><span>Médio</span></td>
-              <td class="cell medio"><span>Médio</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell alto" data-sort-value="3"><span>Alto</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
+              <td class="cell medio" data-sort-value="2"><span>Médio</span></td>
             </tr>
           </tbody>
         </table>
@@ -2916,7 +2930,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
         </div>
       </div>
       <div class="matrix-wrap">
-        <table class="partners-table">
+        <table id="partners-table" class="partners-table">
           <thead>
             <tr>
               <th>Parceiro</th>
@@ -2927,28 +2941,28 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
           <tbody>
             <tr>
               <td>Pacto Contra a Fome<span class="p-scope">Segurança alimentar · articulação nacional</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f1" title="Baixa prioridade"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa prioridade"></span></td>
             </tr>
             <tr>
               <td>Movimento BemMaior<span class="p-scope">Mobilização cidadã · engajamento comunitário</span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
             </tr>
             <tr>
               <td>Astor Capital<span class="p-scope">Capital social · investimento estruturante</span></td>
-              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
             </tr>
             <tr>
               <td>Instituto Localiza<span class="p-scope">Capacitação profissional · empregabilidade</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
             </tr>
             <tr>
               <td>Somos Um<span class="p-scope">Articulação comunitária · base territorial</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
             </tr>
           </tbody>
         </table>
@@ -4331,7 +4345,15 @@ function initEcon(){
     const totalCapF=filtered.reduce((s,r)=>s+r[2],0);
     const bf=selBairroMge.value,sf=selSetorMge.value,tf=selTerrMge.value,tp=selTipoMge.value;
     const activeFilters=[bf&&`bairro: ${bf}`,sf&&`setor: ${sf}`,tf&&`território: ${tf}`,tp&&(tp==='M'?'Matrizes':'Filiais')].filter(Boolean);
-    document.getElementById('mge-analysis-text').innerHTML=`<strong>${filtered.length.toLocaleString('pt-BR')}</strong> empresa${filtered.length!==1?'s':''} M/G${activeFilters.length?` <span style="color:var(--brand)">(${activeFilters.join(' · ')})</span>`:''} · capital total <strong>${fmtCap(totalCapF)}</strong>`;
+    const avgCapF=filtered.length?totalCapF/filtered.length:0;
+    const sectorCounts={};filtered.forEach(r=>{sectorCounts[r[3]]=(sectorCounts[r[3]]||0)+1;});
+    const topSector=Object.entries(sectorCounts).sort((a,b)=>b[1]-a[1])[0];
+    const bairroCounts={};filtered.forEach(r=>{bairroCounts[r[4]]=(bairroCounts[r[4]]||0)+1;});
+    const topBairro=Object.entries(bairroCounts).sort((a,b)=>b[1]-a[1])[0];
+    document.getElementById('mge-analysis-text').innerHTML=`<strong>${filtered.length.toLocaleString('pt-BR')}</strong> empresa${filtered.length!==1?'s':''} M/G${activeFilters.length?` <span style="color:var(--brand)">(${activeFilters.join(' · ')})</span>`:''}`
+      +`<br><span style="color:var(--muted);font-size:11px">Capital total <strong style="color:var(--navy)">${fmtCap(totalCapF)}</strong> · média <strong style="color:var(--navy)">${fmtCap(avgCapF)}</strong></span>`
+      +(topSector?`<br><span style="color:var(--muted);font-size:11px">Setor líder: <strong style="color:var(--navy)">${topSector[0]}</strong> (${topSector[1]})</span>`:'')
+      +(topBairro?`<br><span style="color:var(--muted);font-size:11px">Bairro líder: <strong style="color:var(--navy)">${topBairro[0]}</strong> (${topBairro[1]})</span>`:'');
     const shown=filtered.slice(0,mgeListVisible);
     const listEl=document.getElementById('mge-top-list');
     listEl.innerHTML=shown.map((r,i)=>{
@@ -4943,6 +4965,20 @@ function initNetworkFort(){
      sub:Object.entries(areaCount).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([k,v])=>(OSC_AREA_SHORT_LABELS[k]||k)+': '+v).join(' · ')}
   ].map(c=>`<div class="analysis-stat"><div class="analysis-stat-label">${c.label}</div><div class="analysis-stat-value">${c.value}</div><div class="analysis-stat-sub">${c.sub}</div></div>`).join('');
 
+  /* ── Net stats content (detailed connection breakdown) ── */
+  const netStatsContent=document.getElementById('net-stats-content');
+  if(netStatsContent){
+    const mediumCount=edges.filter(e=>e.strength==='medium').length;
+    const lightCount=edges.filter(e=>e.strength==='light').length;
+    netStatsContent.innerHTML = [
+      `<div>Total de OSCs conectadas: <strong>${oscScored.length}</strong></div>`,
+      `<div>Conexões fortes: <strong>${strongCount}</strong></div>`,
+      `<div>Conexões médias: <strong>${mediumCount}</strong></div>`,
+      `<div>Conexões leves: <strong>${lightCount}</strong></div>`,
+      `<div>Conexões peer: <strong>${peerCount}</strong></div>`
+    ].join('');
+  }
+
   /* ── Filters: anchor, territory, bairro ── */
   const anchorSel=document.getElementById('net-anchor-filter');
   ANCHORS.forEach(a=>{const o=document.createElement('option');o.value=a.id;o.textContent=a.label;anchorSel.appendChild(o);});
@@ -5321,6 +5357,27 @@ function initComp(){
     muni.values['rdr_'+ind.key] = ind.transform(raw);
   });
 
+  // Executive summary KPIs
+  const execEl = document.getElementById('synth-exec-kpis');
+  if(execEl){
+    const totalPop = Object.values(groupAgg).reduce((s,g)=>s+g.pop,0);
+    const worstGroup = GROUPS.slice().sort((a,b)=>{
+      const ia = groupAgg[a].values, ib = groupAgg[b].values;
+      const iptA = RADAR_INDS.reduce((s,ind)=>s+(ia['rdr_'+ind.key]||0),0)/RADAR_INDS.length;
+      const iptB = RADAR_INDS.reduce((s,ind)=>s+(ib['rdr_'+ind.key]||0),0)/RADAR_INDS.length;
+      return iptB - iptA;
+    })[0];
+    const worstIPT = (RADAR_INDS.reduce((s,ind)=>s+(groupAgg[worstGroup].values['rdr_'+ind.key]||0),0)/RADAR_INDS.length*100).toFixed(1);
+    const avgEpob = (muni.values.rdr_epob*100).toFixed(1);
+    const avgRenda = muni.rendaPC ? muni.rendaPC.toFixed(0) : DATA.reduce((s,d)=>s+d.rendaPC*d.pop,0)/totalPop|0;
+    execEl.innerHTML = `
+      <div class="kpi"><strong>${(totalPop/1000).toFixed(0)}mil</strong><span>População total</span></div>
+      <div class="kpi"><strong>${GROUPS.length}</strong><span>Territórios</span></div>
+      <div class="kpi"><strong>${worstGroup}</strong><span>Maior vulnerabilidade (IPT ${worstIPT}%)</span></div>
+      <div class="kpi"><strong>${avgEpob}%</strong><span>Extrema pobreza média</span></div>
+    `;
+  }
+
   // ─── 1) Mapa de divisão territorial ────────────────────────────────────────
   function renderDivisionMap(){
     const containerId = 'synth-division-map';
@@ -5436,7 +5493,7 @@ function initComp(){
     tbl.querySelectorAll('th.sortable').forEach(th=>{
       th.onclick = () => {
         const k = th.dataset.k;
-        if(regionSortKey===k) regionSortDir = -regionSortDir; else { regionSortKey=k; regionSortDir = k==='name'?1:-1; }
+        if(regionSortKey===k) regionSortDir = -regionSortDir; else { regionSortKey=k; regionSortDir = -1; }
         renderRegionTable();
       };
     });
@@ -5471,7 +5528,7 @@ function initComp(){
     tbl.querySelectorAll('th.sortable').forEach(th=>{
       th.onclick = () => {
         const k = th.dataset.k;
-        if(sortKey===k) sortDir = -sortDir; else { sortKey=k; sortDir = ['b','t'].includes(k)?1:-1; }
+        if(sortKey===k) sortDir = -sortDir; else { sortKey=k; sortDir = -1; }
         renderBairroTable();
       };
     });
@@ -5487,23 +5544,37 @@ function initComp(){
       return Math.min(1, Math.max(0.1, Math.ceil(maxV*20)/20 + 0.05));
     });
     const labels = RADAR_INDS.map(i=>i.label);
-    const datasets = GROUPS.map(g=>{
-      const col = GROUP_COLORS[g] || '#888';
-      return {
-        label: g,
-        data: RADAR_INDS.map((ind,i)=>{
-          const v = groupAgg[g].values['rdr_'+ind.key] || 0;
-          return (v/axisMax[i])*100;
-        }),
-        _raw: RADAR_INDS.map(ind=>groupAgg[g].values['rdr_'+ind.key]||0),
-        borderColor: col,
-        backgroundColor: col+'22',
-        pointBackgroundColor: col,
-        pointRadius: 3,
-        pointHoverRadius: 5,
-        borderWidth: 2
-      };
-    });
+    const datasets = [
+      {
+        label: 'Média municipal',
+        data: RADAR_INDS.map((ind,i) => ((muni.values['rdr_'+ind.key]||0)/axisMax[i])*100),
+        _raw: RADAR_INDS.map(ind=>muni.values['rdr_'+ind.key]||0),
+        borderColor: '#9CA3AF',
+        backgroundColor: 'transparent',
+        borderWidth: 1.5,
+        borderDash: [6,4],
+        pointRadius: 0,
+        pointHoverRadius: 3,
+        fill: false
+      },
+      ...GROUPS.map(g=>{
+        const col = GROUP_COLORS[g] || '#888';
+        return {
+          label: g,
+          data: RADAR_INDS.map((ind,i)=>{
+            const v = groupAgg[g].values['rdr_'+ind.key] || 0;
+            return (v/axisMax[i])*100;
+          }),
+          _raw: RADAR_INDS.map(ind=>groupAgg[g].values['rdr_'+ind.key]||0),
+          borderColor: col,
+          backgroundColor: col+'22',
+          pointBackgroundColor: col,
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          borderWidth: 2
+        };
+      })
+    ];
     CHARTS['chart-synth-radar'] = new Chart(canvas, {
       type:'radar',
       data:{labels, datasets},
@@ -5537,9 +5608,12 @@ function initComp(){
       }
     });
     const leg = document.getElementById('synth-radar-legend');
-    leg.innerHTML = GROUPS.map((g,i)=>{
+    leg.innerHTML = `<span data-i="0" class="synth-leg-item" style="cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:6px">
+        <span style="width:10px;height:2px;border-top:2px dashed #9CA3AF;display:inline-block"></span>
+        <span style="font-weight:600;color:#9CA3AF">Média municipal</span>
+      </span>` + GROUPS.map((g,i)=>{
       const col = GROUP_COLORS[g] || '#888';
-      return `<span data-i="${i}" class="synth-leg-item" style="cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:6px">
+      return `<span data-i="${i+1}" class="synth-leg-item" style="cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:6px">
         <span style="width:10px;height:10px;border-radius:2px;background:${col};display:inline-block"></span>
         <span style="font-weight:600;color:var(--navy)">${g}</span>
       </span>`;
