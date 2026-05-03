@@ -35,7 +35,7 @@
   --danger:#C0392B;
   --shadow:0 1px 3px rgba(0,0,0,.06),0 3px 10px rgba(11,79,168,.07);
   --shadow-soft:0 1px 2px rgba(0,0,0,.04),0 2px 6px rgba(11,79,168,.04);
-  --radius:4px;
+  --radius:6px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -1967,12 +1967,12 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
 .matrix.heatmap tbody tr:hover .cell.medio > span{background:#FEF08A}
 .matrix.heatmap tbody tr:hover .cell.baixo > span{background:#FECACA}
 /* Vulnerability heatmap: vuln-alto=red (high vulnerability), vuln-baixo=green (low vulnerability) */
-.matrix.heatmap .cell.vuln-alto > span{background:#FEE2E2;color:#7F1D1D}
-.matrix.heatmap .cell.vuln-medio > span{background:#FEF9C3;color:#854D0E}
-.matrix.heatmap .cell.vuln-baixo > span{background:#DCFCE7;color:#14532D}
-.matrix.heatmap tbody tr:hover .cell.vuln-alto > span{background:#FECACA}
-.matrix.heatmap tbody tr:hover .cell.vuln-medio > span{background:#FEF08A}
-.matrix.heatmap tbody tr:hover .cell.vuln-baixo > span{background:#BBF7D0}
+.matrix.heatmap.vuln .cell.vuln-alto > span{background:#FEE2E2;color:#7F1D1D}
+.matrix.heatmap.vuln .cell.vuln-medio > span{background:#FEF9C3;color:#854D0E}
+.matrix.heatmap.vuln .cell.vuln-baixo > span{background:#DCFCE7;color:#14532D}
+.matrix.heatmap.vuln tbody tr:hover .cell.vuln-alto > span{background:#FECACA}
+.matrix.heatmap.vuln tbody tr:hover .cell.vuln-medio > span{background:#FEF08A}
+.matrix.heatmap.vuln tbody tr:hover .cell.vuln-baixo > span{background:#BBF7D0}
 
 @media(max-width:820px){
   .adic-intro{grid-template-columns:1fr}
@@ -2273,6 +2273,9 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
       <p>O Grande Mucuripe reúne a maior densidade econômica, concentrada em Papicu, Mucuripe e Varjota. O Grande Bom Jardim tem peso relativo maior de microempreendimentos e MEIs: um ecossistema menos denso, mas mais aderente a estratégias de fortalecimento de pequenos negócios, formalização e circuitos econômicos de bairro.</p>
     </div>
 
+    <!-- KPIs resumo economia -->
+    <div class="kpi-grid four" id="kpi-econ-resumo" style="margin-bottom:4px"></div>
+
     <!-- KPIs MGE -->
     <div style="margin:0 0 12px;padding:0 4px">
       <div style="display:flex;align-items:center;gap:12px">
@@ -2378,7 +2381,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
           <option value="Grande Mucuripe">Grande Mucuripe</option>
         </select>
       </div>
-      <div class="table-wrap"><table id="table-cnae"></table></div>
+      <div class="table-wrap"><table id="table-econ"></table></div>
     </div>
     <div class="panel" style="margin-top:18px">
       <div class="panel-head">
@@ -2589,6 +2592,9 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
       <h2 class="section-title">Panorama consolidado dos territórios</h2>
       <p class="section-desc">Os 13 bairros da Coalizão agrupados em dois territórios (Grande Bom Jardim e Grande Mucuripe), com indicadores socioeconômicos e de infraestrutura consolidados por território e bairro, mais perfil comparativo em radar para orientar a atuação em Fortaleza.</p>
     </div>
+
+    <!-- KPIs resumo -->
+    <div class="kpi-grid four" id="kpi-synth" style="margin-bottom:4px"></div>
 
     <div class="decision">
       <h3>Metodologia do Radar</h3>
@@ -4191,6 +4197,18 @@ function mgeColor(cap){
 
 function initEcon(){
 
+  // --- Economia: KPIs resumo geral ---
+  const totalEmpAll=DATA.reduce((s,d)=>s+(+d.emp||0),0);
+  const totalMEI=DATA.reduce((s,d)=>s+(+d.mei||0),0);
+  const totalCoops=DATA.reduce((s,d)=>s+(+d.coops||0),0);
+  const avgMeiAll=DATA.filter(d=>d.meiShare!=null).reduce((s,d,_,a)=>s+d.meiShare/a.length,0);
+  const econResumo=document.getElementById('kpi-econ-resumo');
+  if(econResumo) econResumo.innerHTML=`
+    <div class="kpi"><div class="label">Total de empresas</div><div class="value">${totalEmpAll.toLocaleString('pt-BR')}</div><div class="sub">Todos os portes · Receita Federal, 2024</div></div>
+    <div class="kpi"><div class="label">MEIs</div><div class="value">${totalMEI.toLocaleString('pt-BR')}</div><div class="sub">${(avgMeiAll*100).toFixed(0)}% do total em média</div></div>
+    <div class="kpi"><div class="label">Micro e pequenas</div><div class="value">${DATA.reduce((s,d)=>s+(+d.mpe||0),0).toLocaleString('pt-BR')}</div><div class="sub">Porte MPE</div></div>
+    <div class="kpi"><div class="label">Cooperativas</div><div class="value">${totalCoops.toLocaleString('pt-BR')}</div><div class="sub">Cooperativas ativas</div></div>`;
+
   // --- MGE KPIs ---
   const totalMGE=MGE_BUBBLES.length;
   const totalCap=MGE_BAIRRO.reduce((s,b)=>s+b.cap,0);
@@ -4422,7 +4440,7 @@ function initEcon(){
       {k:'meiShare',label:'% MEI (2024)'},{k:'mpe',label:'Micro/Peq. (2024)'},{k:'mge',label:'Méd./Grd. (2024)'},
       {k:'coops',label:'Coops. (2024)'}
     ];
-    document.getElementById('table-cnae').innerHTML = `<thead><tr>
+    document.getElementById('table-econ').innerHTML = `<thead><tr>
       ${colHeaders.map(h=>`<th class="sortable${econSortKey===h.k?' sort-'+(econSortDir===1?'asc':'desc'):''}" data-econ-col="${h.k}">${h.label}<span class="sort-icon">${econSortKey===h.k?(econSortDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}
       <th>Território</th><th>Principal CNAE</th>
     </tr></thead><tbody>${rows.map(d=>{
@@ -4441,7 +4459,7 @@ function initEcon(){
         <td style="font-size:11px;max-width:200px;color:var(--muted)">${d.cn1||'—'}</td>
       </tr>`;
     }).join('')}</tbody>`;
-    document.querySelectorAll('#table-cnae th.sortable').forEach(th=>{
+    document.querySelectorAll('#table-econ th.sortable').forEach(th=>{
       th.addEventListener('click',()=>{
         const col=th.dataset.econCol;
         if(econSortKey===col) econSortDir*=-1;
@@ -4487,11 +4505,11 @@ function initEcon(){
     const tbl=document.getElementById('table-mge-list');
     if(!tbl) return;
     const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
-    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${mgeTableSort===c.k?' sort-'+(mgeTableDir===1?'asc':'desc'):''}" data-mge-col="${c.k}">${c.label}<span class="sort-icon">${mgeTableSort===c.k?(mgeTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}</tr></thead><tbody>${rows.slice(0,200).map(r=>{
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${mgeTableSort===c.k?' sort-'+(mgeTableDir===1?'asc':'desc'):''}" data-mge-col="${c.k}">${c.label}<span class="sort-icon">${mgeTableSort===c.k?(mgeTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}</tr></thead><tbody>${rows.slice(0,500).map(r=>{
       const terr=MGE_TERRITORY_MAP[r[4]]||'';
       const tCol=terrColors[terr]||'#999';
       return `<tr><td style="font-weight:600;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r[5]}">${r[5]}</td><td data-sort-value="${r[2]}" style="white-space:nowrap">${fmtCap(r[2])}</td><td><span class="sector-tag">${r[3]}</span></td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r[4]}</td><td><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;white-space:nowrap"><span class="region-dot" style="background:${tCol}"></span>${terr}</span></td><td><span class="tipo-badge ${r[6]==='M'?'tipo-m':'tipo-f'}">${r[6]==='M'?'Matriz':'Filial'}</span></td></tr>`;
-    }).join('')}${rows.length>200?`<tr><td colspan="6" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
+    }).join('')}${rows.length>500?`<tr><td colspan="6" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 500 de ${rows.length} empresas. Use os filtros para refinar.</td></tr>`:''}</tbody>`;
     document.querySelectorAll('#table-mge-list th.sortable').forEach(th=>{
       th.onclick=()=>{
         const col=th.dataset.mgeCol;
@@ -4803,11 +4821,11 @@ function initOsc(){
     const tbl=document.getElementById('table-osc-list');
     if(!tbl) return;
     const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
-    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}<th class="no-sort" style="min-width:90px">Território</th></tr></thead><tbody>${rows.slice(0,200).map(r=>{
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}<th class="no-sort" style="min-width:90px">Território</th></tr></thead><tbody>${rows.slice(0,500).map(r=>{
       const tCol=terrColors[r.t]||'#999';
       const nomeTitle=[r.n,r.rf].filter(Boolean).join(' · ');
       return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${nomeTitle}">${r.n||r.rf||'—'}</td><td>${r.b||'—'}</td><td>${(r.areas||[]).filter(a=>a!=='Sem classificação').map(a=>`<span class="tag" style="margin:1px 2px">${a.length>30?a.slice(0,30)+'…':a}</span>`).join(' ')||'—'}</td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r.t||'—'}</td></tr>`;
-    }).join('')}${rows.length>200?`<tr><td colspan="4" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 200 de ${rows.length} organizações.</td></tr>`:''}</tbody>`;
+    }).join('')}${rows.length>500?`<tr><td colspan="4" style="text-align:center;color:var(--muted);font-size:12px;padding:12px">Mostrando 500 de ${rows.length} organizações.</td></tr>`:''}</tbody>`;
     document.querySelectorAll('#table-osc-list th.sortable').forEach(th=>{
       th.onclick=()=>{
         const col=th.dataset.oscCol;
@@ -5610,12 +5628,25 @@ function initComp(){
         const norm = v / maxPerDim[i];
         const cls = norm >= 0.66 ? 'vuln-alto' : norm >= 0.33 ? 'vuln-medio' : 'vuln-baixo';
         const pct = (v*100).toFixed(1);
-        html += `<td class="cell ${cls}"><span>${pct}%</span></td>`;
+        html += `<td class="cell ${cls}" data-sort-value="${v.toFixed(4)}"><span>${pct}%</span></td>`;
       });
       html += '</tr>';
     });
     html += '</tbody>';
     tbl.innerHTML = html;
+  }
+
+  // ─── 0) KPIs resumo da Síntese ──────────────────────────────────────────────
+  const kpiSynth = document.getElementById('kpi-synth');
+  if(kpiSynth){
+    const totalOsc = DATA.reduce((s,d)=>s+(+d.osc||0),0);
+    const totalEmp = DATA.reduce((s,d)=>s+(+d.emp||0),0);
+    kpiSynth.innerHTML = [
+      {label:'População acompanhada',value:fmt(muni.pop,'int'),sub:GROUPS.length+' territórios · '+DATA.length+' bairros'},
+      {label:'Extrema pobreza média',value:fmt(muni.values.epob,'pct'),sub:'Ponderada por população (MDS, 2025)'},
+      {label:'Renda per capita média',value:fmt(muni.values.rendaPC,'money'),sub:'Ponderada por população (IBGE, 2022)'},
+      {label:'OSCs + Empresas',value:fmt(totalOsc,'int')+' + '+fmt(totalEmp,'int'),sub:fmt(totalOsc,'int')+' OSCs e '+fmt(totalEmp,'int')+' empresas'}
+    ].map(k=>`<div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>`).join('');
   }
 
   // ─── Execução ──────────────────────────────────────────────────────────────
@@ -5856,7 +5887,7 @@ function initFavelasMap(mun, bairrosGeo){
 function enableTableSorting(root){
   (root||document).querySelectorAll('table').forEach(tbl => {
     // Tabelas que possuem lógica própria de ordenação (re-render completo)
-    if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table' || tbl.id === 'synth-heatmap') return;
+    if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
@@ -5903,7 +5934,7 @@ document.addEventListener('click', e => {
   if(th.classList.contains('no-sort')) return;
   if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
-  if(tbl.id === 'table-cnae' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table' || tbl.id === 'synth-heatmap') return;
+  if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
   const ths = Array.from(th.parentElement.cells);
   const idx = ths.indexOf(th);
   if(idx < 0) return;
