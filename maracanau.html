@@ -1133,10 +1133,14 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
       <div class="panel"><div class="panel-head"><div><h3 class="panel-title">Participação de MEIs (dez/2024)</h3><p class="panel-sub">% das empresas que são MEIs</p></div></div><div class="chart-box"><canvas id="chart-econ-mei" class="chart tall"></canvas></div></div>
     </div>
 
+    <div class="decision" style="margin-top:18px">
+      <h3>Destaques do volume empresarial</h3>
+      <p>Pajuçara e Jereissati A concentram o maior volume absoluto de empresas. A participação de MEIs ultrapassa 80% em grande parte dos bairros, indicando economia predominantemente informal com demanda por programas de apoio ao microempreendedorismo e formalização.</p>
+    </div>
 
     <div style="margin:24px 0 6px;padding:0 4px">
       <div style="display:flex;align-items:center;gap:12px">
-        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Tabelas detalhadas</span>
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Tabelas detalhadas · Lista completa de empresas</span>
         <span style="flex:1;height:1px;background:var(--line-2)"></span>
       </div>
     </div>
@@ -1163,6 +1167,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
       <div class="table-filter-bar">
         <input type="search" id="mge-table-search" placeholder="Buscar empresa…" autocomplete="off">
         <select id="mge-table-regiao"><option value="">Todas as regiões</option></select>
+        <select id="mge-table-bairro"><option value="">Todos os bairros</option></select>
         <select id="mge-table-setor"><option value="">Todos os setores</option></select>
         <select id="mge-table-tipo"><option value="">Matriz e Filial</option><option value="M">Somente Matrizes</option><option value="F">Somente Filiais</option></select>
       </div>
@@ -1196,7 +1201,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         <div class="mge-map-wrap">
           <div class="map-box split" id="map-osc" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="osc-filter-overlay">
-            <input type="search" id="osc-search" placeholder="Buscar por nome…">
+            <input type="search" id="osc-search" placeholder="Buscar por nome…" autocomplete="off">
             <select id="osc-bairro-filter" title="Filtrar por bairro">
               <option value="">Todos os bairros</option>
             </select>
@@ -1263,6 +1268,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         <div class="filters">
           <select id="net-regiao-filter"><option value="">Todas as regiões</option></select>
           <select id="net-bairro-filter"><option value="">Todos os bairros</option></select>
+          <span class="table-count" id="net-count"></span>
         </div>
       </div>
       <div class="map-analytics-layout">
@@ -1351,6 +1357,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
       <div class="table-filter-bar">
         <input type="search" id="osc-table-search" placeholder="Buscar organização…" autocomplete="off">
         <select id="osc-table-regiao"><option value="">Todas as regiões</option></select>
+        <select id="osc-table-bairro"><option value="">Todos os bairros</option></select>
         <select id="osc-table-area"><option value="">Todas as áreas</option></select>
       </div>
       <div class="table-wrap" style="max-height:600px"><table id="table-osc-list"></table></div>
@@ -1814,48 +1821,48 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
           <tbody>
             <tr>
               <td>Pacto Contra a Fome<span class="p-scope">Segurança alimentar · articulação nacional</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f1" title="Baixa adicionalidade"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f1" title="Baixa prioridade"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa adicionalidade"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa prioridade"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
             </tr>
             <tr>
               <td>Movimento BemMaior<span class="p-scope">Mobilização cidadã · engajamento comunitário</span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa viabilidade"></span></td>
             </tr>
             <tr>
               <td>Astor Capital<span class="p-scope">Capital social · investimento estruturante</span></td>
-              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f0" title="Sem fit"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="0"><span class="fit f0" title="Sem fit"></span></td>
             </tr>
             <tr>
               <td>Instituto Localiza<span class="p-scope">Capacitação profissional · empregabilidade</span></td>
-              <td><span class="fit f1" title="Baixa prioridade"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Saturação alta"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa prioridade"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Saturação alta"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa viabilidade"></span></td>
             </tr>
             <tr>
               <td>Somos Um<span class="p-scope">Articulação comunitária · base territorial</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f1" title="Saturação alta"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Saturação alta"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
             </tr>
           </tbody>
         </table>
@@ -2510,15 +2517,20 @@ function initEcon(){
   // Populate MGE table filters
   const mgeRegSel = document.getElementById('mge-table-regiao');
   const mgeSetSel = document.getElementById('mge-table-setor');
+  const mgeBairroSel = document.getElementById('mge-table-bairro');
   if(mgeRegSel && mgeRegSel.options.length <= 1){
     Object.keys(REGION_COLORS).forEach(r => { const o=document.createElement('option'); o.value=r; o.textContent=r; mgeRegSel.appendChild(o); });
+  }
+  if(mgeBairroSel && mgeBairroSel.options.length <= 1){
+    const bairros = [...new Set(MGE_BUBBLES.map(r=>r[4]))].sort((a,b)=>a.localeCompare(b,'pt'));
+    bairros.forEach(b => { const o=document.createElement('option'); o.value=b; o.textContent=b; mgeBairroSel.appendChild(o); });
   }
   if(mgeSetSel && mgeSetSel.options.length <= 1){
     const setores = [...new Set(MGE_BUBBLES.map(r=>r[3]))].sort();
     setores.forEach(s => { const o=document.createElement('option'); o.value=s; o.textContent=s; mgeSetSel.appendChild(o); });
   }
   renderMGETable();
-  ['mge-table-search','mge-table-regiao','mge-table-setor','mge-table-tipo'].forEach(id => {
+  ['mge-table-search','mge-table-regiao','mge-table-bairro','mge-table-setor','mge-table-tipo'].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.addEventListener(el.tagName==='INPUT'?'input':'change', renderMGETable);
   });
@@ -2529,12 +2541,14 @@ let mgeTableSort = 'cap', mgeTableDir = -1;
 function renderMGETable() {
   const q = (document.getElementById('mge-table-search').value || '').toLowerCase().trim();
   const rf = document.getElementById('mge-table-regiao').value;
+  const bf = document.getElementById('mge-table-bairro')?.value || '';
   const sf = document.getElementById('mge-table-setor').value;
   const tf = document.getElementById('mge-table-tipo').value;
 
   let rows = [...MGE_BUBBLES];
   if(q) rows = rows.filter(r => r[5].toLowerCase().includes(q) || r[4].toLowerCase().includes(q));
   if(rf) rows = rows.filter(r => (REGION_MAP[r[4]]||'') === rf);
+  if(bf) rows = rows.filter(r => r[4] === bf);
   if(sf) rows = rows.filter(r => r[3] === sf);
   if(tf) rows = rows.filter(r => r[6] === tf);
 
@@ -2860,10 +2874,12 @@ function initOsc(){
   function renderOscTable(){
     const q=(document.getElementById('osc-table-search').value||'').toLowerCase().trim();
     const rf=document.getElementById('osc-table-regiao').value;
+    const bf=document.getElementById('osc-table-bairro')?.value||'';
     const af=document.getElementById('osc-table-area').value;
     let rows=[...OSCS];
     if(q) rows=rows.filter(r=>(r.n||'').toLowerCase().includes(q)||(r.bairro||'').toLowerCase().includes(q));
     if(rf) rows=rows.filter(r=>(REGION_MAP[r.bairro]||'')===rf);
+    if(bf) rows=rows.filter(r=>r.bairro===bf);
     if(af) rows=rows.filter(r=>r.a===af);
     rows.sort((a,b)=>{
       let av,bv;
@@ -2898,13 +2914,18 @@ function initOsc(){
   if(oscTableRegSel&&oscTableRegSel.options.length<=1){
     Object.keys(REGION_COLORS).forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;oscTableRegSel.appendChild(o);});
   }
+  const oscTableBairroSel=document.getElementById('osc-table-bairro');
+  if(oscTableBairroSel&&oscTableBairroSel.options.length<=1){
+    const bairros=[...new Set(OSCS.map(o=>o.bairro).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt'));
+    bairros.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;oscTableBairroSel.appendChild(o);});
+  }
   const oscTableAreaSel=document.getElementById('osc-table-area');
   if(oscTableAreaSel&&oscTableAreaSel.options.length<=1){
     const areas=[...new Set(OSCS.map(o=>o.a))].filter(Boolean).sort();
     areas.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;oscTableAreaSel.appendChild(o);});
   }
   renderOscTable();
-  ['osc-table-search','osc-table-regiao','osc-table-area'].forEach(id=>{
+  ['osc-table-search','osc-table-regiao','osc-table-bairro','osc-table-area'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.addEventListener(el.tagName==='INPUT'?'input':'change',renderOscTable);
   });
@@ -3893,7 +3914,7 @@ function enableTableSorting(root){
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
-      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
+      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined || th.dataset.k !== undefined || th.dataset.iptK !== undefined) return;
       if(!th.classList.contains('sortable')) th.classList.add('sortable');
       if(!th.querySelector('.sort-icon')){
         const ic = document.createElement('span');
@@ -3934,7 +3955,7 @@ document.addEventListener('click', e => {
   const th = e.target.closest('thead th');
   if(!th) return;
   if(th.classList.contains('no-sort')) return;
-  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return; // handled by custom logic
+  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined || th.dataset.k !== undefined || th.dataset.iptK !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
   if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
   const ths = Array.from(th.parentElement.cells);

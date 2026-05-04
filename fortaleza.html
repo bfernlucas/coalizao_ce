@@ -619,6 +619,14 @@ tbody tr:hover{background:#f8fbff}
 .info-balloon ul{margin:8px 0 0 16px;padding:0}
 .info-balloon li{margin:4px 0}
 
+/* OSC legend */
+.osc-legend-item{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:4px;cursor:pointer;transition:background .15s;font-size:12px;color:var(--text);user-select:none}
+.osc-legend-item:hover{background:#f0f4f8}
+.osc-legend-item.dimmed{opacity:.35}
+.osc-legend-item .osc-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,.5);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.osc-legend-item .osc-label{flex:1;font-size:11px}
+.osc-legend-item .osc-count{font-size:11px;font-weight:700;color:var(--muted)}
+
 /* Network graph */
 .network-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:14px 0 0;font-size:11px}
 .network-legend .net-leg{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:8px;background:#f8fafb;transition:all .15s}
@@ -1799,6 +1807,10 @@ th.sortable:hover{color:var(--brand)}
 th.sortable .sort-icon{font-size:10px;color:var(--muted);opacity:.45;margin-left:4px}
 th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
 th.sortable:hover{background:rgba(11,79,168,.04)}
+th.sortable-region{cursor:pointer;user-select:none;white-space:nowrap}
+th.sortable-region:hover{color:var(--brand)}
+th.sortable-region .sort-icon{font-size:10px;color:var(--muted);opacity:.45;margin-left:4px}
+th.sortable-region:hover{background:rgba(11,79,168,.04)}
 th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
 .comp-table{border-collapse:collapse;width:100%}
 .comp-table th,.comp-table td{padding:10px 14px;text-align:right;font-size:13px;border-bottom:1px solid var(--line)}
@@ -1847,6 +1859,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
 }
 .map-filter-overlay select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,79,168,.1)}
 .map-filter-overlay select.active-filter{border-color:var(--brand);background-color:#EFF6FF;color:var(--brand)}
+.map-filter-overlay input[type="search"].active-filter{border-color:var(--brand);background-color:var(--brand-5);color:var(--brand)}
 .mge-clear-btn{
   padding:6px 12px;border:1px solid #DBEAFE;border-radius:4px;
   background:#EFF6FF;color:var(--brand);font:inherit;font-size:12px;font-weight:700;
@@ -2361,9 +2374,14 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
       </div>
     </div>
 
+    <div class="decision" style="margin-top:18px">
+      <h3>Destaques do volume empresarial</h3>
+      <p>Papicu e Mucuripe (Grande Mucuripe) lideram em volume total de empresas, enquanto Bom Jardim e Granja Portugal (Grande Bom Jardim) se destacam pela alta taxa de MEIs (acima de 85%), evidenciando uma economia de subsistência com potencial de formalização e inclusão produtiva.</p>
+    </div>
+
     <div style="margin:24px 0 6px;padding:0 4px">
       <div style="display:flex;align-items:center;gap:12px">
-        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Tabelas detalhadas</span>
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Tabelas detalhadas · Lista completa de empresas</span>
         <span style="flex:1;height:1px;background:var(--line-2)"></span>
       </div>
     </div>
@@ -2391,6 +2409,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
       <div class="table-filter-bar">
         <input type="search" id="mge-table-search" placeholder="Buscar empresa…" autocomplete="off">
         <select id="mge-table-terr"><option value="">Todos os territórios</option><option value="Grande Bom Jardim">Grande Bom Jardim</option><option value="Grande Mucuripe">Grande Mucuripe</option></select>
+        <select id="mge-table-bairro"><option value="">Todos os bairros</option></select>
         <select id="mge-table-setor"><option value="">Todos os setores</option></select>
         <select id="mge-table-tipo"><option value="">Matriz e Filial</option><option value="M">Somente Matrizes</option><option value="F">Somente Filiais</option></select>
       </div>
@@ -2490,6 +2509,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
         <div class="filters">
           <select id="net-territorio-filter"><option value="">Todos os territórios</option></select>
           <select id="net-bairro-filter"><option value="">Todos os bairros</option></select>
+          <span class="table-count" id="net-count"></span>
         </div>
       </div>
       <div class="map-analytics-layout">
@@ -2580,6 +2600,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
       <div class="table-filter-bar">
         <input type="search" id="osc-table-search" placeholder="Buscar organização…" autocomplete="off">
         <select id="osc-table-terr"><option value="">Todos os territórios</option><option value="Grande Bom Jardim">Grande Bom Jardim</option><option value="Grande Mucuripe">Grande Mucuripe</option></select>
+        <select id="osc-table-bairro"><option value="">Todos os bairros</option></select>
         <select id="osc-table-area"><option value="">Todas as áreas</option></select>
       </div>
       <div class="table-wrap" style="max-height:600px"><table id="table-osc-list"></table></div>
@@ -2933,28 +2954,28 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
           <tbody>
             <tr>
               <td>Pacto Contra a Fome<span class="p-scope">Segurança alimentar · articulação nacional</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f1" title="Baixa prioridade"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa prioridade"></span></td>
             </tr>
             <tr>
               <td>Movimento BemMaior<span class="p-scope">Mobilização cidadã · engajamento comunitário</span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
             </tr>
             <tr>
               <td>Astor Capital<span class="p-scope">Capital social · investimento estruturante</span></td>
-              <td><span class="fit f1" title="Baixa viabilidade"></span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="1"><span class="fit f1" title="Baixa viabilidade"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
             </tr>
             <tr>
               <td>Instituto Localiza<span class="p-scope">Capacitação profissional · empregabilidade</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
             </tr>
             <tr>
               <td>Somos Um<span class="p-scope">Articulação comunitária · base territorial</span></td>
-              <td><span class="fit f3" title="Fit alto"></span></td>
-              <td><span class="fit f2" title="Fit médio"></span></td>
+              <td data-sort-value="3"><span class="fit f3" title="Fit alto"></span></td>
+              <td data-sort-value="2"><span class="fit f2" title="Fit médio"></span></td>
             </tr>
           </tbody>
         </table>
@@ -4477,11 +4498,13 @@ function initEcon(){
   function renderMGETable(){
     const q=(document.getElementById('mge-table-search').value||'').toLowerCase().trim();
     const tf=document.getElementById('mge-table-terr').value;
+    const bf=document.getElementById('mge-table-bairro')?.value||'';
     const sf=document.getElementById('mge-table-setor').value;
     const tp=document.getElementById('mge-table-tipo').value;
     let rows=[...MGE_BUBBLES];
     if(q) rows=rows.filter(r=>r[5].toLowerCase().includes(q)||r[4].toLowerCase().includes(q)||r[3].toLowerCase().includes(q));
     if(tf) rows=rows.filter(r=>(MGE_TERRITORY_MAP[r[4]]||'')=== tf);
+    if(bf) rows=rows.filter(r=>r[4]===bf);
     if(sf) rows=rows.filter(r=>r[3]===sf);
     if(tp) rows=rows.filter(r=>r[6]===tp);
     if(mgeTableSort==='terr'){
@@ -4525,8 +4548,13 @@ function initEcon(){
     const setores=[...new Set(MGE_BUBBLES.map(r=>r[3]))].sort();
     setores.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;mgeSetSel.appendChild(o);});
   }
+  const mgeBairroSel=document.getElementById('mge-table-bairro');
+  if(mgeBairroSel&&mgeBairroSel.options.length<=1){
+    const bairros=[...new Set(MGE_BUBBLES.map(r=>r[4]))].sort((a,b)=>a.localeCompare(b,'pt'));
+    bairros.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;mgeBairroSel.appendChild(o);});
+  }
   renderMGETable();
-  ['mge-table-search','mge-table-terr','mge-table-setor','mge-table-tipo'].forEach(id=>{
+  ['mge-table-search','mge-table-terr','mge-table-bairro','mge-table-setor','mge-table-tipo'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.addEventListener(el.tagName==='INPUT'?'input':'change',renderMGETable);
   });
@@ -4801,10 +4829,12 @@ function initOsc(){
   function renderOscTable(){
     const q=(document.getElementById('osc-table-search').value||'').toLowerCase().trim();
     const tf=document.getElementById('osc-table-terr').value;
+    const bf=document.getElementById('osc-table-bairro')?.value||'';
     const af=document.getElementById('osc-table-area').value;
     let rows=[...OSC_POINTS];
     if(q) rows=rows.filter(r=>(r.n||'').toLowerCase().includes(q)||(r.rf||'').toLowerCase().includes(q)||(r.b||'').toLowerCase().includes(q));
     if(tf) rows=rows.filter(r=>r.t===tf);
+    if(bf) rows=rows.filter(r=>r.b===bf);
     if(af) rows=rows.filter(r=>(r.areas||[]).includes(af));
     rows.sort((a,b)=>{
       let av,bv;
@@ -4835,14 +4865,19 @@ function initOsc(){
       };
     });
   }
-  // Populate area filter for table
+  // Populate area and bairro filters for table
   const oscTableAreaSel=document.getElementById('osc-table-area');
   if(oscTableAreaSel&&oscTableAreaSel.options.length<=1){
     const areas=[...new Set(OSC_POINTS.flatMap(p=>p.areas||[]))].filter(a=>a&&a!=='Sem classificação').sort();
     areas.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;oscTableAreaSel.appendChild(o);});
   }
+  const oscTableBairroSel=document.getElementById('osc-table-bairro');
+  if(oscTableBairroSel&&oscTableBairroSel.options.length<=1){
+    const bairros=[...new Set(OSC_POINTS.map(p=>p.b).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt'));
+    bairros.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;oscTableBairroSel.appendChild(o);});
+  }
   renderOscTable();
-  ['osc-table-search','osc-table-terr','osc-table-area'].forEach(id=>{
+  ['osc-table-search','osc-table-terr','osc-table-bairro','osc-table-area'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.addEventListener(el.tagName==='INPUT'?'input':'change',renderOscTable);
   });
@@ -5891,7 +5926,7 @@ function enableTableSorting(root){
     const ths = tbl.querySelectorAll('thead th');
     ths.forEach(th => {
       if(th.classList.contains('no-sort')) return;
-      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
+      if(th.dataset.col !== undefined || th.dataset.econCol !== undefined || th.dataset.k !== undefined || th.dataset.iptK !== undefined) return;
       if(!th.classList.contains('sortable')) th.classList.add('sortable');
       if(!th.querySelector('.sort-icon')){
         const ic = document.createElement('span');
@@ -5932,7 +5967,7 @@ document.addEventListener('click', e => {
   const th = e.target.closest('thead th');
   if(!th) return;
   if(th.classList.contains('no-sort')) return;
-  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined) return;
+  if(th.dataset.col !== undefined || th.dataset.econCol !== undefined || th.dataset.k !== undefined || th.dataset.iptK !== undefined) return;
   const tbl = th.closest('table'); if(!tbl || !tbl.tBodies[0]) return;
   if(tbl.id === 'table-econ' || tbl.id === 'table-mge-list' || tbl.id === 'table-osc-list' || tbl.id === 'synth-region-table' || tbl.id === 'synth-bairro-table' || tbl.id === 'synth-ipt-table') return;
   const ths = Array.from(th.parentElement.cells);
