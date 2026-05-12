@@ -41,7 +41,7 @@
 html{scroll-behavior:smooth}
 body{
   margin:0;
-  font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  font-family:Inter,'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   background:linear-gradient(180deg,#f4f7fb 0%, #eef2f7 100%);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
@@ -62,7 +62,7 @@ button,select,input,textarea{font:inherit}
 }
 .topbar-inner{
   width:100%;
-  max-width:1380px;
+  max-width:1400px;
   margin:0 auto;
   display:flex;
   align-items:center;
@@ -94,14 +94,14 @@ button,select,input,textarea{font:inherit}
 }
 .tabs{
   position:sticky;
-  top:78px;
+  top:57px;
   z-index:999;
   background:rgba(243,246,250,.96);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);
 }
 .tabs-inner{
-  max-width:1380px;
+  max-width:1400px;
   margin:0 auto;
   padding:0 24px;
   display:flex;
@@ -127,7 +127,7 @@ button,select,input,textarea{font:inherit}
   border-bottom-color:var(--brand);
 }
 .container{
-  max-width:1380px;
+  max-width:1400px;
   margin:0 auto;
   padding:28px 24px 40px;
 }
@@ -191,7 +191,7 @@ button,select,input,textarea{font:inherit}
 .grid.four{grid-template-columns:repeat(4,1fr)}
 @media (max-width:1100px){
   .grid.hero,.grid.two,.grid.three,.grid.four{grid-template-columns:1fr}
-  .tabs{top:94px}
+  .tabs{top:57px}
 }
 .panel{
   background:var(--panel);
@@ -735,7 +735,7 @@ tbody tr:hover{background:#f8fbff}
   color:var(--muted);
 }
 .leaflet-container{
-  font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  font-family:Inter,'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   background:linear-gradient(180deg,#eef2f5 0%, #e5eaef 100%);
 }
 .leaflet-control-attribution{
@@ -892,10 +892,10 @@ body{
   letter-spacing:-.025em;
 }
 .tabs{
-  top:76px;
-  background:rgba(255,255,255,.92);
+  top:57px;
+  background:rgba(243,246,250,.96);
   border-bottom:1px solid rgba(221,230,238,.95);
-  box-shadow:0 8px 24px rgba(16,42,67,.05);
+  box-shadow:0 2px 12px rgba(16,42,67,.05);
 }
 .tabs-inner{
   padding:0 26px;
@@ -1217,7 +1217,7 @@ tbody tr:hover{background:#f4f8fc}
 }
 .hr{margin:14px 0}
 @media (max-width:1100px){
-  .tabs{top:80px}
+  .tabs{top:57px}
   .panel-head{align-items:flex-start}
   .filters select{min-width:160px}
 }
@@ -1401,7 +1401,7 @@ tbody tr:hover{background:#f4f8fc}
    ====================================================== */
 
 body{
-  font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  font-family:Inter,'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   background:#F4F6F9;
   color:var(--text);
 }
@@ -1429,11 +1429,11 @@ body{
 
 /* Tab navigation */
 .tabs{
-  top:56px;
-  background:#FFFFFF;
-  border-bottom:2px solid var(--line);
-  box-shadow:none;
-  backdrop-filter:none;
+  top:57px;
+  background:rgba(243,246,250,.96);
+  border-bottom:1px solid rgba(221,230,238,.95);
+  box-shadow:0 2px 12px rgba(16,42,67,.05);
+  backdrop-filter:blur(10px);
 }
 .tabs-inner{padding:0 24px;gap:0}
 .tab-btn{
@@ -1747,7 +1747,7 @@ tbody tr:hover{background:#EEF4FF}
 
 /* Responsive tweaks */
 @media(max-width:1100px){
-  .tabs{top:56px}
+  .tabs{top:57px}
   .grid.hero,.grid.two,.grid.three,.grid.four{grid-template-columns:1fr}
   .map-analytics-layout{grid-template-columns:1fr}
   .comparison-grid{grid-template-columns:1fr}
@@ -1759,9 +1759,9 @@ tbody tr:hover{background:#EEF4FF}
 
 
 /* ── Identidade Coalizão CE (azul institucional) ─────────────── */
-body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;color:var(--text)}
+body{background:#fff;font-family:Inter,'Segoe UI',system-ui,-apple-system,Arial,sans-serif;color:var(--text)}
 .topbar{background:#0B2B44;border-bottom:3px solid #0B4FA8}
-.tabs{background:#fff;border-bottom:2px solid var(--line);box-shadow:none;backdrop-filter:none}
+.tabs{background:rgba(243,246,250,.96);border-bottom:1px solid rgba(221,230,238,.95);box-shadow:0 2px 12px rgba(16,42,67,.05);backdrop-filter:blur(10px)}
 .tab-btn{color:var(--muted)}
 .tab-btn:hover{color:var(--brand)}
 .tab-btn.active{color:var(--brand);border-bottom-color:var(--brand);background:transparent}
@@ -2266,7 +2266,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     <div class="section-head">
       <span class="section-kicker">Economia local</span>
       <h2 class="section-title">Tecido econômico</h2>
-      <p class="section-desc">Atividade empresarial, MEIs e capital social acumulado por bairro (Receita Federal, 2024).</p>
+      <p class="section-desc">Atividade empresarial, MEIs e capital social acumulado por bairro nos territórios Grande Bom Jardim e Grande Mucuripe (Receita Federal, dez/2024). Esta aba mapeia o tecido econômico local para identificar oportunidades de fortalecimento de pequenos negócios e articulação com o setor privado.</p>
     </div>
     <div class="decision">
       <h3>Análise</h3>
@@ -2366,6 +2366,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
         <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Tabelas detalhadas</span>
         <span style="flex:1;height:1px;background:var(--line-2)"></span>
       </div>
+      <p style="color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 12px;max-width:800px">As tabelas abaixo consolidam todos os dados empresariais por bairro e listam individualmente cada empresa de médio e grande porte, permitindo análises detalhadas e exportação para trabalho offline.</p>
     </div>
 
     <div class="panel" style="margin-top:18px">
@@ -2402,7 +2403,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     <div class="section-head">
       <span class="section-kicker">Sociedade civil</span>
       <h2 class="section-title">Organizações da Sociedade Civil</h2>
-      <p class="section-desc">OSCs ativas: distribuição espacial, áreas de atuação e presença por bairro (IPEA, 2024).</p>
+      <p class="section-desc">OSCs ativas nos territórios Grande Bom Jardim e Grande Mucuripe: distribuição espacial, áreas de atuação e presença por bairro (IPEA, 2024).</p>
     </div>
 
     <div class="decision">
@@ -2551,6 +2552,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
         <span style="flex:1;height:1px;background:var(--line-2)"></span>
       </div>
     </div>
+    <p style="color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 12px;max-width:800px">Os gráficos abaixo detalham a composição temática das organizações e sua distribuição territorial, complementando a visão espacial do mapa.</p>
 
     <!-- OSC por área e por bairro -->
     <div class="grid two" style="margin-top:20px">
@@ -2590,7 +2592,7 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     <div class="section-head">
       <span class="section-kicker">Síntese Estratégica</span>
       <h2 class="section-title">Panorama consolidado dos territórios</h2>
-      <p class="section-desc">Os 13 bairros da Coalizão agrupados em dois territórios (Grande Bom Jardim e Grande Mucuripe), com indicadores socioeconômicos e de infraestrutura consolidados por território e bairro, mais perfil comparativo em radar para orientar a atuação em Fortaleza.</p>
+      <p class="section-desc">Os 13 bairros da Coalizão agrupados em dois territórios (Grande Bom Jardim e Grande Mucuripe), com indicadores socioeconômicos e de infraestrutura consolidados por território e bairro. O radar multidimensional, a matriz de vulnerabilidades e o Índice de Priorização Territorial (IPT) permitem comparação direta entre territórios para orientar a atuação estratégica da Coalizão em Fortaleza.</p>
     </div>
 
     <!-- KPIs resumo -->
@@ -3126,7 +3128,7 @@ function canonical(name){
   if(n === 'praia futuro ii' || n === 'praia do futuro ii') return 'praia futuro ii';
   if(n === 'praia futuro 1' || n === 'praia do futuro 1' || n === 'praia do futuro') return 'praia futuro i';
   if(n === 'praia futuro 2' || n === 'praia do futuro 2') return 'praia futuro ii';
-  if(n === 'vicente pinzon' || n === 'vicente pinzon') return 'vicente pinzon';
+  if(n === 'vicente pinzon' || n === 'vincente pinzon') return 'vicente pinzon';
   return n;
 }
 const LOOKUP = {};
@@ -4797,7 +4799,7 @@ function initOsc(){
   }
 
   // ── Tabela completa de OSCs ──
-  let oscTableSort='nome',oscTableDir=-1;
+  let oscTableSort='nome',oscTableDir=1;
   function renderOscTable(){
     const q=(document.getElementById('osc-table-search').value||'').toLowerCase().trim();
     const tf=document.getElementById('osc-table-terr').value;

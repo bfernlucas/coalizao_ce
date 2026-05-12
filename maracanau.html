@@ -15,18 +15,26 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <style>
-/* first :root removed — consolidated into World Bank override below */
+:root{
+  --bg:#F4F6F9;--panel:#FFFFFF;--panel-2:#F8FAFB;
+  --text:#0B2B44;--muted:#5C6E7E;--line:#D8E0E8;--line-2:#E8EDF2;
+  --brand:#7C3AED;--brand-2:#A78BFA;--brand-3:#C4B5FD;--brand-4:#DDD6FE;--brand-5:#F5F3FF;
+  --navy:#0B2B44;--teal:#2DD4BF;--gold:#C8952A;--green:#059669;--danger:#C0392B;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 3px 10px rgba(124,58,237,.07);
+  --shadow-soft:0 1px 2px rgba(0,0,0,.04),0 2px 6px rgba(124,58,237,.04);
+  --radius:6px;
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;font-family:Inter,"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:linear-gradient(180deg,#f7f9fc 0%,#f3f6fa 56%,#edf2f6 100%);color:var(--text);-webkit-font-smoothing:antialiased}
 button,select,input,textarea{font:inherit}
-.topbar{background:#6D28D9!important;color:#fff;padding:20px 28px;position:sticky;top:0;z-index:1000;box-shadow:0 10px 28px rgba(8,42,69,.16)}
+.topbar{background:#6D28D9;color:#fff;padding:0 28px;position:sticky;top:0;z-index:1000;height:54px;display:flex;align-items:center;box-shadow:none;border-bottom:3px solid #7C3AED}
 .topbar-inner{width:100%;max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .brand-title{font-size:19px;font-weight:800;letter-spacing:-.025em}
 .brand-sub{font-size:12px;color:rgba(255,255,255,.76);margin-top:4px}
 .header-badges{display:flex;gap:10px;flex-wrap:wrap}
 .badge{padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);font-size:12px;font-weight:600}
-.tabs{position:sticky;top:76px;z-index:999;background:rgba(255,255,255,.92);border-bottom:1px solid rgba(221,230,238,.95);box-shadow:0 8px 24px rgba(16,42,67,.05);backdrop-filter:blur(10px)}
+.tabs{position:sticky;top:57px;z-index:999;background:rgba(243,246,250,.96);border-bottom:1px solid rgba(221,230,238,.95);box-shadow:0 2px 12px rgba(16,42,67,.05);backdrop-filter:blur(10px)}
 .tabs-inner{max-width:1400px;margin:0 auto;padding:0 26px;display:flex;gap:18px;overflow:auto}
 .tab-btn{border:0;background:transparent;color:var(--muted);padding:18px 2px 15px;cursor:pointer;white-space:nowrap;font-weight:700;font-size:14px;letter-spacing:-.01em;border-bottom:2px solid transparent;transition:.2s ease}
 .tab-btn:hover{color:var(--brand)}.tab-btn.active{color:var(--brand);border-bottom-color:var(--brand)}
@@ -144,7 +152,7 @@ button,select,input,textarea{font:inherit}
 }
 
 body{
-  font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  font-family:Inter,'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   background:#F4F6F9;
   color:var(--text);
 }
@@ -181,11 +189,11 @@ body{
 
 /* Tab navigation */
 .tabs{
-  top:56px;
-  background:#FFFFFF;
-  border-bottom:2px solid var(--line);
-  box-shadow:none;
-  backdrop-filter:none;
+  top:57px;
+  background:rgba(243,246,250,.96);
+  border-bottom:1px solid rgba(221,230,238,.95);
+  box-shadow:0 2px 12px rgba(16,42,67,.05);
+  backdrop-filter:blur(10px);
 }
 .tabs-inner{padding:0 24px;gap:0}
 .tab-btn{
@@ -642,7 +650,7 @@ tbody tr:hover{background:#F3E8FF}
 
 /* Responsive tweaks */
 @media(max-width:1100px){
-  .tabs{top:56px}
+  .tabs{top:57px}
   .grid.hero,.grid.two,.grid.three,.grid.four{grid-template-columns:1fr}
   .map-analytics-layout{grid-template-columns:1fr}
   .comparison-grid{grid-template-columns:1fr}
@@ -678,9 +686,9 @@ tbody tr:hover{background:#F3E8FF}
 @media(max-width:860px){.dim-bottom{grid-template-columns:1fr}}
 
 /* ── Identidade Coalizão CE ──────────────────────── */
-body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;color:var(--text)}
-.topbar{background:#6D28D9;border-bottom:3px solid #4C1D95}
-.tabs{background:#fff;border-bottom:2px solid var(--line);box-shadow:none;backdrop-filter:none}
+body{background:#fff;font-family:Inter,'Segoe UI',system-ui,-apple-system,Arial,sans-serif;color:var(--text)}
+.topbar{background:#6D28D9;border-bottom:3px solid #7C3AED}
+.tabs{background:rgba(243,246,250,.96);border-bottom:1px solid rgba(221,230,238,.95);box-shadow:0 2px 12px rgba(16,42,67,.05);backdrop-filter:blur(10px)}
 .tab-btn{color:var(--muted)}
 .tab-btn:hover{color:var(--brand)}
 .tab-btn.active{color:var(--brand);border-bottom-color:var(--brand);background:transparent}
@@ -706,11 +714,11 @@ table{border-collapse:collapse}
 th,td{padding:10px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--line)}
 th{background:#F4F6F9;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);white-space:nowrap}
 tbody tr{background:#fff}tbody tr:nth-child(even){background:#F9FAFB}tbody tr:hover{background:var(--brand-5)}
-th.sortable,th.sortable-region{cursor:pointer;user-select:none;white-space:nowrap}
-th.sortable:hover,th.sortable-region:hover{color:var(--brand)}
-th.sortable .sort-icon,th.sortable-region .sort-icon{font-size:10px;color:var(--muted);opacity:.45;margin-left:4px}
+th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+th.sortable:hover{color:var(--brand)}
+th.sortable .sort-icon{font-size:10px;color:var(--muted);opacity:.45;margin-left:4px}
 th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
-th.sortable:hover,th.sortable-region:hover{background:rgba(124,58,237,.04)}
+th.sortable:hover{background:rgba(124,58,237,.04)}
 th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
 .comp-table{border-collapse:collapse;width:100%}
 .comp-table th,.comp-table td{padding:10px 14px;text-align:right;font-size:13px;border-bottom:1px solid var(--line)}
@@ -1045,7 +1053,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
 
   <!-- TECIDO ECONÔMICO -->
   <section id="section-econ" class="section">
-    <div class="section-head"><span class="section-kicker">Economia local</span><h2 class="section-title">Tecido econômico</h2><p class="section-desc">Atividade empresarial, MEIs e capital social acumulado por bairro (Receita Federal, 2024).</p></div>
+    <div class="section-head"><span class="section-kicker">Economia local</span><h2 class="section-title">Tecido econômico</h2><p class="section-desc">Atividade empresarial, MEIs e capital social acumulado nos 44 bairros de Maracanaú agrupados em 6 regiões (Receita Federal, dez/2024). Esta aba mapeia o tecido econômico local para identificar oportunidades de fortalecimento de pequenos negócios e articulação com o setor privado.</p></div>
     <div class="decision"><h3>Análise</h3><p>Pajuçara e Jereissati A concentram o maior volume de empresas. O Distrito Industrial se destaca em médias e grandes empresas e em capital social acumulado. A participação de MEIs é altíssima, ultrapassando 80% em vários bairros. Entre as 2.392 empresas de porte "Demais", o capital social total atinge R$ 1,49 trilhão (inflado por filiais de grandes bancos e redes nacionais).</p></div>
 
     <!-- KPIs resumo economia -->
@@ -1140,6 +1148,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         <span style="flex:1;height:1px;background:var(--line-2)"></span>
       </div>
     </div>
+    <p style="color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 12px;max-width:800px">As tabelas abaixo consolidam todos os dados empresariais por bairro e listam individualmente cada empresa de médio e grande porte, permitindo análises detalhadas e exportação para trabalho offline.</p>
 
     <div class="panel" style="margin-top:18px">
       <div class="panel-head">
@@ -1196,7 +1205,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         <div class="mge-map-wrap">
           <div class="map-box split" id="map-osc" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="osc-filter-overlay">
-            <input type="search" id="osc-search" placeholder="Buscar por nome…">
+            <input type="search" id="osc-search" placeholder="Buscar por nome…" autocomplete="off">
             <select id="osc-bairro-filter" title="Filtrar por bairro">
               <option value="">Todos os bairros</option>
             </select>
@@ -1322,6 +1331,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         <span style="flex:1;height:1px;background:var(--line-2)"></span>
       </div>
     </div>
+    <p style="color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 12px;max-width:800px">Os gráficos abaixo detalham a composição temática das organizações e sua distribuição territorial, complementando a visão espacial do mapa.</p>
 
     <!-- OSC por área e por bairro -->
     <div class="grid two" style="margin-top:20px">
@@ -1362,7 +1372,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
     <div class="section-head">
       <span class="section-kicker">Síntese Estratégica</span>
       <h2 class="section-title">Panorama consolidado do município</h2>
-      <p class="section-desc">Agregação dos 44 bairros em 6 regiões homogêneas, com indicadores socioeconômicos e de infraestrutura consolidados por região e bairro, mais perfil comparativo em radar para orientar a atuação da Coalizão em Maracanaú.</p>
+      <p class="section-desc">Agregação dos 44 bairros em 6 regiões homogêneas, com indicadores socioeconômicos e de infraestrutura consolidados por região e bairro. O radar multidimensional, a matriz de vulnerabilidades e o Índice de Priorização Territorial (IPT) permitem comparação direta entre regiões para orientar a atuação estratégica da Coalizão em Maracanaú.</p>
     </div>
 
     <!-- KPIs resumo -->
@@ -2856,7 +2866,7 @@ function initOsc(){
   }
 
   // ── Tabela completa de OSCs ──
-  let oscTableSort='nome',oscTableDir=-1;
+  let oscTableSort='nome',oscTableDir=1;
   function renderOscTable(){
     const q=(document.getElementById('osc-table-search').value||'').toLowerCase().trim();
     const rf=document.getElementById('osc-table-regiao').value;
@@ -3453,7 +3463,7 @@ function initComp(){
     const hdrCols = [{key:'_reg',label:'Região',fmt:null,align:'left'}]
                     .concat(TABLE_INDS.map(i=>({key:i.key,label:i.label,fmt:i.fmt,align:'right'})));
     const arrow = k => regionSortKey===k ? (regionSortDir===-1?' ↓':' ↑') : '';
-    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable-region" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
+    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
     const rows = GROUPS.slice().map(g=>({_reg:g, ...groupAgg[g].values, _col:GROUP_COLORS[g]||'#888'}));
     rows.sort((a,b)=>{
       const ka = regionSortKey==='_reg' ? a._reg : a[regionSortKey];
@@ -3474,7 +3484,7 @@ function initComp(){
       ${TABLE_INDS.map(i=>`<td>${fmt(muni.values[i.key], i.fmt)}</td>`).join('')}
     </tr>`;
     tbl.innerHTML = `<thead>${headers}</thead><tbody>${body}${muniRow}</tbody>`;
-    tbl.querySelectorAll('th.sortable-region').forEach(th=>{
+    tbl.querySelectorAll('th.sortable').forEach(th=>{
       th.onclick = () => {
         const k = th.dataset.k;
         if(regionSortKey===k) regionSortDir = -regionSortDir; else { regionSortKey=k; regionSortDir = k==='_reg'?1:-1; }
