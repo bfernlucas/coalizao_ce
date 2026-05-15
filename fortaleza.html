@@ -96,9 +96,9 @@ button,select,input,textarea{font:inherit}
   position:sticky;
   top:78px;
   z-index:999;
-  background:rgba(243,246,250,.96);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line);
+  background:#FFFFFF;
+  border-bottom:2px solid var(--line);
+  box-shadow:none;
 }
 .tabs-inner{
   max-width:1380px;
@@ -112,11 +112,11 @@ button,select,input,textarea{font:inherit}
   border:0;
   background:transparent;
   color:var(--muted);
-  padding:16px 14px 14px;
+  padding:13px 18px 11px;
   cursor:pointer;
   white-space:nowrap;
   font-weight:700;
-  font-size:12px;
+  font-size:13px;
   letter-spacing:.03em;
   border-bottom:3px solid transparent;
   transition:.2s ease;
@@ -141,6 +141,7 @@ button,select,input,textarea{font:inherit}
   padding:7px 12px;
   background:#edf4fa;
   color:var(--brand);
+  border:1px solid #d8e6f0;
   border-radius:999px;
   font-size:11px;
   font-weight:700;
@@ -149,7 +150,7 @@ button,select,input,textarea{font:inherit}
 }
 .section-title{
   margin:12px 0 8px;
-  font-size:32px;
+  font-size:34px;
   line-height:1.08;
   letter-spacing:-.03em;
 }
@@ -160,13 +161,18 @@ button,select,input,textarea{font:inherit}
   line-height:1.7;
 }
 .decision{
-  background:linear-gradient(180deg,#ffffff 0%, #f8fbfd 100%);
+  position:relative;
+  background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
   border:1px solid var(--line);
-  border-left:5px solid var(--brand);
-  border-radius:16px;
-  padding:18px 20px;
+  border-radius:20px;
+  padding:20px 22px;
   margin:18px 0 24px;
-  box-shadow:var(--shadow);
+  box-shadow:var(--shadow-soft);
+}
+.decision::before{
+  content:'';position:absolute;left:0;right:0;top:0;height:4px;
+  border-radius:20px 20px 0 0;
+  background:linear-gradient(90deg,var(--brand),#7AA8C8);
 }
 .decision h3{
   margin:0 0 8px;
@@ -194,14 +200,14 @@ button,select,input,textarea{font:inherit}
   .tabs{top:94px}
 }
 .panel{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
+  background:linear-gradient(180deg,#ffffff 0%,#fcfdff 100%);
+  border:1px solid rgba(221,230,238,.95);
+  border-radius:22px;
   box-shadow:var(--shadow);
   overflow:hidden;
 }
 .panel-head{
-  padding:18px 20px 8px;
+  padding:22px 24px 12px;
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
@@ -235,9 +241,9 @@ button,select,input,textarea{font:inherit}
   border-radius:12px;
 }
 .map-box{
-  height:460px;
+  height:500px;
   margin:10px 20px 0;
-  border-radius:var(--radius);
+  border-radius:22px;
   border:1px solid rgba(207,220,233,.95);
   overflow:hidden;
   background:linear-gradient(180deg,#eef2f5 0%, #e6ebf0 100%);
@@ -254,7 +260,7 @@ button,select,input,textarea{font:inherit}
   display:grid;
   grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);
   gap:18px;
-  padding:0 20px;
+  padding:0 24px 4px;
   align-items:stretch;
 }
 .map-box.split{
@@ -311,12 +317,12 @@ button,select,input,textarea{font:inherit}
   gap:14px;
 }
 .analysis-card{
-  background:#FFFFFF;
+  border-radius:20px;
+  padding:20px;
+  background:linear-gradient(180deg,#ffffff 0%,#f9fbfd 100%);
   border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:16px 18px;
-  min-height:auto;
-  box-shadow:none;
+  box-shadow:0 10px 24px rgba(16,42,67,.05);
+  min-height:220px;
 }
 .analysis-kicker{
   display:inline-flex;
@@ -352,8 +358,9 @@ button,select,input,textarea{font:inherit}
 .analysis-stat{
   border:1px solid var(--line-2);
   background:#f8fbfd;
-  border-radius:16px;
+  border-radius:18px;
   padding:14px 14px 12px;
+  box-shadow:0 6px 18px rgba(16,42,67,.04);
 }
 .analysis-stat-label{
   color:var(--muted);
@@ -425,7 +432,7 @@ button,select,input,textarea{font:inherit}
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:14px;
-  padding:0 20px 20px;
+  padding:0 24px 24px;
 }
 .kpi-grid.four{grid-template-columns:repeat(4,1fr)}
 .kpi{
@@ -433,6 +440,7 @@ button,select,input,textarea{font:inherit}
   border:1px solid var(--line-2);
   border-radius:16px;
   background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);
+  box-shadow:0 8px 20px rgba(16,42,67,.04);
 }
 .kpi .label{
   color:var(--muted);
@@ -486,7 +494,7 @@ button,select,input,textarea{font:inherit}
   font-size:18px;
 }
 .chart-box{
-  padding:0 20px 12px;
+  padding:6px 24px 26px;
 }
 .chart{
   height:260px;
@@ -495,7 +503,7 @@ button,select,input,textarea{font:inherit}
   height:auto;
 }
 .table-wrap{
-  padding:0 20px 20px;
+  padding:0 24px 20px;
   overflow:auto;
 }
 table{
@@ -1773,12 +1781,12 @@ body{background:#fff;font-family:'Open Sans','Segoe UI',system-ui,-apple-system,
 .panel{border-color:#D8E0E8;box-shadow:none;border-radius:4px;background:#fff}
 .panel-title{color:#111;font-size:13px;font-weight:700}
 .panel-sub{font-size:11px;color:#5C6E7E}
-.analysis-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#eef5fb;color:var(--brand);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:none}
+.analysis-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:var(--brand-5);color:var(--brand);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:none}
 .analysis-title{margin:14px 0 10px;font-size:22px;line-height:1.15;letter-spacing:-.02em;color:var(--navy)}
-.kpi{background:#fff;border:1px solid #D8E0E8;border-top:none;border-radius:0;padding:14px 16px;box-shadow:none}
-.kpi .label{font-size:10px;font-weight:700;color:#5C6E7E;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.kpi .value{font-size:22px;font-weight:800;color:#111;letter-spacing:-.02em}
-.kpi .sub{font-size:11px;color:#7F91A3;margin-top:3px;line-height:1.4}
+.kpi{padding:18px;border:1px solid #e8eff5;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fbfd 100%);box-shadow:0 8px 20px rgba(16,42,67,.04)}
+.kpi .label{text-transform:uppercase;letter-spacing:.05em;font-size:11px;font-weight:700;color:#5C6E7E;margin-bottom:8px}
+.kpi .value{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
+.kpi .sub{margin-top:6px;font-size:12px;color:#7F91A3}
 .brand-title{font-weight:700;font-size:13px;color:#fff!important}
 .brand-sub{font-size:11px;color:rgba(255,255,255,.65)!important}
 .map-box{border-radius:4px;border:1px solid var(--line);background:#EBF0F5;box-shadow:none}
@@ -2295,19 +2303,19 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
           <div class="map-box split" id="map-mge" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="mge-filter-overlay">
             <input type="search" id="mge-map-search" placeholder="Buscar empresa…" autocomplete="off" style="flex:2;min-width:160px">
-            <select id="mge-bairro-filter" title="Filtrar por bairro">
-              <option value="">Todos os bairros</option>
-            </select>
-            <select id="mge-setor-filter" title="Filtrar por setor">
-              <option value="">Todos os setores</option>
-            </select>
-            <select id="mge-terr-filter" title="Filtrar por território">
-              <option value="">Todos os territórios</option>
-            </select>
             <select id="mge-tipo-filter" title="Filtrar por tipo">
               <option value="">Matriz e Filial</option>
               <option value="M">Somente Matrizes</option>
               <option value="F">Somente Filiais</option>
+            </select>
+            <select id="mge-bairro-filter" title="Filtrar por bairro">
+              <option value="">Todos os bairros</option>
+            </select>
+            <select id="mge-terr-filter" title="Filtrar por território">
+              <option value="">Todos os territórios</option>
+            </select>
+            <select id="mge-setor-filter" title="Filtrar por setor">
+              <option value="">Todos os setores</option>
             </select>
             <button class="mge-clear-btn" id="mge-clear-filters" title="Limpar filtros" style="display:none">✕ Limpar</button>
             <span class="mge-filter-badge" id="mge-filter-count" style="display:none"></span>
@@ -4429,7 +4437,9 @@ function initEcon(){
     if(q) rows = rows.filter(d => d.b.toLowerCase().includes(q));
     if(tf) rows = rows.filter(d => d.t === tf);
     rows.sort((a,b)=>{
-      const va=a[econSortKey],vb=b[econSortKey];
+      let va,vb;
+      if(econSortKey==='terr'){va=(a.t||'');vb=(b.t||'');}
+      else{va=a[econSortKey];vb=b[econSortKey];}
       if(va==null) return 1; if(vb==null) return -1;
       if(typeof va==='string') return econSortDir*va.localeCompare(vb,'pt-BR');
       return econSortDir*(va-vb);
@@ -4438,11 +4448,11 @@ function initEcon(){
     const colHeaders=[
       {k:'b',label:'Bairro'},{k:'emp',label:'Empresas (2024)'},{k:'mei',label:'MEIs (2024)'},
       {k:'meiShare',label:'% MEI (2024)'},{k:'mpe',label:'Micro/Peq. (2024)'},{k:'mge',label:'Méd./Grd. (2024)'},
-      {k:'coops',label:'Coops. (2024)'}
+      {k:'coops',label:'Coops. (2024)'},{k:'terr',label:'Território'}
     ];
     document.getElementById('table-econ').innerHTML = `<thead><tr>
       ${colHeaders.map(h=>`<th class="sortable${econSortKey===h.k?' sort-'+(econSortDir===1?'asc':'desc'):''}" data-econ-col="${h.k}">${h.label}<span class="sort-icon">${econSortKey===h.k?(econSortDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}
-      <th>Território</th><th>Principal CNAE</th>
+      <th>Principal CNAE</th>
     </tr></thead><tbody>${rows.map(d=>{
       const terrCol=d.t==='Grande Mucuripe'?UI_COLORS.territoryGM||'#0B4FA8':UI_COLORS.territoryGBJ||'#059669';
       const meiHigh=d.meiShare!=null&&d.meiShare>.8;
@@ -4811,17 +4821,18 @@ function initOsc(){
       if(oscTableSort==='nome'){av=(a.n||'').toLowerCase();bv=(b.n||'').toLowerCase();}
       else if(oscTableSort==='bairro'){av=(a.b||'').toLowerCase();bv=(b.b||'').toLowerCase();}
       else if(oscTableSort==='area'){av=(a.areas||[])[0]||'';bv=(b.areas||[])[0]||'';}
+      else if(oscTableSort==='terr'){av=(a.t||'').toLowerCase();bv=(b.t||'').toLowerCase();}
       else{av=a[oscTableSort]||0;bv=b[oscTableSort]||0;}
       if(typeof av==='number'&&typeof bv==='number') return oscTableDir===-1?bv-av:av-bv;
       return oscTableDir===-1?String(bv).localeCompare(String(av),'pt'):String(av).localeCompare(String(bv),'pt');
     });
     const countEl=document.getElementById('osc-table-count');
     if(countEl) countEl.textContent=rows.length+' de '+OSC_POINTS.length+' organizações';
-    const cols=[{k:'nome',label:'Organização'},{k:'bairro',label:'Bairro'},{k:'area',label:'Área de atuação'}];
+    const cols=[{k:'nome',label:'Organização'},{k:'bairro',label:'Bairro'},{k:'area',label:'Área de atuação'},{k:'terr',label:'Território'}];
     const tbl=document.getElementById('table-osc-list');
     if(!tbl) return;
     const terrColors={'Grande Mucuripe':'#0B4FA8','Grande Bom Jardim':'#1E40AF'};
-    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}<th class="no-sort" style="min-width:90px">Território</th></tr></thead><tbody>${rows.slice(0,500).map(r=>{
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}</tr></thead><tbody>${rows.slice(0,500).map(r=>{
       const tCol=terrColors[r.t]||'#999';
       const nomeTitle=[r.n,r.rf].filter(Boolean).join(' · ');
       return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${nomeTitle}">${r.n||r.rf||'—'}</td><td>${r.b||'—'}</td><td>${(r.areas||[]).filter(a=>a!=='Sem classificação').map(a=>`<span class="tag" style="margin:1px 2px">${a.length>30?a.slice(0,30)+'…':a}</span>`).join(' ')||'—'}</td><td><span class="region-dot" style="background:${tCol};margin-right:4px"></span>${r.t||'—'}</td></tr>`;
@@ -5426,8 +5437,8 @@ function initComp(){
     const tbl = document.getElementById('synth-region-table');
     const hdrCols = [{key:'name',label:'Território',fmt:null,align:'left'}]
                     .concat(TABLE_INDS.map(i=>({key:i.key,label:i.label,fmt:i.fmt,align:'right'})));
-    const arrow = k => regionSortKey===k ? (regionSortDir===-1?' ↓':' ↑') : '';
-    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
+    const arrow = k => `<span class="sort-icon">${regionSortKey===k?(regionSortDir===-1?'↓':'↑'):'↕'}</span>`;
+    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable${regionSortKey===c.key?' sort-'+(regionSortDir===-1?'desc':'asc'):''}" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
     const sorted = GROUPS.slice();
     sorted.sort((a,b)=>{
       let va, vb;
@@ -5466,8 +5477,8 @@ function initComp(){
     const tbl = document.getElementById('synth-bairro-table');
     const hdrCols = [{key:'b',label:'Bairro',fmt:null,align:'left'},{key:'t',label:'Território',fmt:null,align:'left'}]
                     .concat(TABLE_INDS.map(i=>({key:i.key,label:i.label,fmt:i.fmt,align:'right'})));
-    const arrow = k => sortKey===k ? (sortDir===-1?' ↓':' ↑') : '';
-    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
+    const arrow = k => `<span class="sort-icon">${sortKey===k?(sortDir===-1?'↓':'↑'):'↕'}</span>`;
+    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable${sortKey===c.key?' sort-'+(sortDir===-1?'desc':'asc'):''}" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
     const rows = DATA.slice();
     rows.sort((a,b)=>{
       const va=a[sortKey], vb=b[sortKey];
@@ -5682,14 +5693,14 @@ function initComp(){
     });
     const tbl = document.getElementById('synth-ipt-table');
     if(!tbl) return;
-    const arrow = k => iptSortKey===k ? (iptSortDir===-1?' ↓':' ↑') : '';
+    const arrow = k => `<span class="sort-icon">${iptSortKey===k?(iptSortDir===-1?'↓':'↑'):'↕'}</span>`;
     const thStyle = 'cursor:pointer;user-select:none';
     tbl.innerHTML = `<thead><tr>
-      <th style="text-align:center;width:40px;${thStyle}" data-ipt-k="ipt">#</th>
-      <th style="text-align:left;${thStyle}" data-ipt-k="name">Território${arrow('name')}</th>
-      <th style="text-align:center;${thStyle}" data-ipt-k="ipt">IPT${arrow('ipt')}</th>
+      <th class="sortable${iptSortKey==='ipt'?' sort-'+(iptSortDir===-1?'desc':'asc'):''}" style="text-align:center;width:40px;${thStyle}" data-ipt-k="ipt">#</th>
+      <th class="sortable${iptSortKey==='name'?' sort-'+(iptSortDir===-1?'desc':'asc'):''}" style="text-align:left;${thStyle}" data-ipt-k="name">Território${arrow('name')}</th>
+      <th class="sortable${iptSortKey==='ipt'?' sort-'+(iptSortDir===-1?'desc':'asc'):''}" style="text-align:center;${thStyle}" data-ipt-k="ipt">IPT${arrow('ipt')}</th>
       <th style="text-align:center;min-width:80px">Classificação</th>
-      ${iptLabels.map((l,i)=>`<th style="text-align:center;font-size:10px;${thStyle}" data-ipt-k="${i}">${l}${arrow(String(i))}</th>`).join('')}
+      ${iptLabels.map((l,i)=>`<th class="sortable${iptSortKey===String(i)?' sort-'+(iptSortDir===-1?'desc':'asc'):''}" style="text-align:center;font-size:10px;${thStyle}" data-ipt-k="${i}">${l}${arrow(String(i))}</th>`).join('')}
     </tr></thead><tbody>${sorted.map((r,i) => `<tr>
       <td style="text-align:center;font-weight:700;color:var(--brand)">${i+1}º</td>
       <td style="text-align:left;font-weight:700">${r.name}</td>

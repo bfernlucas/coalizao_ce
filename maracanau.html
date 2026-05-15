@@ -706,11 +706,11 @@ table{border-collapse:collapse}
 th,td{padding:10px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--line)}
 th{background:#F4F6F9;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);white-space:nowrap}
 tbody tr{background:#fff}tbody tr:nth-child(even){background:#F9FAFB}tbody tr:hover{background:var(--brand-5)}
-th.sortable,th.sortable-region{cursor:pointer;user-select:none;white-space:nowrap}
-th.sortable:hover,th.sortable-region:hover{color:var(--brand)}
-th.sortable .sort-icon,th.sortable-region .sort-icon{font-size:10px;color:var(--muted);opacity:.45;margin-left:4px}
+th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+th.sortable:hover{color:var(--brand)}
+th.sortable .sort-icon{font-size:10px;color:var(--muted);opacity:.45;margin-left:4px}
 th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:var(--brand)}
-th.sortable:hover,th.sortable-region:hover{background:rgba(124,58,237,.04)}
+th.sortable:hover{background:rgba(124,58,237,.04)}
 th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
 .comp-table{border-collapse:collapse;width:100%}
 .comp-table th,.comp-table td{padding:10px 14px;text-align:right;font-size:13px;border-bottom:1px solid var(--line)}
@@ -1071,19 +1071,19 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
           <div class="map-box split" id="map-mge" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="mge-filter-overlay">
             <input type="search" id="mge-map-search" placeholder="Buscar empresa…" autocomplete="off" style="flex:2;min-width:160px">
-            <select id="mge-bairro-filter" title="Filtrar por bairro">
-              <option value="">Todos os bairros</option>
-            </select>
-            <select id="mge-setor-filter" title="Filtrar por setor">
-              <option value="">Todos os setores</option>
-            </select>
-            <select id="mge-regiao-filter" title="Filtrar por região">
-              <option value="">Todas as regiões</option>
-            </select>
             <select id="mge-tipo-filter" title="Filtrar por tipo">
               <option value="">Matriz e Filial</option>
               <option value="M">Somente Matrizes</option>
               <option value="F">Somente Filiais</option>
+            </select>
+            <select id="mge-bairro-filter" title="Filtrar por bairro">
+              <option value="">Todos os bairros</option>
+            </select>
+            <select id="mge-regiao-filter" title="Filtrar por região">
+              <option value="">Todas as regiões</option>
+            </select>
+            <select id="mge-setor-filter" title="Filtrar por setor">
+              <option value="">Todos os setores</option>
             </select>
             <button class="mge-clear-btn" id="mge-clear-filters" title="Limpar filtros" style="display:none">✕ Limpar</button>
             <span class="mge-filter-badge" id="mge-filter-count" style="display:none"></span>
@@ -1196,7 +1196,7 @@ th.sort-asc,th.sort-desc{background:rgba(124,58,237,.06)}
         <div class="mge-map-wrap">
           <div class="map-box split" id="map-osc" style="min-height:520px"></div>
           <div class="map-filter-overlay" id="osc-filter-overlay">
-            <input type="search" id="osc-search" placeholder="Buscar por nome…">
+            <input type="search" id="osc-search" placeholder="Buscar por nome…" autocomplete="off">
             <select id="osc-bairro-filter" title="Filtrar por bairro">
               <option value="">Todos os bairros</option>
             </select>
@@ -2453,7 +2453,7 @@ function initEcon(){
 
   let econSortKey='emp';
   let econSortDir=-1;
-  const econSortable=['b','emp','mei','meiShare','mpe','mge','coops'];
+  const econSortable=['b','emp','mei','meiShare','mpe','mge','coops','regiao'];
 
   function renderEconTable(){
     const q=(document.getElementById('econ-table-search').value||'').toLowerCase().trim();
@@ -2462,7 +2462,9 @@ function initEcon(){
     if(q) rows=rows.filter(d=>d.b.toLowerCase().includes(q));
     if(rf) rows=rows.filter(d=>(REGION_MAP[d.b]||'')===rf);
     rows.sort((a,b)=>{
-      const va=a[econSortKey],vb=b[econSortKey];
+      let va,vb;
+      if(econSortKey==='regiao'){va=(REGION_MAP[a.b]||'');vb=(REGION_MAP[b.b]||'');}
+      else{va=a[econSortKey];vb=b[econSortKey];}
       if(va==null) return 1; if(vb==null) return -1;
       if(typeof va==='string') return econSortDir*va.localeCompare(vb,'pt-BR');
       return econSortDir*(va-vb);
@@ -2472,11 +2474,11 @@ function initEcon(){
     const colHeaders=[
       {k:'b',label:'Bairro'},{k:'emp',label:'Empresas (2024)'},{k:'mei',label:'MEIs (2024)'},
       {k:'meiShare',label:'% MEI (2024)'},{k:'mpe',label:'Micro/Peq. (2024)'},{k:'mge',label:'Méd./Grd. (2024)'},
-      {k:'coops',label:'Coops. (2024)'}
+      {k:'coops',label:'Coops. (2024)'},{k:'regiao',label:'Região'}
     ];
     document.getElementById('table-econ').innerHTML=`<thead><tr>
       ${colHeaders.map(h=>`<th class="sortable${econSortKey===h.k?' sort-'+(econSortDir===1?'asc':'desc'):''}" data-econ-col="${h.k}">${h.label}<span class="sort-icon">${econSortKey===h.k?(econSortDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}
-      <th>Região</th><th>Principal CNAE</th>
+      <th>Principal CNAE</th>
     </tr></thead><tbody>${rows.map(d=>{
       const reg=REGION_MAP[d.b]||'—';
       const regCol=REGION_COLORS[reg]||'#ccc';
@@ -2870,16 +2872,17 @@ function initOsc(){
       if(oscTableSort==='nome'){av=(a.n||'').toLowerCase();bv=(b.n||'').toLowerCase();}
       else if(oscTableSort==='bairro'){av=(a.bairro||'').toLowerCase();bv=(b.bairro||'').toLowerCase();}
       else if(oscTableSort==='area'){av=(a.a||'');bv=(b.a||'');}
+      else if(oscTableSort==='regiao'){av=(REGION_MAP[a.bairro]||'').toLowerCase();bv=(REGION_MAP[b.bairro]||'').toLowerCase();}
       else{av=a[oscTableSort]||0;bv=b[oscTableSort]||0;}
       if(typeof av==='number'&&typeof bv==='number') return oscTableDir===-1?bv-av:av-bv;
       return oscTableDir===-1?String(bv).localeCompare(String(av),'pt'):String(av).localeCompare(String(bv),'pt');
     });
     const countEl=document.getElementById('osc-table-count');
     if(countEl) countEl.textContent=rows.length+' de '+OSCS.length+' organizações';
-    const cols=[{k:'nome',label:'Organização'},{k:'bairro',label:'Bairro'},{k:'area',label:'Área de atuação'}];
+    const cols=[{k:'nome',label:'Organização'},{k:'bairro',label:'Bairro'},{k:'area',label:'Área de atuação'},{k:'regiao',label:'Região'}];
     const tbl=document.getElementById('table-osc-list');
     if(!tbl) return;
-    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}<th class="no-sort" style="min-width:90px">Região</th></tr></thead><tbody>${rows.slice(0,500).map(r=>{
+    tbl.innerHTML=`<thead><tr>${cols.map(c=>`<th class="sortable${oscTableSort===c.k?' sort-'+(oscTableDir===1?'asc':'desc'):''}" data-osc-col="${c.k}">${c.label}<span class="sort-icon">${oscTableSort===c.k?(oscTableDir===1?'↑':'↓'):'↕'}</span></th>`).join('')}</tr></thead><tbody>${rows.slice(0,500).map(r=>{
       const reg=REGION_MAP[r.bairro]||'';
       const rCol=REGION_COLORS[reg]||'#999';
       return `<tr><td style="font-weight:600;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.n||''}">${r.n||'—'}</td><td>${r.bairro||'—'}</td><td><span class="tag" style="margin:1px 2px">${r.a||'—'}</span></td><td><span class="region-dot" style="background:${rCol};margin-right:4px"></span>${reg||'—'}</td></tr>`;
@@ -3452,8 +3455,8 @@ function initComp(){
     const tbl = document.getElementById('synth-region-table');
     const hdrCols = [{key:'_reg',label:'Região',fmt:null,align:'left'}]
                     .concat(TABLE_INDS.map(i=>({key:i.key,label:i.label,fmt:i.fmt,align:'right'})));
-    const arrow = k => regionSortKey===k ? (regionSortDir===-1?' ↓':' ↑') : '';
-    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable-region" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
+    const arrow = k => `<span class="sort-icon">${regionSortKey===k?(regionSortDir===-1?'↓':'↑'):'↕'}</span>`;
+    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable${regionSortKey===c.key?' sort-'+(regionSortDir===-1?'desc':'asc'):''}" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
     const rows = GROUPS.slice().map(g=>({_reg:g, ...groupAgg[g].values, _col:GROUP_COLORS[g]||'#888'}));
     rows.sort((a,b)=>{
       const ka = regionSortKey==='_reg' ? a._reg : a[regionSortKey];
@@ -3474,7 +3477,7 @@ function initComp(){
       ${TABLE_INDS.map(i=>`<td>${fmt(muni.values[i.key], i.fmt)}</td>`).join('')}
     </tr>`;
     tbl.innerHTML = `<thead>${headers}</thead><tbody>${body}${muniRow}</tbody>`;
-    tbl.querySelectorAll('th.sortable-region').forEach(th=>{
+    tbl.querySelectorAll('th.sortable').forEach(th=>{
       th.onclick = () => {
         const k = th.dataset.k;
         if(regionSortKey===k) regionSortDir = -regionSortDir; else { regionSortKey=k; regionSortDir = k==='_reg'?1:-1; }
@@ -3489,8 +3492,8 @@ function initComp(){
     const tbl = document.getElementById('synth-bairro-table');
     const hdrCols = [{key:'b',label:'Bairro',fmt:null,align:'left'},{key:'_grp',label:'Região',fmt:null,align:'left'}]
                     .concat(TABLE_INDS.map(i=>({key:i.key,label:i.label,fmt:i.fmt,align:'right'})));
-    const arrow = k => sortKey===k ? (sortDir===-1?' ↓':' ↑') : '';
-    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
+    const arrow = k => `<span class="sort-icon">${sortKey===k?(sortDir===-1?'↓':'↑'):'↕'}</span>`;
+    const headers = '<tr>'+hdrCols.map(c=>`<th class="sortable${sortKey===c.key?' sort-'+(sortDir===-1?'desc':'asc'):''}" data-k="${c.key}" style="text-align:${c.align};cursor:pointer;user-select:none">${c.label}${arrow(c.key)}</th>`).join('')+'</tr>';
     const rows = DATA.slice().map(d=>({...d, _grp:groupOf(d.b)}));
     rows.sort((a,b)=>{
       const va=a[sortKey], vb=b[sortKey];
@@ -3710,14 +3713,14 @@ function initComp(){
     });
     const tbl = document.getElementById('synth-ipt-table');
     if(!tbl) return;
-    const arrow = k => iptSortKey===k ? (iptSortDir===-1?' ↓':' ↑') : '';
+    const arrow = k => `<span class="sort-icon">${iptSortKey===k?(iptSortDir===-1?'↓':'↑'):'↕'}</span>`;
     const thStyle = 'cursor:pointer;user-select:none';
     tbl.innerHTML = `<thead><tr>
-      <th style="text-align:center;width:40px;${thStyle}" data-ipt-k="ipt">#</th>
-      <th style="text-align:left;${thStyle}" data-ipt-k="name">Região${arrow('name')}</th>
-      <th style="text-align:center;${thStyle}" data-ipt-k="ipt">IPT${arrow('ipt')}</th>
+      <th class="sortable${iptSortKey==='ipt'?' sort-'+(iptSortDir===-1?'desc':'asc'):''}" style="text-align:center;width:40px;${thStyle}" data-ipt-k="ipt">#</th>
+      <th class="sortable${iptSortKey==='name'?' sort-'+(iptSortDir===-1?'desc':'asc'):''}" style="text-align:left;${thStyle}" data-ipt-k="name">Região${arrow('name')}</th>
+      <th class="sortable${iptSortKey==='ipt'?' sort-'+(iptSortDir===-1?'desc':'asc'):''}" style="text-align:center;${thStyle}" data-ipt-k="ipt">IPT${arrow('ipt')}</th>
       <th style="text-align:center;min-width:80px">Classificação</th>
-      ${iptLabels.map((l,i)=>`<th style="text-align:center;font-size:10px;${thStyle}" data-ipt-k="${i}">${l}${arrow(String(i))}</th>`).join('')}
+      ${iptLabels.map((l,i)=>`<th class="sortable${iptSortKey===String(i)?' sort-'+(iptSortDir===-1?'desc':'asc'):''}" style="text-align:center;font-size:10px;${thStyle}" data-ipt-k="${i}">${l}${arrow(String(i))}</th>`).join('')}
     </tr></thead><tbody>${sorted.map((r,i) => `<tr>
       <td style="text-align:center;font-weight:700;color:var(--brand)">${i+1}º</td>
       <td style="text-align:left;font-weight:700">${r.name}</td>
