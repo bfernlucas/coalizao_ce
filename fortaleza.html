@@ -967,6 +967,72 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
 @media(max-width:700px){
   .kpi-grid.six{grid-template-columns:repeat(2,1fr)}
 }
+
+/* OSC legend */
+.osc-legend-item{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;cursor:pointer;transition:opacity .15s,background .15s;background:#FAFBFC}
+.osc-legend-item:hover{background:#F0F4F8}
+.osc-legend-item.dimmed{opacity:.35}
+.osc-legend-item .osc-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.osc-legend-item .osc-label{font-size:11px;font-weight:600;color:var(--text);white-space:nowrap}
+.osc-legend-item .osc-count{margin-left:auto;font-size:11px;font-weight:800;color:var(--navy);flex-shrink:0}
+.osc-bairro-row{display:flex;align-items:center;gap:8px;padding:6px 10px;font-size:11px;border-bottom:1px solid var(--line-2)}
+.osc-bairro-name{font-weight:600;color:var(--text);flex:1}
+.osc-bairro-val{font-weight:800;color:var(--navy)}
+
+/* Region cards */
+.region-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;cursor:pointer;transition:all .18s;border-left:4px solid transparent}
+.region-card:hover{border-color:var(--line);border-left-color:var(--brand);box-shadow:var(--shadow)}
+.region-card.active{border-left-color:var(--brand);background:var(--brand-5)}
+.region-card-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.region-card-name{font-size:13px;font-weight:700;color:var(--navy)}
+.region-card-count{font-size:11px;color:var(--muted);margin-left:auto}
+.region-card-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px}
+.region-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.region-stat{background:#F8FAFB;border:1px solid var(--line-2);border-radius:4px;padding:8px;text-align:center}
+.region-stat .rs-val{font-size:16px;font-weight:800;color:var(--navy);display:block}
+.region-stat .rs-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-top:2px}
+
+/* Dimension reading */
+.dim-outer{display:flex;flex-direction:column;gap:16px}
+.dim-bottom{display:grid;grid-template-columns:1fr 300px;gap:16px}
+.dim-reading{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-soft)}
+.dim-reading-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.dim-insights{display:grid;gap:6px}
+.dim-insight-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.dim-insight-key{font-weight:700;color:#0B4FA8;min-width:100px}
+.dim-insight-val{color:var(--text);font-weight:600}
+
+/* Priority list */
+.priority-list{display:flex;flex-direction:column;gap:12px;padding:0 24px 24px}
+.priority-item{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 16px 60px;box-shadow:var(--shadow-soft)}
+.priority-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:var(--radius) 0 0 var(--radius);background:var(--brand)}
+.priority-rank{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:44px;font-weight:900;color:var(--brand-4);line-height:1}
+.priority-body h4{font-size:14px;font-weight:700;color:var(--navy);margin:0 0 4px}
+.priority-body p{font-size:12px;color:var(--muted);line-height:1.6;margin:0 0 8px}
+.priority-body .tags{display:flex;flex-wrap:wrap;gap:5px}
+.priority-body .tags span{padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;background:var(--brand-5);color:var(--brand)}
+.priority-meta{font-size:11px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--line-2)}
+.priority-meta strong{color:var(--navy)}
+
+/* Rate pills */
+.rate{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.02em}
+.rate.alto{background:#DCFCE7;color:#166534}
+.rate.medio{background:#FEF9C3;color:#854D0E}
+.rate.baixo{background:#FEE2E2;color:#991B1B}
+.rate.neutro{background:#F4F6F9;color:var(--muted)}
+
+/* Fantasia name in popups */
+.fantasia{font-size:11px;color:rgba(255,255,255,.7);font-style:italic;margin-top:2px}
+
+/* MEI high highlight */
+.mei-high td:nth-child(4){color:#B07C20;font-weight:700}
+
+@media(max-width:860px){
+  .dim-bottom{grid-template-columns:1fr}
+  .priority-item{padding-left:50px}
+  .priority-rank{font-size:32px;left:12px}
+  .priority-meta{flex-direction:column;gap:4px}
+}
 </style>
 </head>
 <body>
@@ -997,7 +1063,8 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
   <section id="section-visao" class="section active">
     <div class="section-head">
       <span class="section-kicker">Visão Geral</span>
-      <h1 class="section-title">Visão Geral</h1>
+      <h1 class="section-title">Panorama de Fortaleza</h1>
+      <p class="section-desc">Indicadores consolidados dos 13 bairros da Coalizão em Fortaleza, agrupados nos territórios Grande Bom Jardim e Grande Mucuripe.</p>
     </div>
     <div class="decision">
       <h3>Leitura territorial</h3>
@@ -1040,13 +1107,13 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     <div class="grid two" style="margin-top:16px">
       <div class="panel">
         <div class="panel-head">
-          <div><h3 class="panel-title">Extrema pobreza por bairro (MDS, 2025)</h3></div>
+          <div><h3 class="panel-title">Extrema pobreza por bairro (MDS, 2025)</h3><p class="panel-sub">% dos domicílios em situação de extrema pobreza</p></div>
         </div>
         <div class="chart-box"><canvas id="chart-visao-epob" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
         <div class="panel-head">
-          <div><h3 class="panel-title">Rendimento do responsável per capita por bairro (IBGE Censo, 2022)</h3></div>
+          <div><h3 class="panel-title">Rendimento do responsável per capita por bairro (IBGE Censo, 2022)</h3><p class="panel-sub">Rendimento do responsável per capita em R$</p></div>
         </div>
         <div class="chart-box"><canvas id="chart-visao-rendapc" class="chart tall"></canvas></div>
       </div>
@@ -1096,11 +1163,11 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     </div>
     <div class="grid two" style="margin-top:22px">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">População por bairro (IBGE, 2022)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">População por bairro (IBGE, 2022)</h3><p class="panel-sub">Habitantes por bairro · Censo 2022</p></div></div>
         <div class="chart-box"><canvas id="chart-demo-pop" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Densidade demográfica (IBGE, 2022)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Densidade demográfica (IBGE, 2022)</h3><p class="panel-sub">Habitantes por km²</p></div></div>
         <div class="chart-box"><canvas id="chart-demo-dens" class="chart tall"></canvas></div>
       </div>
     </div>
@@ -1149,21 +1216,21 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     </div>
     <div class="grid two" style="margin-top:22px">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Extrema pobreza (MDS, 2025)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Extrema pobreza (MDS, 2025)</h3><p class="panel-sub">% dos domicílios em situação de extrema pobreza</p></div></div>
         <div class="chart-box"><canvas id="chart-vuln-epob" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">IDHM (IBGE, 2010) <span class="data-outdated"><span class="data-outdated-icon">⚠</span></span></h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">IDHM (IBGE, 2010) <span class="data-outdated"><span class="data-outdated-icon">⚠</span></span></h3><p class="panel-sub">Índice de Desenvolvimento Humano Municipal</p></div></div>
         <div class="chart-box"><canvas id="chart-vuln-idhm" class="chart tall"></canvas></div>
       </div>
     </div>
     <div class="grid two" style="margin-top:22px">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Rendimento do responsável per capita (IBGE Censo, 2022)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Rendimento do responsável per capita (IBGE Censo, 2022)</h3><p class="panel-sub">Rendimento do responsável per capita em R$</p></div></div>
         <div class="chart-box"><canvas id="chart-vuln-rendapc" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Rendimento médio do responsável (IBGE Censo, 2022)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Rendimento médio do responsável (IBGE Censo, 2022)</h3><p class="panel-sub">Rendimento médio mensal em R$</p></div></div>
         <div class="chart-box"><canvas id="chart-vuln-renda" class="chart tall"></canvas></div>
       </div>
     </div>
@@ -1238,11 +1305,11 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     </div>
     <div class="grid two" style="margin-top:22px">
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Saneamento por bairro (IBGE, 2022)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Saneamento por bairro (IBGE, 2022)</h3><p class="panel-sub">% de cobertura de rede de esgoto</p></div></div>
         <div class="chart-box"><canvas id="chart-infra-san" class="chart tall"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3 class="panel-title">Saúde da família por bairro (CNES, 2024)</h3></div></div>
+        <div class="panel-head"><div><h3 class="panel-title">Saúde da família por bairro (CNES, 2024)</h3><p class="panel-sub">Equipes de Saúde da Família (ESF)</p></div></div>
         <div class="chart-box"><canvas id="chart-infra-esf" class="chart tall"></canvas></div>
       </div>
     </div>
@@ -1277,15 +1344,15 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
     <div class="kpi-grid six" id="kpi-mge"></div>
 
     <!-- MAPA CAPITAL SOCIAL POR BAIRRO -->
-    <div style="margin:20px 0 6px;padding:0 4px">
+    <div style="margin:20px 0 12px;padding:0 4px">
       <div style="display:flex;align-items:center;gap:12px">
         <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Mapa de concentração</span>
         <span style="flex:1;height:1px;background:var(--line-2)"></span>
       </div>
     </div>
-    <div class="panel" style="margin-top:18px">
+    <div class="panel" style="margin-top:12px">
       <div class="panel-head">
-        <div><h3 class="panel-title">Concentração de capital social por bairro (dez/2024)</h3><p class="panel-sub">Médias e grandes empresas (porte "Demais") · Use os filtros sobrepostos para explorar por setor, território ou tipo</p></div>
+        <div><h3 class="panel-title">Concentração de capital social por bairro (dez/2024)</h3><p class="panel-sub">Médias e grandes empresas (porte "Demais") · Use os filtros para explorar por filiais/matrizes, bairro, território ou setor</p></div>
       </div>
       <div class="map-analytics-layout">
         <div class="mge-map-wrap">
@@ -1409,6 +1476,11 @@ th.sort-asc,th.sort-desc{background:rgba(11,79,168,.06)}
 
     <!-- KPI row -->
     <div class="kpi-grid six" id="kpi-osc" style="padding-bottom:20px"></div>
+
+    <div class="decision" style="margin:0 0 16px">
+      <h3>Como interpretar</h3>
+      <p>O mapa coroplético representa a densidade de OSCs por bairro — cores mais intensas indicam maior concentração. Os marcadores individuais mostram a localização georreferenciada de cada organização, agrupados por proximidade (clique nos clusters para expandir). Use os filtros acima do mapa para explorar por <strong>bairro</strong>, <strong>território</strong> ou <strong>área de atuação</strong>. A rede de afinidade, abaixo, revela conexões potenciais entre as 4 organizações âncoras da Coalizão e as OSCs locais, inferidas por afinidade temática e proximidade geográfica.</p>
+    </div>
 
     <!-- Map + sidebar -->
     <div class="panel" style="margin-bottom:20px">
